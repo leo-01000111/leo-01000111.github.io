@@ -410,6 +410,13 @@
       position:absolute; width:1px; height:1px; padding:0; margin:-1px;
       overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
     }
+
+    /* Hotfix: respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior: auto !important; }
+      .mark::after{ animation: none !important; }
+      .glow{ display:none !important; }
+    }
   </style>
 </head>
 
@@ -448,7 +455,7 @@
               Machine learning, controls, structures, and CAD — with practical Python tooling.
             </h1>
             <h1 data-lang="fr">
-              Apprentissage automatique, Commande, structures et CAO — avec des outils Python pratiques.
+              Apprentissage automatique, commande, structures et CAO — avec des outils Python pratiques.
             </h1>
 
             <p class="subtitle" data-lang="en" class="active">
@@ -473,7 +480,7 @@
             <h3 data-i18n="specTitle">Quick specs</h3>
             <div class="row"><span class="key" data-i18n="specBaseK">Base</span><span class="val" data-i18n="specBaseV">Warsaw / EU</span></div>
             <div class="row"><span class="key" data-i18n="specFocusK">Focus</span><span class="val" data-i18n="specFocusV">Machine Learning in navigation · Aircraft design + analysis</span></div>
-            <div class="row"><span class="key" data-i18n="specToolsK">Tools</span><span class="val" data-i18n="specToolsV">Python · LaTeX · GitHub · NX · Autocad </span></div>
+            <div class="row"><span class="key" data-i18n="specToolsK">Tools</span><span class="val" data-i18n="specToolsV">Python · LaTeX · GitHub · NX · AutoCAD</span></div>
             <div class="row"><span class="key" data-i18n="specLangK">Languages</span><span class="val" data-i18n="specLangV">PL · EN · FR · DE</span></div>
           </aside>
         </div>
@@ -583,10 +590,11 @@
     hideIfPlaceholder("btnLinkedIn");
     hideIfPlaceholder("btnCV");
 
-    // smooth scroll
+    // smooth scroll (hotfix: only for real anchors like "#projects", not just "#")
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener("click", (e) => {
-        const id = a.getAttribute("href");
+        const id = (a.getAttribute("href") || "").trim();
+        if (id.length <= 1) return; // allow normal behavior for "#"
         const el = document.querySelector(id);
         if (!el) return;
         e.preventDefault();
@@ -594,21 +602,24 @@
       });
     });
 
-    // subtle cursor glow in hero
+    // subtle cursor glow in hero (hotfix: guard if reduced motion hides glow)
     const glow = document.getElementById("glow");
     const hero = document.querySelector(".hero");
     function moveGlow(e){
+      if (!glow || !hero) return;
       const r = hero.getBoundingClientRect();
       const x = e.clientX - r.left;
       const y = e.clientY - r.top;
       glow.style.left = x + "px";
       glow.style.top = y + "px";
     }
-    hero.addEventListener("mousemove", moveGlow);
-    hero.addEventListener("touchmove", (e) => {
-      if (!e.touches?.[0]) return;
-      moveGlow(e.touches[0]);
-    }, { passive: true });
+    if (hero){
+      hero.addEventListener("mousemove", moveGlow);
+      hero.addEventListener("touchmove", (e) => {
+        if (!e.touches?.[0]) return;
+        moveGlow(e.touches[0]);
+      }, { passive: true });
+    }
 
     // i18n strings
     const STR = {
@@ -622,9 +633,9 @@
         cvPdf: "CV (PDF)",
         specTitle: "Quick specs",
         specBaseK: "Base",   specBaseV: "Warsaw / EU",
-        specFocusK: "Focus", specFocusV: "Aircraft design + analysis",
-        specToolsK: "Tools", specToolsV: "NX · Python · LaTeX",
-        specLangK: "Languages", specLangV: "PL · EN · FR · DE · IT",
+        specFocusK: "Focus", specFocusV: "Machine Learning in navigation · Aircraft design + analysis",
+        specToolsK: "Tools", specToolsV: "Python · LaTeX · GitHub · NX · AutoCAD",
+        specLangK: "Languages", specLangV: "PL · EN · FR · DE",
         skillsTitle: "Skills",
         cadK: "CAD:",
         analysisK: "Analysis:",
@@ -652,9 +663,9 @@
         cvPdf: "CV (PDF)",
         specTitle: "Infos rapides",
         specBaseK: "Base",   specBaseV: "Varsovie / UE",
-        specFocusK: "Focus", specFocusV: "Conception + analyse d’avion",
-        specToolsK: "Outils", specToolsV: "NX · Python · LaTeX",
-        specLangK: "Langues", specLangV: "PL · EN · FR",
+        specFocusK: "Focus", specFocusV: "Apprentissage automatique en navigation · Conception + analyse d’avion",
+        specToolsK: "Outils", specToolsV: "Python · LaTeX · GitHub · NX · AutoCAD",
+        specLangK: "Langues", specLangV: "PL · EN · FR · DE",
         skillsTitle: "Compétences",
         cadK: "CAO :",
         analysisK: "Analyse :",
@@ -678,7 +689,7 @@
       // text nodes
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
-        if (STR[lang][key]) el.textContent = STR[lang][key];
+        if (STR[lang] && STR[lang][key]) el.textContent = STR[lang][key];
       });
 
       // show/hide language-specific blocks
