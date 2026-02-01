@@ -471,8 +471,8 @@
               <a class="btn primary" href="mailto:leon.gorecki.fr@proton.me" data-i18n="emailMe">Email me</a>
               <a class="btn" href="https://github.com/leo-01000111" target="_blank" rel="noreferrer">GitHub</a>
               <!-- If you don’t have LinkedIn/CV yet, keep the buttons but set # and they’ll be hidden by JS below -->
-              <a class="btn" id="btnLinkedIn" href="#" target="_blank" rel="noreferrer">LinkedIn</a>
-              <a class="btn" id="btnCV" href="#" target="_blank" rel="noreferrer" data-i18n="cvPdf">CV (PDF)</a>
+              <a class="btn" id="btnLinkedIn" href="https://www.linkedin.com/in/leon-górecki-10a823352/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn" id="btnCV" href="cv.pdf" target="_blank" rel="noreferrer" data-i18n="cvPdf">CV (PDF)</a>
             </div>
           </div>
 
@@ -585,7 +585,9 @@
       const el = document.getElementById(id);
       if (!el) return;
       const href = (el.getAttribute("href") || "").trim();
-      if (href === "#" || href === "") el.style.display = "none";
+      // Hide if empty, "#", or still contains the template marker.
+      const isTemplate = href.includes("YOUR-LINKEDIN-HANDLE") || href.includes("YOUR_CV_URL");
+      if (href === "#" || href === "" || isTemplate) el.style.display = "none";
     }
     hideIfPlaceholder("btnLinkedIn");
     hideIfPlaceholder("btnCV");
