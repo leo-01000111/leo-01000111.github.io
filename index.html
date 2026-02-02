@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leon Górecki — Engineering</title>
   <meta name="description" content="Digital business card & portfolio." />
+
+  <!-- Canonical + hreflang (No. 2) -->
+  <link rel="canonical" href="https://www.leongorecki.eu/" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/" />
+
   <style>
     :root{
       --bg0:#070a0e;
@@ -166,9 +173,10 @@
       padding: 4px;
       gap: 4px;
     }
-    .lang button{
-      border: 0;
-      background: transparent;
+    .lang a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       color: rgba(255,255,255,0.80);
       font-weight: 800;
       letter-spacing: 0.08em;
@@ -177,13 +185,14 @@
       cursor: pointer;
       font-size: 0.86rem;
       text-transform: uppercase;
+      text-decoration: none;
     }
-    .lang button[aria-pressed="true"]{
+    .lang a[aria-current="page"]{
       background: rgba(0,0,0,0.30);
       color: var(--ink);
       outline: 1px solid rgba(255,255,255,0.12);
     }
-    .lang button:focus-visible{
+    .lang a:focus-visible{
       outline: 2px solid rgba(56,189,248,0.55);
       outline-offset: 2px;
     }
@@ -403,9 +412,6 @@
       mix-blend-mode: screen;
     }
 
-    [data-lang] { display:none; }
-    [data-lang].active { display:block; }
-
     .sr-only{
       position:absolute; width:1px; height:1px; padding:0; margin:-1px;
       overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
@@ -427,18 +433,19 @@
         <div class="mark" aria-hidden="true"></div>
         <div class="name">
           <strong>Leon Górecki</strong>
-          <span data-i18n="role">Aerospace / Mechanical Engineering</span>
+          <span>Aerospace / Mechanical Engineering</span>
         </div>
       </div>
 
       <nav>
-        <a class="pill" href="#projects" data-i18n="navProjects">Projects</a>
-        <a class="pill" href="#skills" data-i18n="navSkills">Skills</a>
-        <a class="pill" href="#contact" data-i18n="navContact">Contact</a>
+        <a class="pill" href="#projects">Projects</a>
+        <a class="pill" href="#skills">Skills</a>
+        <a class="pill" href="#contact">Contact</a>
 
+        <!-- No. 2: language switch is now a real URL switch (SEO-friendly) -->
         <div class="lang" role="group" aria-label="Language switch">
-          <button id="btnEN" type="button" aria-pressed="true">EN</button>
-          <button id="btnFR" type="button" aria-pressed="false">FR</button>
+          <a href="/" aria-current="page">EN</a>
+          <a href="/fr/">FR</a>
         </div>
       </nav>
     </header>
@@ -449,72 +456,62 @@
 
         <div class="hero-top">
           <div>
-            <div class="kicker" data-i18n="kicker">Blueprint portfolio</div>
+            <div class="kicker">Blueprint portfolio</div>
 
-            <h1 data-lang="en" class="active">
+            <h1>
               Machine learning, controls, structures, and CAD — with practical Python tooling.
             </h1>
-            <h1 data-lang="fr">
-              Apprentissage automatique, commande, structures et CAO — avec des outils Python pratiques.
-            </h1>
 
-            <p class="subtitle" data-lang="en" class="active">
+            <p class="subtitle">
               Aerospace engineering student building aircraft design and analysis workflows.
               Open to MSc opportunities and internships in France / EU.
             </p>
-            <p class="subtitle" data-lang="fr">
-              Étudiant en ingénierie aérospatiale, je développe des méthodes de conception et d’analyse d’avion.
-              Ouvert aux candidatures MSc et stages en France / UE.
-            </p>
 
             <div class="cta">
-              <a class="btn primary" href="mailto:leon.gorecki.fr@proton.me" data-i18n="emailMe">Email me</a>
+              <a class="btn primary" href="mailto:leon.gorecki.fr@proton.me">Email me</a>
               <a class="btn" href="https://github.com/leo-01000111" target="_blank" rel="noreferrer">GitHub</a>
-              <!-- If you don’t have LinkedIn/CV yet, keep the buttons but set # and they’ll be hidden by JS below -->
               <a class="btn" id="btnLinkedIn" href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" target="_blank" rel="noreferrer">LinkedIn</a>
-              <a class="btn" id="btnCV" href="cv.pdf" target="_blank" rel="noreferrer" data-i18n="cvPdf">CV (PDF)</a>
+              <a class="btn" id="btnCV" href="/cv.pdf" target="_blank" rel="noreferrer">CV (PDF)</a>
             </div>
           </div>
 
           <aside class="spec" aria-label="Quick specs">
-            <h3 data-i18n="specTitle">Quick specs</h3>
-            <div class="row"><span class="key" data-i18n="specBaseK">Base</span><span class="val" data-i18n="specBaseV">Warsaw / EU</span></div>
-            <div class="row"><span class="key" data-i18n="specFocusK">Focus</span><span class="val" data-i18n="specFocusV">Machine Learning in navigation · Aircraft design + analysis</span></div>
-            <div class="row"><span class="key" data-i18n="specToolsK">Tools</span><span class="val" data-i18n="specToolsV">Python · LaTeX · GitHub · NX · AutoCAD</span></div>
-            <div class="row"><span class="key" data-i18n="specLangK">Languages</span><span class="val" data-i18n="specLangV">PL · EN · FR · DE</span></div>
+            <h3>Quick specs</h3>
+            <div class="row"><span class="key">Base</span><span class="val">Warsaw / EU</span></div>
+            <div class="row"><span class="key">Focus</span><span class="val">Machine Learning in navigation · Aircraft design + analysis</span></div>
+            <div class="row"><span class="key">Tools</span><span class="val">Python · LaTeX · GitHub · NX · AutoCAD</span></div>
+            <div class="row"><span class="key">Languages</span><span class="val">PL · EN · FR · DE</span></div>
           </aside>
         </div>
       </section>
 
       <section class="grid">
         <div class="card" id="skills">
-          <h2 data-i18n="skillsTitle">Skills</h2>
+          <h2>Skills</h2>
           <div class="tags">
-            <span class="tag"><strong data-i18n="cadK">CAD:</strong> Siemens NX, AutoCAD</span>
-            <span class="tag"><strong data-i18n="analysisK">Analysis:</strong> loads, beam theory, fatigue basics</span>
-            <span class="tag"><strong data-i18n="codeK">Code:</strong> Python, C++</span>
-            <span class="tag"><strong data-i18n="docsK">Docs:</strong> LaTeX, technical reporting</span>
-            <span class="tag"><strong data-i18n="toolsK">Tools:</strong> Git, GitHub</span>
+            <span class="tag"><strong>CAD:</strong> Siemens NX, AutoCAD</span>
+            <span class="tag"><strong>Analysis:</strong> loads, beam theory, fatigue basics</span>
+            <span class="tag"><strong>Code:</strong> Python, C++</span>
+            <span class="tag"><strong>Docs:</strong> LaTeX, technical reporting</span>
+            <span class="tag"><strong>Tools:</strong> Git, GitHub</span>
           </div>
         </div>
 
         <div class="card" id="projects">
-          <h2 data-i18n="projectsTitle">Featured projects</h2>
+          <h2>Featured projects</h2>
           <div class="projects">
 
             <article class="proj">
               <div class="proj-top">
                 <div>
-                  <h3 data-lang="en" class="active">Aircraft Design Project</h3>
-                  <h3 data-lang="fr">Projet de conception d’avion</h3>
-                  <p data-lang="en" class="active">Configuration, loads/structures, documentation. (Add your repo/report link.)</p>
-                  <p data-lang="fr">Configuration, charges/structures, documentation. (Ajoute le lien vers ton repo/rapport.)</p>
+                  <h3>Aircraft Design Project</h3>
+                  <p>Configuration, loads/structures, documentation. (Add your repo/report link.)</p>
                 </div>
-                <a class="pill" href="#" target="_blank" rel="noreferrer" data-i18n="open">Open</a>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Open</a>
               </div>
               <div class="meta">
-                <span class="chip" data-i18n="chipStructures">Structures</span>
-                <span class="chip" data-i18n="chipSizing">Sizing</span>
+                <span class="chip">Structures</span>
+                <span class="chip">Sizing</span>
                 <span class="chip">LaTeX</span>
               </div>
             </article>
@@ -522,34 +519,30 @@
             <article class="proj">
               <div class="proj-top">
                 <div>
-                  <h3 data-lang="en" class="active">Eng. thesis: RL vs Robust MPC — GNSS-denial robot</h3>
-                  <h3 data-lang="fr">RL vs MPC robuste — robot sans GNSS</h3>
-                  <p data-lang="en" class="active">Simulation, control comparison, metrics, plots. (Add link.)</p>
-                  <p data-lang="fr">Simulation, comparaison de commande, métriques, graphiques. (Ajoute le lien.)</p>
+                  <h3>Engineering thesis: RL vs Robust MPC — GNSS-denial robot</h3>
+                  <p>Simulation, control comparison, metrics, plots. (Add link.)</p>
                 </div>
-                <a class="pill" href="#" target="_blank" rel="noreferrer" data-i18n="open">Open</a>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Open</a>
               </div>
               <div class="meta">
-                <span class="chip" data-i18n="chipControls">Controls</span>
+                <span class="chip">Controls</span>
                 <span class="chip">Python</span>
-                <span class="chip" data-i18n="chipOptimization">Optimization</span>
+                <span class="chip">Optimization</span>
               </div>
             </article>
 
             <article class="proj">
               <div class="proj-top">
                 <div>
-                  <h3 data-lang="en" class="active">Engineering automation scripts</h3>
-                  <h3 data-lang="fr">Scripts d’automatisation en ingénierie</h3>
-                  <p data-lang="en" class="active">Beam/load integrators, plotting, report helpers. (Add link.)</p>
-                  <p data-lang="fr">Intégrateurs charges/poutres, graphiques, outils de rapport. (Ajoute le lien.)</p>
+                  <h3>Engineering automation scripts</h3>
+                  <p>Beam/load integrators, plotting, report helpers. (Add link.)</p>
                 </div>
-                <a class="pill" href="#" target="_blank" rel="noreferrer" data-i18n="open">Open</a>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Open</a>
               </div>
               <div class="meta">
-                <span class="chip" data-i18n="chipAutomation">Automation</span>
-                <span class="chip" data-i18n="chipPlots">Plots</span>
-                <span class="chip" data-i18n="chipReusable">Reusable tools</span>
+                <span class="chip">Automation</span>
+                <span class="chip">Plots</span>
+                <span class="chip">Reusable tools</span>
               </div>
             </article>
 
@@ -559,45 +552,31 @@
 
       <section class="grid" aria-label="Background">
         <div class="card" id="education">
-          <h2 data-i18n="educationTitle">Education</h2>
-          <p data-lang="en" class="active" style="margin:0; color: var(--muted); line-height:1.6;">
+          <h2>Education</h2>
+          <p style="margin:0; color: var(--muted); line-height:1.6;">
             <strong>Engineer (BEng)</strong> — Aerospace Engineering<br/>
             Specialisation: Flight Control & Aircraft Systems<br/>
             Warsaw University of Technology (Politechnika Warszawska)
           </p>
-          <p data-lang="fr" style="margin:0; color: var(--muted); line-height:1.6;">
-            <strong>Diplôme d’ingénieur (licence)</strong> — Génie aérospatial<br/>
-            Spécialisation : Commande et systèmes aéronautiques<br/>
-            Université de Technologie de Varsovie
-          </p>
         </div>
 
         <div class="card" id="employment">
-          <h2 data-i18n="employmentTitle">Employment</h2>
-          <p data-lang="en" class="active" style="margin:0; color: var(--muted); line-height:1.6;">
+          <h2>Employment</h2>
+          <p style="margin:0; color: var(--muted); line-height:1.6;">
             <strong>Physics & Mathematics Tutor</strong> — 8 years<br/>
             High‑school level (Polish matura preparation)<br/>
             <strong>CAD Designer</strong>, Miltom sp. z o.o. — 2025–present<br/>
             AutoCAD‑based drafting, Excel workflows, design norm compliance control
           </p>
-          <p data-lang="fr" style="margin:0; color: var(--muted); line-height:1.6;">
-            <strong>Tuteur en physique et mathématiques</strong> — 8 ans<br/>
-            Niveau lycée (préparation à la matura polonaise)<br/>
-            <strong>Concepteur CAO</strong>, Miltom sp. z o.o. — 2025–présent<br/>
-            Dessin CAO (AutoCAD), outils Excel, contrôle de conformité aux normes
-          </p>
         </div>
       </section>
 
       <section class="card" id="contact" style="margin-top:16px;">
-        <h2 data-i18n="contactTitle">Contact</h2>
+        <h2>Contact</h2>
         <p style="margin:0; color: var(--muted); line-height:1.6;">
-          <span data-lang="en" class="active">Best way:</span>
-          <span data-lang="fr">Meilleur contact :</span>
-          <a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--accent);">leon.gorecki.fr@proton.me</a><br/>
+          Best way: <a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--accent);">leon.gorecki.fr@proton.me</a><br/>
           GitHub: <a href="https://github.com/leo-01000111" target="_blank" rel="noreferrer" style="color:var(--accent);">leo-01000111</a><br/>
-          <span data-lang="en" class="active">Open to internships / MSc opportunities (France/EU).</span>
-          <span data-lang="fr">Ouvert aux stages et candidatures MSc (France/UE).</span>
+          Open to internships / MSc opportunities (France/EU).
         </p>
       </section>
 
@@ -611,18 +590,6 @@
   <script>
     // year
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    // hide placeholder links (LinkedIn/CV) if still "#"
-    function hideIfPlaceholder(id){
-      const el = document.getElementById(id);
-      if (!el) return;
-      const href = (el.getAttribute("href") || "").trim();
-      // Hide if empty, "#", or still contains the template marker.
-      const isTemplate = href.includes("YOUR-LINKEDIN-HANDLE") || href.includes("YOUR_CV_URL");
-      if (href === "#" || href === "" || isTemplate) el.style.display = "none";
-    }
-    hideIfPlaceholder("btnLinkedIn");
-    hideIfPlaceholder("btnCV");
 
     // smooth scroll (hotfix: only for real anchors like "#projects", not just "#")
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -654,106 +621,6 @@
         moveGlow(e.touches[0]);
       }, { passive: true });
     }
-
-    // i18n strings
-    const STR = {
-      en: {
-        role: "Aerospace / Mechanical Engineering",
-        navProjects: "Projects",
-        navSkills: "Skills",
-        navContact: "Contact",
-        kicker: "Blueprint portfolio",
-        emailMe: "Email me",
-        cvPdf: "CV (PDF)",
-        specTitle: "Quick specs",
-        specBaseK: "Base",   specBaseV: "Warsaw / EU",
-        specFocusK: "Focus", specFocusV: "Machine Learning in navigation · Aircraft design + analysis",
-        specToolsK: "Tools", specToolsV: "Python · LaTeX · GitHub · NX · AutoCAD",
-        specLangK: "Languages", specLangV: "PL · EN · FR · DE",
-        skillsTitle: "Skills",
-        cadK: "CAD:",
-        analysisK: "Analysis:",
-        codeK: "Code:",
-        docsK: "Docs:",
-        toolsK: "Tools:",
-        projectsTitle: "Featured projects",
-        open: "Open",
-        chipStructures: "Structures",
-        chipSizing: "Sizing",
-        chipControls: "Controls",
-        chipOptimization: "Optimization",
-        chipAutomation: "Automation",
-        chipPlots: "Plots",
-        chipReusable: "Reusable tools",
-        contactTitle: "Contact"
-      },
-      fr: {
-        role: "Ingénierie aérospatiale / mécanique",
-        navProjects: "Projets",
-        navSkills: "Compétences",
-        navContact: "Contact",
-        kicker: "Portfolio « blueprint »",
-        emailMe: "M’écrire",
-        cvPdf: "CV (PDF)",
-        specTitle: "Infos rapides",
-        specBaseK: "Base",   specBaseV: "Varsovie / UE",
-        specFocusK: "Focus", specFocusV: "Apprentissage automatique en navigation · Conception + analyse d’avion",
-        specToolsK: "Outils", specToolsV: "Python · LaTeX · GitHub · NX · AutoCAD",
-        specLangK: "Langues", specLangV: "PL · EN · FR · DE",
-        skillsTitle: "Compétences",
-        cadK: "CAO :",
-        analysisK: "Analyse :",
-        codeK: "Code :",
-        docsK: "Docs :",
-        toolsK: "Outils :",
-        projectsTitle: "Projets sélectionnés",
-        open: "Ouvrir",
-        chipStructures: "Structures",
-        chipSizing: "Dimensionnement",
-        chipControls: "Commande",
-        chipOptimization: "Optimisation",
-        chipAutomation: "Automatisation",
-        chipPlots: "Graphiques",
-        chipReusable: "Outils réutilisables",
-        contactTitle: "Contact"
-      }
-    };
-
-    function setLang(lang){
-      // text nodes
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (STR[lang] && STR[lang][key]) el.textContent = STR[lang][key];
-      });
-
-      // show/hide language-specific blocks
-      document.querySelectorAll("[data-lang]").forEach(el => {
-        el.classList.toggle("active", el.getAttribute("data-lang") === lang);
-      });
-
-      // toggle buttons
-      document.getElementById("btnEN").setAttribute("aria-pressed", String(lang === "en"));
-      document.getElementById("btnFR").setAttribute("aria-pressed", String(lang === "fr"));
-
-      // set document language (helps screen readers + SEO)
-      document.documentElement.lang = lang;
-
-      // persist
-      try { localStorage.setItem("lang", lang); } catch {}
-    }
-
-    // wiring
-    document.getElementById("btnEN").addEventListener("click", () => setLang("en"));
-    document.getElementById("btnFR").addEventListener("click", () => setLang("fr"));
-
-    // initial language: saved preference OR browser preference (FR wins if present)
-    let initial = "en";
-    try {
-      const saved = localStorage.getItem("lang");
-      if (saved === "en" || saved === "fr") initial = saved;
-      else if ((navigator.language || "").toLowerCase().startsWith("fr")) initial = "fr";
-    } catch {}
-    setLang(initial);
   </script>
 </body>
 </html>
