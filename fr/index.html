@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leon Górecki — Engineering</title>
+  <meta name="description" content="Digital business card & portfolio." />
+
+  <!-- Canonical + hreflang (No. 2) -->
+  <link rel="canonical" href="https://www.leongorecki.eu/fr/" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/" />
+
+  <style>
+    :root{
+      --bg0:#070a0e;
+      --bg1:#0a0f16;
+      --bg2:#06080c;
+
+      --ink: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --faint: rgba(255,255,255,0.48);
+
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.085);
+      --line: rgba(255,255,255,0.12);
+
+      --accent:#38bdf8;   /* cyan */
+      --accent2:#a78bfa;  /* violet */
+
+      --radius: 18px;
+      --shadow: 0 20px 60px rgba(0,0,0,0.55);
+      --maxw: 1080px;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1000px 650px at 20% 5%, rgba(56,189,248,0.18), transparent 55%),
+        radial-gradient(900px 650px at 85% 15%, rgba(167,139,250,0.15), transparent 60%),
+        linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 55%, var(--bg2) 100%);
+      overflow-x:hidden;
+    }
+
+    /* Blueprint grid */
+    body::before{
+      content:"";
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 72%);
+    }
+    /* Finer grid overlay */
+    body::after{
+      content:"";
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      opacity: 0.10;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 13px 13px;
+      mask-image: radial-gradient(circle at 55% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 70%);
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; text-decoration-color: rgba(255,255,255,0.35); }
+
+    .wrap{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 26px 18px 64px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      padding: 10px 0 22px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 280px;
+    }
+
+    .mark{
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background:
+        radial-gradient(10px 10px at 28% 30%, rgba(255,255,255,0.55), rgba(255,255,255,0) 60%),
+        linear-gradient(135deg, rgba(56,189,248,0.95), rgba(167,139,250,0.90));
+      box-shadow: 0 14px 36px rgba(56,189,248,0.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .mark::after{
+      content:"";
+      position:absolute;
+      inset:-45%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.20), transparent);
+      transform: rotate(25deg);
+      animation: shine 6.2s linear infinite;
+      opacity:0.55;
+    }
+    @keyframes shine{
+      0%{ transform: translateX(-45%) rotate(25deg); }
+      100%{ transform: translateX(45%) rotate(25deg); }
+    }
+
+    .name{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+    .name strong{
+      font-size: 1.05rem;
+      letter-spacing: 0.35px;
+    }
+    .name span{
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    nav{
+      display:flex;
+      gap: 12px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(8px);
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .pill:hover{
+      background: rgba(255,255,255,0.06);
+      color: var(--ink);
+      text-decoration:none;
+    }
+
+    /* NOTICEABLE language toggle */
+    .lang{
+      display:inline-flex;
+      align-items:center;
+      border: 1px solid rgba(56,189,248,0.38);
+      background: linear-gradient(135deg, rgba(56,189,248,0.20), rgba(167,139,250,0.12));
+      box-shadow: 0 10px 28px rgba(56,189,248,0.10);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .lang a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color: rgba(255,255,255,0.80);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 9px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .lang a[aria-current="page"]{
+      background: rgba(0,0,0,0.30);
+      color: var(--ink);
+      outline: 1px solid rgba(255,255,255,0.12);
+    }
+    .lang a:focus-visible{
+      outline: 2px solid rgba(56,189,248,0.55);
+      outline-offset: 2px;
+    }
+
+    /* HERO */
+    .hero{
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 6px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      padding: 26px;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(closest-side at 30% 30%, rgba(56,189,248,0.18), transparent 60%),
+        radial-gradient(closest-side at 80% 25%, rgba(167,139,250,0.16), transparent 60%);
+      filter: blur(14px);
+      opacity:0.65;
+      transform: rotate(-8deg);
+      pointer-events:none;
+    }
+
+    .hero-top{
+      position: relative;
+      display:grid;
+      grid-template-columns: 1.5fr 0.9fr;
+      gap: 18px;
+      align-items:start;
+    }
+
+    .kicker{
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.78rem;
+    }
+    h1{
+      margin: 10px 0 8px;
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      line-height: 1.12;
+      letter-spacing: 0.4px;
+    }
+    .subtitle{
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 62ch;
+    }
+
+    .spec{
+      position: relative;
+      border: 1px dashed rgba(255,255,255,0.22);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,0.16);
+      padding: 14px 14px 12px;
+    }
+    .spec h3{
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .spec .row{
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.96rem;
+    }
+    .spec .row:first-of-type{ border-top: 0; }
+    .spec .key{ color: var(--faint); }
+    .spec .val{ color: var(--ink); }
+
+    .cta{
+      position: relative;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-top: 18px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: var(--ink);
+      font-weight: 650;
+      letter-spacing: 0.2px;
+      text-decoration:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,0.08); text-decoration:none; }
+    .btn.primary{
+      border-color: rgba(56,189,248,0.45);
+      background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(167,139,250,0.12));
+    }
+
+    /* SECTIONS */
+    .grid{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 860px){
+      .hero-top{ grid-template-columns: 1fr; }
+      nav{ justify-content:flex-start; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(8px);
+      padding: 16px;
+    }
+    .card h2{
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .tag{
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .tag strong{ color: var(--ink); font-weight: 700; }
+
+    .projects{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .proj{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.14);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+    .proj-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .proj h3{
+      margin:0;
+      font-size: 1.05rem;
+      letter-spacing: 0.2px;
+    }
+    .proj p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+    .proj .meta{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      color: var(--faint);
+      font-size: 0.92rem;
+    }
+    .chip{
+      border: 1px dashed rgba(255,255,255,0.20);
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    footer{
+      margin-top: 18px;
+      color: var(--faint);
+      font-size: 0.92rem;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      padding: 10px 4px 0;
+    }
+
+    /* Small JS-driven glow */
+    .glow{
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(56,189,248,0.20), transparent 60%);
+      filter: blur(18px);
+      opacity: 0.35;
+      transform: translate(-50%,-50%);
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+
+    /* Hotfix: respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior: auto !important; }
+      .mark::after{ animation: none !important; }
+      .glow{ display:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Aerospace / Mechanical Engineering</span>
+        </div>
+      </div>
+
+      <nav>
+        <a class="pill" href="#projects">Projects</a>
+        <a class="pill" href="#skills">Skills</a>
+        <a class="pill" href="#contact">Contact</a>
+
+        <!-- No. 2: language switch is now a real URL switch (SEO-friendly) -->
+        <div class="lang" role="group" aria-label="Language switch">
+          <a href="/">EN</a>
+          <a href="/fr/" aria-current="page">FR</a>
+
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="glow" id="glow" aria-hidden="true"></div>
+
+        <div class="hero-top">
+          <div>
+            <div class="kicker">Blueprint portfolio</div>
+
+            <h1>
+              Machine learning, controls, structures, and CAD — with practical Python tooling.
+            </h1>
+
+            <p class="subtitle">
+              Aerospace engineering student building aircraft design and analysis workflows.
+              Open to MSc opportunities and internships in France / EU.
+            </p>
+
+            <div class="cta">
+              <a class="btn primary" href="mailto:leon.gorecki.fr@proton.me">Email me</a>
+              <a class="btn" href="https://github.com/leo-01000111" target="_blank" rel="noreferrer">GitHub</a>
+              <a class="btn" id="btnLinkedIn" href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn" id="btnCV" href="/cv.pdf" target="_blank" rel="noreferrer">CV (PDF)</a>
+            </div>
+          </div>
+
+          <aside class="spec" aria-label="Quick specs">
+            <h3>Quick specs</h3>
+            <div class="row"><span class="key">Base</span><span class="val">Warsaw / EU</span></div>
+            <div class="row"><span class="key">Focus</span><span class="val">Machine Learning in navigation · Aircraft design + analysis</span></div>
+            <div class="row"><span class="key">Tools</span><span class="val">Python · LaTeX · GitHub · NX · AutoCAD</span></div>
+            <div class="row"><span class="key">Languages</span><span class="val">PL · EN · FR · DE</span></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card" id="skills">
+          <h2>Skills</h2>
+          <div class="tags">
+            <span class="tag"><strong>CAD:</strong> Siemens NX, AutoCAD</span>
+            <span class="tag"><strong>Analysis:</strong> loads, beam theory, fatigue basics</span>
+            <span class="tag"><strong>Code:</strong> Python, C++</span>
+            <span class="tag"><strong>Docs:</strong> LaTeX, technical reporting</span>
+            <span class="tag"><strong>Tools:</strong> Git, GitHub</span>
+          </div>
+        </div>
+
+        <div class="card" id="projects">
+          <h2>Featured projects</h2>
+          <div class="projects">
+
+            <article class="proj">
+              <div class="proj-top">
+                <div>
+                  <h3>Aircraft Design Project</h3>
+                  <p>Configuration, loads/structures, documentation. (Add your repo/report link.)</p>
+                </div>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Open</a>
+              </div>
+              <div class="meta">
+                <span class="chip">Structures</span>
+                <span class="chip">Sizing</span>
+                <span class="chip">LaTeX</span>
+              </div>
+            </article>
+
+            <article class="proj">
+              <div class="proj-top">
+                <div>
+                  <h3>Engineering thesis: RL vs Robust MPC — GNSS-denial robot</h3>
+                  <p>Simulation, control comparison, metrics, plots. (Add link.)</p>
+                </div>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Open</a>
+              </div>
+              <div class="meta">
+                <span class="chip">Controls</span>
+                <span class="chip">Python</span>
+                <span class="chip">Optimization</span>
+              </div>
+            </article>
+
+            <article class="proj">
+              <div class="proj-top">
+                <div>
+                  <h3>Engineering automation scripts</h3>
+                  <p>Beam/load integrators, plotting, report helpers. (Add link.)</p>
+                </div>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Open</a>
+              </div>
+              <div class="meta">
+                <span class="chip">Automation</span>
+                <span class="chip">Plots</span>
+                <span class="chip">Reusable tools</span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="grid" aria-label="Background">
+        <div class="card" id="education">
+          <h2>Education</h2>
+          <p style="margin:0; color: var(--muted); line-height:1.6;">
+            <strong>Engineer (BEng)</strong> — Aerospace Engineering<br/>
+            Specialisation: Flight Control & Aircraft Systems<br/>
+            Warsaw University of Technology (Politechnika Warszawska)
+          </p>
+        </div>
+
+        <div class="card" id="employment">
+          <h2>Employment</h2>
+          <p style="margin:0; color: var(--muted); line-height:1.6;">
+            <strong>Physics & Mathematics Tutor</strong> — 8 years<br/>
+            High‑school level (Polish matura preparation)<br/>
+            <strong>CAD Designer</strong>, Miltom sp. z o.o. — 2025–present<br/>
+            AutoCAD‑based drafting, Excel workflows, design norm compliance control
+          </p>
+        </div>
+      </section>
+
+      <section class="card" id="contact" style="margin-top:16px;">
+        <h2>Contact</h2>
+        <p style="margin:0; color: var(--muted); line-height:1.6;">
+          Best way: <a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--accent);">leon.gorecki.fr@proton.me</a><br/>
+          GitHub: <a href="https://github.com/leo-01000111" target="_blank" rel="noreferrer" style="color:var(--accent);">leo-01000111</a><br/>
+          Open to internships / MSc opportunities (France/EU).
+        </p>
+      </section>
+
+      <footer>
+        <span>© <span id="year"></span> Leon Górecki</span>
+        <span><a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--faint);">leon.gorecki.fr@proton.me</a></span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // smooth scroll (hotfix: only for real anchors like "#projects", not just "#")
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (e) => {
+        const id = (a.getAttribute("href") || "").trim();
+        if (id.length <= 1) return; // allow normal behavior for "#"
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    // subtle cursor glow in hero (hotfix: guard if reduced motion hides glow)
+    const glow = document.getElementById("glow");
+    const hero = document.querySelector(".hero");
+    function moveGlow(e){
+      if (!glow || !hero) return;
+      const r = hero.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      glow.style.left = x + "px";
+      glow.style.top = y + "px";
+    }
+    if (hero){
+      hero.addEventListener("mousemove", moveGlow);
+      hero.addEventListener("touchmove", (e) => {
+        if (!e.touches?.[0]) return;
+        moveGlow(e.touches[0]);
+      }, { passive: true });
+    }
+  </script>
+</body>
+</html>
