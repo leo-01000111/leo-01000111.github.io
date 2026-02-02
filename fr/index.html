@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leon Górecki — Ingénierie</title>
-  <meta name="description" content="Carte de visite numérique et portfolio en ingénierie aérospatiale." />
+  <meta name="description" content="Carte de visite numérique & portfolio." />
 
-  <!-- Canonical + hreflang -->
+  <!-- Canonical + hreflang (No. 2) -->
   <link rel="canonical" href="https://www.leongorecki.eu/fr/" />
   <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/" />
   <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/" />
@@ -26,8 +26,8 @@
       --panel2: rgba(255,255,255,0.085);
       --line: rgba(255,255,255,0.12);
 
-      --accent:#38bdf8;
-      --accent2:#a78bfa;
+      --accent:#38bdf8;   /* cyan */
+      --accent2:#a78bfa;  /* violet */
 
       --radius: 18px;
       --shadow: 0 20px 60px rgba(0,0,0,0.55);
@@ -47,6 +47,7 @@
       overflow-x:hidden;
     }
 
+    /* Blueprint grid */
     body::before{
       content:"";
       position: fixed;
@@ -59,6 +60,7 @@
       background-size: 52px 52px;
       mask-image: radial-gradient(circle at 35% 10%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 72%);
     }
+    /* Finer grid overlay */
     body::after{
       content:"";
       position: fixed;
@@ -120,64 +122,307 @@
       100%{ transform: translateX(45%) rotate(25deg); }
     }
 
-    .name strong{ font-size: 1.05rem; letter-spacing: 0.35px; }
-    .name span{ color: var(--muted); font-size: 0.95rem; }
+    .name{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+    .name strong{
+      font-size: 1.05rem;
+      letter-spacing: 0.35px;
+    }
+    .name span{
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
 
-    nav{ display:flex; gap: 12px; flex-wrap:wrap; justify-content:flex-end; align-items:center; }
+    nav{
+      display:flex;
+      gap: 12px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
 
     .pill{
-      display:inline-flex; align-items:center; gap: 8px;
-      padding: 9px 12px; border-radius: 999px;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.04);
       backdrop-filter: blur(8px);
-      font-size: 0.95rem; color: var(--muted);
+      font-size: 0.95rem;
+      color: var(--muted);
     }
-    .pill:hover{ background: rgba(255,255,255,0.06); color: var(--ink); text-decoration:none; }
+    .pill:hover{
+      background: rgba(255,255,255,0.06);
+      color: var(--ink);
+      text-decoration:none;
+    }
 
+    /* Noticeable language toggle */
     .lang{
-      display:inline-flex; align-items:center; gap: 4px; padding: 4px;
-      border-radius: 999px;
+      display:inline-flex;
+      align-items:center;
       border: 1px solid rgba(56,189,248,0.38);
       background: linear-gradient(135deg, rgba(56,189,248,0.20), rgba(167,139,250,0.12));
+      box-shadow: 0 10px 28px rgba(56,189,248,0.10);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
     }
     .lang a{
-      padding: 9px 12px; font-weight: 800; font-size: 0.86rem;
-      letter-spacing: 0.08em; text-transform: uppercase;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color: rgba(255,255,255,0.80);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 9px 12px;
       border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      text-decoration: none;
     }
     .lang a[aria-current="page"]{
       background: rgba(0,0,0,0.30);
+      color: var(--ink);
       outline: 1px solid rgba(255,255,255,0.12);
     }
+    .lang a:focus-visible{
+      outline: 2px solid rgba(56,189,248,0.55);
+      outline-offset: 2px;
+    }
 
-    .hero{ border: 1px solid var(--line); border-radius: calc(var(--radius) + 6px);
+    /* HERO */
+    .hero{
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 6px);
       background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      box-shadow: var(--shadow); padding: 26px; }
+      box-shadow: var(--shadow);
+      padding: 26px;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(closest-side at 30% 30%, rgba(56,189,248,0.18), transparent 60%),
+        radial-gradient(closest-side at 80% 25%, rgba(167,139,250,0.16), transparent 60%);
+      filter: blur(14px);
+      opacity:0.65;
+      transform: rotate(-8deg);
+      pointer-events:none;
+    }
 
-    .hero-top{ display:grid; grid-template-columns: 1.5fr 0.9fr; gap: 18px; }
-    @media (max-width: 860px){ .hero-top{ grid-template-columns: 1fr; } }
+    .hero-top{
+      position: relative;
+      display:grid;
+      grid-template-columns: 1.5fr 0.9fr;
+      gap: 18px;
+      align-items:start;
+    }
 
-    .kicker{ color: var(--muted); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.78rem; }
-    h1{ margin: 10px 0 8px; font-size: clamp(1.8rem, 3.2vw, 2.6rem); line-height: 1.12; }
-    .subtitle{ color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+    .kicker{
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.78rem;
+    }
+    h1{
+      margin: 10px 0 8px;
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      line-height: 1.12;
+      letter-spacing: 0.4px;
+    }
+    .subtitle{
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 62ch;
+    }
 
-    .spec{ border: 1px dashed rgba(255,255,255,0.22); border-radius: var(--radius); background: rgba(0,0,0,0.16); padding: 14px; }
-    .spec h3{ font-size: 0.95rem; text-transform: uppercase; color: var(--muted); }
-    .spec .row{ display:flex; justify-content:space-between; padding: 7px 0; font-size: 0.96rem; }
+    .spec{
+      position: relative;
+      border: 1px dashed rgba(255,255,255,0.22);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,0.16);
+      padding: 14px 14px 12px;
+    }
+    .spec h3{
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .spec .row{
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.96rem;
+    }
+    .spec .row:first-of-type{ border-top: 0; }
     .spec .key{ color: var(--faint); }
+    .spec .val{ color: var(--ink); }
 
-    .cta{ display:flex; gap: 10px; margin-top: 18px; flex-wrap:wrap; }
-    .btn{ padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,0.05); }
-    .btn.primary{ background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(167,139,250,0.12)); }
+    .cta{
+      position: relative;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-top: 18px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: var(--ink);
+      font-weight: 650;
+      letter-spacing: 0.2px;
+      text-decoration:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,0.08); text-decoration:none; }
+    .btn.primary{
+      border-color: rgba(56,189,248,0.45);
+      background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(167,139,250,0.12));
+    }
 
-    .grid{ margin-top: 18px; display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 860px){ .grid{ grid-template-columns: 1fr; } }
+    /* SECTIONS */
+    .grid{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 860px){
+      .hero-top{ grid-template-columns: 1fr; }
+      nav{ justify-content:flex-start; }
+      .grid{ grid-template-columns: 1fr; }
+    }
 
-    .card{ border: 1px solid var(--line); border-radius: var(--radius); background: rgba(255,255,255,0.04); padding: 16px; }
-    .card h2{ font-size: 1.05rem; text-transform: uppercase; color: var(--muted); }
+    .card{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(8px);
+      padding: 16px;
+    }
+    .card h2{
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
 
-    footer{ margin-top: 18px; font-size: 0.92rem; color: var(--faint); display:flex; justify-content:space-between; }
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .tag{
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .tag strong{ color: var(--ink); font-weight: 700; }
+
+    .projects{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .proj{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.14);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+    .proj-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .proj h3{
+      margin:0;
+      font-size: 1.05rem;
+      letter-spacing: 0.2px;
+    }
+    .proj p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.45;
+    }
+    .proj .meta{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      color: var(--faint);
+      font-size: 0.92rem;
+    }
+    .chip{
+      border: 1px dashed rgba(255,255,255,0.20);
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    footer{
+      margin-top: 18px;
+      color: var(--faint);
+      font-size: 0.92rem;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      padding: 10px 4px 0;
+    }
+
+    /* Small JS-driven glow */
+    .glow{
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(56,189,248,0.20), transparent 60%);
+      filter: blur(18px);
+      opacity: 0.35;
+      transform: translate(-50%,-50%);
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+
+    /* Hotfix: respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior: auto !important; }
+      .mark::after{ animation: none !important; }
+      .glow{ display:none !important; }
+    }
   </style>
 </head>
 
@@ -185,7 +430,7 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="mark"></div>
+        <div class="mark" aria-hidden="true"></div>
         <div class="name">
           <strong>Leon Górecki</strong>
           <span>Ingénierie aérospatiale / mécanique</span>
@@ -196,7 +441,9 @@
         <a class="pill" href="#projects">Projets</a>
         <a class="pill" href="#skills">Compétences</a>
         <a class="pill" href="#contact">Contact</a>
-        <div class="lang">
+
+        <!-- No. 2: language switch is now a real URL switch (SEO-friendly) -->
+        <div class="lang" role="group" aria-label="Changement de langue">
           <a href="/">EN</a>
           <a href="/fr/" aria-current="page">FR</a>
         </div>
@@ -204,38 +451,176 @@
     </header>
 
     <main>
-      <section class="hero">
+      <section class="hero" id="top">
+        <div class="glow" id="glow" aria-hidden="true"></div>
+
         <div class="hero-top">
           <div>
             <div class="kicker">Portfolio d’ingénierie</div>
-            <h1>Commande, structures et CAO — avec des outils Python reproductibles.</h1>
-            <p class="subtitle">Étudiant en ingénierie aérospatiale développant des méthodes de conception et d’analyse d’avion. Ouvert aux candidatures MSc et stages en France / UE.</p>
+
+            <h1>
+              Commande, structures, CAO — avec des outils Python pratiques.
+            </h1>
+
+            <p class="subtitle">
+              Étudiant en ingénierie aérospatiale, je développe des workflows de conception et d’analyse d’avion.
+              Ouvert aux candidatures MSc et stages en France / UE.
+            </p>
+
             <div class="cta">
               <a class="btn primary" href="mailto:leon.gorecki.fr@proton.me">M’écrire</a>
-              <a class="btn" href="https://github.com/leo-01000111" target="_blank">GitHub</a>
-              <a class="btn" href="/cv.pdf" target="_blank">CV (PDF)</a>
+              <a class="btn" href="https://github.com/leo-01000111" target="_blank" rel="noreferrer">GitHub</a>
+              <a class="btn" id="btnLinkedIn" href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn" id="btnCV" href="/cv.pdf" target="_blank" rel="noreferrer">CV (PDF)</a>
             </div>
           </div>
 
-          <aside class="spec">
+          <aside class="spec" aria-label="Infos rapides">
             <h3>Infos rapides</h3>
-            <div class="row"><span class="key">Base</span><span>Varsovie / UE</span></div>
-            <div class="row"><span class="key">Focus</span><span>Apprentissage automatique en navigation · Conception et analyse d’avion</span></div>
-            <div class="row"><span class="key">Outils</span><span>Python · LaTeX · GitHub · NX · AutoCAD</span></div>
-            <div class="row"><span class="key">Langues</span><span>PL · EN · FR · DE</span></div>
+            <div class="row"><span class="key">Base</span><span class="val">Varsovie / UE</span></div>
+            <div class="row"><span class="key">Focus</span><span class="val">Apprentissage automatique en navigation · Conception + analyse d’avion</span></div>
+            <div class="row"><span class="key">Outils</span><span class="val">Python · LaTeX · GitHub · NX · AutoCAD</span></div>
+            <div class="row"><span class="key">Langues</span><span class="val">PL · EN · FR · DE</span></div>
           </aside>
         </div>
       </section>
 
+      <section class="grid">
+        <div class="card" id="skills">
+          <h2>Compétences</h2>
+          <div class="tags">
+            <span class="tag"><strong>CAO :</strong> Siemens NX, AutoCAD</span>
+            <span class="tag"><strong>Analyse :</strong> charges, théorie des poutres, bases de fatigue</span>
+            <span class="tag"><strong>Code :</strong> Python, C++</span>
+            <span class="tag"><strong>Docs :</strong> LaTeX, rédaction technique</span>
+            <span class="tag"><strong>Outils :</strong> Git, GitHub</span>
+          </div>
+        </div>
+
+        <div class="card" id="projects">
+          <h2>Projets sélectionnés</h2>
+          <div class="projects">
+
+            <article class="proj">
+              <div class="proj-top">
+                <div>
+                  <h3>Projet de conception d’avion</h3>
+                  <p>Configuration, charges/structures, documentation. (Ajouter le lien vers le repo/rapport.)</p>
+                </div>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Ouvrir</a>
+              </div>
+              <div class="meta">
+                <span class="chip">Structures</span>
+                <span class="chip">Dimensionnement</span>
+                <span class="chip">LaTeX</span>
+              </div>
+            </article>
+
+            <article class="proj">
+              <div class="proj-top">
+                <div>
+                  <h3>Mémoire : RL vs MPC robuste — robot sans GNSS</h3>
+                  <p>Simulation, comparaison de commande, métriques, graphiques. (Ajouter le lien.)</p>
+                </div>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Ouvrir</a>
+              </div>
+              <div class="meta">
+                <span class="chip">Commande</span>
+                <span class="chip">Python</span>
+                <span class="chip">Optimisation</span>
+              </div>
+            </article>
+
+            <article class="proj">
+              <div class="proj-top">
+                <div>
+                  <h3>Scripts d’automatisation en ingénierie</h3>
+                  <p>Intégrateurs de charges/poutres, génération de graphiques, outils de rapport. (Ajouter le lien.)</p>
+                </div>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Ouvrir</a>
+              </div>
+              <div class="meta">
+                <span class="chip">Automatisation</span>
+                <span class="chip">Graphiques</span>
+                <span class="chip">Outils réutilisables</span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="grid" aria-label="Parcours">
+        <div class="card" id="education">
+          <h2>Formation</h2>
+          <p style="margin:0; color: var(--muted); line-height:1.6;">
+            <strong>Ingénieur (BEng)</strong> — Ingénierie aérospatiale<br/>
+            Spécialisation : commande de vol & systèmes aéronautiques<br/>
+            Université de Technologie de Varsovie (Politechnika Warszawska)
+          </p>
+        </div>
+
+        <div class="card" id="employment">
+          <h2>Expérience</h2>
+          <p style="margin:0; color: var(--muted); line-height:1.6;">
+            <strong>Tuteur en physique et mathématiques</strong> — 8 ans<br/>
+            Niveau lycée (préparation à la matura polonaise)<br/>
+            <strong>Concepteur CAO</strong>, Miltom sp. z o.o. — 2025–présent<br/>
+            Dessin AutoCAD, workflows Excel, contrôle de conformité aux normes
+          </p>
+        </div>
+      </section>
+
+      <section class="card" id="contact" style="margin-top:16px;">
+        <h2>Contact</h2>
+        <p style="margin:0; color: var(--muted); line-height:1.6;">
+          Meilleur contact : <a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--accent);">leon.gorecki.fr@proton.me</a><br/>
+          GitHub : <a href="https://github.com/leo-01000111" target="_blank" rel="noreferrer" style="color:var(--accent);">leo-01000111</a><br/>
+          Ouvert aux stages et candidatures MSc (France/UE).
+        </p>
+      </section>
+
       <footer>
         <span>© <span id="year"></span> Leon Górecki</span>
-        <span>leon.gorecki.fr@proton.me</span>
+        <span><a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--faint);">leon.gorecki.fr@proton.me</a></span>
       </footer>
     </main>
   </div>
 
   <script>
+    // year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // smooth scroll (hotfix: only for real anchors like "#projects", not just "#")
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (e) => {
+        const id = (a.getAttribute("href") || "").trim();
+        if (id.length <= 1) return;
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    // subtle cursor glow in hero (hotfix: guard if reduced motion hides glow)
+    const glow = document.getElementById("glow");
+    const hero = document.querySelector(".hero");
+    function moveGlow(e){
+      if (!glow || !hero) return;
+      const r = hero.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      glow.style.left = x + "px";
+      glow.style.top = y + "px";
+    }
+    if (hero){
+      hero.addEventListener("mousemove", moveGlow);
+      hero.addEventListener("touchmove", (e) => {
+        if (!e.touches?.[0]) return;
+        moveGlow(e.touches[0]);
+      }, { passive: true });
+    }
   </script>
 </body>
 </html>
