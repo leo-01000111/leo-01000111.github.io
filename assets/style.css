@@ -345,7 +345,33 @@
       justify-content:space-between;
       gap: 12px;
     }
-    .proj h3{
+    
+    .proj-media{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+    .proj-thumb{
+      flex: 0 0 auto;
+      width: 120px;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.16);
+      display:block;
+    }
+    .proj-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    @media (max-width: 520px){
+      .proj-thumb{ width: 92px; }
+    }
+
+.proj h3{
       margin:0;
       font-size: 1.05rem;
       letter-spacing: 0.2px;
