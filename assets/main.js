@@ -33,6 +33,22 @@
     }
 
 
+
+    // site root helper (supports hosting under subpaths if needed)
+    function _siteRoot(){
+      const meta = document.querySelector('meta[name="site-root"]');
+      let root = meta ? (meta.getAttribute("content") || "/") : "/";
+      if (!root.startsWith("/")) root = "/" + root;
+      if (!root.endsWith("/")) root = root + "/";
+      return root;
+    }
+    function _joinRoot(path){
+      const root = _siteRoot();
+      // path may start with "/" or not
+      path = (path || "").replace(/^\/+/, "");
+      return root + path;
+    }
+
     // Projects system (featured + listing + per-project pages)
     async function _fetchText(url){
       const r = await fetch(url, { cache: "no-cache" });
@@ -60,7 +76,7 @@
     }
     function _projectHref(id, lang){
       const q = (lang === "fr") ? "?lang=fr" : "";
-      return `/projects/project${id}.html${q}`;
+      return `${_siteRoot()}projects/project${id}.html${q}`;
     }
     function _escapeHtml(s){
       return (s ?? "").toString()
@@ -106,8 +122,8 @@
       const lang = _getLang();
       try{
         const [cfgText, all] = await Promise.all([
-          _fetchText("/config.txt"),
-          _fetchJSON("/projects/projects.json")
+          _fetchText(_joinRoot("config.txt")),
+          _fetchJSON(_joinRoot("projects/projects.json"))
         ]);
         const featured = _parseFeaturedIds(cfgText);
         const byId = new Map((all || []).map(p => [p.id, p]));
@@ -129,7 +145,7 @@
 
       const lang = _getLang();
       try{
-        const all = await _fetchJSON("/projects/projects.json");
+        const all = await _fetchJSON(_joinRoot("projects/projects.json"));
         if (!Array.isArray(all) || !all.length){
           grid.innerHTML = `<div class="small">${lang==="fr" ? "Aucun projet pour l’instant." : "No projects yet."}</div>`;
           return;
@@ -148,7 +164,7 @@
 
       const lang = _getLang();
       try{
-        const all = await _fetchJSON("/projects/projects.json");
+        const all = await _fetchJSON(_joinRoot("projects/projects.json"));
         const p = (Array.isArray(all) ? all : []).find(x => x.id === pid);
         if (!p) return;
 
