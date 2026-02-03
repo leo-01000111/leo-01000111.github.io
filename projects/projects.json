@@ -53,4 +53,12 @@
     ],
     "thumbnail": "/assets/thumbs/3.svg"
   }
+  {
+    "id": 4,
+    "slug": "project4",
+    "title": { "en": "New Project", "fr": "Nouveau projet" },
+    "description": { "en": "Short description...", "fr": "Description..." },
+    "tags": ["Tag1", "Tag2"],
+    "thumbnail": "/assets/thumbs/4.svg"
+  }
 ]
