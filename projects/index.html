@@ -13,21 +13,28 @@
 </head>
 <body>
 
-  <header class="top">
-    <div class="inner">
-      <div class="brand">
-        <a class="logo" href="/" aria-label="Home">LG</a>
-        <div class="brand-text">
-          <div class="name">Leon Górecki</div>
-          <div class="tagline">Engineering portfolio</div>
-        </div>
+  <header>
+  <div class="wrap">
+    <div class="brand">
+      <div aria-hidden="true" class="mark"></div>
+      <div class="name">
+        <strong>Leon Górecki</strong>
+        <span>Aerospace / Mechanical Engineering</span>
       </div>
-      <nav class="nav" aria-label="Primary">
-        <a aria-current="page" href="/projects/">Projects</a>
-        <a href="/#contact">Contact</a>
-      </nav>
     </div>
-  </header>
+
+    <nav>
+      <a class="pill" data-ui="home" href="/">Home</a>
+      <a class="pill" aria-current="page" data-ui="allProjects" href="/projects/">All projects</a>
+
+      <div aria-label="Language switch" class="lang" role="group">
+        <a data-lang="en" aria-current="page" href="/projects/">EN</a>
+        <a data-lang="fr" href="/projects/?lang=fr">FR</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
 
   <main id="main" class="wrap">
     <section class="hero" style="padding-bottom: 14px;">
