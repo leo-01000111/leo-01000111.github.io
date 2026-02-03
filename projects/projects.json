@@ -3,24 +3,6 @@
     "id": 1,
     "slug": "project1",
     "title": {
-      "en": "Aircraft Design Project",
-      "fr": "Projet de conception d’avion"
-    },
-    "description": {
-      "en": "Configuration, loads/structures, documentation. (Add your repo/report link.)",
-      "fr": "Configuration, charges/structures, documentation. (Ajoute ton lien repo/rapport.)"
-    },
-    "tags": [
-      "Structures",
-      "Sizing",
-      "LaTeX"
-    ],
-    "thumbnail": "/assets/thumbs/1.svg"
-  },
-  {
-    "id": 2,
-    "slug": "project2",
-    "title": {
       "en": "Engineering thesis: RL vs Robust MPC — GNSS-denial robot",
       "fr": "Mémoire : RL vs MPC robuste — robot en déni GNSS"
     },
@@ -33,24 +15,6 @@
       "Python",
       "Optimization"
     ],
-    "thumbnail": "/assets/thumbs/2.svg"
-  },
-  {
-    "id": 3,
-    "slug": "project3",
-    "title": {
-      "en": "Engineering automation scripts",
-      "fr": "Scripts d’automatisation d’ingénierie"
-    },
-    "description": {
-      "en": "Beam/load integrators, plotting, report helpers. (Add link.)",
-      "fr": "Intégrateurs de poutres/charges, tracés, aides au rapport. (Ajoute un lien.)"
-    },
-    "tags": [
-      "Automation",
-      "Plots",
-      "Reusable tools"
-    ],
-    "thumbnail": "/assets/thumbs/3.svg"
+    "thumbnail": "/assets/thumbs/1.svg"
   }
 ]
