@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "slug": "project1",
+    "title": {
+      "en": "Engineering thesis: RL vs Robust MPC — GNSS-denial robot",
+      "fr": "Mémoire : RL vs MPC robuste — robot en déni GNSS"
+    },
+    "description": {
+      "en": "Simulation, control comparison, metrics, plots. (Add link.)",
+      "fr": "Simulation, comparaison de contrôle, métriques, graphiques. (Ajoute un lien.)"
+    },
+    "tags": [
+      "Controls",
+      "Python",
+      "Optimization"
+    ],
+    "thumbnail": "/assets/thumbs/1.svg"
+  }
+]
