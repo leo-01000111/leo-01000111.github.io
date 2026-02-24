@@ -227,6 +227,144 @@
       if (el) el.textContent = text;
     });
   }
+  function _setProject1PageCopy(lang) {
+    const slug = (document.body?.getAttribute("data-project-slug") || "").trim();
+    const pid = (document.body?.getAttribute("data-project-id") || "").trim();
+    if (slug !== "project1" && pid !== "1") return;
+
+    const copy = {
+      en: {
+        pdfBtn: "Open thesis PDF",
+        source: "Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.",
+        setupTitle: "Study Setup",
+        setup1: "Controllers: Tube RMPC and PPO.",
+        setup2: "Evaluation dataset size: N = 500 environments.",
+        setup3: "Same worlds used for both controllers and both denial configurations.",
+        setup4: "Conditions: nominal and GNSS-denied operation.",
+        keyTitle: "Key Metric Definition",
+        keyText:
+          "Tracking quality is measured with Cross-Track Error (XTE), defined as the Euclidean distance from robot position to the nearest reference waypoint with monotonic index progression along the path.",
+        rawTitle: "Raw Results (Thesis Table, N = 500)",
+        colMetric: "Metric",
+        colRmpcNom: "RMPC (nominal)",
+        colPpoNom: "PPO (nominal)",
+        colRmpcDen: "RMPC (denial)",
+        colPpoDen: "PPO (denial)",
+        rowSuccess: "Success [%]",
+        rowCollision: "Collision [%]",
+        rowTimeout: "Timeout [%]",
+        rowXteMean: "XTE_nom / XTE_mean [m]",
+        rowXteIn: "XTE_in [m]",
+        rowXteOut: "XTE_out [m]",
+        degTitle: "Head-to-Head Degradation (Thesis Formulas)",
+        deg1: "RMPC P_deg-nom = ((0.3245 / 0.2664) - 1) x 100% = +21.81%.",
+        deg2: "RMPC P_deg-InOut = ((0.3245 / 0.3276) - 1) x 100% = -0.95%.",
+        deg3: "PPO P_deg-nom = ((0.8515 / 0.7312) - 1) x 100% = +16.45%.",
+        deg4: "PPO P_deg-InOut = ((0.2099 / 0.8667) - 1) x 100% = -75.78%.",
+        workTitle: "Workload and Runtime Cost (Thesis Table)",
+        workColMetric: "Metric",
+        workColRmpc: "Tube RMPC",
+        workColPpo: "PPO",
+        workRowImpl: "Implementation time [man-hours]",
+        workRowTrain: "Training/tuning duration [h]",
+        workRowSpeed: "Rollout speed [actions/s]",
+        concTitle: "Thesis Conclusions (Condensed)",
+        conc1:
+          "RMPC: strongest on safety/predictability, with conservative behavior and higher online compute cost.",
+        conc2:
+          "PPO: strongest on flexibility/adaptability and online speed, without formal stability/constraint guarantees.",
+        conc3: "No universal winner: controller choice depends on system priorities and risk tolerance."
+      },
+      fr: {
+        pdfBtn: "Ouvrir le PDF du memoire",
+        source: "Source : chapitres 5 et 6 du manuscrit LaTeX de la these.",
+        setupTitle: "Cadre de l'etude",
+        setup1: "Controleurs : Tube RMPC et PPO.",
+        setup2: "Taille du jeu d'evaluation : N = 500 environnements.",
+        setup3: "Memes mondes utilises pour les deux controleurs et les deux configurations de deni.",
+        setup4: "Conditions : nominale et GNSS denie.",
+        keyTitle: "Definition de la mesure cle",
+        keyText:
+          "La qualite de suivi est mesuree par la Cross-Track Error (XTE), definie comme la distance euclidienne entre la position du robot et le point de reference le plus proche, avec progression monotone de l'index le long de la trajectoire.",
+        rawTitle: "Resultats bruts (table de these, N = 500)",
+        colMetric: "Mesure",
+        colRmpcNom: "RMPC (nominal)",
+        colPpoNom: "PPO (nominal)",
+        colRmpcDen: "RMPC (deni)",
+        colPpoDen: "PPO (deni)",
+        rowSuccess: "Succes [%]",
+        rowCollision: "Collision [%]",
+        rowTimeout: "Timeout [%]",
+        rowXteMean: "XTE_nom / XTE_mean [m]",
+        rowXteIn: "XTE_in [m]",
+        rowXteOut: "XTE_out [m]",
+        degTitle: "Degradation face-a-face (formules de these)",
+        deg1: "RMPC P_deg-nom = ((0.3245 / 0.2664) - 1) x 100% = +21.81%.",
+        deg2: "RMPC P_deg-InOut = ((0.3245 / 0.3276) - 1) x 100% = -0.95%.",
+        deg3: "PPO P_deg-nom = ((0.8515 / 0.7312) - 1) x 100% = +16.45%.",
+        deg4: "PPO P_deg-InOut = ((0.2099 / 0.8667) - 1) x 100% = -75.78%.",
+        workTitle: "Charge de travail et cout d'execution (table de these)",
+        workColMetric: "Mesure",
+        workColRmpc: "Tube RMPC",
+        workColPpo: "PPO",
+        workRowImpl: "Temps d'implementation [heures-homme]",
+        workRowTrain: "Duree d'entrainement/reglage [h]",
+        workRowSpeed: "Vitesse de rollout [actions/s]",
+        concTitle: "Conclusions de la these (resume)",
+        conc1:
+          "RMPC : meilleur sur la securite/predictibilite, avec un comportement conservateur et un cout en ligne plus eleve.",
+        conc2:
+          "PPO : meilleur sur la flexibilite/adaptabilite et la vitesse en ligne, sans garanties formelles de stabilite/contraintes.",
+        conc3:
+          "Pas de gagnant universel : le choix du controleur depend des priorites systeme et de la tolerance au risque."
+      }
+    }[lang] || {};
+
+    const map = [
+      ["#p1-pdf-btn", copy.pdfBtn],
+      ["#p1-source", copy.source],
+      ["#p1-setup-title", copy.setupTitle],
+      ["#p1-setup-1", copy.setup1],
+      ["#p1-setup-2", copy.setup2],
+      ["#p1-setup-3", copy.setup3],
+      ["#p1-setup-4", copy.setup4],
+      ["#p1-key-title", copy.keyTitle],
+      ["#p1-key-text", copy.keyText],
+      ["#p1-raw-title", copy.rawTitle],
+      ["#p1-col-metric", copy.colMetric],
+      ["#p1-col-rmpc-nom", copy.colRmpcNom],
+      ["#p1-col-ppo-nom", copy.colPpoNom],
+      ["#p1-col-rmpc-den", copy.colRmpcDen],
+      ["#p1-col-ppo-den", copy.colPpoDen],
+      ["#p1-row-success", copy.rowSuccess],
+      ["#p1-row-collision", copy.rowCollision],
+      ["#p1-row-timeout", copy.rowTimeout],
+      ["#p1-row-xtemean", copy.rowXteMean],
+      ["#p1-row-xtein", copy.rowXteIn],
+      ["#p1-row-xteout", copy.rowXteOut],
+      ["#p1-deg-title", copy.degTitle],
+      ["#p1-deg-1", copy.deg1],
+      ["#p1-deg-2", copy.deg2],
+      ["#p1-deg-3", copy.deg3],
+      ["#p1-deg-4", copy.deg4],
+      ["#p1-work-title", copy.workTitle],
+      ["#p1-work-col-metric", copy.workColMetric],
+      ["#p1-work-col-rmpc", copy.workColRmpc],
+      ["#p1-work-col-ppo", copy.workColPpo],
+      ["#p1-work-row-impl", copy.workRowImpl],
+      ["#p1-work-row-train", copy.workRowTrain],
+      ["#p1-work-row-speed", copy.workRowSpeed],
+      ["#p1-conc-title", copy.concTitle],
+      ["#p1-conc-1", copy.conc1],
+      ["#p1-conc-2", copy.conc2],
+      ["#p1-conc-3", copy.conc3]
+    ];
+    map.forEach(([selector, text]) => {
+      if (!text) return;
+      const el = document.querySelector(selector);
+      if (el) el.textContent = text;
+    });
+  }
   function _findProjectByPage(all) {
     const idRaw = document.body?.getAttribute("data-project-id");
     if (idRaw && idRaw !== "__ID__") {
@@ -288,6 +426,7 @@
     if (!titleEl) return;
 
     _setProjectPageCopy(lang);
+    _setProject1PageCopy(lang);
     try {
       const all = await _fetchJSON(_joinRoot("projects/projects.json"));
       const p = _findProjectByPage(Array.isArray(all) ? all : []);

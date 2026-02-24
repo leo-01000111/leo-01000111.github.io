@@ -1,15 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
-  <title>Project 1 - Leon Górecki</title>
-  <meta name="description" content="Engineering thesis project comparing RL and robust MPC for GNSS-denial robot navigation." />
+  <title>BEng Thesis: PPO vs Robust MPC - Leon Gorecki</title>
+  <meta name="description" content="Thesis benchmark comparing PPO and robust MPC for trajectory tracking under GNSS degradation in simulation." />
   <meta name="theme-color" content="#070a0e" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Project 1 - Leon Górecki" />
-  <meta property="og:description" content="Engineering thesis project comparing RL and robust MPC for GNSS-denial robot navigation." />
+  <meta property="og:title" content="BEng Thesis: PPO vs Robust MPC - Leon Gorecki" />
+  <meta property="og:description" content="Thesis results on RMPC and PPO under nominal and GNSS-denied conditions." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/project1.html" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/project1.html" />
@@ -27,7 +27,7 @@
       <div class="brand">
         <div aria-hidden="true" class="mark"></div>
         <div class="name">
-          <strong>Leon Górecki</strong>
+          <strong>Leon Gorecki</strong>
           <span>Aerospace / Mechanical Engineering</span>
         </div>
       </div>
@@ -48,14 +48,15 @@
     <section class="hero" style="padding-bottom: 16px;">
       <div class="hero-grid">
         <div>
-          <h1 id="proj-title" style="margin-bottom: 10px;">Project 1</h1>
-          <p id="proj-desc" class="lead">Thesis project content is loaded from <code>/projects/projects.json</code>.</p>
+          <h1 id="proj-title" style="margin-bottom: 10px;">BEng Thesis: PPO vs Robust MPC on a Simulated Roomba</h1>
+          <p id="proj-desc" class="lead">Thesis-only summary of benchmarking results under nominal and GNSS-denied conditions.</p>
           <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
           <div class="cta" style="margin-top: 18px;">
             <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
             <a class="pill ghost" id="proj-home" href="/">Home</a>
+            <a class="pill" id="p1-pdf-btn" href="/pracaINZ-nodata.pdf" target="_blank" rel="noopener noreferrer">Open thesis PDF</a>
           </div>
-          <p class="small" id="proj-note" style="margin-top: 14px;">Add content sections below as you develop this project page.</p>
+          <p class="small" id="p1-source" style="margin-top: 14px;">Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.</p>
         </div>
         <div class="hero-card">
           <img id="proj-thumb" src="/assets/thumbs/1.svg" alt="Project thumbnail" style="width:100%; height:auto; border-radius: 16px;"/>
@@ -65,31 +66,140 @@
 
     <section class="grid" aria-label="Content">
       <div class="card">
-        <h2 id="sec-overview">Overview</h2>
-        <p class="muted" id="txt-overview">Write 3 to 6 sentences describing the problem and context.</p>
-      </div>
-      <div class="card">
-        <h2 id="sec-what">What I did</h2>
+        <h2 id="p1-setup-title">Study Setup</h2>
         <ul class="list">
-          <li>Method / algorithm / modeling</li>
-          <li>Implementation details (tools, code, workflow)</li>
-          <li>Evaluation (metrics, tests, validation)</li>
+          <li id="p1-setup-1">Controllers: Tube RMPC and PPO.</li>
+          <li id="p1-setup-2">Evaluation dataset size: N = 500 environments.</li>
+          <li id="p1-setup-3">Same worlds used for both controllers and both denial configurations.</li>
+          <li id="p1-setup-4">Conditions: nominal and GNSS-denied operation.</li>
         </ul>
       </div>
+
       <div class="card">
-        <h2 id="sec-results">Results</h2>
-        <p class="muted" id="txt-results">Add plots, images, or a short bullet list of outcomes.</p>
+        <h2 id="p1-key-title">Key Metric Definition</h2>
+        <p id="p1-key-text" class="muted" style="margin:0; line-height:1.65;">
+          Tracking quality is measured with Cross-Track Error (XTE), defined as the Euclidean distance from robot
+          position to the nearest reference waypoint with monotonic index progression along the path.
+        </p>
       </div>
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-raw-title">Raw Results (Thesis Table, N = 500)</h2>
+        <div class="table-wrap" style="margin-top:10px;">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th id="p1-col-metric">Metric</th>
+                <th id="p1-col-rmpc-nom">RMPC (nominal)</th>
+                <th id="p1-col-ppo-nom">PPO (nominal)</th>
+                <th id="p1-col-rmpc-den">RMPC (denial)</th>
+                <th id="p1-col-ppo-den">PPO (denial)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="p1-row-success">Success [%]</td>
+                <td>89.8</td>
+                <td>93.6</td>
+                <td>85.2</td>
+                <td>91.3</td>
+              </tr>
+              <tr>
+                <td id="p1-row-collision">Collision [%]</td>
+                <td>0.0</td>
+                <td>3.1</td>
+                <td>0.0</td>
+                <td>4.7</td>
+              </tr>
+              <tr>
+                <td id="p1-row-timeout">Timeout [%]</td>
+                <td>10.2</td>
+                <td>3.3</td>
+                <td>14.8</td>
+                <td>4.0</td>
+              </tr>
+              <tr>
+                <td id="p1-row-xtemean">XTE_nom / XTE_mean [m]</td>
+                <td>0.2664</td>
+                <td>0.7312</td>
+                <td>0.3245</td>
+                <td>0.8515</td>
+              </tr>
+              <tr>
+                <td id="p1-row-xtein">XTE_in [m]</td>
+                <td>--</td>
+                <td>--</td>
+                <td>0.3209</td>
+                <td>0.2099</td>
+              </tr>
+              <tr>
+                <td id="p1-row-xteout">XTE_out [m]</td>
+                <td>--</td>
+                <td>--</td>
+                <td>0.3276</td>
+                <td>0.8667</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="card">
-        <h2 id="sec-links">Links</h2>
-        <p class="muted" id="txt-links">Add: GitHub repo, PDF report, demo video, etc.</p>
+        <h2 id="p1-deg-title">Head-to-Head Degradation (Thesis Formulas)</h2>
+        <ul class="list">
+          <li id="p1-deg-1">RMPC P_deg-nom = ((0.3245 / 0.2664) - 1) x 100% = +21.81%.</li>
+          <li id="p1-deg-2">RMPC P_deg-InOut = ((0.3245 / 0.3276) - 1) x 100% = -0.95%.</li>
+          <li id="p1-deg-3">PPO P_deg-nom = ((0.8515 / 0.7312) - 1) x 100% = +16.45%.</li>
+          <li id="p1-deg-4">PPO P_deg-InOut = ((0.2099 / 0.8667) - 1) x 100% = -75.78%.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2 id="p1-work-title">Workload and Runtime Cost (Thesis Table)</h2>
+        <div class="table-wrap" style="margin-top:10px;">
+          <table class="results-table" style="min-width:560px;">
+            <thead>
+              <tr>
+                <th id="p1-work-col-metric">Metric</th>
+                <th id="p1-work-col-rmpc">Tube RMPC</th>
+                <th id="p1-work-col-ppo">PPO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="p1-work-row-impl">Implementation time [man-hours]</td>
+                <td>24</td>
+                <td>120</td>
+              </tr>
+              <tr>
+                <td id="p1-work-row-train">Training/tuning duration [h]</td>
+                <td>2</td>
+                <td>250</td>
+              </tr>
+              <tr>
+                <td id="p1-work-row-speed">Rollout speed [actions/s]</td>
+                <td>20.2</td>
+                <td>1270</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-conc-title">Thesis Conclusions (Condensed)</h2>
+        <ul class="list">
+          <li id="p1-conc-1">RMPC: strongest on safety/predictability, with conservative behavior and higher online compute cost.</li>
+          <li id="p1-conc-2">PPO: strongest on flexibility/adaptability and online speed, without formal stability/constraint guarantees.</li>
+          <li id="p1-conc-3">No universal winner: controller choice depends on system priorities and risk tolerance.</li>
+        </ul>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="inner">
-      <div class="small">© <span id="year"></span> Leon Górecki</div>
+      <div class="small">&copy; <span id="year"></span> Leon Gorecki</div>
     </div>
   </footer>
 </body>

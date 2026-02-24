@@ -3,17 +3,19 @@
     "id": 1,
     "slug": "project1",
     "title": {
-      "en": "Engineering thesis: RL vs Robust MPC — GNSS-denial robot",
-      "fr": "Mémoire : RL vs MPC robuste — robot en déni GNSS"
+      "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
+      "fr": "Memoire d'ingenieur : PPO vs MPC robuste sur un Roomba simule"
     },
     "description": {
-      "en": "Simulation, control comparison, metrics, plots. (Add link.)",
-      "fr": "Simulation, comparaison de contrôle, métriques, graphiques. (Ajoute un lien.)"
+      "en": "Controller benchmark in simulation: trajectory tracking, obstacle avoidance, and robustness under noise and disturbances.",
+      "fr": "Benchmark de controle en simulation : suivi de trajectoire, evitement d'obstacles et robustesse sous bruit et perturbations."
     },
     "tags": [
-      "Controls",
+      "Control",
+      "Reinforcement Learning",
+      "Robust MPC",
       "Python",
-      "Optimization"
+      "Simulation"
     ],
     "thumbnail": "/assets/thumbs/1.svg"
   }
