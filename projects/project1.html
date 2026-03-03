@@ -148,6 +148,102 @@
         </div>
       </div>
 
+      <!-- Results Visualised: full width -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-charts-title">Results Visualised</h2>
+        <div class="chart-grid-2">
+
+          <!-- Chart 1: Success Rate (400px = 100%) -->
+          <div class="chart-wrap">
+            <p class="chart-title" id="p1-chart1-title">Success Rate</p>
+            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Success rate comparison: RMPC vs PPO under nominal and GNSS-denied conditions">
+              <!-- Axis rail -->
+              <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <!-- Grid lines -->
+              <line x1="248" y1="6" x2="248" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="348" y1="6" x2="348" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="448" y1="6" x2="448" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <!-- Section labels -->
+              <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
+              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
+              <!-- Bar labels -->
+              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.9">RMPC</text>
+              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.9">PPO</text>
+              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.6">RMPC</text>
+              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.6">PPO</text>
+              <!-- RMPC Nominal 89.8%: 400×0.898=359 -->
+              <rect x="148" y="18" width="359" height="16" rx="4" fill="#38bdf8" fill-opacity="0.82"/>
+              <text x="513" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">89.8%</text>
+              <!-- PPO Nominal 93.6%: 400×0.936=374 -->
+              <rect x="148" y="38" width="374" height="16" rx="4" fill="#a78bfa" fill-opacity="0.82"/>
+              <text x="528" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">93.6%</text>
+              <!-- Group separator -->
+              <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+              <!-- RMPC Denied 85.2%: 400×0.852=341 -->
+              <rect x="148" y="80" width="341" height="16" rx="4" fill="#38bdf8" fill-opacity="0.45"/>
+              <text x="495" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">85.2%</text>
+              <!-- PPO Denied 91.3%: 400×0.913=365 -->
+              <rect x="148" y="100" width="365" height="16" rx="4" fill="#a78bfa" fill-opacity="0.45"/>
+              <text x="519" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">91.3%</text>
+              <!-- X-axis labels -->
+              <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0%</text>
+              <text x="248" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">25%</text>
+              <text x="348" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">50%</text>
+              <text x="448" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">75%</text>
+              <text x="548" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">100%</text>
+            </svg>
+          </div>
+
+          <!-- Chart 2: Mean Cross-Track Error (400px = 0.9 m) -->
+          <div class="chart-wrap">
+            <p class="chart-title" id="p1-chart2-title">Cross-Track Error — lower is better</p>
+            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Mean cross-track error comparison: RMPC vs PPO">
+              <!-- Axis rail -->
+              <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <!-- Grid: 0.9 m scale. 0.3 m=133px→x281, 0.6 m=267px→x415, 0.9 m=400px→x548 -->
+              <line x1="281" y1="6" x2="281" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="415" y1="6" x2="415" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <!-- Section labels -->
+              <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
+              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
+              <!-- Bar labels -->
+              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.9">RMPC</text>
+              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.9">PPO</text>
+              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.6">RMPC</text>
+              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.6">PPO</text>
+              <!-- RMPC Nominal 0.2664 m: 0.2664/0.9×400=118 -->
+              <rect x="148" y="18" width="118" height="16" rx="4" fill="#38bdf8" fill-opacity="0.82"/>
+              <text x="272" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.266 m</text>
+              <!-- PPO Nominal 0.7312 m: 0.7312/0.9×400=325 -->
+              <rect x="148" y="38" width="325" height="16" rx="4" fill="#a78bfa" fill-opacity="0.82"/>
+              <text x="479" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.731 m</text>
+              <!-- Group separator -->
+              <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+              <!-- RMPC Denied 0.3245 m: 0.3245/0.9×400=144 -->
+              <rect x="148" y="80" width="144" height="16" rx="4" fill="#38bdf8" fill-opacity="0.45"/>
+              <text x="298" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.325 m</text>
+              <!-- PPO Denied 0.8515 m: 0.8515/0.9×400=379 -->
+              <rect x="148" y="100" width="379" height="16" rx="4" fill="#a78bfa" fill-opacity="0.45"/>
+              <text x="533" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.852 m</text>
+              <!-- X-axis labels -->
+              <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0</text>
+              <text x="281" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.3 m</text>
+              <text x="415" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.6 m</text>
+              <text x="548" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.9 m</text>
+            </svg>
+          </div>
+
+        </div>
+        <!-- Shared legend -->
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span>RMPC</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#a78bfa;"></span>PPO</div>
+          <div class="legend-item" style="margin-left:auto;"><span>Full opacity = nominal &nbsp;·&nbsp; Faded = GNSS-denied</span></div>
+        </div>
+      </div>
+
       <div class="card">
         <h2 id="p1-deg-title">Head-to-Head Degradation (Thesis Formulas)</h2>
         <ul class="list">

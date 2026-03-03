@@ -273,7 +273,10 @@
           "RMPC: strongest on safety/predictability, with conservative behavior and higher online compute cost.",
         conc2:
           "PPO: strongest on flexibility/adaptability and online speed, without formal stability/constraint guarantees.",
-        conc3: "No universal winner: controller choice depends on system priorities and risk tolerance."
+        conc3: "No universal winner: controller choice depends on system priorities and risk tolerance.",
+        chartsTitle: "Results Visualised",
+        chart1Title: "Success Rate",
+        chart2Title: "Cross-Track Error — lower is better"
       },
       fr: {
         pdfBtn: "Ouvrir le PDF du memoire",
@@ -316,7 +319,10 @@
         conc2:
           "PPO : meilleur sur la flexibilite/adaptabilite et la vitesse en ligne, sans garanties formelles de stabilite/contraintes.",
         conc3:
-          "Pas de gagnant universel : le choix du controleur depend des priorites systeme et de la tolerance au risque."
+          "Pas de gagnant universel : le choix du controleur depend des priorites systeme et de la tolerance au risque.",
+        chartsTitle: "Résultats visualisés",
+        chart1Title: "Taux de succès",
+        chart2Title: "Erreur transversale — plus bas = mieux"
       }
     }[lang] || {};
 
@@ -357,7 +363,10 @@
       ["#p1-conc-title", copy.concTitle],
       ["#p1-conc-1", copy.conc1],
       ["#p1-conc-2", copy.conc2],
-      ["#p1-conc-3", copy.conc3]
+      ["#p1-conc-3", copy.conc3],
+      ["#p1-charts-title", copy.chartsTitle],
+      ["#p1-chart1-title", copy.chart1Title],
+      ["#p1-chart2-title", copy.chart2Title]
     ];
     map.forEach(([selector, text]) => {
       if (!text) return;
