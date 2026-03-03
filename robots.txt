@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /projects/_template.html
 
 Sitemap: https://www.leongorecki.eu/sitemap.xml
