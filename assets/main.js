@@ -219,6 +219,7 @@
 
     const copy = {
       en: {
+        pdfBtn: "Open thesis PDF",
         source: "Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.",
         setupTitle: "Study Setup",
         setup1: "Controllers: Tube RMPC and PPO.",
@@ -263,6 +264,7 @@
         chart2Title: "Cross-Track Error — lower is better"
       },
       fr: {
+        pdfBtn: "Ouvrir le PDF du mémoire",
         source: "Source : chapitres 5 et 6 du manuscrit LaTeX de la these.",
         setupTitle: "Cadre de l'etude",
         setup1: "Controleurs : Tube RMPC et PPO.",
@@ -310,6 +312,7 @@
     }[lang] || {};
 
     const map = [
+      ["#p1-pdf-btn", copy.pdfBtn],
       ["#p1-source", copy.source],
       ["#p1-setup-title", copy.setupTitle],
       ["#p1-setup-1", copy.setup1],
