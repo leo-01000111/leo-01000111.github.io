@@ -480,44 +480,48 @@
       border-bottom: 0;
     }
 
-    /* === TIMELINE === */
+    /* === TIMELINE (pseudo-element approach) === */
     .timeline{
-      display:flex;
-      flex-direction:column;
       margin-top:8px;
     }
     .tl-item{
-      display:flex;
-      gap:14px;
+      position:relative;
+      padding-left:22px;
+      padding-bottom:20px;
     }
-    .tl-rail{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      flex:0 0 auto;
-      width:14px;
+    .tl-item:last-child{
+      padding-bottom:0;
     }
-    .tl-node{
-      width:10px; height:10px;
-      border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 8px rgba(56,189,248,0.35);
-      flex:0 0 auto;
-      margin-top:5px;
-    }
-    .tl-connector{
+    /* Vertical connector line */
+    .tl-item:not(:last-child)::before{
+      content:'';
+      position:absolute;
+      left:4px;
+      top:16px;
+      bottom:0;
       width:1px;
       background:var(--line);
-      flex:1;
-      min-height:16px;
-      margin:4px 0;
     }
-    .tl-item:last-child .tl-connector{ display:none; }
-    .tl-body{
-      flex:1;
-      padding-bottom:18px;
+    /* Dot */
+    .tl-item::after{
+      content:'';
+      position:absolute;
+      left:0;
+      top:5px;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 8px rgba(56,189,248,0.40);
     }
-    .tl-item:last-child .tl-body{ padding-bottom:0; }
+    .tl-item[data-type="edu"]::after{
+      background:var(--accent2);
+      box-shadow:0 0 8px rgba(167,139,250,0.40);
+    }
+    .tl-item[data-type="other"]::after{
+      background:var(--faint);
+      box-shadow:none;
+    }
     .tl-period{
       font-size:0.78rem;
       font-weight:700;
@@ -525,7 +529,6 @@
       text-transform:uppercase;
       letter-spacing:0.10em;
       margin-bottom:3px;
-      margin-top:3px;
       line-height:1.2;
     }
     .tl-title{
