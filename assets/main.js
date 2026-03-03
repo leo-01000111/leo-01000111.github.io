@@ -146,7 +146,6 @@
         all: "All projects",
         title: "Projects",
         lead: "Engineering work in controls, simulation, and analysis.",
-        tip: "Tip: edit /projects/projects.json to add projects and /config.txt to choose featured ones.",
         noscript: "Enable JavaScript to see the projects list."
       },
       fr: {
@@ -154,7 +153,6 @@
         all: "Tous les projets",
         title: "Projets",
         lead: "Travaux d'ingenierie en commande, simulation et analyse.",
-        tip: "Astuce : modifie /projects/projects.json pour ajouter des projets et /config.txt pour choisir les projets en avant.",
         noscript: "Active JavaScript pour afficher la liste des projets."
       }
     }[lang] || {};
@@ -164,7 +162,6 @@
       ["[data-ui='allProjects']", copy.all],
       ["#projects-title", copy.title],
       ["#projects-lead", copy.lead],
-      ["#projects-tip", copy.tip],
       ["#projects-noscript", copy.noscript]
     ];
     map.forEach(([selector, text]) => {
@@ -182,28 +179,20 @@
         all: "All projects",
         back: "Back to projects",
         homeBtn: "Home",
-        note: "Add content sections below as you develop this project page.",
         overview: "Overview",
         what: "What I did",
         results: "Results",
-        links: "Links",
-        overviewText: "Write 3 to 6 sentences describing the problem and context.",
-        resultsText: "Add plots, images, or a short bullet list of outcomes.",
-        linksText: "Add: GitHub repo, PDF report, demo video, etc."
+        links: "Links"
       },
       fr: {
         home: "Accueil",
         all: "Tous les projets",
         back: "Retour aux projets",
         homeBtn: "Accueil",
-        note: "Ajoute les sections ci-dessous au fur et a mesure du developpement du projet.",
         overview: "Contexte",
         what: "Ce que j'ai fait",
-        results: "Resultats",
-        links: "Liens",
-        overviewText: "Ecris 3 a 6 phrases pour decrire le probleme et le contexte.",
-        resultsText: "Ajoute des graphes, images, ou une liste courte des resultats.",
-        linksText: "Ajoute : depot GitHub, rapport PDF, video de demo, etc."
+        results: "Résultats",
+        links: "Liens"
       }
     }[lang] || {};
 
@@ -212,14 +201,10 @@
       ["[data-ui='allProjects']", copy.all],
       ["#proj-back", copy.back],
       ["#proj-home", copy.homeBtn],
-      ["#proj-note", copy.note],
       ["#sec-overview", copy.overview],
       ["#sec-what", copy.what],
       ["#sec-results", copy.results],
-      ["#sec-links", copy.links],
-      ["#txt-overview", copy.overviewText],
-      ["#txt-results", copy.resultsText],
-      ["#txt-links", copy.linksText]
+      ["#sec-links", copy.links]
     ];
     map.forEach(([selector, text]) => {
       if (!text) return;
@@ -234,7 +219,6 @@
 
     const copy = {
       en: {
-        pdfBtn: "Open thesis PDF",
         source: "Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.",
         setupTitle: "Study Setup",
         setup1: "Controllers: Tube RMPC and PPO.",
@@ -279,7 +263,6 @@
         chart2Title: "Cross-Track Error — lower is better"
       },
       fr: {
-        pdfBtn: "Ouvrir le PDF du memoire",
         source: "Source : chapitres 5 et 6 du manuscrit LaTeX de la these.",
         setupTitle: "Cadre de l'etude",
         setup1: "Controleurs : Tube RMPC et PPO.",
@@ -327,7 +310,6 @@
     }[lang] || {};
 
     const map = [
-      ["#p1-pdf-btn", copy.pdfBtn],
       ["#p1-source", copy.source],
       ["#p1-setup-title", copy.setupTitle],
       ["#p1-setup-1", copy.setup1],
@@ -474,6 +456,10 @@
 
   const lang = _getLang();
   _syncLangUI(lang);
+  // Fix home link to respect current language
+  document.querySelectorAll("[data-ui='home']").forEach(function(a) {
+    a.setAttribute("href", lang === "fr" ? (_siteRoot() + "fr/") : _siteRoot());
+  });
   _initFeaturedProjects(lang);
   _initProjectsIndex(lang);
   _initProjectPage(lang);
