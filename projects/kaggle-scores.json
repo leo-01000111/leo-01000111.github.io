@@ -1,7 +1,7 @@
 {
   "username": "leo01000111",
   "profile_url": "https://www.kaggle.com/leo01000111",
-  "updated_at": "2026-03-04T16:18:21Z",
+  "updated_at": "2026-03-04T17:40:21Z",
   "competitions": [
     {
       "id": "house-prices-advanced-regression-techniques",
@@ -10,9 +10,20 @@
       "repo_url": "https://github.com/leo-01000111/kaggleHPR",
       "score_label": "RMSE",
       "lower_is_better": true,
-      "rank": 725,
+      "rank": 721,
       "score": 0.12472,
-      "total": 4102
+      "total": 4076
+    },
+    {
+      "id": "spaceship-titanic",
+      "title": "Spaceship Titanic",
+      "url": "https://www.kaggle.com/competitions/spaceship-titanic",
+      "repo_url": "",
+      "score_label": "Accuracy",
+      "lower_is_better": false,
+      "rank": 547,
+      "score": 0.80336,
+      "total": 1806
     }
   ]
 }
