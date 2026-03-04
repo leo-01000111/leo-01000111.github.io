@@ -3,28 +3,26 @@
 Fetch Kaggle leaderboard positions for tracked competitions
 and write them to projects/kaggle-scores.json.
 
-Strategy
-────────
-1. Call /competitions/submissions/list/{id} (authenticated) to get the
-   logged-in user's own submissions → best publicScore.
-2. Call /competitions/{id}/leaderboard/view (paginated) and count how
-   many teams beat that score to derive the rank.
-   This avoids any dependency on matching team display names.
+Uses the official `kaggle` Python package (credentials read from
+~/.kaggle/kaggle.json, which the workflow writes from GitHub Secrets).
 
 Run via GitHub Actions (see .github/workflows/update-kaggle.yml).
-Requires env vars: KAGGLE_USERNAME, KAGGLE_KEY
 """
 
+import csv
+import io
 import json
 import os
 import sys
+import zipfile
+import tempfile
 from datetime import datetime, timezone
-import requests
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
 PORTFOLIO_USERNAME = "leo01000111"
 
+# Add entries here every time you join a new Kaggle competition.
 TRACKED_COMPETITIONS = [
     {
         "id": "house-prices-advanced-regression-techniques",
@@ -35,156 +33,121 @@ TRACKED_COMPETITIONS = [
     },
 ]
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# ── Auth ──────────────────────────────────────────────────────────────────────
 
-def get_best_score(comp_id, lower_is_better, auth):
-    """
-    Return the user's best public score for this competition by fetching
-    their own submission list (no name-matching needed).
-    """
-    url = f"https://www.kaggle.com/api/v1/competitions/submissions/list/{comp_id}"
+def get_api():
     try:
-        resp = requests.get(url, params={"page": 1, "pageSize": 100},
-                            auth=auth, timeout=30)
-    except requests.RequestException as e:
-        print(f"  submissions fetch error: {e}", flush=True)
+        from kaggle.api.kaggle_api_extended import KaggleApiExtended
+        api = KaggleApiExtended()
+        api.authenticate()
+        print("  Kaggle authentication OK", flush=True)
+        return api
+    except Exception as e:
+        sys.exit(f"Kaggle auth failed: {e}")
+
+# ── Score helpers ─────────────────────────────────────────────────────────────
+
+def get_best_submission_score(api, comp_id, lower_is_better):
+    """Return the user's best public score from their own submissions."""
+    try:
+        subs = api.competitions_submissions_list(comp_id, page_size=100)
+    except Exception as e:
+        print(f"  submissions error: {e}", flush=True)
         return None
 
-    print(f"  submissions HTTP {resp.status_code}", flush=True)
-    if not resp.ok:
-        print(f"  body: {resp.text[:400]}", flush=True)
-        return None
+    print(f"  Got {len(subs)} submission(s)", flush=True)
+    if subs:
+        # Print attribute names from first submission to help debugging
+        first = subs[0]
+        attrs = {a: getattr(first, a, None)
+                 for a in ('public_score', 'publicScore', 'score', 'status')
+                 if hasattr(first, a)}
+        print(f"  First submission attrs: {attrs}", flush=True)
 
-    data = resp.json()
+    best = None
+    for sub in subs:
+        raw = (getattr(sub, 'public_score', None)
+               or getattr(sub, 'publicScore', None)
+               or getattr(sub, 'score', None))
+        if raw is None or str(raw).strip() in ('', 'None', 'N/A', 'null'):
+            continue
+        try:
+            s = float(str(raw))
+        except (ValueError, TypeError):
+            continue
+        if (best is None
+                or (lower_is_better and s < best)
+                or (not lower_is_better and s > best)):
+            best = s
 
-    # Debug: show raw structure of first entry
-    if isinstance(data, list) and data:
-        print(f"  first submission keys: {list(data[0].keys())}", flush=True)
-        print(f"  first submission sample: {json.dumps(data[0], default=str)[:300]}", flush=True)
-    elif isinstance(data, dict):
-        print(f"  submissions response (dict) keys: {list(data.keys())}", flush=True)
-        print(f"  sample: {json.dumps(data, default=str)[:300]}", flush=True)
-        data = data.get("submissions") or data.get("results") or []
-
-    if not data:
-        print("  No submissions found.", flush=True)
-        return None
-
-    scores = []
-    for sub in (data if isinstance(data, list) else []):
-        raw = sub.get("publicScore") or sub.get("public_score") or sub.get("score")
-        if raw is not None:
-            try:
-                scores.append(float(raw))
-            except (ValueError, TypeError):
-                pass
-
-    if not scores:
-        print("  No scored submissions found.", flush=True)
-        return None
-
-    best = min(scores) if lower_is_better else max(scores)
-    print(f"  Best score: {best} (from {len(scores)} scored submissions)", flush=True)
     return best
 
 
-def get_leaderboard_rank(comp_id, best_score, lower_is_better, auth):
+def get_rank_from_leaderboard(api, comp_id, best_score, lower_is_better):
     """
-    Download the full leaderboard and count teams that beat best_score.
-    rank = (number of teams with strictly better score) + 1
-    Also returns total team count.
+    Download the full leaderboard CSV (as ZIP) and derive rank by
+    counting how many teams scored strictly better than best_score.
     """
-    url = f"https://www.kaggle.com/api/v1/competitions/{comp_id}/leaderboard/view"
-    page, page_size = 1, 1000
-    all_scores = []
-    total_from_api = None
-
-    while True:
+    with tempfile.TemporaryDirectory() as tmpdir:
         try:
-            resp = requests.get(url, params={"page": page, "pageSize": page_size},
-                                auth=auth, timeout=30)
-        except requests.RequestException as e:
-            print(f"  leaderboard fetch error p{page}: {e}", flush=True)
-            break
+            api.competition_leaderboard_download(comp_id, path=tmpdir, quiet=True)
+        except Exception as e:
+            print(f"  leaderboard download error: {e}", flush=True)
+            return None, None
 
-        if not resp.ok:
-            print(f"  leaderboard HTTP {resp.status_code}: {resp.text[:200]}", flush=True)
-            break
+        files = os.listdir(tmpdir)
+        print(f"  Downloaded files: {files}", flush=True)
 
-        data = resp.json()
-
-        # Debug raw structure on page 1
-        if page == 1:
-            if isinstance(data, dict):
-                print(f"  leaderboard top-level keys: {list(data.keys())}", flush=True)
-                total_from_api = (data.get("totalEntries")
-                                  or data.get("totalItems")
-                                  or data.get("total"))
-                subs = (data.get("submissions")
-                        or data.get("results")
-                        or data.get("entries") or [])
-            else:
-                subs = data if isinstance(data, list) else []
-
-            if subs:
-                print(f"  first entry keys: {list(subs[0].keys())}", flush=True)
-                print(f"  first 3 entries: {json.dumps(subs[:3], default=str)[:400]}", flush=True)
-        else:
-            if isinstance(data, dict):
-                subs = (data.get("submissions")
-                        or data.get("results")
-                        or data.get("entries") or [])
-            else:
-                subs = data if isinstance(data, list) else []
-
-        for entry in subs:
-            raw = (entry.get("score") or entry.get("publicScore")
-                   or entry.get("public_score"))
-            if raw is not None:
-                try:
-                    all_scores.append(float(raw))
-                except (ValueError, TypeError):
-                    pass
-
-        if len(subs) < page_size:
-            break
-        page += 1
+        all_scores = []
+        for fname in files:
+            fpath = os.path.join(tmpdir, fname)
+            try:
+                if fname.endswith('.zip'):
+                    with zipfile.ZipFile(fpath) as z:
+                        print(f"  ZIP contents: {z.namelist()}", flush=True)
+                        for zname in z.namelist():
+                            with z.open(zname) as f:
+                                content = f.read().decode('utf-8')
+                            reader = csv.DictReader(io.StringIO(content))
+                            print(f"  CSV columns: {reader.fieldnames}", flush=True)
+                            for row in reader:
+                                val = row.get('Score') or row.get('score')
+                                if val:
+                                    try:
+                                        all_scores.append(float(val))
+                                    except (ValueError, TypeError):
+                                        pass
+                elif fname.endswith('.csv'):
+                    with open(fpath) as f:
+                        reader = csv.DictReader(f)
+                        print(f"  CSV columns: {reader.fieldnames}", flush=True)
+                        for row in reader:
+                            val = row.get('Score') or row.get('score')
+                            if val:
+                                try:
+                                    all_scores.append(float(val))
+                                except (ValueError, TypeError):
+                                    pass
+            except Exception as e:
+                print(f"  Error reading {fname}: {e}", flush=True)
 
     if not all_scores:
+        print("  No scores parsed from leaderboard.", flush=True)
         return None, None
 
-    total = total_from_api or len(all_scores)
+    total = len(all_scores)
     if lower_is_better:
         rank = sum(1 for s in all_scores if s < best_score) + 1
     else:
         rank = sum(1 for s in all_scores if s > best_score) + 1
 
-    return int(rank), int(total)
+    return rank, total
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    kaggle_user = os.environ.get("KAGGLE_USERNAME", "").strip()
-    kaggle_key  = os.environ.get("KAGGLE_KEY",  "").strip()
-
-    if not kaggle_user or not kaggle_key:
-        sys.exit("ERROR: Set KAGGLE_USERNAME and KAGGLE_KEY environment variables.")
-
-    # Sanity-check: credentials should not contain braces (i.e. not raw JSON)
-    for name, val in [("KAGGLE_USERNAME", kaggle_user), ("KAGGLE_KEY", kaggle_key)]:
-        if "{" in val or "}" in val or '"' in val:
-            sys.exit(
-                f"ERROR: {name} looks like a JSON blob, not a plain value.\n"
-                f"  Open your kaggle.json and paste ONLY the value, not the whole file.\n"
-                f"  kaggle.json format: {{\"username\":\"...\",\"key\":\"...\"}}"
-            )
-    print(f"  KAGGLE_USERNAME set: {'yes' if kaggle_user else 'NO'} "
-          f"(length {len(kaggle_user)})", flush=True)
-    print(f"  KAGGLE_KEY set:      {'yes' if kaggle_key else 'NO'} "
-          f"(length {len(kaggle_key)})", flush=True)
-
-    auth = (kaggle_user, kaggle_key)
+    api = get_api()
 
     results = []
     for comp in TRACKED_COMPETITIONS:
@@ -192,17 +155,18 @@ def main():
         lower   = comp["lower_is_better"]
         print(f"\n── {comp_id} ──", flush=True)
 
-        best_score = get_best_score(comp_id, lower, auth)
+        best_score = get_best_submission_score(api, comp_id, lower)
         if best_score is None:
-            print("  Skipping — no score obtained.", flush=True)
+            print("  No score found — skipping.", flush=True)
             continue
+        print(f"  Best score: {best_score}", flush=True)
 
-        rank, total = get_leaderboard_rank(comp_id, best_score, lower, auth)
+        rank, total = get_rank_from_leaderboard(api, comp_id, best_score, lower)
         if rank is None:
-            print("  Skipping — could not build leaderboard.", flush=True)
+            print("  Could not determine rank — skipping.", flush=True)
             continue
 
-        print(f"  → Rank {rank} / {total}  |  Score {best_score}", flush=True)
+        print(f"  → Rank {rank} / {total}", flush=True)
         results.append({
             "id":              comp_id,
             "title":           comp["title"],
@@ -223,9 +187,7 @@ def main():
 
     out_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        "..",
-        "projects",
-        "kaggle-scores.json",
+        "..", "projects", "kaggle-scores.json",
     )
     with open(out_path, "w") as f:
         json.dump(output, f, indent=2)
