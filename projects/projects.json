@@ -17,7 +17,8 @@
       "Python",
       "Simulation"
     ],
-    "thumbnail": "/assets/thumbs/1.svg"
+    "thumbnail": "/assets/thumbs/robotDiagramReal.png",
+    "thumb_invert": true
   },
   {
     "id": 2,

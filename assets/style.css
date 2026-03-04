@@ -415,6 +415,9 @@
       object-fit:cover;
       display:block;
     }
+    .proj-thumb img.thumb-invert{
+      filter: invert(1);
+    }
     @media (max-width: 520px){
       .proj-thumb{ width: 92px; }
     }

@@ -134,7 +134,7 @@
         <div class="proj-top">
           <div class="proj-media">
             <a class="proj-thumb" href="${href}" aria-label="${openLabel}: ${_escapeHtml(title)}">
-              <img src="${thumb}" alt="${_escapeHtml(_projectThumbAlt(title, lang))}" loading="lazy" />
+              <img src="${thumb}" alt="${_escapeHtml(_projectThumbAlt(title, lang))}" loading="lazy"${p.thumb_invert ? ' class="thumb-invert"' : ''} />
             </a>
             <div>
               <h3>${_escapeHtml(title)}</h3>
@@ -455,6 +455,7 @@
       if (img) {
         img.src = thumb;
         img.alt = _projectThumbAlt(title, lang);
+        img.classList.toggle("thumb-invert", !!p.thumb_invert);
       }
       if (meta) meta.innerHTML = tags.map((t) => `<span class="chip">${_escapeHtml(t)}</span>`).join("");
 
