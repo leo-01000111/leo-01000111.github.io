@@ -156,7 +156,9 @@
     function formatDate(iso) {
       if (!iso) return "—";
       try {
-        return new Date(iso).toLocaleDateString(undefined, {year:"numeric",month:"short",day:"numeric"});
+        var d = new Date(iso);
+        return d.toLocaleDateString(undefined, {year:"numeric",month:"short",day:"numeric"})
+          + " " + d.toLocaleTimeString(undefined, {hour:"2-digit",minute:"2-digit"});
       } catch(e) { return iso.slice(0,10); }
     }
 
@@ -175,8 +177,8 @@
         var total = comp.total != null ? Number(comp.total) : null;
         var score = comp.score != null ? comp.score : null;
         var pct   = (rank && total) ? Math.round((rank / total) * 100) : null;
-        // Bar fills from left = how far down the leaderboard (0% = rank 1, 100% = last)
-        var barW  = pct != null ? pct : 50;
+        // Bar fills from left = how high up the leaderboard (100% = rank 1, 0% = last)
+        var barW  = pct != null ? (100 - pct) : 50;
 
         html += '<div class="kaggle-card reveal">';
         html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">';
