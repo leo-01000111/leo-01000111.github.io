@@ -415,8 +415,12 @@
       object-fit:cover;
       display:block;
     }
-    .proj-thumb img.thumb-invert{
-      filter: invert(1);
+    .proj-thumb.thumb-on-white{
+      background: #f5f5f5;
+    }
+    .proj-thumb.thumb-on-white img{
+      object-fit: contain;
+      padding: 6px;
     }
     @media (max-width: 520px){
       .proj-thumb{ width: 92px; }
