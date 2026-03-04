@@ -106,6 +106,10 @@
 <span class="tag"><strong>Docs :</strong> LaTeX, rédaction technique</span>
 <span class="tag"><strong>Outils :</strong> Git, GitHub</span>
 </div>
+<div id="gh-contrib" style="margin-top:18px;">
+  <p class="small" id="gh-label" style="margin:0 0 8px;opacity:0.5;">Activité GitHub</p>
+  <div id="gh-grid" class="gh-grid"></div>
+</div>
 </div>
 <div class="card" id="projects">
 <h2>Projets sélectionnés</h2>
@@ -155,5 +159,32 @@
 </main>
 </div>
 <script defer="" src="/assets/main.js"></script>
+<script>
+(function() {
+  var USER = "leo-01000111";
+  var COLORS = ["rgba(255,255,255,0.07)", "#0e4429", "#006d32", "#26a641", "#39d353"];
+  fetch("https://github-contributions-api.jogruber.de/v4/" + USER + "?y=last")
+    .then(function(r) { if (!r.ok) throw r; return r.json(); })
+    .then(function(data) {
+      var grid = document.getElementById("gh-grid");
+      if (!grid) return;
+      var contribs = data.contributions || [];
+      var total = contribs.reduce(function(s, d) { return s + d.count; }, 0);
+      var label = document.getElementById("gh-label");
+      if (label) label.textContent = total.toLocaleString() + " contributions cette année";
+      contribs.forEach(function(day) {
+        var cell = document.createElement("div");
+        cell.className = "gh-cell";
+        cell.style.background = COLORS[Math.min(day.level, 4)] || COLORS[0];
+        cell.title = day.date + " — " + day.count + " contribution" + (day.count > 1 ? "s" : "");
+        grid.appendChild(cell);
+      });
+    })
+    .catch(function() {
+      var el = document.getElementById("gh-contrib");
+      if (el) el.remove();
+    });
+})();
+</script>
 </body>
 </html>
