@@ -52,12 +52,12 @@
 
   // projects system (featured + listing + per-project pages)
   async function _fetchText(url) {
-    const r = await fetch(url);
+    const r = await fetch(url + "?t=" + Date.now());
     if (!r.ok) throw new Error(`fetch failed: ${url}`);
     return r.text();
   }
   async function _fetchJSON(url) {
-    const r = await fetch(url);
+    const r = await fetch(url + "?t=" + Date.now());
     if (!r.ok) throw new Error(`fetch failed: ${url}`);
     return r.json();
   }
