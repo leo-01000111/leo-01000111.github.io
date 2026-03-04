@@ -34,6 +34,14 @@ TRACKED_COMPETITIONS = [
         "score_label": "RMSE",
         "lower_is_better": True,
     },
+    {
+        "id": "spaceship-titanic",
+        "title": "Spaceship Titanic",
+        "url": "https://www.kaggle.com/competitions/spaceship-titanic",
+        "repo_url": "",
+        "score_label": "Accuracy",
+        "lower_is_better": False,
+    },
 ]
 
 # ── CLI helper ────────────────────────────────────────────────────────────────
