@@ -171,6 +171,19 @@ def main():
     if not kaggle_user or not kaggle_key:
         sys.exit("ERROR: Set KAGGLE_USERNAME and KAGGLE_KEY environment variables.")
 
+    # Sanity-check: credentials should not contain braces (i.e. not raw JSON)
+    for name, val in [("KAGGLE_USERNAME", kaggle_user), ("KAGGLE_KEY", kaggle_key)]:
+        if "{" in val or "}" in val or '"' in val:
+            sys.exit(
+                f"ERROR: {name} looks like a JSON blob, not a plain value.\n"
+                f"  Open your kaggle.json and paste ONLY the value, not the whole file.\n"
+                f"  kaggle.json format: {{\"username\":\"...\",\"key\":\"...\"}}"
+            )
+    print(f"  KAGGLE_USERNAME set: {'yes' if kaggle_user else 'NO'} "
+          f"(length {len(kaggle_user)})", flush=True)
+    print(f"  KAGGLE_KEY set:      {'yes' if kaggle_key else 'NO'} "
+          f"(length {len(kaggle_key)})", flush=True)
+
     auth = (kaggle_user, kaggle_key)
 
     results = []
