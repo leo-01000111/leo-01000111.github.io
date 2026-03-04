@@ -106,7 +106,7 @@
   <script>
   // === Kaggle board renderer ===
   (function() {
-    var SCORES_URL = "/projects/kaggle-scores.json";
+    var SCORES_URL = "/projects/kaggle-scores.json?t=" + Date.now();
 
     var copy = {
       en: {
