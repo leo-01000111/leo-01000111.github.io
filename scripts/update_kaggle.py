@@ -37,10 +37,11 @@ TRACKED_COMPETITIONS = [
 
 def get_api():
     try:
-        import kaggle
-        kaggle.api.authenticate()
+        from kaggle.api.kaggle_api_extended import KaggleApiExtended
+        api = KaggleApiExtended()
+        api.authenticate()
         print("  Kaggle authentication OK", flush=True)
-        return kaggle.api
+        return api
     except Exception as e:
         sys.exit(f"Kaggle auth failed: {e}")
 
