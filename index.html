@@ -166,16 +166,21 @@
 (function() {
   var USER = "leo-01000111";
   var COLORS = ["rgba(255,255,255,0.07)", "#0e4429", "#006d32", "#26a641", "#39d353"];
+  var CELL = 11, GAP = 3; // px
   fetch("https://github-contributions-api.jogruber.de/v4/" + USER + "?y=last")
     .then(function(r) { if (!r.ok) throw r; return r.json(); })
     .then(function(data) {
       var grid = document.getElementById("gh-grid");
-      if (!grid) return;
+      var wrap = document.querySelector(".gh-grid-wrap");
+      if (!grid || !wrap) return;
       var contribs = data.contributions || [];
       var total = contribs.reduce(function(s, d) { return s + d.count; }, 0);
       var label = document.getElementById("gh-label");
       if (label) label.textContent = total.toLocaleString() + " contributions in the last year";
-      contribs.forEach(function(day) {
+      // Only render as many weeks as fit the container — no overflow, no scrollbar
+      var weeks = Math.floor(wrap.offsetWidth / (CELL + GAP));
+      var slice = contribs.slice(-(weeks * 7));
+      slice.forEach(function(day) {
         var cell = document.createElement("div");
         cell.className = "gh-cell";
         cell.style.background = COLORS[Math.min(day.level, 4)] || COLORS[0];
