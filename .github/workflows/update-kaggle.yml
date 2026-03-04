@@ -23,7 +23,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install "kaggle==1.5.16"
+        run: pip install kaggle
 
       - name: Configure Kaggle credentials
         env:

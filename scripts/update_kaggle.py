@@ -3,8 +3,9 @@
 Fetch Kaggle leaderboard positions for tracked competitions
 and write them to projects/kaggle-scores.json.
 
-Uses the official `kaggle` Python package (credentials read from
-~/.kaggle/kaggle.json, which the workflow writes from GitHub Secrets).
+Uses the kaggle CLI (installed via pip install kaggle).
+Credentials are read from ~/.kaggle/kaggle.json, which the
+workflow writes from GitHub Secrets.
 
 Run via GitHub Actions (see .github/workflows/update-kaggle.yml).
 """
@@ -14,6 +15,7 @@ import io
 import json
 import os
 import sys
+import subprocess
 import zipfile
 import tempfile
 from datetime import datetime, timezone
@@ -33,43 +35,38 @@ TRACKED_COMPETITIONS = [
     },
 ]
 
-# ── Auth ──────────────────────────────────────────────────────────────────────
+# ── CLI helper ────────────────────────────────────────────────────────────────
 
-def get_api():
-    try:
-        from kaggle.api.kaggle_api_extended import KaggleApiExtended
-        api = KaggleApiExtended()
-        api.authenticate()
-        print("  Kaggle authentication OK", flush=True)
-        return api
-    except Exception as e:
-        sys.exit(f"Kaggle auth failed: {e}")
+def kaggle_cli(*args):
+    """Run a kaggle CLI command and return stdout as a string."""
+    cmd = ["kaggle"] + list(args)
+    print(f"  $ {' '.join(cmd)}", flush=True)
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or f"exit code {result.returncode}")
+    return result.stdout
 
 # ── Score helpers ─────────────────────────────────────────────────────────────
 
-def get_best_submission_score(api, comp_id, lower_is_better):
+def get_best_submission_score(comp_id, lower_is_better):
     """Return the user's best public score from their own submissions."""
     try:
-        subs = api.competitions_submissions_list(comp_id, page_size=100)
+        stdout = kaggle_cli("competitions", "submissions",
+                            "-c", comp_id, "--csv", "-q")
     except Exception as e:
         print(f"  submissions error: {e}", flush=True)
         return None
 
-    print(f"  Got {len(subs)} submission(s)", flush=True)
-    if subs:
-        # Print attribute names from first submission to help debugging
-        first = subs[0]
-        attrs = {a: getattr(first, a, None)
-                 for a in ('public_score', 'publicScore', 'score', 'status')
-                 if hasattr(first, a)}
-        print(f"  First submission attrs: {attrs}", flush=True)
+    reader = csv.DictReader(io.StringIO(stdout))
+    print(f"  CSV columns: {reader.fieldnames}", flush=True)
 
     best = None
-    for sub in subs:
-        raw = (getattr(sub, 'public_score', None)
-               or getattr(sub, 'publicScore', None)
-               or getattr(sub, 'score', None))
-        if raw is None or str(raw).strip() in ('', 'None', 'N/A', 'null'):
+    count = 0
+    for row in reader:
+        count += 1
+        raw = (row.get("publicScore") or row.get("public_score")
+               or row.get("score") or row.get("Score"))
+        if not raw or str(raw).strip() in ("", "None", "N/A", "null"):
             continue
         try:
             s = float(str(raw))
@@ -80,19 +77,18 @@ def get_best_submission_score(api, comp_id, lower_is_better):
                 or (not lower_is_better and s > best)):
             best = s
 
+    print(f"  Parsed {count} submission(s), best={best}", flush=True)
     return best
 
 
-def get_rank_from_leaderboard(api, comp_id, best_score, lower_is_better):
-    """
-    Download the full leaderboard CSV (as ZIP) and derive rank by
-    counting how many teams scored strictly better than best_score.
-    """
+def get_rank_from_leaderboard(comp_id, best_score, lower_is_better):
+    """Download the full leaderboard and derive rank."""
     with tempfile.TemporaryDirectory() as tmpdir:
         try:
-            api.competition_leaderboard_download(comp_id, path=tmpdir, quiet=True)
+            kaggle_cli("competitions", "leaderboard",
+                       "-c", comp_id, "--download", "-p", tmpdir, "-q")
         except Exception as e:
-            print(f"  leaderboard download error: {e}", flush=True)
+            print(f"  leaderboard error: {e}", flush=True)
             return None, None
 
         files = os.listdir(tmpdir)
@@ -102,27 +98,27 @@ def get_rank_from_leaderboard(api, comp_id, best_score, lower_is_better):
         for fname in files:
             fpath = os.path.join(tmpdir, fname)
             try:
-                if fname.endswith('.zip'):
+                if fname.endswith(".zip"):
                     with zipfile.ZipFile(fpath) as z:
                         print(f"  ZIP contents: {z.namelist()}", flush=True)
                         for zname in z.namelist():
                             with z.open(zname) as f:
-                                content = f.read().decode('utf-8')
+                                content = f.read().decode("utf-8")
                             reader = csv.DictReader(io.StringIO(content))
                             print(f"  CSV columns: {reader.fieldnames}", flush=True)
                             for row in reader:
-                                val = row.get('Score') or row.get('score')
+                                val = row.get("Score") or row.get("score")
                                 if val:
                                     try:
                                         all_scores.append(float(val))
                                     except (ValueError, TypeError):
                                         pass
-                elif fname.endswith('.csv'):
+                elif fname.endswith(".csv"):
                     with open(fpath) as f:
                         reader = csv.DictReader(f)
                         print(f"  CSV columns: {reader.fieldnames}", flush=True)
                         for row in reader:
-                            val = row.get('Score') or row.get('score')
+                            val = row.get("Score") or row.get("score")
                             if val:
                                 try:
                                     all_scores.append(float(val))
@@ -147,7 +143,12 @@ def get_rank_from_leaderboard(api, comp_id, best_score, lower_is_better):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    api = get_api()
+    # Sanity-check: confirm the CLI is available and credentials work
+    try:
+        ver = kaggle_cli("--version").strip()
+        print(f"  kaggle CLI: {ver}", flush=True)
+    except Exception as e:
+        sys.exit(f"kaggle CLI not available: {e}")
 
     results = []
     for comp in TRACKED_COMPETITIONS:
@@ -155,13 +156,13 @@ def main():
         lower   = comp["lower_is_better"]
         print(f"\n── {comp_id} ──", flush=True)
 
-        best_score = get_best_submission_score(api, comp_id, lower)
+        best_score = get_best_submission_score(comp_id, lower)
         if best_score is None:
             print("  No score found — skipping.", flush=True)
             continue
         print(f"  Best score: {best_score}", flush=True)
 
-        rank, total = get_rank_from_leaderboard(api, comp_id, best_score, lower)
+        rank, total = get_rank_from_leaderboard(comp_id, best_score, lower)
         if rank is None:
             print("  Could not determine rank — skipping.", flush=True)
             continue
