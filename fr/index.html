@@ -177,9 +177,10 @@
       var total = contribs.reduce(function(s, d) { return s + d.count; }, 0);
       var label = document.getElementById("gh-label");
       if (label) label.textContent = total.toLocaleString() + " contributions cette année";
-      // Only render as many weeks as fit the container — no overflow, no scrollbar
+      // Pad the end with empty future-day cells to complete the current week column
+      var futureDays = 6 - new Date().getDay(); // 0=Sun … 6=Sat
       var weeks = Math.floor(wrap.offsetWidth / (CELL + GAP));
-      var slice = contribs.slice(-(weeks * 7));
+      var slice = contribs.slice(-(weeks * 7 - futureDays));
       slice.forEach(function(day) {
         var cell = document.createElement("div");
         cell.className = "gh-cell";
@@ -187,6 +188,12 @@
         cell.title = day.date + " — " + day.count + " contribution" + (day.count > 1 ? "s" : "");
         grid.appendChild(cell);
       });
+      for (var i = 0; i < futureDays; i++) {
+        var empty = document.createElement("div");
+        empty.className = "gh-cell";
+        empty.style.background = COLORS[0];
+        grid.appendChild(empty);
+      }
     })
     .catch(function() {
       var el = document.getElementById("gh-contrib");
