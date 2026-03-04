@@ -423,14 +423,19 @@
       padding: 6px;
     }
 /* ── GitHub contribution graph ─────────────────────────────────────── */
+.gh-grid-wrap{
+  position:relative;
+  overflow:hidden;
+  height:95px; /* 7×11px cells + 6×3px gaps */
+}
 .gh-grid{
+  position:absolute;
+  right:0;
   display:grid;
   grid-template-rows:repeat(7,11px);
   grid-auto-flow:column;
   grid-auto-columns:11px;
   gap:3px;
-  overflow-x:auto;
-  padding-bottom:4px;
 }
 .gh-cell{
   border-radius:2px;
