@@ -112,6 +112,16 @@
   function _projectThumbAlt(title, lang) {
     return lang === "fr" ? `Miniature du projet : ${title}` : `Project thumbnail: ${title}`;
   }
+  function _skeletonCard() {
+    return `<div class="skel-proj" aria-hidden="true" role="presentation">
+      <div class="skel" style="width:120px;height:68px;border-radius:12px;flex-shrink:0;"></div>
+      <div class="skel-body">
+        <div class="skel" style="height:17px;width:58%;"></div>
+        <div class="skel" style="height:13px;width:88%;"></div>
+        <div class="skel" style="height:13px;width:70%;"></div>
+      </div>
+    </div>`;
+  }
   function _renderProjectCard(p, lang) {
     const title = p?.title?.[lang] || p?.title?.en || "";
     const desc = p?.description?.[lang] || p?.description?.en || "";
@@ -379,6 +389,7 @@
     const host = document.getElementById("featured-projects");
     if (!host) return;
 
+    host.innerHTML = _skeletonCard();
     try {
       const [cfgText, all] = await Promise.all([
         _fetchText(_joinRoot("config.txt")),
@@ -403,6 +414,7 @@
     if (!grid) return;
 
     _setProjectsPageCopy(lang);
+    grid.innerHTML = [1,2].map(_skeletonCard).join("");
     try {
       const all = await _fetchJSON(_joinRoot("projects/projects.json"));
       if (!Array.isArray(all) || !all.length) {
@@ -457,6 +469,40 @@
     }
   }
 
+  // Scroll-reveal via IntersectionObserver
+  function _initReveal() {
+    if (!("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.10, rootMargin: "0px 0px -20px 0px" });
+
+    // Wait one frame so we know which elements are already in viewport
+    requestAnimationFrame(function() {
+      var vh = window.innerHeight;
+      document.querySelectorAll(".card, .tl-item").forEach(function(el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top >= vh) {
+          // Below fold — animate it in
+          el.classList.add("reveal");
+          io.observe(el);
+        }
+        // Already visible on load — no animation, avoid flash
+      });
+      // Stagger timeline items
+      var tlItems = document.querySelectorAll(".tl-item.reveal");
+      tlItems.forEach(function(el, i) {
+        el.style.transitionDelay = (i * 90) + "ms";
+      });
+    });
+  }
+
   const lang = _getLang();
   _syncLangUI(lang);
   // Fix home link to respect current language
@@ -466,4 +512,5 @@
   _initFeaturedProjects(lang);
   _initProjectsIndex(lang);
   _initProjectPage(lang);
+  _initReveal();
 })();

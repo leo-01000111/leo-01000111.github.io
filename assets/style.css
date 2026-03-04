@@ -686,3 +686,92 @@
       .mark::after{ animation: none !important; }
       .glow{ display:none !important; }
     }
+
+    /* === SCROLL REVEAL === */
+    .reveal{
+      opacity:0;
+      transform:translateY(18px);
+      transition:opacity 0.45s ease, transform 0.45s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:none;
+    }
+    @media (prefers-reduced-motion:reduce){
+      .reveal, .reveal.visible{
+        opacity:1; transform:none; transition:none;
+      }
+    }
+
+    /* === PROJECT CARD HOVER === */
+    .proj{
+      transition: border-color 0.18s, background 0.18s,
+                  transform 0.18s, box-shadow 0.18s;
+    }
+    @media (hover:hover){
+      .proj:hover{
+        border-color: rgba(56,189,248,0.32);
+        background: rgba(56,189,248,0.05);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(0,0,0,0.42);
+      }
+      .proj:hover .proj-thumb img{
+        transform: scale(1.06);
+      }
+    }
+    .proj-thumb img{
+      transition: transform 0.28s ease;
+    }
+
+    /* === LOADING SKELETON === */
+    @keyframes skel-shimmer{
+      0%,100%{ opacity:0.45; }
+      50%{ opacity:0.85; }
+    }
+    .skel{
+      background:rgba(255,255,255,0.07);
+      border-radius:6px;
+      animation:skel-shimmer 1.5s ease-in-out infinite;
+    }
+    .skel-proj{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,0.10);
+      border-radius:14px;
+      padding:12px;
+    }
+    .skel-body{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:9px;
+      padding-top:2px;
+    }
+    @media (prefers-reduced-motion:reduce){
+      .skel{ animation:none; opacity:0.6; }
+    }
+
+    /* === MOBILE NAV (horizontal scroll) === */
+    @media (max-width:600px){
+      header, header > .wrap{
+        flex-wrap:wrap;
+        gap:8px;
+      }
+      .brand{ min-width:0; }
+      nav{
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        width:100%;
+        padding-bottom:2px;
+        scrollbar-width:none;
+      }
+      nav::-webkit-scrollbar{ display:none; }
+      .pill{
+        flex-shrink:0;
+        white-space:nowrap;
+        padding:7px 10px;
+        font-size:0.88rem;
+      }
+    }
