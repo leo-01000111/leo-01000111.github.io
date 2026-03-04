@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>Kaggle Competitions - Leon Górecki</title>
+  <meta name="description" content="Live Kaggle competition rankings for Leon Górecki — updated daily via GitHub Actions." />
+  <meta name="theme-color" content="#070a0e" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Kaggle Competitions - Leon Górecki" />
+  <meta property="og:description" content="Live leaderboard rankings across ML competitions, auto-updated daily." />
+  <meta property="og:url" content="https://www.leongorecki.eu/projects/kaggle.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/projects/kaggle.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/kaggle.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/projects/kaggle.html?lang=fr" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/kaggle.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308121c'/%3E%3Cpath d='M16 44V20h8v17h16v7H16z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+</head>
+<body data-project-id="2" data-project-slug="kaggle">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Aerospace / Mechanical Engineering</span>
+        </div>
+      </div>
+
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/">Home</a>
+          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
+        </div>
+        <div aria-label="Language switch" class="lang" role="group">
+          <a data-lang="en" aria-current="page" href="./kaggle.html">EN</a>
+          <a data-lang="fr" href="./kaggle.html?lang=fr">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+
+    <section class="hero" style="padding-bottom:16px;">
+      <div class="hero-top">
+        <div>
+          <div class="kicker" id="kg-kicker">Data Science · Competitions</div>
+          <h1 id="proj-title" style="margin-bottom:10px;">Kaggle Competitions</h1>
+          <p id="proj-desc" class="lead">Live leaderboard rankings across ML competitions — rankings fetched daily from the Kaggle API via GitHub Actions.</p>
+          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <div class="cta" style="margin-top:18px;">
+            <a class="pill" id="proj-back" href="/projects/">All projects</a>
+            <a class="pill ghost" id="proj-home" href="/">Home</a>
+            <a class="btn primary" href="https://www.kaggle.com/leo01000111" target="_blank" rel="noopener noreferrer" id="kg-profile-btn">Kaggle profile ↗</a>
+          </div>
+        </div>
+        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
+          <img id="proj-thumb" src="/assets/thumbs/kaggle.svg" alt="Kaggle leaderboard thumbnail" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Competition board (rendered by inline JS) -->
+    <section aria-label="Competition rankings" style="margin-top:14px;">
+      <div id="kaggle-board">
+        <!-- skeleton while loading -->
+        <div class="skel-proj" aria-hidden="true" role="presentation" style="padding:18px 20px;">
+          <div class="skel-body">
+            <div class="skel" style="height:18px;width:55%;"></div>
+            <div class="skel" style="height:13px;width:80%;margin-top:6px;"></div>
+            <div class="skel" style="height:8px;width:100%;border-radius:999px;margin-top:14px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="kg-how-title">How it works</h2>
+        <p class="muted" style="margin:0 0 10px;line-height:1.65;" id="kg-how-text">
+          A GitHub Actions workflow runs every day at 04:00 UTC. It calls the Kaggle API, finds my team on each competition leaderboard, and commits the updated ranks and scores to <code style="background:rgba(255,255,255,0.07);padding:1px 6px;border-radius:5px;">projects/kaggle-scores.json</code> in this repository. The page then reads that file on load — no server, no secrets exposed in the browser.
+        </p>
+        <a class="pill" style="display:inline-flex;margin-top:4px;" href="https://github.com/leo-01000111/website/blob/main/.github/workflows/update-kaggle.yml" target="_blank" rel="noopener noreferrer" id="kg-workflow-btn">View workflow source on GitHub ↗</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="inner">
+      <div class="small">© <span id="year"></span> Leon Górecki</div>
+    </div>
+  </footer>
+
+  <script>
+  // === Kaggle board renderer ===
+  (function() {
+    var SCORES_URL = "/projects/kaggle-scores.json";
+
+    var copy = {
+      en: {
+        kicker: "Data Science · Competitions",
+        profileBtn: "Kaggle profile \u2197",
+        howTitle: "How it works",
+        howText: "A GitHub Actions workflow runs every day at 04:00 UTC. It calls the Kaggle API, finds my team on each competition leaderboard, and commits the updated ranks and scores to projects/kaggle-scores.json in this repository. The page reads that file on load \u2014 no server, no secrets exposed in the browser.",
+        workflowBtn: "View workflow source on GitHub \u2197",
+        rank: "Rank",
+        total: "Teams",
+        score: "Score",
+        percentile: "Percentile",
+        topPct: function(pct) { return "Top " + pct + "%"; },
+        updated: "Updated",
+        viewComp: "View competition \u2197",
+        lowerBetter: "lower is better",
+        higherBetter: "higher is better",
+        loading: "Loading rankings\u2026",
+        error: "Could not load rankings."
+      },
+      fr: {
+        kicker: "Science des données · Compétitions",
+        profileBtn: "Profil Kaggle \u2197",
+        howTitle: "Comment ça marche",
+        howText: "Un workflow GitHub Actions s'exécute chaque jour à 04h00 UTC. Il interroge l'API Kaggle, retrouve mon équipe dans le classement de chaque compétition, puis enregistre les rangs et scores mis à jour dans projects/kaggle-scores.json dans ce dépôt. La page lit ce fichier au chargement — aucun serveur, aucun secret exposé dans le navigateur.",
+        workflowBtn: "Voir le workflow sur GitHub \u2197",
+        rank: "Rang",
+        total: "Équipes",
+        score: "Score",
+        percentile: "Percentile",
+        topPct: function(pct) { return "Top " + pct + "%"; },
+        updated: "Mis à jour",
+        viewComp: "Voir la compétition \u2197",
+        lowerBetter: "plus bas = mieux",
+        higherBetter: "plus haut = mieux",
+        loading: "Chargement des classements\u2026",
+        error: "Impossible de charger les classements."
+      }
+    };
+
+    function getLang() {
+      var q = new URLSearchParams(window.location.search).get("lang") || "";
+      if (q.toLowerCase() === "fr") return "fr";
+      return (document.documentElement.getAttribute("lang") || "en").toLowerCase().startsWith("fr") ? "fr" : "en";
+    }
+
+    function formatDate(iso) {
+      if (!iso) return "—";
+      try {
+        return new Date(iso).toLocaleDateString(undefined, {year:"numeric",month:"short",day:"numeric"});
+      } catch(e) { return iso.slice(0,10); }
+    }
+
+    function renderBoard(data, lang) {
+      var c = copy[lang] || copy.en;
+      var board = document.getElementById("kaggle-board");
+      if (!board) return;
+      var comps = (data && data.competitions) || [];
+      if (!comps.length) {
+        board.innerHTML = '<div class="small" style="padding:10px;">' + c.error + '</div>';
+        return;
+      }
+      var html = "";
+      comps.forEach(function(comp) {
+        var rank  = comp.rank  != null ? Number(comp.rank)  : null;
+        var total = comp.total != null ? Number(comp.total) : null;
+        var score = comp.score != null ? comp.score : null;
+        var pct   = (rank && total) ? Math.round((rank / total) * 100) : null;
+        // Bar fills from left = how far down the leaderboard (0% = rank 1, 100% = last)
+        var barW  = pct != null ? pct : 50;
+
+        html += '<div class="kaggle-card reveal">';
+        html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">';
+        html += '<div>';
+        html +=   '<p class="kaggle-card-title">' + escHtml(comp.title || comp.id) + '</p>';
+        if (comp.score_label) {
+          html += '<span class="small" style="margin-top:2px;display:inline-block;">' + escHtml(comp.score_label) + ' &mdash; ' + escHtml(comp[comp.lower_is_better ? "lowerBetter" : "higherBetter"] || (comp.lower_is_better ? c.lowerBetter : c.higherBetter)) + '</span>';
+        }
+        html += '</div>';
+        html += '</div>';
+
+        // Stats row
+        html += '<div class="kaggle-meta-row">';
+        html += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.rank + '</span>';
+        html += '<span class="kaggle-stat-value">' + (rank != null ? '#' + rank.toLocaleString() : '—') + '</span></div>';
+        if (total != null) {
+          html += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.total + '</span>';
+          html += '<span class="kaggle-stat-value">' + total.toLocaleString() + '</span></div>';
+        }
+        if (score != null) {
+          var scoreStr = typeof score === "number" ? score.toFixed(5) : score;
+          html += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.score + '</span>';
+          html += '<span class="kaggle-stat-value">' + escHtml(String(scoreStr)) + '</span></div>';
+        }
+        if (pct != null) {
+          html += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.percentile + '</span>';
+          html += '<span class="kaggle-stat-value">' + c.topPct(pct) + '</span></div>';
+        }
+        html += '</div>';
+
+        // Progress bar (position in leaderboard)
+        if (pct != null) {
+          html += '<div class="kaggle-bar-wrap"><div class="kaggle-bar" style="width:' + barW + '%"></div></div>';
+          html += '<p class="kaggle-bar-label">Rank ' + rank.toLocaleString() + ' of ' + total.toLocaleString() + ' &mdash; ' + c.topPct(pct) + '</p>';
+        }
+
+        // Footer
+        html += '<div class="kaggle-footer">';
+        if (comp.url) {
+          html += '<a class="pill" href="' + escHtml(comp.url) + '" target="_blank" rel="noopener noreferrer">' + c.viewComp + '</a>';
+        }
+        html += '<span class="kaggle-updated">';
+        if (data.updated_at) {
+          html += '<span class="live-dot"></span>' + c.updated + ': ' + formatDate(data.updated_at);
+        }
+        html += '</span>';
+        html += '</div>';
+
+        html += '</div>'; // .kaggle-card
+      });
+      board.innerHTML = html;
+
+      // Trigger reveal animation
+      requestAnimationFrame(function() {
+        board.querySelectorAll(".reveal").forEach(function(el) {
+          el.classList.add("visible");
+        });
+      });
+    }
+
+    function escHtml(s) {
+      return String(s || "")
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    // Apply bilingual copy to static elements
+    function applyStaticCopy(lang) {
+      var c = copy[lang] || copy.en;
+      var map = {
+        "kg-kicker": c.kicker,
+        "kg-profile-btn": c.profileBtn,
+        "kg-how-title": c.howTitle,
+        "kg-workflow-btn": c.workflowBtn
+      };
+      Object.keys(map).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = map[id];
+      });
+      var howText = document.getElementById("kg-how-text");
+      if (howText) {
+        howText.innerHTML = c.howText.replace(
+          "projects/kaggle-scores.json",
+          '<code style="background:rgba(255,255,255,0.07);padding:1px 6px;border-radius:5px;">projects/kaggle-scores.json</code>'
+        );
+      }
+    }
+
+    var lang = getLang();
+    applyStaticCopy(lang);
+
+    fetch(SCORES_URL)
+      .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(data) { renderBoard(data, lang); })
+      .catch(function() {
+        var board = document.getElementById("kaggle-board");
+        if (board) board.innerHTML = '<div class="small" style="padding:10px;">' + (copy[lang] || copy.en).error + '</div>';
+      });
+  })();
+  </script>
+</body>
+</html>

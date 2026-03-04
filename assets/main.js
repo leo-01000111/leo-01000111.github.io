@@ -561,6 +561,31 @@
     });
   }
 
+  // === HAMBURGER NAV TOGGLE ===
+  (function() {
+    var toggle = document.querySelector(".nav-toggle");
+    var nav    = document.querySelector("nav");
+    if (!toggle || !nav) return;
+    toggle.addEventListener("click", function(e) {
+      e.stopPropagation();
+      var open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    document.addEventListener("click", function(e) {
+      if (nav.classList.contains("open") && !nav.contains(e.target)) {
+        nav.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+    // Close on Escape
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape" && nav.classList.contains("open")) {
+        nav.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  })();
+
   const lang = _getLang();
   _syncLangUI(lang);
   // Fix home link to respect current language

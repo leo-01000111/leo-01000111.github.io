@@ -18,5 +18,24 @@
       "Simulation"
     ],
     "thumbnail": "/assets/thumbs/1.svg"
+  },
+  {
+    "id": 2,
+    "slug": "kaggle",
+    "title": {
+      "en": "Kaggle Competitions",
+      "fr": "Compétitions Kaggle"
+    },
+    "description": {
+      "en": "Live leaderboard rankings across ML competitions, auto-updated daily via GitHub Actions.",
+      "fr": "Classements en direct sur des compétitions ML, mis à jour quotidiennement via GitHub Actions."
+    },
+    "tags": [
+      "Machine Learning",
+      "Python",
+      "Data Science",
+      "Competition"
+    ],
+    "thumbnail": "/assets/thumbs/kaggle.svg"
   }
 ]
