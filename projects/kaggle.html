@@ -122,6 +122,7 @@
         topPct: function(pct) { return "Top " + pct + "%"; },
         updated: "Updated",
         viewComp: "View competition \u2197",
+        viewRepo: "View repo \u2197",
         lowerBetter: "lower is better",
         higherBetter: "higher is better",
         loading: "Loading rankings\u2026",
@@ -140,6 +141,7 @@
         topPct: function(pct) { return "Top " + pct + "%"; },
         updated: "Mis à jour",
         viewComp: "Voir la compétition \u2197",
+        viewRepo: "Voir le dépôt \u2197",
         lowerBetter: "plus bas = mieux",
         higherBetter: "plus haut = mieux",
         loading: "Chargement des classements\u2026",
@@ -219,6 +221,9 @@
         html += '<div class="kaggle-footer">';
         if (comp.url) {
           html += '<a class="pill" href="' + escHtml(comp.url) + '" target="_blank" rel="noopener noreferrer">' + c.viewComp + '</a>';
+        }
+        if (comp.repo_url) {
+          html += '<a class="pill" href="' + escHtml(comp.repo_url) + '" target="_blank" rel="noopener noreferrer">' + c.viewRepo + '</a>';
         }
         html += '<span class="kaggle-updated">';
         if (data.updated_at) {
