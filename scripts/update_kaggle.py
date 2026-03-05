@@ -47,7 +47,7 @@ TRACKED_COMPETITIONS = [
         "title": "Cyber-Physical Anomaly Detection for DER Systems",
         "url": "https://www.kaggle.com/competitions/cyber-physical-anomaly-detection-for-der-systems",
         "repo_url": "",
-        "score_label": "F1",
+        "score_label": "F2",
         "lower_is_better": False,
     },
 ]
