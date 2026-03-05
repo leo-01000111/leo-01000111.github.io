@@ -110,7 +110,21 @@
   <h2 style="margin:0 0 4px;">Contributions</h2>
   <p class="small" id="gh-label" style="margin:0 0 10px;opacity:0.5;">GitHub activity</p>
   <div class="gh-grid-wrap">
-    <div id="gh-grid" class="gh-grid"></div>
+    <div class="gh-outer">
+      <div class="gh-day-labels">
+        <span></span>
+        <span>Mon</span>
+        <span></span>
+        <span>Wed</span>
+        <span></span>
+        <span>Fri</span>
+        <span></span>
+      </div>
+      <div class="gh-inner">
+        <div id="gh-months" class="gh-months"></div>
+        <div id="gh-grid" class="gh-grid"></div>
+      </div>
+    </div>
   </div>
 </div>
 </div>
@@ -165,34 +179,52 @@
 <script>
 (function() {
   var USER = "leo-01000111";
-  var COLORS = ["rgba(255,255,255,0.07)", "#0e4429", "#006d32", "#26a641", "#39d353"];
-  var CELL = 11, GAP = 3; // px
+  var COLORS = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var CELL = 10, GAP = 2;
   fetch("https://github-contributions-api.jogruber.de/v4/" + USER + "?y=last")
     .then(function(r) { if (!r.ok) throw r; return r.json(); })
     .then(function(data) {
       var grid = document.getElementById("gh-grid");
-      var wrap = document.querySelector(".gh-grid-wrap");
-      if (!grid || !wrap) return;
+      var inner = document.querySelector(".gh-inner");
+      if (!grid || !inner) return;
       var contribs = data.contributions || [];
       var total = contribs.reduce(function(s, d) { return s + d.count; }, 0);
       var label = document.getElementById("gh-label");
       if (label) label.textContent = total.toLocaleString() + " contributions in the last year";
-      // Pad the end with empty future-day cells to complete the current week column
-      var futureDays = 6 - new Date().getDay(); // 0=Sun … 6=Sat
-      var weeks = Math.floor(wrap.offsetWidth / (CELL + GAP));
+      var futureDays = 6 - new Date().getDay();
+      var weeks = Math.floor(inner.offsetWidth / (CELL + GAP));
       var slice = contribs.slice(-(weeks * 7 - futureDays));
+      // Render contribution cells
       slice.forEach(function(day) {
         var cell = document.createElement("div");
         cell.className = "gh-cell";
-        cell.style.background = COLORS[Math.min(day.level, 4)] || COLORS[0];
+        cell.style.background = COLORS[Math.min(day.level, 4)];
         cell.title = day.date + " — " + day.count + " contribution" + (day.count !== 1 ? "s" : "");
         grid.appendChild(cell);
       });
+      // Render future-day empty cells
       for (var i = 0; i < futureDays; i++) {
         var empty = document.createElement("div");
         empty.className = "gh-cell";
         empty.style.background = COLORS[0];
         grid.appendChild(empty);
+      }
+      // Month labels
+      var monthsEl = document.getElementById("gh-months");
+      if (monthsEl) {
+        var lastMonth = -1;
+        slice.forEach(function(day, i) {
+          var month = new Date(day.date + "T00:00:00").getMonth();
+          if (month !== lastMonth) {
+            var lbl = document.createElement("span");
+            lbl.className = "gh-month-label";
+            lbl.style.left = Math.floor(i / 7) * (CELL + GAP) + "px";
+            lbl.textContent = MONTHS[month];
+            monthsEl.appendChild(lbl);
+            lastMonth = month;
+          }
+        });
       }
     })
     .catch(function() {
