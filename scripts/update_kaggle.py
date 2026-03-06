@@ -175,7 +175,23 @@ def main():
     except Exception as e:
         sys.exit(f"kaggle CLI not available: {e}")
 
-    results = []
+    out_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "..", "projects", "kaggle-scores.json",
+    )
+
+    # Load existing data so we can fall back to it if a fetch fails
+    existing = {}
+    try:
+        with open(out_path) as f:
+            old = json.load(f)
+        for c in old.get("competitions", []):
+            existing[c["id"]] = c
+        print(f"  Loaded {len(existing)} existing competition(s) as fallback.", flush=True)
+    except Exception:
+        pass
+
+    fresh = {}
     for comp in TRACKED_COMPETITIONS:
         comp_id = comp["id"]
         lower   = comp["lower_is_better"]
@@ -183,17 +199,17 @@ def main():
 
         best_score = get_best_submission_score(comp_id, lower)
         if best_score is None:
-            print("  No score found — skipping.", flush=True)
+            print("  No score found — will use cached data if available.", flush=True)
             continue
         print(f"  Best score: {best_score}", flush=True)
 
         rank, total = get_rank_from_leaderboard(comp_id, best_score, lower)
         if rank is None:
-            print("  Could not determine rank — skipping.", flush=True)
+            print("  Could not determine rank — will use cached data if available.", flush=True)
             continue
 
         print(f"  → Rank {rank} / {total}", flush=True)
-        results.append({
+        fresh[comp_id] = {
             "id":              comp_id,
             "title":           comp["title"],
             "url":             comp["url"],
@@ -203,7 +219,22 @@ def main():
             "rank":            rank,
             "score":           best_score,
             "total":           total,
-        })
+        }
+
+    # Merge: prefer fresh data, fall back to cached, preserve order
+    results = []
+    for comp in TRACKED_COMPETITIONS:
+        comp_id = comp["id"]
+        if comp_id in fresh:
+            results.append(fresh[comp_id])
+        elif comp_id in existing:
+            print(f"  Using cached data for {comp_id}.", flush=True)
+            # Keep repo_url up to date from config even when using cached data
+            cached = dict(existing[comp_id])
+            cached["repo_url"] = comp.get("repo_url", cached.get("repo_url", ""))
+            results.append(cached)
+        else:
+            print(f"  No data available for {comp_id} — omitting.", flush=True)
 
     output = {
         "username":     PORTFOLIO_USERNAME,
@@ -212,10 +243,6 @@ def main():
         "competitions": results,
     }
 
-    out_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "..", "projects", "kaggle-scores.json",
-    )
     with open(out_path, "w") as f:
         json.dump(output, f, indent=2)
 
