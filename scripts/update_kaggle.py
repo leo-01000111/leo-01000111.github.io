@@ -50,6 +50,14 @@ TRACKED_COMPETITIONS = [
         "score_label": "F2",
         "lower_is_better": False,
     },
+    {
+        "id": "march-machine-learning-mania-2026",
+        "title": "March Machine Learning Mania 2026",
+        "url": "https://www.kaggle.com/competitions/march-machine-learning-mania-2026",
+        "repo_url": "https://github.com/leo-01000111/kaggleMarchMadness",
+        "score_label": "Log Loss",
+        "lower_is_better": True,
+    },
 ]
 
 # ── CLI helper ────────────────────────────────────────────────────────────────
