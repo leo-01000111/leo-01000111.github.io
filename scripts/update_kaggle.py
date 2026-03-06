@@ -55,7 +55,7 @@ TRACKED_COMPETITIONS = [
         "title": "March Machine Learning Mania 2026",
         "url": "https://www.kaggle.com/competitions/march-machine-learning-mania-2026",
         "repo_url": "https://github.com/leo-01000111/kaggleMarchMadness",
-        "score_label": "Log Loss",
+        "score_label": "Brier Score",
         "lower_is_better": True,
     },
 ]
