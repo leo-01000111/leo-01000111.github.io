@@ -10,9 +10,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleHPR",
       "score_label": "RMSE",
       "lower_is_better": true,
-      "rank": 735,
+      "rank": 781,
       "score": 0.12472,
-      "total": 4104
+      "total": 4178
     },
     {
       "id": "spaceship-titanic",
@@ -21,9 +21,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleSpaceTitanic",
       "score_label": "Accuracy",
       "lower_is_better": false,
-      "rank": 392,
+      "rank": 465,
       "score": 0.80523,
-      "total": 1761
+      "total": 2022
     },
     {
       "id": "cyber-physical-anomaly-detection-for-der-systems",
@@ -33,8 +33,8 @@
       "score_label": "F2",
       "lower_is_better": false,
       "rank": 1,
-      "score": 1.0,
-      "total": 13
+      "score": 0.91151,
+      "total": 28
     },
     {
       "id": "march-machine-learning-mania-2026",
@@ -43,9 +43,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleMarchMadness",
       "score_label": "Brier Score",
       "lower_is_better": true,
-      "rank": 505,
-      "score": 0.03686,
-      "total": 1421
+      "rank": 1016,
+      "score": 0.00000,
+      "total": 2367
     }
   ]
 }
