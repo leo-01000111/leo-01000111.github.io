@@ -1,7 +1,7 @@
 {
   "username": "leo01000111",
   "profile_url": "https://www.kaggle.com/leo01000111",
-  "updated_at": "2026-03-18T15:56:15Z",
+  "updated_at": "2026-03-19T05:19:18Z",
   "competitions": [
     {
       "id": "house-prices-advanced-regression-techniques",
@@ -44,7 +44,7 @@
       "score_label": "Brier Score",
       "lower_is_better": true,
       "rank": 1016,
-      "score": 0.00000,
+      "score": 0.0,
       "total": 2367
     }
   ]
