@@ -4,7 +4,7 @@
     "slug": "project1",
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
-      "fr": "Memoire d'ingenieur : PPO vs MPC robuste sur un Roomba simule"
+      "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
     },
     "description": {
       "en": "A structured comparison of Tube RMPC and PPO across stability, accuracy, robustness and computational load — under nominal and GNSS-denied conditions.",
