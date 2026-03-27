@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>F1 Race Predictor - Leon Górecki</title>
+  <meta name="description" content="XGBoost + PyTorch ensemble predicting Formula 1 podium probabilities from qualifying, weather and historical data — Streamlit dashboard." />
+  <meta name="theme-color" content="#070a0e" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="F1 Race Predictor - Leon Górecki" />
+  <meta property="og:description" content="XGBoost + PyTorch ensemble predicting F1 podium probabilities, served via a Streamlit dashboard." />
+  <meta property="og:url" content="https://www.leongorecki.eu/projects/f1predictor.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/projects/f1predictor.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/f1predictor.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/projects/f1predictor.html?lang=fr" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/f1predictor.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308121c'/%3E%3Cpath d='M16 44V20h8v17h16v7H16z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+  <style>
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .arch-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius, 14px);
+      padding: 16px 18px;
+    }
+    .arch-card .ac-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent2, #a78bfa);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .arch-card .ac-value {
+      font-size: 0.88rem;
+      color: var(--fg, #e2e8f0);
+      line-height: 1.55;
+    }
+    .data-list {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .data-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.88rem;
+    }
+    .data-list li:last-child { border-bottom: none; }
+    .data-list .dl-src {
+      font-weight: 600;
+      color: var(--accent, #38bdf8);
+      min-width: 90px;
+      font-size: 0.82rem;
+    }
+    .data-list .dl-desc {
+      color: var(--muted, #94a3b8);
+      line-height: 1.5;
+    }
+    .eval-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .eval-chip {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      background: rgba(167,139,250,0.12);
+      color: #c4b5fd;
+      border: 1px solid rgba(167,139,250,0.22);
+    }
+    .pipeline-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .pipe-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .pipe-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(56,189,248,0.15);
+      border: 1px solid rgba(56,189,248,0.3);
+      color: #38bdf8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pipe-text {
+      font-size: 0.88rem;
+      color: var(--muted, #94a3b8);
+      line-height: 1.55;
+    }
+    .pipe-text strong {
+      color: var(--fg, #e2e8f0);
+    }
+  </style>
+</head>
+<body data-project-id="4" data-project-slug="f1predictor">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Aerospace / Mechanical Engineering</span>
+        </div>
+      </div>
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/">Home</a>
+          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
+        </div>
+        <div aria-label="Language switch" class="lang" role="group">
+          <a data-lang="en" aria-current="page" href="./f1predictor.html">EN</a>
+          <a data-lang="fr" href="./f1predictor.html?lang=fr">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+
+    <section class="hero" style="padding-bottom:16px;">
+      <div class="hero-top">
+        <div>
+          <div class="kicker" id="f1-kicker">Machine Learning · Formula 1</div>
+          <h1 id="proj-title" style="margin-bottom:10px;">F1 Race Predictor</h1>
+          <p id="proj-desc" class="lead"></p>
+          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <div class="cta" style="margin-top:18px;">
+            <a class="pill" id="proj-back" href="/projects/">All projects</a>
+            <a class="pill ghost" id="proj-home" href="/">Home</a>
+            <a class="btn primary" href="https://github.com/leo-01000111/F1-Predictor" target="_blank" rel="noopener noreferrer" id="f1-repo-btn">View repo ↗</a>
+          </div>
+        </div>
+        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
+          <img id="proj-thumb" src="/assets/thumbs/f1predictor.svg" alt="F1 Predictor project thumbnail" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Context -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="f1-ctx-title">What it does</h2>
+        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;"></p>
+      </div>
+    </section>
+
+    <!-- Pipeline -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="f1-pipe-title">Prediction pipeline</h2>
+        <div class="pipeline-steps">
+          <div class="pipe-step">
+            <div class="pipe-num">1</div>
+            <div class="pipe-text" id="f1-pipe1"><strong>Data ingestion</strong> — Qualifying results (OpenF1), historical race outcomes 2014–2024 (FastF1), circuit data, and live weather (Open-Meteo).</div>
+          </div>
+          <div class="pipe-step">
+            <div class="pipe-num">2</div>
+            <div class="pipe-text" id="f1-pipe2"><strong>Feature engineering</strong> — Driver form metrics, team performance trends, grid position advantage, and weather-adjusted pace estimates.</div>
+          </div>
+          <div class="pipe-step">
+            <div class="pipe-num">3</div>
+            <div class="pipe-text" id="f1-pipe3"><strong>Ensemble inference</strong> — Three XGBoost binary classifiers (one per podium position) combined with a PyTorch MLP with driver and team embeddings, stacked via logistic regression.</div>
+          </div>
+          <div class="pipe-step">
+            <div class="pipe-num">4</div>
+            <div class="pipe-text" id="f1-pipe4"><strong>Probability calibration</strong> — Isotonic regression calibration for reliable probability outputs across all podium positions.</div>
+          </div>
+          <div class="pipe-step">
+            <div class="pipe-num">5</div>
+            <div class="pipe-text" id="f1-pipe5"><strong>Dashboard delivery</strong> — Results served via a Streamlit web app with race-by-race probability breakdowns.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="f1-arch-title">Model architecture</h2>
+        <div class="arch-grid">
+          <div class="arch-card">
+            <div class="ac-label" id="f1-ac1-label">XGBoost layer</div>
+            <div class="ac-value" id="f1-ac1-value">3 binary classifiers (P1, P2, P3) trained independently on engineered features</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="f1-ac2-label">PyTorch layer</div>
+            <div class="ac-value" id="f1-ac2-value">MLP with learnable driver and constructor embeddings — captures latent team/driver identity</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="f1-ac3-label">Stacking</div>
+            <div class="ac-value" id="f1-ac3-value">Logistic regression meta-learner combines XGBoost and PyTorch outputs</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="f1-ac4-label">Calibration</div>
+            <div class="ac-value" id="f1-ac4-value">Isotonic regression post-processing for well-calibrated probability estimates</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data sources -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="f1-data-title">Data sources</h2>
+        <ul class="data-list">
+          <li><span class="dl-src">FastF1</span><span class="dl-desc" id="f1-ds1">Historical race results, lap times and telemetry (2014–2024 seasons)</span></li>
+          <li><span class="dl-src">OpenF1</span><span class="dl-desc" id="f1-ds2">Live qualifying data for upcoming races</span></li>
+          <li><span class="dl-src">Open-Meteo</span><span class="dl-desc" id="f1-ds3">Circuit weather conditions — temperature, rain probability, wind speed</span></li>
+          <li><span class="dl-src">PRAW + RoBERTa</span><span class="dl-desc" id="f1-ds4">Optional: Reddit sentiment analysis on driver and team news pre-race</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Evaluation -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="f1-eval-title">Evaluation</h2>
+        <p class="muted" id="f1-eval-text" style="margin:0 0 12px;line-height:1.65;"></p>
+        <div class="eval-row">
+          <span class="eval-chip">Brier score</span>
+          <span class="eval-chip">Log loss</span>
+          <span class="eval-chip">ROC-AUC</span>
+          <span class="eval-chip">Winner accuracy</span>
+          <span class="eval-chip">Podium overlap</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="inner">
+      <div class="small">© <span id="year"></span> Leon Górecki</div>
+    </div>
+  </footer>
+
+</body>
+</html>

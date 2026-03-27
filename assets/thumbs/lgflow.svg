@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 68">
+  <rect width="120" height="68" fill="#07101a"/>
+  <!-- Cavity box outline -->
+  <rect x="12" y="12" width="96" height="48" fill="none" stroke="#1e3a5f" stroke-width="1"/>
+  <!-- Streamlines (lid-driven cavity pattern) -->
+  <path d="M14,14 Q60,26 106,14" stroke="#38bdf8" stroke-width="1.4" fill="none" opacity="0.9"/>
+  <path d="M14,18 Q55,32 95,22 Q108,18 106,18" stroke="#38bdf8" stroke-width="1" fill="none" opacity="0.65"/>
+  <path d="M14,30 Q42,42 60,38 Q80,34 106,36" stroke="#38bdf8" stroke-width="0.9" fill="none" opacity="0.5"/>
+  <path d="M14,44 Q35,50 55,50 Q80,50 106,46" stroke="#38bdf8" stroke-width="0.8" fill="none" opacity="0.4"/>
+  <path d="M14,56 Q60,54 106,58" stroke="#38bdf8" stroke-width="0.7" fill="none" opacity="0.3"/>
+  <!-- Vortex hint -->
+  <circle cx="72" cy="32" r="10" fill="none" stroke="#a78bfa" stroke-width="0.8" opacity="0.5" stroke-dasharray="2,2"/>
+  <!-- Moving lid arrows -->
+  <line x1="24" y1="11" x2="34" y2="11" stroke="#38bdf8" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="52" y1="11" x2="62" y2="11" stroke="#38bdf8" stroke-width="1.2"/>
+  <line x1="80" y1="11" x2="90" y2="11" stroke="#38bdf8" stroke-width="1.2"/>
+  <!-- Label -->
+  <text x="60" y="65" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="7" letter-spacing="1" opacity="0.9">LG-FLOW</text>
+  <text x="18" y="22" fill="#a78bfa" font-family="monospace" font-size="5" opacity="0.7">Re=1000</text>
+</svg>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>LG-FLOW: 2D CFD Solver - Leon Górecki</title>
+  <meta name="description" content="Research-grade 2D incompressible Navier-Stokes solver in C++20 using FVM and SIMPLE coupling, validated against Ghia et al." />
+  <meta name="theme-color" content="#070a0e" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="LG-FLOW: 2D CFD Solver - Leon Górecki" />
+  <meta property="og:description" content="Research-grade 2D incompressible Navier-Stokes solver in C++20 using FVM and SIMPLE coupling." />
+  <meta property="og:url" content="https://www.leongorecki.eu/projects/lgflow.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/projects/lgflow.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/lgflow.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/projects/lgflow.html?lang=fr" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/lgflow.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308121c'/%3E%3Cpath d='M16 44V20h8v17h16v7H16z' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+  <style>
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .tech-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius, 14px);
+      padding: 16px 18px;
+    }
+    .tech-card .tc-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent, #38bdf8);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .tech-card .tc-value {
+      font-size: 0.9rem;
+      color: var(--fg, #e2e8f0);
+      line-height: 1.5;
+    }
+    .val-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-top: 14px;
+    }
+    .val-table th, .val-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .val-table th {
+      color: var(--muted, #94a3b8);
+      font-weight: 500;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .val-table tr:last-child td { border-bottom: none; }
+    .pass-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34,197,94,0.25);
+    }
+    .phase-list {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .phase-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.88rem;
+      color: var(--muted, #94a3b8);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .phase-list li:last-child { border-bottom: none; }
+    .phase-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent2, #a78bfa);
+      min-width: 22px;
+    }
+  </style>
+</head>
+<body data-project-id="3" data-project-slug="lgflow">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Aerospace / Mechanical Engineering</span>
+        </div>
+      </div>
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/">Home</a>
+          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
+        </div>
+        <div aria-label="Language switch" class="lang" role="group">
+          <a data-lang="en" aria-current="page" href="./lgflow.html">EN</a>
+          <a data-lang="fr" href="./lgflow.html?lang=fr">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+
+    <section class="hero" style="padding-bottom:16px;">
+      <div class="hero-top">
+        <div>
+          <div class="kicker" id="lg-kicker">CFD · Simulation · C++</div>
+          <h1 id="proj-title" style="margin-bottom:10px;">LG-FLOW: 2D CFD Solver</h1>
+          <p id="proj-desc" class="lead"></p>
+          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <div class="cta" style="margin-top:18px;">
+            <a class="pill" id="proj-back" href="/projects/">All projects</a>
+            <a class="pill ghost" id="proj-home" href="/">Home</a>
+            <a class="btn primary" href="https://github.com/leo-01000111/LG-FLOW" target="_blank" rel="noopener noreferrer" id="lg-repo-btn">View repo ↗</a>
+          </div>
+        </div>
+        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
+          <img id="proj-thumb" src="/assets/thumbs/lgflow.svg" alt="LG-FLOW project thumbnail" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Context -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="lg-ctx-title">What it is</h2>
+        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;"></p>
+      </div>
+    </section>
+
+    <!-- Tech stack -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="lg-tech-title">Technical stack</h2>
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tc-label" id="lg-tc1-label">Language</div>
+            <div class="tc-value" id="lg-tc1-value">C++20 (GCC 11+, Clang 14+, MSVC 19.29+)</div>
+          </div>
+          <div class="tech-card">
+            <div class="tc-label" id="lg-tc2-label">Method</div>
+            <div class="tc-value" id="lg-tc2-value">Finite Volume Method · SIMPLE pressure-velocity coupling</div>
+          </div>
+          <div class="tech-card">
+            <div class="tc-label" id="lg-tc3-label">Libraries</div>
+            <div class="tc-value" id="lg-tc3-value">Eigen3 (linear algebra) · GoogleTest (unit testing)</div>
+          </div>
+          <div class="tech-card">
+            <div class="tc-label" id="lg-tc4-label">Build</div>
+            <div class="tc-value" id="lg-tc4-value">CMake 3.20+</div>
+          </div>
+          <div class="tech-card">
+            <div class="tc-label" id="lg-tc5-label">Convection schemes</div>
+            <div class="tc-value" id="lg-tc5-value">Upwind · Central difference · Adaptive CFL clamping</div>
+          </div>
+          <div class="tech-card">
+            <div class="tc-label" id="lg-tc6-label">Output</div>
+            <div class="tc-value" id="lg-tc6-value">VTK snapshots · Centerline velocity profiles · L2/L∞ error metrics · CSV residuals</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Validation -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="lg-val-title">Validation — Ghia et al. lid-driven cavity</h2>
+        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;"></p>
+        <table class="val-table">
+          <thead>
+            <tr>
+              <th id="lg-vth-case">Case</th>
+              <th id="lg-vth-re">Re</th>
+              <th id="lg-vth-ref">Reference</th>
+              <th id="lg-vth-status">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="lg-vc1-case">Lid-driven cavity</td>
+              <td>100</td>
+              <td>Ghia et al. 1982</td>
+              <td><span class="pass-badge" id="lg-pass1">PASS</span></td>
+            </tr>
+            <tr>
+              <td id="lg-vc2-case">Lid-driven cavity</td>
+              <td>1000</td>
+              <td>Ghia et al. 1982</td>
+              <td><span class="pass-badge" id="lg-pass2">PASS</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="small" style="margin:12px 0 0;opacity:0.55;" id="lg-val-note"></p>
+      </div>
+    </section>
+
+    <!-- Implementation phases -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="lg-phase-title">Implementation highlights</h2>
+        <ul class="phase-list" id="lg-phase-list">
+          <li><span class="phase-num">01</span><span id="lg-p1">Staggered grid with collocated pressure — avoids pressure-velocity decoupling</span></li>
+          <li><span class="phase-num">02</span><span id="lg-p2">SIMPLE pressure-correction loop with configurable multi-pass solving</span></li>
+          <li><span class="phase-num">03</span><span id="lg-p3">Stencil-consistent discretisation — same interpolation scheme throughout</span></li>
+          <li><span class="phase-num">04</span><span id="lg-p4">Automated validation suite: machine-readable pass/fail with configurable exit codes</span></li>
+          <li><span class="phase-num">05</span><span id="lg-p5">VTK export for post-processing in ParaView or similar tools</span></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="inner">
+      <div class="small">© <span id="year"></span> Leon Górecki</div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -173,6 +173,12 @@
         board.innerHTML = '<div class="small" style="padding:10px;">' + c.error + '</div>';
         return;
       }
+      // Sort by percentile ascending (best rank = lowest ratio first)
+      comps = comps.slice().sort(function(a, b) {
+        var pA = (a.rank && a.total) ? a.rank / a.total : 1;
+        var pB = (b.rank && b.total) ? b.rank / b.total : 1;
+        return pA - pB;
+      });
       var html = "";
       comps.forEach(function(comp) {
         var rank  = comp.rank  != null ? Number(comp.rank)  : null;

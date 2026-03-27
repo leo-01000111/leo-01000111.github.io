@@ -38,5 +38,45 @@
       "Competition"
     ],
     "thumbnail": "/assets/thumbs/kaggle.svg"
+  },
+  {
+    "id": 3,
+    "slug": "lgflow",
+    "title": {
+      "en": "LG-FLOW: 2D CFD Solver",
+      "fr": "LG-FLOW : Solveur CFD 2D"
+    },
+    "description": {
+      "en": "Research-grade 2D incompressible Navier-Stokes solver in C++20, using FVM and SIMPLE coupling — validated against the Ghia et al. lid-driven cavity benchmark.",
+      "fr": "Solveur 2D incompressible de Navier-Stokes en C++20, méthode des volumes finis avec couplage SIMPLE — validé sur le cas de référence de Ghia et al."
+    },
+    "tags": [
+      "C++",
+      "CFD",
+      "Simulation",
+      "FVM",
+      "CMake"
+    ],
+    "thumbnail": "/assets/thumbs/lgflow.svg"
+  },
+  {
+    "id": 4,
+    "slug": "f1predictor",
+    "title": {
+      "en": "F1 Race Predictor",
+      "fr": "Prédicteur de Course F1"
+    },
+    "description": {
+      "en": "XGBoost + PyTorch ensemble predicting Formula 1 podium probabilities from qualifying, weather and historical race data — served via a Streamlit dashboard.",
+      "fr": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques — interface Streamlit."
+    },
+    "tags": [
+      "Machine Learning",
+      "Python",
+      "XGBoost",
+      "PyTorch",
+      "Streamlit"
+    ],
+    "thumbnail": "/assets/thumbs/f1predictor.svg"
   }
 ]

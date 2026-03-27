@@ -524,6 +524,218 @@
       if (el) el.textContent = text;
     });
   }
+  function _setLgflowPageCopy(lang) {
+    const slug = (document.body?.getAttribute("data-project-slug") || "").trim();
+    const pid  = (document.body?.getAttribute("data-project-id")   || "").trim();
+    if (slug !== "lgflow" && pid !== "3") return;
+
+    const copy = {
+      en: {
+        kicker:     "CFD · Simulation · C++",
+        repoBtn:    "View repo \u2197",
+        ctxTitle:   "What it is",
+        ctxText:
+          "LG-FLOW is a research-grade 2D incompressible Navier-Stokes solver built in C++20. " +
+          "It implements the Finite Volume Method (FVM) with SIMPLE pressure-velocity coupling on a staggered grid, " +
+          "and validates against the canonical Ghia et al. (1982) lid-driven cavity benchmark at Re\u202f=\u202f100 and Re\u202f=\u202f1000. " +
+          "Designed for clarity and correctness, it outputs per-iteration residuals, centerline velocity profiles, " +
+          "VTK snapshots, and L2/L\u221e error metrics.",
+        techTitle:  "Technical stack",
+        tc1Label: "Language",    tc1Value: "C++20 (GCC 11+, Clang 14+, MSVC 19.29+)",
+        tc2Label: "Method",      tc2Value: "Finite Volume Method \u00b7 SIMPLE pressure-velocity coupling",
+        tc3Label: "Libraries",   tc3Value: "Eigen3 (linear algebra) \u00b7 GoogleTest (unit testing)",
+        tc4Label: "Build",       tc4Value: "CMake 3.20+",
+        tc5Label: "Convection",  tc5Value: "Upwind \u00b7 Central difference \u00b7 Adaptive CFL clamping",
+        tc6Label: "Output",      tc6Value: "VTK snapshots \u00b7 Centerline velocity profiles \u00b7 L2/L\u221e error metrics \u00b7 CSV residuals",
+        valTitle:  "Validation \u2014 Ghia et al. lid-driven cavity",
+        valDesc:
+          "The solver is benchmarked against Ghia, Ghia & Shin (1982), the canonical reference for 2D incompressible lid-driven cavity flow. " +
+          "Both Re\u202f=\u202f100 and Re\u202f=\u202f1000 cases pass automated L2/L\u221e error thresholds.",
+        vthCase: "Case", vthRe: "Re", vthRef: "Reference", vthStatus: "Status",
+        vc1Case: "Lid-driven cavity", vc2Case: "Lid-driven cavity",
+        pass1: "PASS", pass2: "PASS",
+        valNote:
+          "Validation is automated: the solver exits with a non-zero code if any metric falls outside tolerance \u2014 machine-readable for CI pipelines.",
+        phaseTitle: "Implementation highlights",
+        p1: "Staggered grid with collocated pressure \u2014 avoids pressure-velocity decoupling",
+        p2: "SIMPLE pressure-correction loop with configurable multi-pass solving",
+        p3: "Stencil-consistent discretisation \u2014 same interpolation scheme throughout",
+        p4: "Automated validation suite: machine-readable pass/fail with configurable exit codes",
+        p5: "VTK export for post-processing in ParaView or similar tools"
+      },
+      fr: {
+        kicker:     "CFD \u00b7 Simulation \u00b7 C++",
+        repoBtn:    "Voir le d\u00e9p\u00f4t \u2197",
+        ctxTitle:   "Pr\u00e9sentation",
+        ctxText:
+          "LG-FLOW est un solveur 2D incompressible de Navier-Stokes \u00e0 vis\u00e9e p\u00e9dagogique et de recherche, \u00e9crit en C++20. " +
+          "Il impl\u00e9mente la m\u00e9thode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille d\u00e9cal\u00e9e, " +
+          "et se valide sur le cas de r\u00e9f\u00e9rence de Ghia et al. (1982) en cavit\u00e9 entra\u00een\u00e9e pour Re\u202f=\u202f100 et Re\u202f=\u202f1000. " +
+          "Les sorties comprennent les r\u00e9sidus par it\u00e9ration, les profils de vitesse sur la ligne centrale, " +
+          "des instantan\u00e9s VTK et les m\u00e9triques d\u2019erreur L2/L\u221e.",
+        techTitle:  "Stack technique",
+        tc1Label: "Langage",     tc1Value: "C++20 (GCC 11+, Clang 14+, MSVC 19.29+)",
+        tc2Label: "M\u00e9thode", tc2Value: "Volumes finis (FVM) \u00b7 Couplage SIMPLE",
+        tc3Label: "Biblioth\u00e8ques", tc3Value: "Eigen3 (alg\u00e8bre lin\u00e9aire) \u00b7 GoogleTest (tests unitaires)",
+        tc4Label: "Build",       tc4Value: "CMake 3.20+",
+        tc5Label: "Convection",  tc5Value: "Upwind \u00b7 Diff\u00e9rences centr\u00e9es \u00b7 CFL adaptatif",
+        tc6Label: "Sorties",     tc6Value: "Instantan\u00e9s VTK \u00b7 Profils de vitesse \u00b7 M\u00e9triques L2/L\u221e \u00b7 R\u00e9sidus CSV",
+        valTitle:  "Validation \u2014 cavit\u00e9 entra\u00een\u00e9e de Ghia et al.",
+        valDesc:
+          "Le solveur est bench contre Ghia, Ghia & Shin (1982), la r\u00e9f\u00e9rence canonique pour l\u2019\u00e9coulement incompressible en cavit\u00e9 entra\u00een\u00e9e 2D. " +
+          "Les deux cas Re\u202f=\u202f100 et Re\u202f=\u202f1000 passent les seuils d\u2019erreur L2/L\u221e automatis\u00e9s.",
+        vthCase: "Cas", vthRe: "Re", vthRef: "R\u00e9f\u00e9rence", vthStatus: "Statut",
+        vc1Case: "Cavit\u00e9 entra\u00een\u00e9e", vc2Case: "Cavit\u00e9 entra\u00een\u00e9e",
+        pass1: "OK", pass2: "OK",
+        valNote:
+          "La validation est automatis\u00e9e : le solveur retourne un code non nul si une m\u00e9trique d\u00e9passe la tol\u00e9rance \u2014 compatible avec les pipelines CI.",
+        phaseTitle: "Points cl\u00e9s d\u2019impl\u00e9mentation",
+        p1: "Grille d\u00e9cal\u00e9e avec pression colloqu\u00e9e \u2014 \u00e9vite le d\u00e9couplage pression-vitesse",
+        p2: "Boucle de correction de pression SIMPLE avec multi-passes configurables",
+        p3: "Discr\u00e9tisation stencil-coh\u00e9rente \u2014 m\u00eame sch\u00e9ma d\u2019interpolation partout",
+        p4: "Suite de validation automatis\u00e9e : pass/fail lisible par machine avec codes de sortie configurables",
+        p5: "Export VTK pour post-traitement dans ParaView ou \u00e9quivalent"
+      }
+    }[lang] || {};
+
+    const map = [
+      ["#lg-kicker",     copy.kicker],
+      ["#lg-repo-btn",   copy.repoBtn],
+      ["#lg-ctx-title",  copy.ctxTitle],
+      ["#lg-ctx-text",   copy.ctxText],
+      ["#lg-tech-title", copy.techTitle],
+      ["#lg-tc1-label",  copy.tc1Label], ["#lg-tc1-value", copy.tc1Value],
+      ["#lg-tc2-label",  copy.tc2Label], ["#lg-tc2-value", copy.tc2Value],
+      ["#lg-tc3-label",  copy.tc3Label], ["#lg-tc3-value", copy.tc3Value],
+      ["#lg-tc4-label",  copy.tc4Label], ["#lg-tc4-value", copy.tc4Value],
+      ["#lg-tc5-label",  copy.tc5Label], ["#lg-tc5-value", copy.tc5Value],
+      ["#lg-tc6-label",  copy.tc6Label], ["#lg-tc6-value", copy.tc6Value],
+      ["#lg-val-title",  copy.valTitle],
+      ["#lg-val-desc",   copy.valDesc],
+      ["#lg-vth-case",   copy.vthCase],
+      ["#lg-vth-re",     copy.vthRe],
+      ["#lg-vth-ref",    copy.vthRef],
+      ["#lg-vth-status", copy.vthStatus],
+      ["#lg-vc1-case",   copy.vc1Case],
+      ["#lg-vc2-case",   copy.vc2Case],
+      ["#lg-pass1",      copy.pass1],
+      ["#lg-pass2",      copy.pass2],
+      ["#lg-val-note",   copy.valNote],
+      ["#lg-phase-title",copy.phaseTitle],
+      ["#lg-p1",         copy.p1],
+      ["#lg-p2",         copy.p2],
+      ["#lg-p3",         copy.p3],
+      ["#lg-p4",         copy.p4],
+      ["#lg-p5",         copy.p5]
+    ];
+    map.forEach(([selector, text]) => {
+      if (!text) return;
+      const el = document.querySelector(selector);
+      if (el) el.textContent = text;
+    });
+  }
+
+  function _setF1PageCopy(lang) {
+    const slug = (document.body?.getAttribute("data-project-slug") || "").trim();
+    const pid  = (document.body?.getAttribute("data-project-id")   || "").trim();
+    if (slug !== "f1predictor" && pid !== "4") return;
+
+    const copy = {
+      en: {
+        kicker:    "Machine Learning \u00b7 Formula 1",
+        repoBtn:   "View repo \u2197",
+        ctxTitle:  "What it does",
+        ctxText:
+          "A machine learning pipeline that predicts Formula 1 podium probabilities (P1/P2/P3) for upcoming races, " +
+          "trained on historical data spanning 2014\u20132024. " +
+          "The system ingests qualifying results, driver and team history, circuit characteristics and live weather data, " +
+          "then runs an XGBoost\u202f+\u202fPyTorch ensemble to generate calibrated podium probability estimates. " +
+          "Results are delivered via a Streamlit dashboard.",
+        pipeTitle: "Prediction pipeline",
+        pipe1: "Data ingestion \u2014 Qualifying results (OpenF1), historical race outcomes 2014\u20132024 (FastF1), circuit data, and live weather (Open-Meteo).",
+        pipe2: "Feature engineering \u2014 Driver form metrics, team performance trends, grid position advantage, and weather-adjusted pace estimates.",
+        pipe3: "Ensemble inference \u2014 Three XGBoost binary classifiers (one per podium position) combined with a PyTorch MLP with driver and team embeddings, stacked via logistic regression.",
+        pipe4: "Probability calibration \u2014 Isotonic regression post-processing for reliable probability outputs across all podium positions.",
+        pipe5: "Dashboard delivery \u2014 Results served via a Streamlit web app with race-by-race probability breakdowns.",
+        archTitle: "Model architecture",
+        ac1Label: "XGBoost layer",  ac1Value: "3 binary classifiers (P1, P2, P3) trained independently on engineered features",
+        ac2Label: "PyTorch layer",  ac2Value: "MLP with learnable driver and constructor embeddings \u2014 captures latent team/driver identity",
+        ac3Label: "Stacking",       ac3Value: "Logistic regression meta-learner combines XGBoost and PyTorch outputs",
+        ac4Label: "Calibration",    ac4Value: "Isotonic regression post-processing for well-calibrated probability estimates",
+        dataTitle: "Data sources",
+        ds1: "Historical race results, lap times and telemetry (2014\u20132024 seasons)",
+        ds2: "Live qualifying data for upcoming races",
+        ds3: "Circuit weather conditions \u2014 temperature, rain probability, wind speed",
+        ds4: "Optional: Reddit sentiment analysis on driver and team news pre-race",
+        evalTitle: "Evaluation",
+        evalText:
+          "Performance is assessed through leave-one-season-out cross-validation and a holdout set covering the 2023\u20132024 seasons (unseen during training). " +
+          "Metrics include Brier score, log loss, ROC-AUC, winner accuracy and podium overlap."
+      },
+      fr: {
+        kicker:    "Machine Learning \u00b7 Formule 1",
+        repoBtn:   "Voir le d\u00e9p\u00f4t \u2197",
+        ctxTitle:  "Ce que \u00e7a fait",
+        ctxText:
+          "Pipeline d\u2019apprentissage automatique qui pr\u00e9dit les probabilit\u00e9s de podium F1 (P1/P2/P3) pour les prochaines courses, " +
+          "entra\u00een\u00e9 sur des donn\u00e9es historiques de 2014 \u00e0 2024. " +
+          "Le syst\u00e8me int\u00e8gre les r\u00e9sultats des qualifications, l\u2019historique pilotes/\u00e9curies, les caract\u00e9ristiques des circuits et la m\u00e9t\u00e9o en direct, " +
+          "puis ex\u00e9cute un ensemble XGBoost\u202f+\u202fPyTorch pour produire des probabilit\u00e9s de podium calibr\u00e9es. " +
+          "Les r\u00e9sultats sont affich\u00e9s via un tableau de bord Streamlit.",
+        pipeTitle: "Pipeline de pr\u00e9diction",
+        pipe1: "Collecte des donn\u00e9es \u2014 Qualifications (OpenF1), r\u00e9sultats historiques 2014\u20132024 (FastF1), donn\u00e9es circuit, m\u00e9t\u00e9o en direct (Open-Meteo).",
+        pipe2: "Ing\u00e9nierie de features \u2014 M\u00e9triques de forme pilote, tendances des \u00e9curies, avantage de position sur la grille et estimations de rythme ajust\u00e9es \u00e0 la m\u00e9t\u00e9o.",
+        pipe3: "Inf\u00e9rence ensemble \u2014 Trois classifieurs binaires XGBoost (un par position de podium) combin\u00e9s avec un MLP PyTorch avec embeddings pilotes et \u00e9curies, empil\u00e9s par r\u00e9gression logistique.",
+        pipe4: "Calibration des probabilit\u00e9s \u2014 Post-traitement par r\u00e9gression isotonique pour des estimations fiables.",
+        pipe5: "Livraison tableau de bord \u2014 R\u00e9sultats affich\u00e9s via une application Streamlit avec d\u00e9tail course par course.",
+        archTitle: "Architecture du mod\u00e8le",
+        ac1Label: "Couche XGBoost",  ac1Value: "3 classifieurs binaires (P1, P2, P3) entra\u00een\u00e9s ind\u00e9pendamment sur des features ing\u00e9ni\u00e9r\u00e9es",
+        ac2Label: "Couche PyTorch",  ac2Value: "MLP avec embeddings apprenables pilotes et \u00e9curies \u2014 capture l\u2019identit\u00e9 latente",
+        ac3Label: "Empilement",      ac3Value: "M\u00e9ta-apprenant logistique combinant les sorties XGBoost et PyTorch",
+        ac4Label: "Calibration",     ac4Value: "R\u00e9gression isotonique pour des probabilit\u00e9s bien calibr\u00e9es",
+        dataTitle: "Sources de donn\u00e9es",
+        ds1: "R\u00e9sultats historiques, temps au tour et t\u00e9l\u00e9m\u00e9trie (saisons 2014\u20132024)",
+        ds2: "Donn\u00e9es de qualification en direct pour les prochaines courses",
+        ds3: "Conditions m\u00e9t\u00e9o sur circuit \u2014 temp\u00e9rature, probabilit\u00e9 de pluie, vent",
+        ds4: "Optionnel : analyse de sentiment Reddit sur les pilotes et \u00e9curies avant la course",
+        evalTitle: "\u00c9valuation",
+        evalText:
+          "La performance est \u00e9valu\u00e9e par validation crois\u00e9e leave-one-season-out et un ensemble de test couvrant les saisons 2023\u20132024 (non vus pendant l\u2019entra\u00eenement). " +
+          "Les m\u00e9triques incluent le Brier score, la log loss, le ROC-AUC, la pr\u00e9cision du gagnant et le chevauchement de podium."
+      }
+    }[lang] || {};
+
+    const map = [
+      ["#f1-kicker",     copy.kicker],
+      ["#f1-repo-btn",   copy.repoBtn],
+      ["#f1-ctx-title",  copy.ctxTitle],
+      ["#f1-ctx-text",   copy.ctxText],
+      ["#f1-pipe-title", copy.pipeTitle],
+      ["#f1-pipe1",      copy.pipe1],
+      ["#f1-pipe2",      copy.pipe2],
+      ["#f1-pipe3",      copy.pipe3],
+      ["#f1-pipe4",      copy.pipe4],
+      ["#f1-pipe5",      copy.pipe5],
+      ["#f1-arch-title", copy.archTitle],
+      ["#f1-ac1-label",  copy.ac1Label], ["#f1-ac1-value", copy.ac1Value],
+      ["#f1-ac2-label",  copy.ac2Label], ["#f1-ac2-value", copy.ac2Value],
+      ["#f1-ac3-label",  copy.ac3Label], ["#f1-ac3-value", copy.ac3Value],
+      ["#f1-ac4-label",  copy.ac4Label], ["#f1-ac4-value", copy.ac4Value],
+      ["#f1-data-title", copy.dataTitle],
+      ["#f1-ds1",        copy.ds1],
+      ["#f1-ds2",        copy.ds2],
+      ["#f1-ds3",        copy.ds3],
+      ["#f1-ds4",        copy.ds4],
+      ["#f1-eval-title", copy.evalTitle],
+      ["#f1-eval-text",  copy.evalText]
+    ];
+    map.forEach(([selector, text]) => {
+      if (!text) return;
+      const el = document.querySelector(selector);
+      if (el) el.textContent = text;
+    });
+  }
+
   function _findProjectByPage(all) {
     const idRaw = document.body?.getAttribute("data-project-id");
     if (idRaw && idRaw !== "__ID__") {
@@ -588,6 +800,8 @@
 
     _setProjectPageCopy(lang);
     _setProject1PageCopy(lang);
+    _setLgflowPageCopy(lang);
+    _setF1PageCopy(lang);
     try {
       const all = await _fetchJSON(_joinRoot("projects/projects.json"));
       const p = _findProjectByPage(Array.isArray(all) ? all : []);
@@ -747,6 +961,15 @@
   // Fix home link to respect current language
   document.querySelectorAll("[data-ui='home']").forEach(function(a) {
     a.setAttribute("href", lang === "fr" ? (_siteRoot() + "fr/") : _siteRoot());
+  });
+  // Fix "All projects" link to carry lang=fr when applicable
+  document.querySelectorAll("[data-ui='allProjects']").forEach(function(a) {
+    if (lang === "fr") {
+      var href = a.getAttribute("href") || "";
+      if (!href.includes("lang=fr")) {
+        a.setAttribute("href", href + (href.includes("?") ? "&" : "?") + "lang=fr");
+      }
+    }
   });
   _initFeaturedProjects(lang);
   _initProjectsIndex(lang);
