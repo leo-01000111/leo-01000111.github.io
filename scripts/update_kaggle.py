@@ -70,7 +70,10 @@ def kaggle_cli(*args):
     if result.returncode != 0:
         detail = result.stderr.strip() or result.stdout.strip() or f"exit code {result.returncode}"
         raise RuntimeError(detail)
-    return result.stdout
+    # Strip warning/info lines the CLI may prepend before CSV data
+    lines = [l for l in result.stdout.splitlines()
+             if not l.startswith(("Warning:", "Warning :"))]
+    return "\n".join(lines)
 
 # ── Score helpers ─────────────────────────────────────────────────────────────
 
