@@ -1014,3 +1014,50 @@
       font-size:0.82rem;
       color:var(--faint);
     }
+
+    /* ── Back-to-top button ── */
+    #back-to-top{
+      position:fixed;
+      bottom:28px;
+      right:24px;
+      z-index:200;
+      width:42px; height:42px;
+      border-radius:50%;
+      border:1px solid var(--line);
+      background:rgba(10,15,22,0.85);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      color:var(--faint);
+      font-size:1.1rem;
+      line-height:1;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(10px);
+      transition:opacity 0.25s, transform 0.25s, color 0.2s, border-color 0.2s;
+    }
+    #back-to-top.visible{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
+    #back-to-top:hover{
+      color:var(--accent);
+      border-color:var(--accent);
+    }
+
+    /* ── See-also strip ── */
+    #see-also{
+      margin-top:16px;
+    }
+    #see-also h2{
+      margin:0 0 14px;
+    }
+    #see-also .projects{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }

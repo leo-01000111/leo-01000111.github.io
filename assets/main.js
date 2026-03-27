@@ -839,6 +839,39 @@
     }
   }
 
+  async function _initSeeAlso(lang) {
+    const host = document.getElementById("see-also");
+    if (!host) return;
+    try {
+      const all = await _fetchJSON(_joinRoot("projects/projects.json"));
+      const current = _findProjectByPage(Array.isArray(all) ? all : []);
+      const others = (Array.isArray(all) ? all : [])
+        .filter((p) => p !== current)
+        .slice(0, 2);
+      if (!others.length) { host.remove(); return; }
+      const heading = lang === "fr" ? "Voir aussi" : "See also";
+      host.innerHTML =
+        `<h2>${heading}</h2>` +
+        `<div class="projects">${others.map((p) => _renderProjectCard(p, lang)).join("")}</div>`;
+    } catch (e) {
+      host.remove();
+    }
+  }
+
+  function _initBackToTop() {
+    const btn = document.createElement("button");
+    btn.id = "back-to-top";
+    btn.setAttribute("aria-label", "Back to top");
+    btn.textContent = "\u2191";
+    document.body.appendChild(btn);
+    window.addEventListener("scroll", function () {
+      btn.classList.toggle("visible", window.scrollY > 400);
+    }, { passive: true });
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
   // Scroll-reveal via IntersectionObserver
   function _initReveal() {
     if (!("IntersectionObserver" in window)) return;
@@ -974,6 +1007,8 @@
   _initFeaturedProjects(lang);
   _initProjectsIndex(lang);
   _initProjectPage(lang);
+  _initSeeAlso(lang);
+  _initBackToTop();
   _initReveal();
   _initConsent(lang);
 })();
