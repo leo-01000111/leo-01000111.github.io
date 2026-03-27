@@ -22,6 +22,199 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308121c'/%3E%3Cpath d='M16 44V20h8v17h16v7H16z' fill='%23fff'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
+  <style>
+    /* ── project1 custom components ── */
+
+    /* Controllers grid */
+    .ctrl-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .ctrl-card {
+      border-radius: 12px;
+      padding: 16px 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .ctrl-rmpc {
+      border-left: 3px solid #38bdf8;
+      background: rgba(56,189,248,0.05);
+    }
+    .ctrl-ppo {
+      border-left: 3px solid #a78bfa;
+      background: rgba(167,139,250,0.05);
+    }
+    .ctrl-badge {
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .ctrl-rmpc .ctrl-badge { color: #38bdf8; }
+    .ctrl-ppo  .ctrl-badge { color: #a78bfa; }
+    .ctrl-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: rgba(255,255,255,0.88);
+    }
+    .ctrl-list {
+      margin: 0;
+      padding: 0 0 0 16px;
+      color: rgba(255,255,255,0.62);
+      font-size: 0.875rem;
+      line-height: 1.8;
+    }
+
+    /* Stat row */
+    .stat-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .stat-box {
+      flex: 1;
+      min-width: 110px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 12px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #38bdf8;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .stat-num.stat-safe { color: #4ade80; }
+    .stat-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.48);
+      line-height: 1.35;
+    }
+
+    /* Safety callout (overrides .card background) */
+    .callout {
+      background: rgba(56,189,248,0.06) !important;
+      border-color: rgba(56,189,248,0.22) !important;
+    }
+    .callout-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .callout-icon {
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #38bdf8;
+    }
+    .callout strong {
+      color: #38bdf8;
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .callout p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    /* Delta grid */
+    .delta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .delta-item {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .delta-ctrl {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 5px;
+    }
+    .delta-ctrl-ppo { color: #a78bfa; }
+    .delta-metric {
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.78);
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .delta-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .delta-up   { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.28); }
+    .delta-flat { background: rgba(250,204,21,0.11);  color: #fbbf24; border: 1px solid rgba(250,204,21,0.24); }
+    .delta-flag { background: rgba(167,139,250,0.13); color: #a78bfa; border: 1px solid rgba(167,139,250,0.26); }
+    .delta-detail {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.36);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Verdict grid */
+    .verdict-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .verdict-card {
+      border-radius: 12px;
+      padding: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-top: 3px solid transparent;
+    }
+    .verdict-rmpc    { border-top-color: #38bdf8; }
+    .verdict-ppo     { border-top-color: #a78bfa; }
+    .verdict-neutral { border-top-color: rgba(255,255,255,0.22); }
+    .verdict-badge {
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+    .verdict-rmpc    .verdict-badge { color: #38bdf8; }
+    .verdict-ppo     .verdict-badge { color: #a78bfa; }
+    .verdict-neutral .verdict-badge { color: rgba(255,255,255,0.42); }
+    .verdict-card p {
+      margin: 0;
+      font-size: 0.875rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.66);
+    }
+
+    @media (max-width: 600px) {
+      .ctrl-grid { grid-template-columns: 1fr; }
+      .stat-num  { font-size: 1.85rem; }
+    }
+  </style>
 </head>
 <body data-project-id="1" data-project-slug="project1">
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -57,22 +250,260 @@
       <div class="hero-grid">
         <div>
           <h1 id="proj-title" style="margin-bottom: 10px;">BEng Thesis: PPO vs Robust MPC on a Simulated Roomba</h1>
-          <p id="proj-desc" class="lead">Thesis-only summary of benchmarking results under nominal and GNSS-denied conditions.</p>
+          <p id="proj-desc" class="lead">Controller benchmark in simulation: trajectory tracking, obstacle avoidance, and robustness under noise and disturbances.</p>
           <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
           <div class="cta" style="margin-top: 18px;">
             <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
             <a class="pill ghost" id="proj-home" href="/">Home</a>
             <a class="pill" id="p1-pdf-btn" href="/pracaINZ-nodata.pdf" target="_blank" rel="noopener noreferrer">Open thesis PDF</a>
           </div>
-          <p class="small" id="p1-source" style="margin-top: 14px;">Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.</p>
+          <p class="small" id="p1-source" style="margin-top: 14px; color: var(--faint);">Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.</p>
         </div>
         <div class="hero-card">
-          <img id="proj-thumb" src="/assets/thumbs/1.svg" alt="Project thumbnail" style="width:100%; height:auto; border-radius: 16px;"/>
+          <img id="proj-thumb" src="/assets/thumbs/robotDiagramReal.png" alt="Project thumbnail" style="width:100%; height:auto; border-radius: 16px;" />
         </div>
       </div>
     </section>
 
     <section class="grid" aria-label="Content">
+
+      <!-- 1 · Context -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-ctx-title">What this thesis is about</h2>
+        <p id="p1-ctx-text" class="muted" style="margin: 0; line-height: 1.72; max-width: 74ch;">
+          A simulated ground robot navigates cluttered indoor environments, following a reference path to a goal while avoiding obstacles.
+          The thesis asks one question: when GPS positioning is jammed mid-run, which controller holds up better — Tube Robust MPC, with
+          formal safety guarantees, or PPO, a neural network trained through reinforcement learning?
+          Both were benchmarked head-to-head across 500 identical environments under nominal GPS and GNSS-denied conditions.
+        </p>
+      </div>
+
+      <!-- 2 · Controllers at a glance -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-ctrl-title">Controllers at a glance</h2>
+        <div class="ctrl-grid">
+          <div class="ctrl-card ctrl-rmpc">
+            <div class="ctrl-badge">RMPC</div>
+            <div class="ctrl-name" id="p1-ctrl-rmpc-name">Tube Robust MPC</div>
+            <ul class="ctrl-list">
+              <li id="p1-ctrl-rmpc-1">Predicts future states using an explicit dynamics model</li>
+              <li id="p1-ctrl-rmpc-2">Tube formulation bounds the effect of noise — hard constraints guaranteed</li>
+              <li id="p1-ctrl-rmpc-3">Conservative by design; higher online compute cost</li>
+            </ul>
+          </div>
+          <div class="ctrl-card ctrl-ppo">
+            <div class="ctrl-badge">PPO</div>
+            <div class="ctrl-name" id="p1-ctrl-ppo-name">Proximal Policy Optimisation (PPO)</div>
+            <ul class="ctrl-list">
+              <li id="p1-ctrl-ppo-1">Policy learned through simulated trial-and-error — no explicit model</li>
+              <li id="p1-ctrl-ppo-2">Single neural-network forward pass; 63× faster online than RMPC</li>
+              <li id="p1-ctrl-ppo-3">No formal stability or obstacle-avoidance guarantees</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 · Experiment at a glance -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-exp-title">Experiment at a glance</h2>
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="stat-num">500</div>
+            <div class="stat-label" id="p1-stat-1">environments evaluated</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">2</div>
+            <div class="stat-label" id="p1-stat-2">controllers compared</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">2</div>
+            <div class="stat-label" id="p1-stat-3">operating conditions</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num stat-safe">0.0%</div>
+            <div class="stat-label" id="p1-stat-4">RMPC collision rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 · Safety callout -->
+      <div class="card callout" style="grid-column: 1 / -1;">
+        <div class="callout-inner">
+          <svg class="callout-icon" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" style="width:20px;height:20px;">
+            <path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.947 11.947 0 007.078 2.749.5.5 0 01.479.425c.069.52.104 1.05.104 1.589 0 5.162-3.26 9.563-7.834 11.256a.48.48 0 01-.332 0C5.26 16.563 2 12.162 2 7c0-.538.035-1.069.104-1.589a.5.5 0 01.48-.425 11.947 11.947 0 007.077-2.749z" clip-rule="evenodd" />
+          </svg>
+          <div>
+            <strong id="p1-safety-title">Safety highlight</strong>
+            <p id="p1-safety-text">RMPC recorded zero collisions in both nominal and GNSS-denied conditions. PPO collided in 3.1% of nominal runs and 4.7% under GPS denial — a direct result of operating without hard obstacle-avoidance constraints.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 · Results visualised -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-charts-title">Results Visualised</h2>
+        <div class="chart-grid-2">
+
+          <!-- Chart 1: Success Rate -->
+          <div class="chart-wrap">
+            <p class="chart-title" id="p1-chart1-title">Success Rate</p>
+            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Success rate comparison: RMPC vs PPO under nominal and GNSS-denied conditions">
+              <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <line x1="248" y1="6" x2="248" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="348" y1="6" x2="348" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="448" y1="6" x2="448" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
+              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
+              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.9">RMPC</text>
+              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.9">PPO</text>
+              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.6">RMPC</text>
+              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.6">PPO</text>
+              <!-- RMPC Nominal 89.8% -->
+              <rect x="148" y="18" width="359" height="16" rx="4" fill="#38bdf8" fill-opacity="0.82"/>
+              <text x="513" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">89.8%</text>
+              <!-- PPO Nominal 93.6% -->
+              <rect x="148" y="38" width="374" height="16" rx="4" fill="#a78bfa" fill-opacity="0.82"/>
+              <text x="528" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">93.6%</text>
+              <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+              <!-- RMPC Denied 85.2% -->
+              <rect x="148" y="80" width="341" height="16" rx="4" fill="#38bdf8" fill-opacity="0.45"/>
+              <text x="495" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">85.2%</text>
+              <!-- PPO Denied 91.3% -->
+              <rect x="148" y="100" width="365" height="16" rx="4" fill="#a78bfa" fill-opacity="0.45"/>
+              <text x="519" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">91.3%</text>
+              <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0%</text>
+              <text x="248" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">25%</text>
+              <text x="348" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">50%</text>
+              <text x="448" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">75%</text>
+              <text x="548" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">100%</text>
+            </svg>
+          </div>
+
+          <!-- Chart 2: Mean Cross-Track Error -->
+          <div class="chart-wrap">
+            <p class="chart-title" id="p1-chart2-title">Cross-Track Error — lower is better</p>
+            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Mean cross-track error comparison: RMPC vs PPO">
+              <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <line x1="281" y1="6" x2="281" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="415" y1="6" x2="415" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
+              <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
+              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
+              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.9">RMPC</text>
+              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.9">PPO</text>
+              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.6">RMPC</text>
+              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.6">PPO</text>
+              <!-- RMPC Nominal 0.2664 m -->
+              <rect x="148" y="18" width="118" height="16" rx="4" fill="#38bdf8" fill-opacity="0.82"/>
+              <text x="272" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.266 m</text>
+              <!-- PPO Nominal 0.7312 m -->
+              <rect x="148" y="38" width="325" height="16" rx="4" fill="#a78bfa" fill-opacity="0.82"/>
+              <text x="479" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.731 m</text>
+              <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+              <!-- RMPC Denied 0.3245 m -->
+              <rect x="148" y="80" width="144" height="16" rx="4" fill="#38bdf8" fill-opacity="0.45"/>
+              <text x="298" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.325 m</text>
+              <!-- PPO Denied 0.8515 m -->
+              <rect x="148" y="100" width="379" height="16" rx="4" fill="#a78bfa" fill-opacity="0.45"/>
+              <text x="533" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.852 m</text>
+              <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0</text>
+              <text x="281" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.3 m</text>
+              <text x="415" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.6 m</text>
+              <text x="548" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.9 m</text>
+            </svg>
+          </div>
+
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span>RMPC</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#a78bfa;"></span>PPO</div>
+          <div class="legend-item" style="margin-left:auto;"><span>Full opacity = nominal &nbsp;·&nbsp; Faded = GNSS-denied</span></div>
+        </div>
+      </div>
+
+      <!-- 6 · Raw results table -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-raw-title">Raw Results (Thesis Table, N = 500)</h2>
+        <div class="table-wrap" style="margin-top:10px;">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th id="p1-col-metric">Metric</th>
+                <th id="p1-col-rmpc-nom">RMPC (nominal)</th>
+                <th id="p1-col-ppo-nom">PPO (nominal)</th>
+                <th id="p1-col-rmpc-den">RMPC (denial)</th>
+                <th id="p1-col-ppo-den">PPO (denial)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="p1-row-success">Success [%]</td>
+                <td>89.8</td><td>93.6</td><td>85.2</td><td>91.3</td>
+              </tr>
+              <tr>
+                <td id="p1-row-collision">Collision [%]</td>
+                <td style="color:#4ade80;">0.0</td><td style="color:#f87171;">3.1</td><td style="color:#4ade80;">0.0</td><td style="color:#f87171;">4.7</td>
+              </tr>
+              <tr>
+                <td id="p1-row-timeout">Timeout [%]</td>
+                <td>10.2</td><td>3.3</td><td>14.8</td><td>4.0</td>
+              </tr>
+              <tr>
+                <td id="p1-row-xtemean">XTE_nom / XTE_mean [m]</td>
+                <td>0.2664</td><td>0.7312</td><td>0.3245</td><td>0.8515</td>
+              </tr>
+              <tr>
+                <td id="p1-row-xtein">XTE_in [m]</td>
+                <td>--</td><td>--</td><td>0.3209</td><td>0.2099</td>
+              </tr>
+              <tr>
+                <td id="p1-row-xteout">XTE_out [m]</td>
+                <td>--</td><td>--</td><td>0.3276</td><td>0.8667</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 7 · GNSS denial impact -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-deg-title">GNSS Denial: Performance Impact</h2>
+        <div class="delta-grid">
+          <div class="delta-item">
+            <div class="delta-ctrl">RMPC</div>
+            <div class="delta-metric" id="p1-deg-m1">Tracking degradation (nominal → denied)</div>
+            <div class="delta-badge delta-up">+21.8%</div>
+            <div class="delta-detail" id="p1-deg-d1">0.266 → 0.325 m mean XTE</div>
+          </div>
+          <div class="delta-item">
+            <div class="delta-ctrl">RMPC</div>
+            <div class="delta-metric" id="p1-deg-m2">Denial-zone consistency (inside vs. outside)</div>
+            <div class="delta-badge delta-flat">−0.95%</div>
+            <div class="delta-detail" id="p1-deg-d2">XTE_in 0.321 m ≈ XTE_out 0.328 m</div>
+          </div>
+          <div class="delta-item">
+            <div class="delta-ctrl delta-ctrl-ppo">PPO</div>
+            <div class="delta-metric" id="p1-deg-m3">Tracking degradation (nominal → denied)</div>
+            <div class="delta-badge delta-up">+16.5%</div>
+            <div class="delta-detail" id="p1-deg-d3">0.731 → 0.852 m mean XTE</div>
+          </div>
+          <div class="delta-item">
+            <div class="delta-ctrl delta-ctrl-ppo">PPO</div>
+            <div class="delta-metric" id="p1-deg-m4">Denial-zone consistency (inside vs. outside)</div>
+            <div class="delta-badge delta-flag">−75.8%</div>
+            <div class="delta-detail" id="p1-deg-d4">XTE_in 0.210 m vs XTE_out 0.867 m — spike after denial</div>
+          </div>
+        </div>
+        <p class="small muted" id="p1-deg-note" style="margin: 14px 0 0; line-height: 1.65;">
+          P_deg-nom compares tracking error under denial vs. nominal. P_deg-InOut isolates whether degradation occurs
+          inside the denial zone or outside it. RMPC's −0.95% means it degrades uniformly throughout.
+          PPO's −75.8% reveals it tracks well inside the denial zone but accumulates large error once outside —
+          suggesting position drift that compounds after denial ends.
+        </p>
+      </div>
+
+      <!-- 8 · Study setup + Key metric (2-col) -->
       <div class="card">
         <h2 id="p1-setup-title">Study Setup</h2>
         <ul class="list">
@@ -91,176 +522,15 @@
         </p>
       </div>
 
+      <!-- 9 · Cost of deployment -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-raw-title">Raw Results (Thesis Table, N = 500)</h2>
-        <div class="table-wrap" style="margin-top:10px;">
-          <table class="results-table">
-            <thead>
-              <tr>
-                <th id="p1-col-metric">Metric</th>
-                <th id="p1-col-rmpc-nom">RMPC (nominal)</th>
-                <th id="p1-col-ppo-nom">PPO (nominal)</th>
-                <th id="p1-col-rmpc-den">RMPC (denial)</th>
-                <th id="p1-col-ppo-den">PPO (denial)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td id="p1-row-success">Success [%]</td>
-                <td>89.8</td>
-                <td>93.6</td>
-                <td>85.2</td>
-                <td>91.3</td>
-              </tr>
-              <tr>
-                <td id="p1-row-collision">Collision [%]</td>
-                <td>0.0</td>
-                <td>3.1</td>
-                <td>0.0</td>
-                <td>4.7</td>
-              </tr>
-              <tr>
-                <td id="p1-row-timeout">Timeout [%]</td>
-                <td>10.2</td>
-                <td>3.3</td>
-                <td>14.8</td>
-                <td>4.0</td>
-              </tr>
-              <tr>
-                <td id="p1-row-xtemean">XTE_nom / XTE_mean [m]</td>
-                <td>0.2664</td>
-                <td>0.7312</td>
-                <td>0.3245</td>
-                <td>0.8515</td>
-              </tr>
-              <tr>
-                <td id="p1-row-xtein">XTE_in [m]</td>
-                <td>--</td>
-                <td>--</td>
-                <td>0.3209</td>
-                <td>0.2099</td>
-              </tr>
-              <tr>
-                <td id="p1-row-xteout">XTE_out [m]</td>
-                <td>--</td>
-                <td>--</td>
-                <td>0.3276</td>
-                <td>0.8667</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Results Visualised: full width -->
-      <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-charts-title">Results Visualised</h2>
-        <div class="chart-grid-2">
-
-          <!-- Chart 1: Success Rate (400px = 100%) -->
-          <div class="chart-wrap">
-            <p class="chart-title" id="p1-chart1-title">Success Rate</p>
-            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Success rate comparison: RMPC vs PPO under nominal and GNSS-denied conditions">
-              <!-- Axis rail -->
-              <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-              <!-- Grid lines -->
-              <line x1="248" y1="6" x2="248" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
-              <line x1="348" y1="6" x2="348" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
-              <line x1="448" y1="6" x2="448" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
-              <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
-              <!-- Section labels -->
-              <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
-              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
-              <!-- Bar labels -->
-              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.9">RMPC</text>
-              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.9">PPO</text>
-              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.6">RMPC</text>
-              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.6">PPO</text>
-              <!-- RMPC Nominal 89.8%: 400×0.898=359 -->
-              <rect x="148" y="18" width="359" height="16" rx="4" fill="#38bdf8" fill-opacity="0.82"/>
-              <text x="513" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">89.8%</text>
-              <!-- PPO Nominal 93.6%: 400×0.936=374 -->
-              <rect x="148" y="38" width="374" height="16" rx="4" fill="#a78bfa" fill-opacity="0.82"/>
-              <text x="528" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">93.6%</text>
-              <!-- Group separator -->
-              <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
-              <!-- RMPC Denied 85.2%: 400×0.852=341 -->
-              <rect x="148" y="80" width="341" height="16" rx="4" fill="#38bdf8" fill-opacity="0.45"/>
-              <text x="495" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">85.2%</text>
-              <!-- PPO Denied 91.3%: 400×0.913=365 -->
-              <rect x="148" y="100" width="365" height="16" rx="4" fill="#a78bfa" fill-opacity="0.45"/>
-              <text x="519" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">91.3%</text>
-              <!-- X-axis labels -->
-              <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0%</text>
-              <text x="248" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">25%</text>
-              <text x="348" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">50%</text>
-              <text x="448" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">75%</text>
-              <text x="548" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">100%</text>
-            </svg>
-          </div>
-
-          <!-- Chart 2: Mean Cross-Track Error (400px = 0.9 m) -->
-          <div class="chart-wrap">
-            <p class="chart-title" id="p1-chart2-title">Cross-Track Error — lower is better</p>
-            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Mean cross-track error comparison: RMPC vs PPO">
-              <!-- Axis rail -->
-              <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-              <!-- Grid: 0.9 m scale. 0.3 m=133px→x281, 0.6 m=267px→x415, 0.9 m=400px→x548 -->
-              <line x1="281" y1="6" x2="281" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
-              <line x1="415" y1="6" x2="415" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
-              <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
-              <!-- Section labels -->
-              <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
-              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
-              <!-- Bar labels -->
-              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.9">RMPC</text>
-              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.9">PPO</text>
-              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#38bdf8" fill-opacity="0.6">RMPC</text>
-              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#a78bfa" fill-opacity="0.6">PPO</text>
-              <!-- RMPC Nominal 0.2664 m: 0.2664/0.9×400=118 -->
-              <rect x="148" y="18" width="118" height="16" rx="4" fill="#38bdf8" fill-opacity="0.82"/>
-              <text x="272" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.266 m</text>
-              <!-- PPO Nominal 0.7312 m: 0.7312/0.9×400=325 -->
-              <rect x="148" y="38" width="325" height="16" rx="4" fill="#a78bfa" fill-opacity="0.82"/>
-              <text x="479" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.731 m</text>
-              <!-- Group separator -->
-              <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
-              <!-- RMPC Denied 0.3245 m: 0.3245/0.9×400=144 -->
-              <rect x="148" y="80" width="144" height="16" rx="4" fill="#38bdf8" fill-opacity="0.45"/>
-              <text x="298" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.325 m</text>
-              <!-- PPO Denied 0.8515 m: 0.8515/0.9×400=379 -->
-              <rect x="148" y="100" width="379" height="16" rx="4" fill="#a78bfa" fill-opacity="0.45"/>
-              <text x="533" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.852 m</text>
-              <!-- X-axis labels -->
-              <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0</text>
-              <text x="281" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.3 m</text>
-              <text x="415" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.6 m</text>
-              <text x="548" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.9 m</text>
-            </svg>
-          </div>
-
-        </div>
-        <!-- Shared legend -->
-        <div class="chart-legend">
-          <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span>RMPC</div>
-          <div class="legend-item"><span class="legend-dot" style="background:#a78bfa;"></span>PPO</div>
-          <div class="legend-item" style="margin-left:auto;"><span>Full opacity = nominal &nbsp;·&nbsp; Faded = GNSS-denied</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2 id="p1-deg-title">Head-to-Head Degradation (Thesis Formulas)</h2>
-        <ul class="list">
-          <li id="p1-deg-1">RMPC P_deg-nom = ((0.3245 / 0.2664) - 1) x 100% = +21.81%.</li>
-          <li id="p1-deg-2">RMPC P_deg-InOut = ((0.3245 / 0.3276) - 1) x 100% = -0.95%.</li>
-          <li id="p1-deg-3">PPO P_deg-nom = ((0.8515 / 0.7312) - 1) x 100% = +16.45%.</li>
-          <li id="p1-deg-4">PPO P_deg-InOut = ((0.2099 / 0.8667) - 1) x 100% = -75.78%.</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h2 id="p1-work-title">Workload and Runtime Cost (Thesis Table)</h2>
-        <div class="table-wrap" style="margin-top:10px;">
+        <h2 id="p1-work-title">Cost of Deployment</h2>
+        <p id="p1-work-note" class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">
+          Rollout speed measures how fast each controller issues actions during operation.
+          PPO's advantage (63× faster) comes from a single neural-network forward pass,
+          versus RMPC solving an online optimisation problem at each timestep.
+        </p>
+        <div class="table-wrap">
           <table class="results-table" style="min-width:560px;">
             <thead>
               <tr>
@@ -272,32 +542,40 @@
             <tbody>
               <tr>
                 <td id="p1-work-row-impl">Implementation time [man-hours]</td>
-                <td>24</td>
-                <td>120</td>
+                <td>24</td><td>120</td>
               </tr>
               <tr>
                 <td id="p1-work-row-train">Training/tuning duration [h]</td>
-                <td>2</td>
-                <td>250</td>
+                <td>2</td><td>250</td>
               </tr>
               <tr>
                 <td id="p1-work-row-speed">Rollout speed [actions/s]</td>
-                <td>20.2</td>
-                <td>1270</td>
+                <td>20.2</td><td>1270</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
+      <!-- 10 · Verdict -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-conc-title">Thesis Conclusions (Condensed)</h2>
-        <ul class="list">
-          <li id="p1-conc-1">RMPC: strongest on safety/predictability, with conservative behavior and higher online compute cost.</li>
-          <li id="p1-conc-2">PPO: strongest on flexibility/adaptability and online speed, without formal stability/constraint guarantees.</li>
-          <li id="p1-conc-3">No universal winner: controller choice depends on system priorities and risk tolerance.</li>
-        </ul>
+        <h2 id="p1-verdict-title">Verdict</h2>
+        <div class="verdict-grid">
+          <div class="verdict-card verdict-rmpc">
+            <div class="verdict-badge" id="p1-v1-badge">Safety &amp; Predictability</div>
+            <p id="p1-v1-text">RMPC is the clear winner where hard constraints matter. Zero collisions across 1 000 runs, predictable degradation under denial, and formal guarantees on obstacle avoidance make it the right choice for safety-critical applications — at the cost of slower online execution and a more complex implementation.</p>
+          </div>
+          <div class="verdict-card verdict-ppo">
+            <div class="verdict-badge" id="p1-v2-badge">Flexibility &amp; Online Speed</div>
+            <p id="p1-v2-text">PPO matched or exceeded RMPC on raw success rate and runs 63× faster online. Its policy adapts naturally without an explicit model — but the 3–5% collision rate and lack of formal guarantees disqualify it from safety-critical use as-is.</p>
+          </div>
+          <div class="verdict-card verdict-neutral">
+            <div class="verdict-badge" id="p1-v3-badge">Takeaway</div>
+            <p id="p1-v3-text">No universal winner. RMPC is the right choice when safety is non-negotiable; PPO when throughput and adaptability matter more than constraint guarantees. The real value of this thesis is the direct, controlled comparison under identical conditions — a practical baseline for future controller design decisions.</p>
+          </div>
+        </div>
       </div>
+
     </section>
   </main>
 

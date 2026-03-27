@@ -231,14 +231,39 @@
       en: {
         pdfBtn: "Open thesis PDF",
         source: "Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.",
-        setupTitle: "Study Setup",
-        setup1: "Controllers: Tube RMPC and PPO.",
-        setup2: "Evaluation dataset size: N = 500 environments.",
-        setup3: "Same worlds used for both controllers and both denial configurations.",
-        setup4: "Conditions: nominal and GNSS-denied operation.",
-        keyTitle: "Key Metric Definition",
-        keyText:
-          "Tracking quality is measured with Cross-Track Error (XTE), defined as the Euclidean distance from robot position to the nearest reference waypoint with monotonic index progression along the path.",
+        // Context
+        ctxTitle: "What this thesis is about",
+        ctxText:
+          "A simulated ground robot navigates cluttered indoor environments, following a reference path to a goal while avoiding obstacles. " +
+          "The thesis asks one question: when GPS positioning is jammed mid-run, which controller holds up better — Tube Robust MPC, with " +
+          "formal safety guarantees, or PPO, a neural network trained through reinforcement learning? " +
+          "Both were benchmarked head-to-head across 500 identical environments under nominal GPS and GNSS-denied conditions.",
+        // Controllers
+        ctrlTitle: "Controllers at a glance",
+        ctrlRmpcName: "Tube Robust MPC",
+        ctrlRmpc1: "Predicts future states using an explicit dynamics model",
+        ctrlRmpc2: "Tube formulation bounds the effect of noise — hard constraints guaranteed",
+        ctrlRmpc3: "Conservative by design; higher online compute cost",
+        ctrlPpoName: "Proximal Policy Optimisation (PPO)",
+        ctrlPpo1: "Policy learned through simulated trial-and-error — no explicit model",
+        ctrlPpo2: "Single neural-network forward pass; 63× faster online than RMPC",
+        ctrlPpo3: "No formal stability or obstacle-avoidance guarantees",
+        // Experiment at a glance
+        expTitle: "Experiment at a glance",
+        stat1: "environments evaluated",
+        stat2: "controllers compared",
+        stat3: "operating conditions",
+        stat4: "RMPC collision rate",
+        // Safety callout
+        safetyTitle: "Safety highlight",
+        safetyText:
+          "RMPC recorded zero collisions in both nominal and GNSS-denied conditions. " +
+          "PPO collided in 3.1% of nominal runs and 4.7% under GPS denial — a direct result of operating without hard obstacle-avoidance constraints.",
+        // Charts
+        chartsTitle: "Results Visualised",
+        chart1Title: "Success Rate",
+        chart2Title: "Cross-Track Error — lower is better",
+        // Raw table
         rawTitle: "Raw Results (Thesis Table, N = 500)",
         colMetric: "Metric",
         colRmpcNom: "RMPC (nominal)",
@@ -251,117 +276,221 @@
         rowXteMean: "XTE_nom / XTE_mean [m]",
         rowXteIn: "XTE_in [m]",
         rowXteOut: "XTE_out [m]",
-        degTitle: "Head-to-Head Degradation (Thesis Formulas)",
-        deg1: "RMPC P_deg-nom = ((0.3245 / 0.2664) - 1) x 100% = +21.81%.",
-        deg2: "RMPC P_deg-InOut = ((0.3245 / 0.3276) - 1) x 100% = -0.95%.",
-        deg3: "PPO P_deg-nom = ((0.8515 / 0.7312) - 1) x 100% = +16.45%.",
-        deg4: "PPO P_deg-InOut = ((0.2099 / 0.8667) - 1) x 100% = -75.78%.",
-        workTitle: "Workload and Runtime Cost (Thesis Table)",
+        // GNSS denial
+        degTitle: "GNSS Denial: Performance Impact",
+        degM1: "Tracking degradation (nominal → denied)",
+        degM2: "Denial-zone consistency (inside vs. outside)",
+        degM3: "Tracking degradation (nominal → denied)",
+        degM4: "Denial-zone consistency (inside vs. outside)",
+        degD1: "0.266 → 0.325 m mean XTE",
+        degD2: "XTE_in 0.321 m ≈ XTE_out 0.328 m",
+        degD3: "0.731 → 0.852 m mean XTE",
+        degD4: "XTE_in 0.210 m vs XTE_out 0.867 m — spike after denial",
+        degNote:
+          "P_deg-nom compares tracking error under denial vs. nominal. P_deg-InOut isolates whether degradation occurs " +
+          "inside the denial zone or outside it. RMPC's −0.95% means it degrades uniformly throughout. " +
+          "PPO's −75.8% reveals it tracks well inside the denial zone but accumulates large error once outside — " +
+          "suggesting position drift that compounds after denial ends.",
+        // Study setup
+        setupTitle: "Study Setup",
+        setup1: "Controllers: Tube RMPC and PPO.",
+        setup2: "Evaluation dataset size: N = 500 environments.",
+        setup3: "Same worlds used for both controllers and both denial configurations.",
+        setup4: "Conditions: nominal and GNSS-denied operation.",
+        // Key metric
+        keyTitle: "Key Metric Definition",
+        keyText:
+          "Tracking quality is measured with Cross-Track Error (XTE), defined as the Euclidean distance from robot position to the nearest reference waypoint with monotonic index progression along the path.",
+        // Cost of deployment
+        workTitle: "Cost of Deployment",
+        workNote:
+          "Rollout speed measures how fast each controller issues actions during operation. " +
+          "PPO's advantage (63× faster) comes from a single neural-network forward pass, " +
+          "versus RMPC solving an online optimisation problem at each timestep.",
         workColMetric: "Metric",
         workColRmpc: "Tube RMPC",
         workColPpo: "PPO",
         workRowImpl: "Implementation time [man-hours]",
         workRowTrain: "Training/tuning duration [h]",
         workRowSpeed: "Rollout speed [actions/s]",
-        concTitle: "Thesis Conclusions (Condensed)",
-        conc1:
-          "RMPC: strongest on safety/predictability, with conservative behavior and higher online compute cost.",
-        conc2:
-          "PPO: strongest on flexibility/adaptability and online speed, without formal stability/constraint guarantees.",
-        conc3: "No universal winner: controller choice depends on system priorities and risk tolerance.",
-        chartsTitle: "Results Visualised",
-        chart1Title: "Success Rate",
-        chart2Title: "Cross-Track Error — lower is better"
+        // Verdict
+        verdictTitle: "Verdict",
+        v1Badge: "Safety & Predictability",
+        v1Text:
+          "RMPC is the clear winner where hard constraints matter. Zero collisions across 1 000 runs, predictable degradation under denial, and formal guarantees on obstacle avoidance make it the right choice for safety-critical applications — at the cost of slower online execution and a more complex implementation.",
+        v2Badge: "Flexibility & Online Speed",
+        v2Text:
+          "PPO matched or exceeded RMPC on raw success rate and runs 63× faster online. Its policy adapts naturally without an explicit model — but the 3–5% collision rate and lack of formal guarantees disqualify it from safety-critical use as-is.",
+        v3Badge: "Takeaway",
+        v3Text:
+          "No universal winner. RMPC is the right choice when safety is non-negotiable; PPO when throughput and adaptability matter more than constraint guarantees. The real value of this thesis is the direct, controlled comparison under identical conditions — a practical baseline for future controller design decisions."
       },
       fr: {
         pdfBtn: "Ouvrir le PDF du mémoire",
-        source: "Source : chapitres 5 et 6 du manuscrit LaTeX de la these.",
-        setupTitle: "Cadre de l'etude",
-        setup1: "Controleurs : Tube RMPC et PPO.",
-        setup2: "Taille du jeu d'evaluation : N = 500 environnements.",
-        setup3: "Memes mondes utilises pour les deux controleurs et les deux configurations de deni.",
-        setup4: "Conditions : nominale et GNSS denie.",
-        keyTitle: "Definition de la mesure cle",
-        keyText:
-          "La qualite de suivi est mesuree par la Cross-Track Error (XTE), definie comme la distance euclidienne entre la position du robot et le point de reference le plus proche, avec progression monotone de l'index le long de la trajectoire.",
-        rawTitle: "Resultats bruts (table de these, N = 500)",
+        source: "Source : chapitres 5 et 6 du manuscrit LaTeX de la thèse.",
+        // Context
+        ctxTitle: "De quoi parle cette thèse",
+        ctxText:
+          "Un robot terrestre simulé navigue dans des environnements intérieurs encombrés, en suivant une trajectoire de référence vers un objectif tout en évitant les obstacles. " +
+          "La thèse pose une question : lorsque le positionnement GPS est brouillé en pleine course, quel contrôleur résiste mieux — le Tube RMPC, avec ses garanties formelles de sécurité, ou le PPO, un réseau de neurones entraîné par apprentissage par renforcement ? " +
+          "Les deux ont été comparés sur 500 environnements identiques, en conditions nominales et avec refus GNSS.",
+        // Controllers
+        ctrlTitle: "Les contrôleurs en un coup d'œil",
+        ctrlRmpcName: "Tube Robust MPC",
+        ctrlRmpc1: "Prédit les états futurs à l'aide d'un modèle dynamique explicite",
+        ctrlRmpc2: "La formulation tube borne l'effet du bruit — contraintes dures garanties",
+        ctrlRmpc3: "Conservateur par construction ; coût de calcul en ligne plus élevé",
+        ctrlPpoName: "Proximal Policy Optimisation (PPO)",
+        ctrlPpo1: "Politique apprise par essai-erreur simulé — sans modèle explicite",
+        ctrlPpo2: "Passage direct dans un réseau de neurones ; 63× plus rapide en ligne que RMPC",
+        ctrlPpo3: "Aucune garantie formelle de stabilité ou d'évitement d'obstacles",
+        // Experiment at a glance
+        expTitle: "L'expérience en chiffres",
+        stat1: "environnements évalués",
+        stat2: "contrôleurs comparés",
+        stat3: "conditions d'opération",
+        stat4: "taux de collision RMPC",
+        // Safety callout
+        safetyTitle: "Résultat de sécurité",
+        safetyText:
+          "RMPC n'a enregistré aucune collision, ni en conditions nominales ni avec refus GNSS. " +
+          "PPO a percuté des obstacles dans 3,1 % des courses nominales et 4,7 % avec refus GPS — conséquence directe de l'absence de contraintes formelles d'évitement.",
+        // Charts
+        chartsTitle: "Résultats visualisés",
+        chart1Title: "Taux de succès",
+        chart2Title: "Erreur transversale — plus bas = mieux",
+        // Raw table
+        rawTitle: "Résultats bruts (table de thèse, N = 500)",
         colMetric: "Mesure",
         colRmpcNom: "RMPC (nominal)",
         colPpoNom: "PPO (nominal)",
-        colRmpcDen: "RMPC (deni)",
-        colPpoDen: "PPO (deni)",
-        rowSuccess: "Succes [%]",
+        colRmpcDen: "RMPC (refus)",
+        colPpoDen: "PPO (refus)",
+        rowSuccess: "Succès [%]",
         rowCollision: "Collision [%]",
         rowTimeout: "Timeout [%]",
         rowXteMean: "XTE_nom / XTE_mean [m]",
         rowXteIn: "XTE_in [m]",
         rowXteOut: "XTE_out [m]",
-        degTitle: "Degradation face-a-face (formules de these)",
-        deg1: "RMPC P_deg-nom = ((0.3245 / 0.2664) - 1) x 100% = +21.81%.",
-        deg2: "RMPC P_deg-InOut = ((0.3245 / 0.3276) - 1) x 100% = -0.95%.",
-        deg3: "PPO P_deg-nom = ((0.8515 / 0.7312) - 1) x 100% = +16.45%.",
-        deg4: "PPO P_deg-InOut = ((0.2099 / 0.8667) - 1) x 100% = -75.78%.",
-        workTitle: "Charge de travail et cout d'execution (table de these)",
+        // GNSS denial
+        degTitle: "Refus GNSS : impact sur les performances",
+        degM1: "Dégradation du suivi (nominal → refus)",
+        degM2: "Cohérence en zone de refus (intérieur vs. extérieur)",
+        degM3: "Dégradation du suivi (nominal → refus)",
+        degM4: "Cohérence en zone de refus (intérieur vs. extérieur)",
+        degD1: "XTE moyenne 0,266 → 0,325 m",
+        degD2: "XTE_in 0,321 m ≈ XTE_out 0,328 m",
+        degD3: "XTE moyenne 0,731 → 0,852 m",
+        degD4: "XTE_in 0,210 m vs XTE_out 0,867 m — pic après le refus",
+        degNote:
+          "P_deg-nom : erreur de suivi avec refus vs nominale. P_deg-InOut : erreur à l'intérieur de la zone de refus par rapport à l'extérieur. " +
+          "Le −0,95 % de RMPC indique une dégradation uniforme. " +
+          "Le −75,8 % de PPO révèle qu'il suit bien à l'intérieur de la zone mais accumule une grande erreur après — " +
+          "suggérant une dérive de position qui s'amplifie une fois le refus terminé.",
+        // Study setup
+        setupTitle: "Cadre de l'étude",
+        setup1: "Contrôleurs : Tube RMPC et PPO.",
+        setup2: "Taille du jeu d'évaluation : N = 500 environnements.",
+        setup3: "Mêmes mondes utilisés pour les deux contrôleurs et les deux configurations de refus.",
+        setup4: "Conditions : nominale et GNSS refusé.",
+        // Key metric
+        keyTitle: "Définition de la mesure clé",
+        keyText:
+          "La qualité de suivi est mesurée par la Cross-Track Error (XTE), définie comme la distance euclidienne entre la position du robot et le point de référence le plus proche, avec progression monotone de l'index le long de la trajectoire.",
+        // Cost of deployment
+        workTitle: "Coût de déploiement",
+        workNote:
+          "La vitesse de rollout mesure la rapidité avec laquelle chaque contrôleur émet des actions en fonctionnement. " +
+          "L'avantage de PPO (63× plus rapide) vient d'un passage direct dans un réseau de neurones, " +
+          "contre la résolution d'un problème d'optimisation en ligne à chaque pas de temps pour RMPC.",
         workColMetric: "Mesure",
         workColRmpc: "Tube RMPC",
         workColPpo: "PPO",
-        workRowImpl: "Temps d'implementation [heures-homme]",
-        workRowTrain: "Duree d'entrainement/reglage [h]",
+        workRowImpl: "Temps d'implémentation [heures-homme]",
+        workRowTrain: "Durée d'entraînement/réglage [h]",
         workRowSpeed: "Vitesse de rollout [actions/s]",
-        concTitle: "Conclusions de la these (resume)",
-        conc1:
-          "RMPC : meilleur sur la securite/predictibilite, avec un comportement conservateur et un cout en ligne plus eleve.",
-        conc2:
-          "PPO : meilleur sur la flexibilite/adaptabilite et la vitesse en ligne, sans garanties formelles de stabilite/contraintes.",
-        conc3:
-          "Pas de gagnant universel : le choix du controleur depend des priorites systeme et de la tolerance au risque.",
-        chartsTitle: "Résultats visualisés",
-        chart1Title: "Taux de succès",
-        chart2Title: "Erreur transversale — plus bas = mieux"
+        // Verdict
+        verdictTitle: "Verdict",
+        v1Badge: "Sécurité & Prévisibilité",
+        v1Text:
+          "RMPC est le grand gagnant là où les contraintes dures importent. Zéro collision sur 1 000 courses, dégradation prévisible sous refus GNSS et garanties formelles d'évitement d'obstacles en font le choix approprié pour les applications à risque — au prix d'une exécution en ligne plus lente et d'une implémentation plus complexe.",
+        v2Badge: "Flexibilité & Vitesse en ligne",
+        v2Text:
+          "PPO égale ou dépasse RMPC sur le taux de succès brut et est 63× plus rapide en ligne. Sa politique s'adapte naturellement sans modèle explicite — mais le taux de collision de 3 à 5 % et l'absence de garanties formelles l'excluent des usages critiques en l'état.",
+        v3Badge: "À retenir",
+        v3Text:
+          "Pas de gagnant universel. RMPC s'impose quand la sécurité est non-négociable ; PPO quand le débit et l'adaptabilité priment sur les garanties de contraintes. La vraie valeur de cette thèse est la comparaison directe et contrôlée dans des conditions identiques — une base pratique pour les futures décisions de conception de contrôleurs."
       }
     }[lang] || {};
 
     const map = [
-      ["#p1-pdf-btn", copy.pdfBtn],
-      ["#p1-source", copy.source],
-      ["#p1-setup-title", copy.setupTitle],
-      ["#p1-setup-1", copy.setup1],
-      ["#p1-setup-2", copy.setup2],
-      ["#p1-setup-3", copy.setup3],
-      ["#p1-setup-4", copy.setup4],
-      ["#p1-key-title", copy.keyTitle],
-      ["#p1-key-text", copy.keyText],
-      ["#p1-raw-title", copy.rawTitle],
-      ["#p1-col-metric", copy.colMetric],
-      ["#p1-col-rmpc-nom", copy.colRmpcNom],
-      ["#p1-col-ppo-nom", copy.colPpoNom],
-      ["#p1-col-rmpc-den", copy.colRmpcDen],
-      ["#p1-col-ppo-den", copy.colPpoDen],
-      ["#p1-row-success", copy.rowSuccess],
-      ["#p1-row-collision", copy.rowCollision],
-      ["#p1-row-timeout", copy.rowTimeout],
-      ["#p1-row-xtemean", copy.rowXteMean],
-      ["#p1-row-xtein", copy.rowXteIn],
-      ["#p1-row-xteout", copy.rowXteOut],
-      ["#p1-deg-title", copy.degTitle],
-      ["#p1-deg-1", copy.deg1],
-      ["#p1-deg-2", copy.deg2],
-      ["#p1-deg-3", copy.deg3],
-      ["#p1-deg-4", copy.deg4],
-      ["#p1-work-title", copy.workTitle],
-      ["#p1-work-col-metric", copy.workColMetric],
-      ["#p1-work-col-rmpc", copy.workColRmpc],
-      ["#p1-work-col-ppo", copy.workColPpo],
-      ["#p1-work-row-impl", copy.workRowImpl],
+      ["#p1-pdf-btn",        copy.pdfBtn],
+      ["#p1-source",         copy.source],
+      ["#p1-ctx-title",      copy.ctxTitle],
+      ["#p1-ctx-text",       copy.ctxText],
+      ["#p1-ctrl-title",     copy.ctrlTitle],
+      ["#p1-ctrl-rmpc-name", copy.ctrlRmpcName],
+      ["#p1-ctrl-rmpc-1",    copy.ctrlRmpc1],
+      ["#p1-ctrl-rmpc-2",    copy.ctrlRmpc2],
+      ["#p1-ctrl-rmpc-3",    copy.ctrlRmpc3],
+      ["#p1-ctrl-ppo-name",  copy.ctrlPpoName],
+      ["#p1-ctrl-ppo-1",     copy.ctrlPpo1],
+      ["#p1-ctrl-ppo-2",     copy.ctrlPpo2],
+      ["#p1-ctrl-ppo-3",     copy.ctrlPpo3],
+      ["#p1-exp-title",      copy.expTitle],
+      ["#p1-stat-1",         copy.stat1],
+      ["#p1-stat-2",         copy.stat2],
+      ["#p1-stat-3",         copy.stat3],
+      ["#p1-stat-4",         copy.stat4],
+      ["#p1-safety-title",   copy.safetyTitle],
+      ["#p1-safety-text",    copy.safetyText],
+      ["#p1-charts-title",   copy.chartsTitle],
+      ["#p1-chart1-title",   copy.chart1Title],
+      ["#p1-chart2-title",   copy.chart2Title],
+      ["#p1-raw-title",      copy.rawTitle],
+      ["#p1-col-metric",     copy.colMetric],
+      ["#p1-col-rmpc-nom",   copy.colRmpcNom],
+      ["#p1-col-ppo-nom",    copy.colPpoNom],
+      ["#p1-col-rmpc-den",   copy.colRmpcDen],
+      ["#p1-col-ppo-den",    copy.colPpoDen],
+      ["#p1-row-success",    copy.rowSuccess],
+      ["#p1-row-collision",  copy.rowCollision],
+      ["#p1-row-timeout",    copy.rowTimeout],
+      ["#p1-row-xtemean",    copy.rowXteMean],
+      ["#p1-row-xtein",      copy.rowXteIn],
+      ["#p1-row-xteout",     copy.rowXteOut],
+      ["#p1-deg-title",      copy.degTitle],
+      ["#p1-deg-m1",         copy.degM1],
+      ["#p1-deg-m2",         copy.degM2],
+      ["#p1-deg-m3",         copy.degM3],
+      ["#p1-deg-m4",         copy.degM4],
+      ["#p1-deg-d1",         copy.degD1],
+      ["#p1-deg-d2",         copy.degD2],
+      ["#p1-deg-d3",         copy.degD3],
+      ["#p1-deg-d4",         copy.degD4],
+      ["#p1-deg-note",       copy.degNote],
+      ["#p1-setup-title",    copy.setupTitle],
+      ["#p1-setup-1",        copy.setup1],
+      ["#p1-setup-2",        copy.setup2],
+      ["#p1-setup-3",        copy.setup3],
+      ["#p1-setup-4",        copy.setup4],
+      ["#p1-key-title",      copy.keyTitle],
+      ["#p1-key-text",       copy.keyText],
+      ["#p1-work-title",     copy.workTitle],
+      ["#p1-work-note",      copy.workNote],
+      ["#p1-work-col-metric",copy.workColMetric],
+      ["#p1-work-col-rmpc",  copy.workColRmpc],
+      ["#p1-work-col-ppo",   copy.workColPpo],
+      ["#p1-work-row-impl",  copy.workRowImpl],
       ["#p1-work-row-train", copy.workRowTrain],
       ["#p1-work-row-speed", copy.workRowSpeed],
-      ["#p1-conc-title", copy.concTitle],
-      ["#p1-conc-1", copy.conc1],
-      ["#p1-conc-2", copy.conc2],
-      ["#p1-conc-3", copy.conc3],
-      ["#p1-charts-title", copy.chartsTitle],
-      ["#p1-chart1-title", copy.chart1Title],
-      ["#p1-chart2-title", copy.chart2Title]
+      ["#p1-verdict-title",  copy.verdictTitle],
+      ["#p1-v1-badge",       copy.v1Badge],
+      ["#p1-v1-text",        copy.v1Text],
+      ["#p1-v2-badge",       copy.v2Badge],
+      ["#p1-v2-text",        copy.v2Text],
+      ["#p1-v3-badge",       copy.v3Badge],
+      ["#p1-v3-text",        copy.v3Text]
     ];
     map.forEach(([selector, text]) => {
       if (!text) return;
