@@ -231,27 +231,28 @@
       en: {
         pdfBtn: "Open thesis PDF",
         repoBtn: "View repo",
-        source: "Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.",
+        source: "BEng thesis — Warsaw University of Technology, Nov 2025. Supervisor: Prof. Marcin Żugaj, DSc, Eng. Source: Chapters 5–6.",
         // In action
         actionTitle: "In action — GNSS-denied run, environment 044",
         actionDesc: "Same environment, same conditions. Watch how each controller handles the denial zone.",
         // Context
         ctxTitle: "What this thesis is about",
         ctxText:
-          "A simulated ground robot navigates cluttered indoor environments, following a reference path to a goal while avoiding obstacles. " +
-          "The thesis asks one question: when GPS positioning is jammed mid-run, which controller holds up better — Tube Robust MPC, with " +
-          "formal safety guarantees, or PPO, a neural network trained through reinforcement learning? " +
-          "Both were benchmarked head-to-head across 500 identical environments under nominal GPS and GNSS-denied conditions.",
+          "Full title: \"A Comparative Analysis of Reinforcement Learning and Robust Model Predictive Control under GNSS-denial conditions using a mobile robot platform.\" " +
+          "A simulated Roomba navigates cluttered indoor environments, following a reference path to a goal while avoiding obstacles and a local GNSS-denial zone. " +
+          "The research objective was a structured comparison across four dimensions: stability, accuracy, robustness, and computational load — " +
+          "under both nominal GPS and actively jammed conditions. " +
+          "Both controllers were benchmarked across 500 identical environments to ensure a fair, reproducible comparison.",
         // Controllers
         ctrlTitle: "Controllers at a glance",
         ctrlRmpcName: "Tube Robust MPC",
-        ctrlRmpc1: "Predicts future states using an explicit dynamics model",
-        ctrlRmpc2: "Tube formulation bounds the effect of noise — hard constraints guaranteed",
-        ctrlRmpc3: "Conservative by design; higher online compute cost",
+        ctrlRmpc1: "Predicts future states using an explicit dynamics model with LQR disturbance rejection",
+        ctrlRmpc2: "Tube formulation bounds the effect of noise — hard obstacle-avoidance constraints guaranteed",
+        ctrlRmpc3: "Conservative by design; 10–15% timeout rate signals a need for constraint relaxation in real deployments",
         ctrlPpoName: "Proximal Policy Optimisation (PPO)",
-        ctrlPpo1: "Policy learned through simulated trial-and-error — no explicit model",
+        ctrlPpo1: "End-to-end learned policy via multi-stage curriculum training — no explicit system model",
         ctrlPpo2: "Single neural-network forward pass; 63× faster online than RMPC",
-        ctrlPpo3: "No formal stability or obstacle-avoidance guarantees",
+        ctrlPpo3: "3–5% collision rate partly reflects a reward-shape conflict, not purely a fundamental RL limitation",
         // Experiment at a glance
         expTitle: "Experiment at a glance",
         stat1: "environments evaluated",
@@ -321,37 +322,44 @@
         verdictTitle: "Verdict",
         v1Badge: "Safety & Predictability",
         v1Text:
-          "RMPC is the clear winner where hard constraints matter. Zero collisions across 1 000 runs, predictable degradation under denial, and formal guarantees on obstacle avoidance make it the right choice for safety-critical applications — at the cost of slower online execution and a more complex implementation.",
+          "RMPC is the clear winner where safety is non-negotiable. Zero collisions across 1 000 runs and formally guaranteed obstacle-avoidance constraints make it the right choice for safety-critical applications. " +
+          "Real weakness: a 10–15% timeout rate — the receding-horizon solver occasionally cannot find a feasible path in time, which would require constraint relaxation or a fallback controller in a real deployment.",
         v2Badge: "Flexibility & Online Speed",
         v2Text:
-          "PPO matched or exceeded RMPC on raw success rate and runs 63× faster online. Its policy adapts naturally without an explicit model — but the 3–5% collision rate and lack of formal guarantees disqualify it from safety-critical use as-is.",
-        v3Badge: "Takeaway",
+          "PPO matched or exceeded RMPC on success rate and runs 63× faster online. A counterintuitive result: PPO's XTE inside the denial zone (0.21 m) was lower than RMPC's (0.32 m), showing stronger in-the-moment noise rejection. " +
+          "The 3–5% collision rate is partly a reward-shaping artifact — path-following and obstacle-avoidance objectives were in conflict during training — not necessarily a ceiling for the approach.",
+        v3Badge: "Honest Takeaway",
         v3Text:
-          "No universal winner. RMPC is the right choice when safety is non-negotiable; PPO when throughput and adaptability matter more than constraint guarantees. The real value of this thesis is the direct, controlled comparison under identical conditions — a practical baseline for future controller design decisions."
+          "No universal winner — and the honest caveat from the defense: the test environment may have been too simple for a fully fair verdict. " +
+          "RMPC excels when slow operation (~20 fps) is acceptable and safety guarantees are required. " +
+          "PPO's relative strengths in adaptability and noise rejection would likely become more pronounced in more complex environments with harsher disturbances. " +
+          "The thesis establishes a reproducible baseline; a definitive comparison would require both controllers at equal levels of optimisation."
       },
       fr: {
         pdfBtn: "Ouvrir le PDF du mémoire",
         repoBtn: "Voir le dépôt",
-        source: "Source : chapitres 5 et 6 du manuscrit LaTeX de la thèse.",
+        source: "Mémoire de licence — Université de Technologie de Varsovie, nov. 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing. Source : chapitres 5–6.",
         // In action
         actionTitle: "En action — course avec refus GNSS, environnement 044",
         actionDesc: "Même environnement, mêmes conditions. Observez comment chaque contrôleur gère la zone de refus.",
         // Context
         ctxTitle: "De quoi parle cette thèse",
         ctxText:
-          "Un robot terrestre simulé navigue dans des environnements intérieurs encombrés, en suivant une trajectoire de référence vers un objectif tout en évitant les obstacles. " +
-          "La thèse pose une question : lorsque le positionnement GPS est brouillé en pleine course, quel contrôleur résiste mieux — le Tube RMPC, avec ses garanties formelles de sécurité, ou le PPO, un réseau de neurones entraîné par apprentissage par renforcement ? " +
-          "Les deux ont été comparés sur 500 environnements identiques, en conditions nominales et avec refus GNSS.",
+          "Titre complet : « Analyse comparative de l'apprentissage par renforcement et du contrôle prédictif robuste en conditions de refus GNSS sur une plateforme robotique mobile. » " +
+          "Un Roomba simulé navigue dans des environnements intérieurs encombrés, en suivant une trajectoire de référence tout en évitant les obstacles et une zone de refus GNSS locale. " +
+          "L'objectif de recherche était une comparaison structurée selon quatre dimensions : stabilité, précision, robustesse et charge de calcul — " +
+          "en conditions nominales et avec brouillage actif. " +
+          "Les deux contrôleurs ont été comparés sur 500 environnements identiques pour garantir une comparaison équitable et reproductible.",
         // Controllers
         ctrlTitle: "Les contrôleurs en un coup d'œil",
         ctrlRmpcName: "Tube Robust MPC",
-        ctrlRmpc1: "Prédit les états futurs à l'aide d'un modèle dynamique explicite",
-        ctrlRmpc2: "La formulation tube borne l'effet du bruit — contraintes dures garanties",
-        ctrlRmpc3: "Conservateur par construction ; coût de calcul en ligne plus élevé",
+        ctrlRmpc1: "Prédit les états futurs via un modèle dynamique explicite avec rejet de perturbations par LQR",
+        ctrlRmpc2: "La formulation tube borne l'effet du bruit — contraintes d'évitement d'obstacles garanties",
+        ctrlRmpc3: "Conservateur par construction ; taux de timeout de 10–15 % nécessitant une relaxation des contraintes en déploiement réel",
         ctrlPpoName: "Proximal Policy Optimisation (PPO)",
-        ctrlPpo1: "Politique apprise par essai-erreur simulé — sans modèle explicite",
+        ctrlPpo1: "Politique apprise de bout en bout par curriculum d'entraînement progressif — sans modèle explicite",
         ctrlPpo2: "Passage direct dans un réseau de neurones ; 63× plus rapide en ligne que RMPC",
-        ctrlPpo3: "Aucune garantie formelle de stabilité ou d'évitement d'obstacles",
+        ctrlPpo3: "Taux de collision de 3–5 % en partie dû à un conflit de récompenses, pas nécessairement une limite fondamentale",
         // Experiment at a glance
         expTitle: "L'expérience en chiffres",
         stat1: "environnements évalués",
@@ -421,13 +429,18 @@
         verdictTitle: "Verdict",
         v1Badge: "Sécurité & Prévisibilité",
         v1Text:
-          "RMPC est le grand gagnant là où les contraintes dures importent. Zéro collision sur 1 000 courses, dégradation prévisible sous refus GNSS et garanties formelles d'évitement d'obstacles en font le choix approprié pour les applications à risque — au prix d'une exécution en ligne plus lente et d'une implémentation plus complexe.",
+          "RMPC est le grand gagnant là où la sécurité est non-négociable. Zéro collision sur 1 000 courses et garanties formelles d'évitement font de lui le choix approprié pour les applications critiques. " +
+          "Point faible réel : un taux de timeout de 10–15 % — le solveur à horizon glissant ne trouve parfois pas de trajectoire faisable à temps, ce qui nécessiterait une relaxation des contraintes ou un contrôleur de secours en déploiement réel.",
         v2Badge: "Flexibilité & Vitesse en ligne",
         v2Text:
-          "PPO égale ou dépasse RMPC sur le taux de succès brut et est 63× plus rapide en ligne. Sa politique s'adapte naturellement sans modèle explicite — mais le taux de collision de 3 à 5 % et l'absence de garanties formelles l'excluent des usages critiques en l'état.",
-        v3Badge: "À retenir",
+          "PPO égale ou dépasse RMPC sur le taux de succès brut et est 63× plus rapide en ligne. Résultat contre-intuitif : la XTE de PPO dans la zone de refus (0,21 m) était inférieure à celle de RMPC (0,32 m), montrant un meilleur rejet du bruit en temps réel. " +
+          "Le taux de collision de 3–5 % est en partie un artefact de la forme de récompense — conflit entre suivi de trajectoire et évitement d'obstacles durant l'entraînement — et non nécessairement un plafond fondamental.",
+        v3Badge: "À retenir honnêtement",
         v3Text:
-          "Pas de gagnant universel. RMPC s'impose quand la sécurité est non-négociable ; PPO quand le débit et l'adaptabilité priment sur les garanties de contraintes. La vraie valeur de cette thèse est la comparaison directe et contrôlée dans des conditions identiques — une base pratique pour les futures décisions de conception de contrôleurs."
+          "Pas de gagnant universel — et l'aveu honnête de la soutenance : l'environnement de test était peut-être trop simple pour un verdict définitif. " +
+          "RMPC excelle quand une opération lente (~20 fps) est acceptable et que des garanties de sécurité sont requises. " +
+          "Les forces relatives de PPO en adaptabilité et rejet du bruit se manifesteraient davantage dans des environnements plus complexes avec des perturbations plus sévères. " +
+          "La thèse établit une base reproductible ; une comparaison définitive nécessiterait les deux contrôleurs au même niveau d'optimisation."
       }
     }[lang] || {};
 
