@@ -338,20 +338,24 @@
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
-      align-items: start;
+      align-items: stretch;
     }
-    /* Featured projects spans both rows on the right */
-    .grid #projects{
-      grid-column: 2;
-      grid-row: 1 / 3;
-      align-self: stretch;
+    /* Left column: flex column so timeline card grows to fill remaining height */
+    .left-col{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      min-height:0;
+    }
+    .left-col #background{
+      flex:1;
+      min-height:0;
     }
     @media (max-width: 860px){
       .hero-top{ grid-template-columns: 1fr; }
       .hero-grid{ grid-template-columns: 1fr; }
       nav{ justify-content:flex-start; }
       .grid{ grid-template-columns: 1fr; }
-      .grid #projects{ grid-column: auto; grid-row: auto; }
     }
 
     .card{
