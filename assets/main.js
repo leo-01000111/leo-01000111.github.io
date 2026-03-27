@@ -326,7 +326,8 @@
           "Real weakness: a 10–15% timeout rate — the receding-horizon solver occasionally cannot find a feasible path in time, which would require constraint relaxation or a fallback controller in a real deployment.",
         v2Badge: "Flexibility & Online Speed",
         v2Text:
-          "PPO matched or exceeded RMPC on success rate and runs 63× faster online. A counterintuitive result: PPO's XTE inside the denial zone (0.21 m) was lower than RMPC's (0.32 m), showing stronger in-the-moment noise rejection. " +
+          "PPO matched or exceeded RMPC on success rate and runs 63× faster online. " +
+          "A notable intra-controller result: PPO's XTE was lower inside the denial zone (0.21 m) than outside it (0.87 m) — suggesting it holds the path reasonably well during denial but accumulates drift that compounds after GPS returns. " +
           "The 3–5% collision rate is partly a reward-shaping artifact — path-following and obstacle-avoidance objectives were in conflict during training — not necessarily a ceiling for the approach.",
         v3Badge: "Honest Takeaway",
         v3Text:
@@ -433,7 +434,8 @@
           "Point faible réel : un taux de timeout de 10–15 % — le solveur à horizon glissant ne trouve parfois pas de trajectoire faisable à temps, ce qui nécessiterait une relaxation des contraintes ou un contrôleur de secours en déploiement réel.",
         v2Badge: "Flexibilité & Vitesse en ligne",
         v2Text:
-          "PPO égale ou dépasse RMPC sur le taux de succès brut et est 63× plus rapide en ligne. Résultat contre-intuitif : la XTE de PPO dans la zone de refus (0,21 m) était inférieure à celle de RMPC (0,32 m), montrant un meilleur rejet du bruit en temps réel. " +
+          "PPO égale ou dépasse RMPC sur le taux de succès brut et est 63× plus rapide en ligne. " +
+          "Résultat intra-contrôleur notable : la XTE de PPO est plus faible à l'intérieur de la zone de refus (0,21 m) qu'à l'extérieur (0,87 m) — il maintient la trajectoire correctement pendant le refus, mais accumule une dérive qui s'amplifie après le retour du GPS. " +
           "Le taux de collision de 3–5 % est en partie un artefact de la forme de récompense — conflit entre suivi de trajectoire et évitement d'obstacles durant l'entraînement — et non nécessairement un plafond fondamental.",
         v3Badge: "À retenir honnêtement",
         v3Text:
