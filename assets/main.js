@@ -858,6 +858,25 @@
     }
   }
 
+  function _initAiBadge(lang) {
+    if (lang !== "fr") return;
+    const nav = document.querySelector("nav");
+    if (!nav || nav.querySelector(".ai-badge")) return;
+    const badge = document.createElement("div");
+    badge.className = "ai-badge";
+    badge.title = "Certaines traductions sont générées par IA et peuvent être imparfaites.";
+    badge.setAttribute("role", "note");
+    badge.setAttribute("aria-label", "Traduit par IA");
+    badge.innerHTML =
+      '<svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">' +
+        '<path d="M6 0.5L7.35 4.65L11.5 6L7.35 7.35L6 11.5L4.65 7.35L0.5 6L4.65 4.65Z"/>' +
+      "</svg>" +
+      "Traduit par IA";
+    const langDiv = nav.querySelector(".lang");
+    if (langDiv) nav.insertBefore(badge, langDiv);
+    else nav.appendChild(badge);
+  }
+
   function _initBackToTop() {
     const btn = document.createElement("button");
     btn.id = "back-to-top";
@@ -1004,6 +1023,7 @@
       }
     }
   });
+  _initAiBadge(lang);
   _initFeaturedProjects(lang);
   _initProjectsIndex(lang);
   _initProjectPage(lang);

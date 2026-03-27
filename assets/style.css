@@ -203,6 +203,32 @@
       outline-offset: 2px;
     }
 
+    /* AI translation badge */
+    .ai-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:5px 10px;
+      border-radius:999px;
+      background:rgba(217,119,87,0.09);
+      border:1px solid rgba(217,119,87,0.22);
+      color:rgba(217,119,87,0.80);
+      font-size:0.70rem;
+      font-weight:500;
+      letter-spacing:0.02em;
+      white-space:nowrap;
+      cursor:default;
+      user-select:none;
+      transition:background 0.18s, border-color 0.18s, color 0.18s;
+    }
+    .ai-badge:hover{
+      background:rgba(217,119,87,0.16);
+      border-color:rgba(217,119,87,0.38);
+      color:rgba(217,119,87,1);
+    }
+    .ai-badge svg{ flex-shrink:0; }
+    @media (max-width:480px){ .ai-badge{ display:none; } }
+
     /* HERO */
     .hero{
       position: relative;
