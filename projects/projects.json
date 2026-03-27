@@ -14,8 +14,7 @@
       "Control",
       "Reinforcement Learning",
       "Robust MPC",
-      "Python",
-      "Simulation"
+      "Python"
     ],
     "thumbnail": "/assets/thumbs/robotDiagramReal.png",
     "thumb_invert": true
@@ -72,7 +71,6 @@
     },
     "tags": [
       "Machine Learning",
-      "Python",
       "XGBoost",
       "PyTorch",
       "Streamlit"

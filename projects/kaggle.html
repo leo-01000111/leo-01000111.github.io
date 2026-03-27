@@ -60,7 +60,6 @@
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <div class="cta" style="margin-top:18px;">
             <a class="pill" id="proj-back" href="/projects/">All projects</a>
-            <a class="pill ghost" id="proj-home" href="/">Home</a>
             <a class="btn primary" href="https://www.kaggle.com/leo01000111" target="_blank" rel="noopener noreferrer" id="kg-profile-btn">Kaggle profile ↗</a>
           </div>
         </div>
@@ -81,17 +80,6 @@
             <div class="skel" style="height:8px;width:100%;border-radius:999px;margin-top:14px;"></div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- How it works -->
-    <section style="margin-top:14px;">
-      <div class="card">
-        <h2 id="kg-how-title">How it works</h2>
-        <p class="muted" style="margin:0 0 10px;line-height:1.65;" id="kg-how-text">
-          A GitHub Actions workflow runs every day at 04:00 UTC. It calls the Kaggle API, finds my team on each competition leaderboard, and commits the updated ranks and scores to <code style="background:rgba(255,255,255,0.07);padding:1px 6px;border-radius:5px;">projects/kaggle-scores.json</code> in this repository. The page then reads that file on load — no server, no secrets exposed in the browser.
-        </p>
-        <a class="pill" style="display:inline-flex;margin-top:4px;" href="https://github.com/leo-01000111/website/blob/main/.github/workflows/update-kaggle.yml" target="_blank" rel="noopener noreferrer" id="kg-workflow-btn">View workflow source on GitHub ↗</a>
       </div>
     </section>
 

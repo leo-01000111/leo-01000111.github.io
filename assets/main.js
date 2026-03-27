@@ -231,7 +231,7 @@
       en: {
         pdfBtn: "Open thesis PDF",
         repoBtn: "View repo",
-        source: "BEng thesis — Warsaw University of Technology, Nov 2025. Supervisor: Prof. Marcin Żugaj, DSc, Eng. Source: Chapters 5–6.",
+        source: "BEng thesis — Warsaw University of Technology, Nov 2025. Supervisor: Prof. Marcin Żugaj, DSc, Eng.",
         // In action
         actionTitle: "In action — GNSS-denied run, environment 044",
         actionDesc: "Same environment, same conditions. Watch how each controller handles the denial zone.",
@@ -339,7 +339,7 @@
       fr: {
         pdfBtn: "Ouvrir le PDF du mémoire",
         repoBtn: "Voir le dépôt",
-        source: "Mémoire de licence — Université de Technologie de Varsovie, nov. 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing. Source : chapitres 5–6.",
+        source: "Mémoire de licence — Université de Technologie de Varsovie, nov. 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing.",
         // In action
         actionTitle: "En action — course avec refus GNSS, environnement 044",
         actionDesc: "Même environnement, mêmes conditions. Observez comment chaque contrôleur gère la zone de refus.",
