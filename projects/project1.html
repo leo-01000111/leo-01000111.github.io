@@ -210,6 +210,31 @@
       color: rgba(255,255,255,0.66);
     }
 
+    /* GIF panels */
+    .gif-panel {
+      position: relative;
+    }
+    .gif-label {
+      display: inline-block;
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .gif-label-rmpc {
+      color: #38bdf8;
+      background: rgba(56,189,248,0.12);
+      border: 1px solid rgba(56,189,248,0.28);
+    }
+    .gif-label-ppo {
+      color: #a78bfa;
+      background: rgba(167,139,250,0.12);
+      border: 1px solid rgba(167,139,250,0.28);
+    }
+
     @media (max-width: 600px) {
       .ctrl-grid { grid-template-columns: 1fr; }
       .stat-num  { font-size: 1.85rem; }
@@ -256,6 +281,7 @@
             <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
             <a class="pill ghost" id="proj-home" href="/">Home</a>
             <a class="pill" id="p1-pdf-btn" href="/pracaINZ-nodata.pdf" target="_blank" rel="noopener noreferrer">Open thesis PDF</a>
+            <a class="pill" id="p1-repo-btn" href="https://github.com/leo-01000111/BEng-Thesis-PPOvsRMPC" target="_blank" rel="noopener noreferrer">View repo</a>
           </div>
           <p class="small" id="p1-source" style="margin-top: 14px; color: var(--faint);">Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.</p>
         </div>
@@ -303,7 +329,31 @@
         </div>
       </div>
 
-      <!-- 3 · Experiment at a glance -->
+      <!-- 3 · In action -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2 id="p1-action-title">In action — GNSS-denied run, environment 044</h2>
+        <p id="p1-action-desc" class="muted" style="margin: 0 0 16px; font-size: 0.9rem; line-height: 1.6;">
+          Same environment, same conditions. Watch how each controller handles the denial zone.
+        </p>
+        <div class="ctrl-grid">
+          <div class="gif-panel">
+            <div class="gif-label gif-label-rmpc">RMPC</div>
+            <img src="/assets/gifs/rmpc_deny.gif"
+                 alt="RMPC controller navigating environment 044 under GNSS denial"
+                 style="width:100%; border-radius:10px; display:block;"
+                 loading="lazy" />
+          </div>
+          <div class="gif-panel">
+            <div class="gif-label gif-label-ppo">PPO</div>
+            <img src="/assets/gifs/ppo_deny.gif"
+                 alt="PPO controller navigating environment 044 under GNSS denial"
+                 style="width:100%; border-radius:10px; display:block;"
+                 loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 · Experiment at a glance -->
       <div class="card" style="grid-column: 1 / -1;">
         <h2 id="p1-exp-title">Experiment at a glance</h2>
         <div class="stat-row">

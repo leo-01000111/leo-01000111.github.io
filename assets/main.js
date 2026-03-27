@@ -230,7 +230,11 @@
     const copy = {
       en: {
         pdfBtn: "Open thesis PDF",
+        repoBtn: "View repo",
         source: "Source: Chapter 5 and Chapter 6 of the thesis LaTeX manuscript.",
+        // In action
+        actionTitle: "In action — GNSS-denied run, environment 044",
+        actionDesc: "Same environment, same conditions. Watch how each controller handles the denial zone.",
         // Context
         ctxTitle: "What this thesis is about",
         ctxText:
@@ -327,7 +331,11 @@
       },
       fr: {
         pdfBtn: "Ouvrir le PDF du mémoire",
+        repoBtn: "Voir le dépôt",
         source: "Source : chapitres 5 et 6 du manuscrit LaTeX de la thèse.",
+        // In action
+        actionTitle: "En action — course avec refus GNSS, environnement 044",
+        actionDesc: "Même environnement, mêmes conditions. Observez comment chaque contrôleur gère la zone de refus.",
         // Context
         ctxTitle: "De quoi parle cette thèse",
         ctxText:
@@ -425,7 +433,10 @@
 
     const map = [
       ["#p1-pdf-btn",        copy.pdfBtn],
+      ["#p1-repo-btn",       copy.repoBtn],
       ["#p1-source",         copy.source],
+      ["#p1-action-title",   copy.actionTitle],
+      ["#p1-action-desc",    copy.actionDesc],
       ["#p1-ctx-title",      copy.ctxTitle],
       ["#p1-ctx-text",       copy.ctxText],
       ["#p1-ctrl-title",     copy.ctrlTitle],
