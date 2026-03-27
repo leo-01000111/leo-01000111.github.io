@@ -35,6 +35,9 @@ jobs:
           chmod 600 ~/.kaggle/kaggle.json
 
       - name: Fetch Kaggle leaderboard scores
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: python scripts/update_kaggle.py
 
       - name: Commit and push if changed

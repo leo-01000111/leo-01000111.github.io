@@ -68,7 +68,8 @@ def kaggle_cli(*args):
     print(f"  $ {' '.join(cmd)}", flush=True)
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        raise RuntimeError(result.stderr.strip() or f"exit code {result.returncode}")
+        detail = result.stderr.strip() or result.stdout.strip() or f"exit code {result.returncode}"
+        raise RuntimeError(detail)
     return result.stdout
 
 # ── Score helpers ─────────────────────────────────────────────────────────────
@@ -247,6 +248,15 @@ def main():
         json.dump(output, f, indent=2)
 
     print(f"\nWrote {len(results)} competition(s) → projects/kaggle-scores.json", flush=True)
+
+    if not fresh:
+        sys.exit(
+            "\nERROR: No competition data could be refreshed from the Kaggle API.\n"
+            "All entries fell back to cached values. Possible causes:\n"
+            "  - KAGGLE_USERNAME / KAGGLE_KEY secrets are missing or invalid\n"
+            "  - Kaggle API is unreachable\n"
+            "Check the GitHub Actions secrets and re-run the workflow."
+        )
 
 
 if __name__ == "__main__":
