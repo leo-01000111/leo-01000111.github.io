@@ -1,7 +1,7 @@
 {
   "username": "leo01000111",
   "profile_url": "https://www.kaggle.com/leo01000111",
-  "updated_at": "2026-03-28T05:17:57Z",
+  "updated_at": "2026-03-29T05:45:58Z",
   "competitions": [
     {
       "id": "house-prices-advanced-regression-techniques",
@@ -10,9 +10,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleHPR",
       "score_label": "RMSE",
       "lower_is_better": true,
-      "rank": 807,
+      "rank": 803,
       "score": 0.12472,
-      "total": 4064
+      "total": 4065
     },
     {
       "id": "spaceship-titanic",
@@ -23,7 +23,7 @@
       "lower_is_better": false,
       "rank": 469,
       "score": 0.80523,
-      "total": 1954
+      "total": 1940
     },
     {
       "id": "cyber-physical-anomaly-detection-for-der-systems",
@@ -34,7 +34,7 @@
       "lower_is_better": false,
       "rank": 2,
       "score": 0.91151,
-      "total": 45
+      "total": 48
     },
     {
       "id": "march-machine-learning-mania-2026",
@@ -43,8 +43,8 @@
       "repo_url": "https://github.com/leo-01000111/kaggleMarchMadness",
       "score_label": "Brier Score",
       "lower_is_better": true,
-      "rank": 1969,
-      "score": 0.14025,
+      "rank": 1668,
+      "score": 0.1394,
       "total": 3485
     }
   ]
