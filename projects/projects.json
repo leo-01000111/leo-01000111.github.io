@@ -1,5 +1,25 @@
 [
   {
+    "id": 5,
+    "slug": "navfusion",
+    "title": {
+      "en": "navfusion",
+      "fr": "navfusion"
+    },
+    "description": {
+      "en": "Engineering-grade modular sensor fusion for 3D navigation, with real-time event-driven design and robust consistency checks.",
+      "fr": "Fusion de capteurs modulaire de niveau ingenierie pour la navigation 3D, avec architecture temps reel orientee evenements et verifications de coherence robustes."
+    },
+    "tags": [
+      "Sensor Fusion",
+      "EKF",
+      "Robotics",
+      "GNSS",
+      "Real-time"
+    ],
+    "thumbnail": "/assets/thumbs/navfusion.svg"
+  },
+  {
     "id": 1,
     "slug": "project1",
     "title": {
