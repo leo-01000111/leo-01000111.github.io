@@ -58,6 +58,14 @@ TRACKED_COMPETITIONS = [
         "score_label": "Brier Score",
         "lower_is_better": True,
     },
+    {
+        "id": "umud-challenge-muscle-architecture-in-ultrasound-data",
+        "title": "UMUD Challenge: Muscle Architecture in Ultrasound Data",
+        "url": "https://www.kaggle.com/competitions/umud-challenge-muscle-architecture-in-ultrasound-data",
+        "repo_url": "https://github.com/leo-01000111/kaggleUMUD",
+        "score_label": "UMUD Score",
+        "lower_is_better": True,
+    },
 ]
 
 # ── CLI helper ────────────────────────────────────────────────────────────────
