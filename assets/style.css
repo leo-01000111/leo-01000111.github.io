@@ -1099,3 +1099,16 @@
       flex-direction:column;
       gap:12px;
     }
+
+    /* === PRODUCTION PROJECT ICON === */
+    .proj-icon{
+      flex:0 0 auto;
+      width:48px; height:48px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(56,189,248,0.08);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--accent);
+    }
