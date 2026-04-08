@@ -1,7 +1,7 @@
 {
   "username": "leo01000111",
   "profile_url": "https://www.kaggle.com/leo01000111",
-  "updated_at": "2026-04-07T05:42:54Z",
+  "updated_at": "2026-04-08T05:43:25Z",
   "competitions": [
     {
       "id": "house-prices-advanced-regression-techniques",
@@ -10,9 +10,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleHPR",
       "score_label": "RMSE",
       "lower_is_better": true,
-      "rank": 838,
+      "rank": 840,
       "score": 0.12472,
-      "total": 4274
+      "total": 4290
     },
     {
       "id": "spaceship-titanic",
@@ -21,9 +21,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleSpaceTitanic",
       "score_label": "Accuracy",
       "lower_is_better": false,
-      "rank": 456,
+      "rank": 453,
       "score": 0.80523,
-      "total": 2046
+      "total": 2068
     },
     {
       "id": "cyber-physical-anomaly-detection-for-der-systems",
@@ -43,9 +43,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleMarchMadness",
       "score_label": "Brier Score",
       "lower_is_better": true,
-      "rank": 1617,
-      "score": 0.1412407,
-      "total": 3485
+      "rank": 1649,
+      "score": 0.1419195,
+      "total": 3462
     },
     {
       "id": "umud-challenge-muscle-architecture-in-ultrasound-data",
@@ -54,9 +54,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleUMUD",
       "score_label": "UMUD Score",
       "lower_is_better": true,
-      "rank": 8,
+      "rank": 9,
       "score": 1.51156,
-      "total": 18
+      "total": 24
     }
   ]
 }
