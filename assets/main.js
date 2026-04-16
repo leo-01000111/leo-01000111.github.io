@@ -987,6 +987,140 @@
     });
   })();
 
+  // === TERMINAL HERO TYPING SEQUENCE ===
+  function _initTerminalHero(lang) {
+    var output = document.getElementById('term-output');
+    var cta    = document.getElementById('hero-cta');
+    if (!output) return;
+
+    var sequences = {
+      en: [
+        { text: '> whoami',                                         cls: 'term-cmd' },
+        { text: 'Leon Górecki',                                     cls: 'term-out' },
+        { text: '> cat focus.txt',                                  cls: 'term-cmd' },
+        { text: 'Aerospace Engineering · Controls · ML',            cls: 'term-out' },
+        { text: 'Based in Warsaw. Open to EU opportunities.',       cls: 'term-out' },
+        { text: '> ls projects/',                                   cls: 'term-cmd' },
+        { text: 'navfusion/  lgflow/  f1predictor/  kaggle/  thesis/', cls: 'term-ls' },
+      ],
+      fr: [
+        { text: '> whoami',                                              cls: 'term-cmd' },
+        { text: 'Leon Górecki',                                          cls: 'term-out' },
+        { text: '> cat focus.txt',                                       cls: 'term-cmd' },
+        { text: 'Ingénierie aérospatiale · Commande · ML',               cls: 'term-out' },
+        { text: 'Basé à Varsovie. Ouvert aux opportunités UE.',          cls: 'term-out' },
+        { text: '> ls projects/',                                        cls: 'term-cmd' },
+        { text: 'navfusion/  lgflow/  f1predictor/  kaggle/  thesis/',   cls: 'term-ls' },
+      ]
+    };
+
+    var lines = sequences[lang] || sequences.en;
+    output.innerHTML = '';
+
+    // If reduced motion — render everything at once, skip typing
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      lines.forEach(function(line) {
+        var sp = document.createElement('span');
+        sp.className = 'term-line ' + line.cls;
+        sp.textContent = line.text;
+        output.appendChild(sp);
+        output.appendChild(document.createElement('br'));
+      });
+      if (cta) cta.classList.add('visible');
+      return;
+    }
+
+    var cursor = document.createElement('span');
+    cursor.className = 'term-cursor';
+    output.appendChild(cursor);
+
+    var lineIdx = 0, charIdx = 0, currentSpan = null;
+
+    function tick() {
+      if (lineIdx >= lines.length) {
+        cursor.remove();
+        if (cta) cta.classList.add('visible');
+        return;
+      }
+      var line = lines[lineIdx];
+      if (charIdx === 0) {
+        currentSpan = document.createElement('span');
+        currentSpan.className = 'term-line ' + line.cls;
+        output.insertBefore(currentSpan, cursor);
+      }
+      currentSpan.textContent = line.text.slice(0, charIdx + 1);
+      charIdx++;
+      if (charIdx >= line.text.length) {
+        output.insertBefore(document.createElement('br'), cursor);
+        lineIdx++;
+        charIdx = 0;
+        setTimeout(tick, line.cls === 'term-cmd' ? 340 : 160);
+      } else {
+        setTimeout(tick, 30);
+      }
+    }
+
+    setTimeout(tick, 500);
+  }
+
+  // === THREE.JS WIREFRAME POLYHEDRON ===
+  function _initThreeJS() {
+    var canvas = document.getElementById('three-canvas');
+    if (!canvas) return;
+    if (window.innerWidth < 640) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var container = document.getElementById('hero-3d');
+      if (container) container.style.display = 'none';
+      return;
+    }
+
+    import('https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.min.js')
+      .then(function(THREE) {
+        var parent = canvas.parentElement;
+        var w = parent ? parent.offsetWidth : 400;
+        var h = 320;
+
+        var scene    = new THREE.Scene();
+        var camera   = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+        camera.position.z = 3.5;
+
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(w, h, false);
+
+        var geo     = new THREE.IcosahedronGeometry(1.2, 1);
+        var wireGeo = new THREE.WireframeGeometry(geo);
+        var mat     = new THREE.LineBasicMaterial({ color: 0x58a6ff, transparent: true, opacity: 0.72 });
+        var mesh    = new THREE.LineSegments(wireGeo, mat);
+        scene.add(mesh);
+
+        var baseRotX = 0, baseRotY = 0;
+        var scrollOffset = 0, targetScrollOffset = 0;
+
+        window.addEventListener('scroll', function() {
+          var maxScroll = document.body.scrollHeight - window.innerHeight;
+          targetScrollOffset = maxScroll > 0
+            ? (window.scrollY / maxScroll) * Math.PI * 0.8
+            : 0;
+        }, { passive: true });
+
+        function animate() {
+          requestAnimationFrame(animate);
+          baseRotX += 0.004;
+          baseRotY += 0.007;
+          scrollOffset += (targetScrollOffset - scrollOffset) * 0.04;
+          mesh.rotation.x = baseRotX;
+          mesh.rotation.y = baseRotY + scrollOffset;
+          renderer.render(scene, camera);
+        }
+        animate();
+      })
+      .catch(function() {
+        var el = document.getElementById('hero-3d');
+        if (el) el.style.display = 'none';
+      });
+  }
+
   const lang = _getLang();
   _syncLangUI(lang);
   // Fix home link to respect current language
@@ -1002,6 +1136,8 @@
       }
     }
   });
+  _initTerminalHero(lang);
+  _initThreeJS();
   _initAiBadge(lang);
   _initFeaturedProjects(lang);
   _initProjectsIndex(lang);

@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Leon Górecki — Ingénierie</title>
 <meta content="Carte de visite numérique &amp; portfolio." name="description"/>
-<meta content="#111318" name="theme-color"/>
+<meta content="#0d1117" name="theme-color"/>
 <link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='16' fill='%234f8ef7'/%3E%3C/svg%3E" rel="icon"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -46,7 +46,7 @@
 <div class="wrap">
 <header>
 <div class="brand">
-<div aria-hidden="true" class="mark"></div>
+<div aria-hidden="true" class="mark">&gt;_</div>
 <div class="name">
 <strong>Leon Górecki</strong>
 <span>Ingénierie aérospatiale / mécanique</span>
@@ -54,9 +54,9 @@
 </div>
 <nav>
 <div class="nav-links">
-<a class="pill" href="/projects/?lang=fr">Projets</a>
-<a class="pill" href="#skills">Compétences</a>
-<a class="pill" href="#contact">Contact</a>
+<a class="pill" href="/projects/?lang=fr"><span class="nav-prompt" aria-hidden="true">&gt;</span> projets</a>
+<a class="pill" href="#skills"><span class="nav-prompt" aria-hidden="true">&gt;</span> compétences</a>
+<a class="pill" href="#contact"><span class="nav-prompt" aria-hidden="true">&gt;</span> contact</a>
 </div>
 <!-- No. 2: language switch is now a real URL switch (SEO-friendly) -->
 <div aria-label="Changement de langue" class="lang" role="group">
@@ -71,22 +71,31 @@
 <main id="main">
 <section class="hero" id="top">
 <div class="hero-top">
+<!-- Gauche : terminal -->
 <div>
-<div class="kicker">Portfolio d’ingénierie</div>
-<h1>
-              Licencié en ingénierie aérospatiale. Systèmes de commande, simulation et machine learning.
-            </h1>
-<p class="subtitle">
-              Je travaille sur des systèmes de commande, des simulations et du machine learning pour l'aérospatial.
-            </p>
-<div class="cta">
+<div id="hero-terminal">
+<div class="term-bar">
+<span class="term-dot dot-red"></span>
+<span class="term-dot dot-yellow"></span>
+<span class="term-dot dot-green"></span>
+<span class="term-title">leon@portfolio ~ </span>
+</div>
+<div class="term-body" id="term-output"><!-- typé par JS --></div>
+</div>
+<div class="hero-cta" id="hero-cta">
 <a class="btn primary" href="mailto:leon.gorecki.fr@proton.me">M’écrire</a>
 <a class="btn" href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a>
 <a class="btn" href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" id="btnLinkedIn" rel="noopener noreferrer" target="_blank">LinkedIn</a>
 <a class="btn" href="/cv.pdf" id="btnCV" rel="noopener noreferrer" target="_blank">CV (PDF)</a>
 </div>
 </div>
-<aside aria-label="Infos rapides" class="spec">
+<!-- Droite : canvas 3D -->
+<div id="hero-3d" aria-hidden="true">
+<canvas id="three-canvas"></canvas>
+</div>
+</div>
+<!-- Infos rapides : pleine largeur sous les deux colonnes -->
+<aside aria-label="Infos rapides" class="spec" style="margin-top:20px;">
 <h3>Infos rapides</h3>
 <div class="row"><span class="key">Base</span><span class="val">Varsovie / UE</span></div>
 <div class="row"><span class="key">Focus</span><span class="val">Apprentissage automatique en navigation · Conception + analyse d’avion · Science des données</span></div>
@@ -94,7 +103,6 @@
 <div class="row"><span class="key">Langues</span><span class="val">PL · EN · FR · DE</span></div>
 <div class="row"><span class="key">Actuellement</span><span class="val"><span aria-hidden="true" class="status-dot"></span>CAO chez Miltom</span></div>
 </aside>
-</div>
 </section>
 <section class="card" id="production" style="margin-top:18px;">
 <h2>Projets en production</h2>
