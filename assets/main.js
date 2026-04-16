@@ -17,27 +17,6 @@
     });
   });
 
-  // subtle cursor glow in hero
-  const glow = document.getElementById("glow");
-  const hero = document.querySelector(".hero");
-  function moveGlow(e) {
-    if (!glow || !hero) return;
-    const r = hero.getBoundingClientRect();
-    glow.style.left = `${e.clientX - r.left}px`;
-    glow.style.top = `${e.clientY - r.top}px`;
-  }
-  if (hero) {
-    hero.addEventListener("mousemove", moveGlow);
-    hero.addEventListener(
-      "touchmove",
-      (e) => {
-        if (!e.touches?.[0]) return;
-        moveGlow(e.touches[0]);
-      },
-      { passive: true }
-    );
-  }
-
   // site root helper (supports hosting under subpaths if needed)
   function _siteRoot() {
     const meta = document.querySelector('meta[name="site-root"]');
