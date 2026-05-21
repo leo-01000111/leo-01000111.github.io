@@ -1,7 +1,7 @@
 {
   "username": "leo01000111",
   "profile_url": "https://www.kaggle.com/leo01000111",
-  "updated_at": "2026-05-20T07:35:18Z",
+  "updated_at": "2026-05-21T07:41:40Z",
   "competitions": [
     {
       "id": "house-prices-advanced-regression-techniques",
@@ -10,9 +10,9 @@
       "repo_url": "https://github.com/leo-01000111/kaggleHPR",
       "score_label": "RMSE",
       "lower_is_better": true,
-      "rank": 1050,
+      "rank": 1064,
       "score": 0.12472,
-      "total": 5127
+      "total": 5150
     },
     {
       "id": "spaceship-titanic",
@@ -23,7 +23,7 @@
       "lower_is_better": false,
       "rank": 747,
       "score": 0.80523,
-      "total": 2278
+      "total": 2276
     },
     {
       "id": "cyber-physical-anomaly-detection-for-der-systems",
