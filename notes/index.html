@@ -1,21 +1,22 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
-  <title>Projects - Leon Górecki</title>
-  <meta name="description" content="Engineering projects in controls, simulation, and analysis." />
+  <title>Notes - Leon Górecki</title>
+  <meta name="description" content="Short, honest technical write-ups on control, simulation, CFD and machine learning by Leon Górecki." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Projects - Leon Górecki" />
-  <meta property="og:description" content="Engineering projects in controls, simulation, and analysis." />
-  <meta property="og:url" content="https://www.leongorecki.eu/projects/" />
+  <meta property="og:title" content="Notes - Leon Górecki" />
+  <meta property="og:description" content="Short, honest technical write-ups on control, simulation, CFD and machine learning." />
+  <meta property="og:url" content="https://www.leongorecki.eu/notes/" />
   <meta name="twitter:card" content="summary" />
-  <link rel="canonical" href="https://www.leongorecki.eu/projects/" />
-  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/" />
-  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/" />
-  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/" />
+  <meta property="og:image" content="https://www.leongorecki.eu/assets/og-card.png" />
+  <link rel="canonical" href="https://www.leongorecki.eu/notes/" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/notes/" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/notes/" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/notes/" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -40,12 +41,12 @@
       <nav>
         <div class="nav-links">
           <a class="pill" data-ui="home" href="/">Home</a>
-          <a class="pill" aria-current="page" data-ui="allProjects" href="/projects/">All projects</a>
-          <a class="pill" href="/notes/">Notes</a>
+          <a class="pill" href="/projects/">Projects</a>
+          <a class="pill" aria-current="page" href="/notes/">Notes</a>
         </div>
         <div aria-label="Language switch" class="lang" role="group">
-          <a data-lang="en" aria-current="page" href="/projects/">EN</a>
-          <a data-lang="fr" href="/fr/projects/">FR</a>
+          <a data-lang="en" aria-current="page" href="/notes/">EN</a>
+          <a data-lang="fr" href="/fr/notes/">FR</a>
         </div>
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -56,14 +57,29 @@
 
   <main id="main" class="wrap">
     <section class="hero" style="padding-bottom: 14px;">
-      <h1 id="projects-title" style="margin-bottom: 10px;">Projects</h1>
-      <p id="projects-lead" class="lead">Engineering work in controls, simulation, and analysis.</p>
+      <div class="kicker">Engineering notes</div>
+      <h1 style="margin-bottom: 10px;">Notes</h1>
+      <p class="lead">Short, honest write-ups on the things I build and break — control, simulation, CFD and machine learning. Working notes, not polished articles.</p>
     </section>
 
-    <section class="grid" aria-label="Projects">
+    <section class="grid" aria-label="Notes">
       <div class="card" style="grid-column: 1 / -1;">
-        <div class="projects" id="projects-grid">
-          <noscript id="projects-noscript">Enable JavaScript to see the projects list.</noscript>
+        <div class="projects">
+
+          <article class="proj">
+            <div class="proj-top">
+              <div class="proj-media">
+                <div>
+                  <div class="kicker" style="margin-bottom:6px;">2026-06-15 · CFD</div>
+                  <h3><a href="/notes/validating-a-cfd-solver.html" style="color:var(--ink);">Validating a CFD solver against Ghia et al.</a></h3>
+                  <p>What the lid-driven cavity benchmark actually checks — and why I wired pass/fail thresholds into CI for LG-FLOW.</p>
+                </div>
+              </div>
+              <a class="pill" href="/notes/validating-a-cfd-solver.html">Read</a>
+            </div>
+            <div class="meta"><span class="chip">CFD</span><span class="chip">C++</span><span class="chip">Validation</span></div>
+          </article>
+
         </div>
       </div>
     </section>
@@ -71,7 +87,7 @@
 
   <footer class="title-block" aria-label="Drawing title block">
     <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
-    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">PROJECTS</span></div>
+    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">NOTES</span></div>
     <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
     <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-15</span></div>

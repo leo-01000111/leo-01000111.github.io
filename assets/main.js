@@ -17,27 +17,6 @@
     });
   });
 
-  // subtle cursor glow in hero
-  const glow = document.getElementById("glow");
-  const hero = document.querySelector(".hero");
-  function moveGlow(e) {
-    if (!glow || !hero) return;
-    const r = hero.getBoundingClientRect();
-    glow.style.left = `${e.clientX - r.left}px`;
-    glow.style.top = `${e.clientY - r.top}px`;
-  }
-  if (hero) {
-    hero.addEventListener("mousemove", moveGlow);
-    hero.addEventListener(
-      "touchmove",
-      (e) => {
-        if (!e.touches?.[0]) return;
-        moveGlow(e.touches[0]);
-      },
-      { passive: true }
-    );
-  }
-
   // site root helper (supports hosting under subpaths if needed)
   function _siteRoot() {
     const meta = document.querySelector('meta[name="site-root"]');
@@ -87,9 +66,8 @@
   }
   function _projectHref(p, lang) {
     const file = _projectFileName(p);
-    const q = lang === "fr" ? "?lang=fr" : "";
-    if (!file) return `${_siteRoot()}projects/${q}`;
-    return `${_siteRoot()}projects/${file}${q}`;
+    const base = lang === "fr" ? `${_siteRoot()}fr/projects/` : `${_siteRoot()}projects/`;
+    return file ? `${base}${file}` : base;
   }
   function _escapeHtml(s) {
     return (s ?? "")
@@ -945,14 +923,9 @@
   document.querySelectorAll("[data-ui='home']").forEach(function(a) {
     a.setAttribute("href", lang === "fr" ? (_siteRoot() + "fr/") : _siteRoot());
   });
-  // Fix "All projects" link to carry lang=fr when applicable
+  // Point "All projects" at the matching language's projects index
   document.querySelectorAll("[data-ui='allProjects']").forEach(function(a) {
-    if (lang === "fr") {
-      var href = a.getAttribute("href") || "";
-      if (!href.includes("lang=fr")) {
-        a.setAttribute("href", href + (href.includes("?") ? "&" : "?") + "lang=fr");
-      }
-    }
+    a.setAttribute("href", lang === "fr" ? (_siteRoot() + "fr/projects/") : (_siteRoot() + "projects/"));
   });
   _initAiBadge(lang);
   _initFeaturedProjects(lang);
