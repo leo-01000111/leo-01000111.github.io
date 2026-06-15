@@ -750,9 +750,10 @@
     host.innerHTML = _skeletonCard();
     try {
       const all = await _fetchJSON(_joinRoot("projects/projects.json"));
-      const list = (all || [])
-        .filter((p) => p.featuredOrder != null)
-        .sort((a, b) => a.featuredOrder - b.featuredOrder);
+      const featured = (all || []).filter((p) => p.featuredOrder != null);
+      const list = featured.length
+        ? featured.sort((a, b) => a.featuredOrder - b.featuredOrder)
+        : (all || []);
 
       if (!list.length) {
         host.innerHTML = `<div class="small">${lang === "fr" ? "Aucun projet configure." : "No projects configured."}</div>`;
