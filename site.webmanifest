@@ -1,0 +1,10 @@
+{
+  "name": "Leon Górecki",
+  "short_name": "LG",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ],
+  "theme_color": "#070a0e",
+  "background_color": "#070a0e",
+  "display": "browser"
+}

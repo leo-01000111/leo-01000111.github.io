@@ -1,0 +1,40 @@
+name: Update Contributions Graph
+
+on:
+  schedule:
+    # Runs daily at 06:00 UTC (off-peak, avoids overlap with Kaggle workflow at 04:00)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch GitHub contribution data
+        env:
+          GH_USER_TOKEN: ${{ secrets.GH_USER_TOKEN }}
+          GH_USER: leo-01000111
+        run: python scripts/update_contributions.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/contributions.json
+          if git diff --staged --quiet; then
+            echo "No changes — contributions unchanged."
+          else
+            git commit -m "chore: update contributions graph [skip ci]"
+            git push
+          fi

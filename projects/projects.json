@@ -2,6 +2,7 @@
   {
     "id": 5,
     "slug": "navfusion",
+    "featuredOrder": 1,
     "title": {
       "en": "navfusion",
       "fr": "navfusion"
@@ -22,6 +23,7 @@
   {
     "id": 1,
     "slug": "project1",
+    "featuredOrder": 2,
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
@@ -42,6 +44,7 @@
   {
     "id": 2,
     "slug": "kaggle",
+    "featuredOrder": 3,
     "title": {
       "en": "Kaggle Competitions",
       "fr": "Compétitions Kaggle"
@@ -61,6 +64,7 @@
   {
     "id": 3,
     "slug": "lgflow",
+    "featuredOrder": 4,
     "title": {
       "en": "LG-FLOW: 2D CFD Solver",
       "fr": "LG-FLOW : Solveur CFD 2D"
@@ -81,6 +85,7 @@
   {
     "id": 4,
     "slug": "f1predictor",
+    "featuredOrder": 5,
     "title": {
       "en": "F1 Race Predictor",
       "fr": "Prédicteur de Course F1"

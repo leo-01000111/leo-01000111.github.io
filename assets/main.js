@@ -79,15 +79,6 @@
       }
     });
   }
-  function _parseFeaturedIds(cfgText) {
-    const m = cfgText.match(/featured\s+projects\s*:\s*([0-9\s]+)/i);
-    if (!m) return [];
-    return m[1]
-      .trim()
-      .split(/\s+/)
-      .map((x) => parseInt(x, 10))
-      .filter((n) => Number.isFinite(n));
-  }
   function _projectFileName(p) {
     const slug = (p?.slug || "").toString().trim();
     if (slug) return `${slug}.html`;
@@ -758,13 +749,10 @@
 
     host.innerHTML = _skeletonCard();
     try {
-      const [cfgText, all] = await Promise.all([
-        _fetchText(_joinRoot("config.txt")),
-        _fetchJSON(_joinRoot("projects/projects.json"))
-      ]);
-      const featured = _parseFeaturedIds(cfgText);
-      const byId = new Map((all || []).map((p) => [p.id, p]));
-      const list = featured.length ? featured.map((id) => byId.get(id)).filter(Boolean) : (all || []).slice(0, 3);
+      const all = await _fetchJSON(_joinRoot("projects/projects.json"));
+      const list = (all || [])
+        .filter((p) => p.featuredOrder != null)
+        .sort((a, b) => a.featuredOrder - b.featuredOrder);
 
       if (!list.length) {
         host.innerHTML = `<div class="small">${lang === "fr" ? "Aucun projet configure." : "No projects configured."}</div>`;
@@ -925,64 +913,6 @@
     });
   }
 
-  // === COOKIE CONSENT + GA4 ===
-  var GA_ID = "G-5QXQGJWG3M";
-  var CONSENT_KEY = "cookie-consent";
-
-  function _loadGA() {
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    window.gtag = gtag;
-    gtag("js", new Date());
-    gtag("config", GA_ID);
-    var s = document.createElement("script");
-    s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
-    document.head.appendChild(s);
-  }
-
-  function _initConsent(lang) {
-    var stored = localStorage.getItem(CONSENT_KEY);
-    if (stored === "accepted") { _loadGA(); return; }
-    if (stored === "declined") { return; }
-
-    var copy = {
-      en: { text: "This site uses cookies for anonymous visit statistics (Google Analytics).", accept: "Accept", decline: "Decline" },
-      fr: { text: "Ce site utilise des cookies pour des statistiques de visite anonymes (Google Analytics).", accept: "Accepter", decline: "Refuser" }
-    }[lang] || {};
-
-    var banner = document.createElement("div");
-    banner.id = "cookie-banner";
-    banner.setAttribute("role", "dialog");
-    banner.setAttribute("aria-label", lang === "fr" ? "Consentement aux cookies" : "Cookie consent");
-    banner.innerHTML =
-      '<p class="cookie-text">' + copy.text + '</p>' +
-      '<div class="cookie-btns">' +
-        '<button class="cookie-btn cookie-accept">' + copy.accept + '</button>' +
-        '<button class="cookie-btn cookie-decline">' + copy.decline + '</button>' +
-      '</div>';
-    document.body.appendChild(banner);
-
-    // Trigger slide-in on next paint
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() { banner.classList.add("visible"); });
-    });
-
-    function dismiss() {
-      banner.classList.remove("visible");
-      setTimeout(function() { if (banner.parentNode) banner.parentNode.removeChild(banner); }, 320);
-    }
-    banner.querySelector(".cookie-accept").addEventListener("click", function() {
-      localStorage.setItem(CONSENT_KEY, "accepted");
-      dismiss();
-      _loadGA();
-    });
-    banner.querySelector(".cookie-decline").addEventListener("click", function() {
-      localStorage.setItem(CONSENT_KEY, "declined");
-      dismiss();
-    });
-  }
-
   // === HAMBURGER NAV TOGGLE ===
   (function() {
     var toggle = document.querySelector(".nav-toggle");
@@ -1030,5 +960,4 @@
   _initSeeAlso(lang);
   _initBackToTop();
   _initReveal();
-  _initConsent(lang);
 })();
