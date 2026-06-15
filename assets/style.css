@@ -754,7 +754,9 @@
 
     /* ── Drawing title block (footer) ── */
     .title-block{
-      margin-top: 28px;
+      width: calc(100% - 36px);
+      max-width: calc(var(--maxw) - 36px);
+      margin: 28px auto 0;
       border: 1px solid rgba(120,200,224,0.32);
       border-radius: 4px;
       display: grid;
@@ -762,7 +764,13 @@
       overflow: hidden;
       font-family: var(--font-mono);
     }
-    .title-block.inner-wrap{ max-width: var(--maxw); margin-left:auto; margin-right:auto; }
+    /* On the homepages the footer sits inside the page .wrap, which already
+       supplies the max-width and side gutters — just fill it. */
+    .wrap .title-block{
+      width: auto;
+      max-width: none;
+      margin: 28px 0 0;
+    }
     .tb-cell{
       padding: 9px 12px;
       border-top: 1px solid rgba(120,200,224,0.18);
