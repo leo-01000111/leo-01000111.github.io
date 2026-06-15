@@ -52,12 +52,12 @@
 
   // projects system (featured + listing + per-project pages)
   async function _fetchText(url) {
-    const r = await fetch(url + "?t=" + Date.now());
+    const r = await fetch(url);
     if (!r.ok) throw new Error(`fetch failed: ${url}`);
     return r.text();
   }
   async function _fetchJSON(url) {
-    const r = await fetch(url + "?t=" + Date.now());
+    const r = await fetch(url);
     if (!r.ok) throw new Error(`fetch failed: ${url}`);
     return r.json();
   }
@@ -229,7 +229,7 @@
 
     const copy = {
       en: {
-        pdfBtn: "Open thesis PDF",
+        pdfBtn: "Open thesis PDF · 0.5 MB",
         repoBtn: "View repo",
         source: "BEng thesis — Warsaw University of Technology, Nov 2025. Supervisor: Prof. Marcin Żugaj, DSc, Eng.",
         // In action
@@ -337,7 +337,7 @@
           "The thesis establishes a reproducible baseline; a definitive comparison would require both controllers at equal levels of optimisation."
       },
       fr: {
-        pdfBtn: "Ouvrir le PDF du mémoire",
+        pdfBtn: "Ouvrir le PDF du mémoire · 0,5 Mo",
         repoBtn: "Voir le dépôt",
         source: "Mémoire de licence — Université de Technologie de Varsovie, nov. 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing.",
         // In action

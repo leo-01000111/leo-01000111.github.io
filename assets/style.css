@@ -5,7 +5,7 @@
 
       --ink: rgba(255,255,255,0.92);
       --muted: rgba(255,255,255,0.70);
-      --faint: rgba(255,255,255,0.48);
+      --faint: rgba(255,255,255,0.55);
 
       --panel: rgba(255,255,255,0.06);
       --panel2: rgba(255,255,255,0.085);
@@ -470,7 +470,7 @@
   margin-top:20px;
   flex-shrink:0;
   font-size:9px;
-  color:rgba(255,255,255,0.35);
+  color:rgba(255,255,255,0.50);
   line-height:10px;
   text-align:right;
 }
@@ -483,7 +483,7 @@
 .gh-month-label{
   position:absolute;
   font-size:10px;
-  color:rgba(255,255,255,0.4);
+  color:rgba(255,255,255,0.50);
   white-space:nowrap;
 }
 .gh-grid{
