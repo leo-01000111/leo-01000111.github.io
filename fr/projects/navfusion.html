@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>navfusion — Fusion de capteurs modulaire pour la navigation 3D</title>
+  <meta name="description" content="navfusion : un moteur de fusion de capteurs temps-réel et orienté événements, avec EKF à état d'erreur, gestion asynchrone des capteurs, diagnostics de gating et vérifications de cohérence en CI pour une navigation 3D robuste." />
+  <meta name="theme-color" content="#070b12" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="navfusion — Fusion de capteurs modulaire pour la navigation 3D" />
+  <meta property="og:description" content="Moteur de fusion temps-réel orienté événements avec EKF à état d'erreur, attitude par quaternions, gestion GNSS robuste et artefacts de validation reproductibles." />
+  <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/navfusion.html" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://www.leongorecki.eu/assets/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://www.leongorecki.eu/fr/projects/navfusion.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/navfusion.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/navfusion.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/navfusion.html" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+</head>
+<body data-project-id="5" data-project-slug="navfusion">
+<a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Ingénierie aérospatiale / mécanique</span>
+        </div>
+      </div>
+
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/fr/">Accueil</a>
+          <a class="pill" data-ui="allProjects" href="/fr/projects/">Tous les projets</a>
+          <a class="pill" href="/fr/notes/">Notes</a>
+        </div>
+        <div aria-label="Changement de langue" class="lang" role="group">
+          <a data-lang="en" href="/projects/navfusion.html">EN</a>
+          <a data-lang="fr" aria-current="page" href="/fr/projects/navfusion.html">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Basculer la navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="hero" style="padding-bottom:16px;">
+      <div class="hero-top">
+        <div>
+          <div class="kicker">Pile de navigation robotique</div>
+          <h1 id="proj-title" style="margin-bottom:10px;">navfusion</h1>
+          <p class="lead" style="margin-bottom:8px;"><strong>Fusion de capteurs modulaire de niveau ingénierie pour la navigation 3D.</strong></p>
+          <p id="proj-desc" class="lead">Un moteur de fusion temps-réel et orienté événements, conçu pour les systèmes robotiques et autonomes qui nécessitent une estimation de pose stable malgré des mesures retardées, manquantes ou bruitées.</p>
+          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <p class="small" style="margin:12px 0 0;"><strong>Statut :</strong> v0.1.0-alpha</p>
+          <div class="cta" style="margin-top:18px;">
+            <a class="pill" id="proj-back" href="/fr/projects/">Tous les projets</a>
+            <a class="pill ghost" id="proj-home" href="/fr/">Accueil</a>
+            <a class="btn primary" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le dépôt navfusion sur GitHub">Voir le dépôt</a>
+            <a class="btn" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la documentation technique de navfusion">Ouvrir la doc</a>
+          </div>
+        </div>
+        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
+          <img id="proj-thumb" src="/assets/thumbs/navfusion.svg" alt="Miniature schématique montrant des flux IMU et GNSS entrant dans un cœur de fusion avec une trajectoire de navigation 3D en sortie." style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Détails du projet navfusion">
+      <div class="card">
+        <h2>Ce que ça résout</h2>
+        <p class="muted" style="margin:0 0 10px;line-height:1.65;">
+          navfusion cible l'une des défaillances les plus coûteuses en autonomie : les piles de navigation qui se dégradent brutalement lorsque le timing ou la qualité des capteurs s'écarte des conditions nominales. Il fournit une ossature de fusion modulaire conçue pour les équipes d'ingénierie qui ont besoin d'un comportement prévisible, de défaillances diagnosticables et de sorties de validation reproductibles.
+        </p>
+        <ul class="list">
+          <li>Maintient une estimation d'état stable pendant les pertes GNSS et les rafales de mesures retardées.</li>
+          <li>Réduit la friction d'intégration des pipelines de capteurs asynchrones à cadences mixtes.</li>
+          <li>Appuie les présentations pour recruteurs et les revues de sécurité avec des diagnostics concrets.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Points techniques</h2>
+        <ul class="list">
+          <li>Moteur de fusion temps-réel et orienté événements.</li>
+          <li>EKF à état d'erreur avec représentation de l'attitude par quaternions.</li>
+          <li>Propagation IMU et fusion de la position/vitesse GNSS.</li>
+          <li>Capteurs asynchrones avec gestion bornée du désordre temporel.</li>
+          <li>Gating de l'innovation et diagnostics robustes pour l'intégrité des mesures.</li>
+          <li>Architecture modulaire extensible vers d'autres modalités de capteurs.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Fiabilité et validation</h2>
+        <p class="muted" style="margin:0 0 10px;line-height:1.65;">
+          La fiabilité est traitée comme une sortie de premier plan, pas comme un effet secondaire. Les pipelines de validation sont conçus pour exposer tôt les incohérences de l'estimateur et préserver la reproductibilité entre les exécutions de référence.
+        </p>
+        <ul class="list">
+          <li>Vérifications de cohérence NIS/NEES intégrées en CI.</li>
+          <li>Artefacts de benchmark capturés pour la revue post-exécution et les présentations en entretien.</li>
+          <li>Docs et sorties de démo reproductibles, liées à des versions précises du code.</li>
+          <li>Diagnostics centrés sur le comportement de l'innovation et les décisions de gating.</li>
+        </ul>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Scénarios de démonstration</h2>
+        <ol class="list">
+          <li>Gestion des pertes GNSS.</li>
+          <li>Robustesse au désordre et aux retards GNSS.</li>
+          <li>Rejet des valeurs aberrantes GNSS par gating.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>Liens</h2>
+        <div class="cta" style="margin-top:0;">
+          <a class="btn primary" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le dépôt source de navfusion sur GitHub">Dépôt</a>
+          <a class="btn" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le site de documentation de navfusion">Documentation</a>
+        </div>
+        <p class="small" style="margin-top:12px;">
+          Dépôt : <a href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer">github.com/leo-01000111/navfusion</a><br />
+          Docs : <a href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer">www.leongorecki.eu/navfusion/</a>
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Prochaines étapes (prévues)</h2>
+        <p class="muted" style="margin:0;line-height:1.65;">
+          La feuille de route prévoit une branche à filtre de Kalman sans parfum (UKF) pour une meilleure gestion des non-linéarités, tout en conservant la discipline de benchmarking et les diagnostics de cohérence actuels pour une évaluation A/B équitable.
+        </p>
+      </div>
+    </section>
+  </main>
+
+    <footer class="title-block" aria-label="Cartouche">
+    <div class="tb-cell"><span class="tb-key">Dessiné par</span><span class="tb-val">Leon Górecki</span></div>
+    <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">NAVFUSION</span></div>
+    <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
+    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
+    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">©</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+  </footer>
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -6,7 +6,7 @@
   <meta name="site-root" content="/" />
   <title>Project __ID__ - Leon Górecki</title>
   <meta name="description" content="Project page template." />
-  <meta name="theme-color" content="#070a0e" />
+  <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Project __ID__ - Leon Górecki" />
   <meta property="og:description" content="Project page template." />
@@ -14,11 +14,14 @@
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/__SLUG__.html" />
   <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/__SLUG__.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/__SLUG__.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/__SLUG__.html" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
 </head>
@@ -35,13 +38,18 @@
       </div>
 
       <nav>
-        <a class="pill" data-ui="home" href="/">Home</a>
-        <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
-
-        <div aria-label="Language switch" class="lang" role="group">
-          <a data-lang="en" aria-current="page" href="./__SLUG__.html">EN</a>
-          <a data-lang="fr" href="./__SLUG__.html?lang=fr">FR</a>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/">Home</a>
+          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
+          <a class="pill" href="/notes/">Notes</a>
         </div>
+        <div aria-label="Language switch" class="lang" role="group">
+          <a data-lang="en" aria-current="page" href="/projects/__SLUG__.html">EN</a>
+          <a data-lang="fr" href="/fr/projects/__SLUG__.html">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </nav>
     </div>
   </header>
@@ -84,10 +92,13 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="inner">
-      <div class="small">© <span id="year"></span> Leon Górecki</div>
-    </div>
+  <footer class="title-block" aria-label="Drawing title block">
+    <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
+    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">__SLUG__</span></div>
+    <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
+    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">©</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

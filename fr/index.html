@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Leon Górecki — Ingénierie</title>
 <meta content="Carte de visite numérique &amp; portfolio." name="description"/>
-<meta content="#070a0e" name="theme-color"/>
+<meta content="#070b12" name="theme-color"/>
 <link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -26,6 +26,8 @@
 <link href="https://www.leongorecki.eu/fr/" hreflang="fr" rel="alternate"/>
 <link href="https://www.leongorecki.eu/" hreflang="en" rel="alternate"/>
 <link href="https://www.leongorecki.eu/" hreflang="x-default" rel="alternate"/>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin/>
 <link href="/assets/style.css" rel="stylesheet"/>
 <script type="application/ld+json">
   {
@@ -69,7 +71,8 @@
 </div>
 <nav>
 <div class="nav-links">
-<a class="pill" href="/projects/?lang=fr">Projets</a>
+<a class="pill" href="/fr/projects/">Projets</a>
+<a class="pill" href="/fr/notes/">Notes</a>
 <a class="pill" href="#skills">Compétences</a>
 <a class="pill" href="#contact">Contact</a>
 </div>
@@ -85,7 +88,6 @@
 </header>
 <main id="main">
 <section class="hero" id="top">
-<div aria-hidden="true" class="glow" id="glow"></div>
 <div class="hero-top">
 <div>
 <div class="kicker">Portfolio d’ingénierie</div>
@@ -198,23 +200,28 @@
 <div class="projects" id="featured-projects"><noscript>Activez JavaScript pour voir les projets mis en avant.</noscript></div>
 </div>
 </section>
-<section class="card" id="contact"><h2>Contact</h2>
+<div class="dim-divider" aria-hidden="true"><span class="dim-arrow left"></span><span class="dim-label">Contact</span><span class="dim-arrow right"></span></div>
+<section class="card" id="contact"><h2>Me contacter</h2>
 <p style="margin:0; color: var(--muted); line-height:1.6;">
           Meilleur contact : <a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--accent);">leon.gorecki.fr@proton.me</a><br/>
           GitHub : <a href="https://github.com/leo-01000111" rel="noopener noreferrer" style="color:var(--accent);" target="_blank">leo-01000111</a><br/>
           Déménagement à Nantes en sept. 2026 — ouvert aux stages et opportunités en aérospatiale/robotique (France/UE).
         </p>
 </section>
-<footer>
-<span>© <span id="year"></span> Leon Górecki</span>
-<span><a href="mailto:leon.gorecki.fr@proton.me" style="color:var(--faint);">leon.gorecki.fr@proton.me</a></span>
+<footer class="title-block" aria-label="Cartouche">
+<div class="tb-cell"><span class="tb-key">Dessiné par</span><span class="tb-val">Leon Górecki</span></div>
+<div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">ACCUEIL</span></div>
+<div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
+<div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
+<div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-06-15</span></div>
+<div class="tb-cell"><span class="tb-key">©</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
 </footer>
 </main>
 </div>
 <script defer="" src="/assets/main.js"></script>
 <script>
 (function() {
-  var COLORS = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
+  var COLORS = ["#0e1620", "#103743", "#155f72", "#2f9ab5", "#4cc9e6"];
   var MONTHS = ["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"];
   var CELL = 10, GAP = 2;
   fetch("/assets/contributions.json")
