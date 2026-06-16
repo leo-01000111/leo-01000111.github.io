@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -44,12 +44,12 @@
       border: 1px solid rgba(255,255,255,0.10);
     }
     .ctrl-rmpc {
-      border-left: 3px solid #4cc9e6;
-      background: rgba(76,201,230,0.05);
+      border-left: 3px solid #7a89c2;
+      background: rgba(122,137,194,0.05);
     }
     .ctrl-ppo {
-      border-left: 3px solid #6fb9cc;
-      background: rgba(111,185,204,0.05);
+      border-left: 3px solid #7a89c2;
+      background: rgba(122,137,194,0.05);
     }
     .ctrl-badge {
       font-size: 0.70rem;
@@ -58,8 +58,8 @@
       text-transform: uppercase;
       margin-bottom: 4px;
     }
-    .ctrl-rmpc .ctrl-badge { color: #4cc9e6; }
-    .ctrl-ppo  .ctrl-badge { color: #6fb9cc; }
+    .ctrl-rmpc .ctrl-badge { color: #7a89c2; }
+    .ctrl-ppo  .ctrl-badge { color: #7a89c2; }
     .ctrl-name {
       font-weight: 600;
       font-size: 0.95rem;
@@ -94,7 +94,7 @@
       font-size: 2.2rem;
       font-weight: 700;
       line-height: 1;
-      color: #4cc9e6;
+      color: #7a89c2;
       margin-bottom: 8px;
       letter-spacing: -0.02em;
     }
@@ -107,8 +107,8 @@
 
     /* Safety callout (overrides .card background) */
     .callout {
-      background: rgba(76,201,230,0.06) !important;
-      border-color: rgba(76,201,230,0.22) !important;
+      background: rgba(122,137,194,0.06) !important;
+      border-color: rgba(122,137,194,0.22) !important;
     }
     .callout-inner {
       display: flex;
@@ -118,10 +118,10 @@
     .callout-icon {
       flex-shrink: 0;
       margin-top: 1px;
-      color: #4cc9e6;
+      color: #7a89c2;
     }
     .callout strong {
-      color: #4cc9e6;
+      color: #7a89c2;
       display: block;
       font-size: 0.74rem;
       font-weight: 700;
@@ -154,10 +154,10 @@
       font-weight: 700;
       letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: #4cc9e6;
+      color: #7a89c2;
       margin-bottom: 5px;
     }
-    .delta-ctrl-ppo { color: #6fb9cc; }
+    .delta-ctrl-ppo { color: #7a89c2; }
     .delta-metric {
       font-size: 0.84rem;
       color: rgba(255,255,255,0.78);
@@ -175,7 +175,7 @@
     }
     .delta-up   { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.28); }
     .delta-flat { background: rgba(250,204,21,0.11);  color: #fbbf24; border: 1px solid rgba(250,204,21,0.24); }
-    .delta-flag { background: rgba(111,185,204,0.13); color: #6fb9cc; border: 1px solid rgba(111,185,204,0.26); }
+    .delta-flag { background: rgba(122,137,194,0.13); color: #7a89c2; border: 1px solid rgba(122,137,194,0.26); }
     .delta-detail {
       font-size: 0.75rem;
       color: rgba(255,255,255,0.36);
@@ -196,8 +196,8 @@
       border: 1px solid rgba(255,255,255,0.09);
       border-top: 3px solid transparent;
     }
-    .verdict-rmpc    { border-top-color: #4cc9e6; }
-    .verdict-ppo     { border-top-color: #6fb9cc; }
+    .verdict-rmpc    { border-top-color: #7a89c2; }
+    .verdict-ppo     { border-top-color: #7a89c2; }
     .verdict-neutral { border-top-color: rgba(255,255,255,0.22); }
     .verdict-badge {
       font-size: 0.70rem;
@@ -206,8 +206,8 @@
       text-transform: uppercase;
       margin-bottom: 9px;
     }
-    .verdict-rmpc    .verdict-badge { color: #4cc9e6; }
-    .verdict-ppo     .verdict-badge { color: #6fb9cc; }
+    .verdict-rmpc    .verdict-badge { color: #7a89c2; }
+    .verdict-ppo     .verdict-badge { color: #7a89c2; }
     .verdict-neutral .verdict-badge { color: rgba(255,255,255,0.42); }
     .verdict-card p {
       margin: 0;
@@ -231,14 +231,14 @@
       border-radius: 999px;
     }
     .gif-label-rmpc {
-      color: #4cc9e6;
-      background: rgba(76,201,230,0.12);
-      border: 1px solid rgba(76,201,230,0.28);
+      color: #7a89c2;
+      background: rgba(122,137,194,0.12);
+      border: 1px solid rgba(122,137,194,0.28);
     }
     .gif-label-ppo {
-      color: #6fb9cc;
-      background: rgba(111,185,204,0.12);
-      border: 1px solid rgba(111,185,204,0.28);
+      color: #7a89c2;
+      background: rgba(122,137,194,0.12);
+      border: 1px solid rgba(122,137,194,0.28);
     }
 
     @media (max-width: 600px) {
@@ -406,22 +406,22 @@
               <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
               <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
               <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
-              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#4cc9e6" fill-opacity="0.9">RMPC</text>
-              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#6fb9cc" fill-opacity="0.9">PPO</text>
-              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#4cc9e6" fill-opacity="0.6">RMPC</text>
-              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#6fb9cc" fill-opacity="0.6">PPO</text>
+              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.9">RMPC</text>
+              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.9">PPO</text>
+              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.6">RMPC</text>
+              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.6">PPO</text>
               <!-- RMPC Nominal 89.8% -->
-              <rect x="148" y="18" width="359" height="16" rx="4" fill="#4cc9e6" fill-opacity="0.82"/>
+              <rect x="148" y="18" width="359" height="16" rx="4" fill="#7a89c2" fill-opacity="0.82"/>
               <text x="513" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">89.8%</text>
               <!-- PPO Nominal 93.6% -->
-              <rect x="148" y="38" width="374" height="16" rx="4" fill="#6fb9cc" fill-opacity="0.82"/>
+              <rect x="148" y="38" width="374" height="16" rx="4" fill="#7a89c2" fill-opacity="0.82"/>
               <text x="528" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">93.6%</text>
               <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
               <!-- RMPC Denied 85.2% -->
-              <rect x="148" y="80" width="341" height="16" rx="4" fill="#4cc9e6" fill-opacity="0.45"/>
+              <rect x="148" y="80" width="341" height="16" rx="4" fill="#7a89c2" fill-opacity="0.45"/>
               <text x="495" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">85.2%</text>
               <!-- PPO Denied 91.3% -->
-              <rect x="148" y="100" width="365" height="16" rx="4" fill="#6fb9cc" fill-opacity="0.45"/>
+              <rect x="148" y="100" width="365" height="16" rx="4" fill="#7a89c2" fill-opacity="0.45"/>
               <text x="519" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">91.3%</text>
               <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0%</text>
               <text x="248" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">25%</text>
@@ -441,22 +441,22 @@
               <line x1="548" y1="6" x2="548" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
               <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">NOMINAL</text>
               <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)" letter-spacing="0.08em">GNSS-DENIED</text>
-              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#4cc9e6" fill-opacity="0.9">RMPC</text>
-              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#6fb9cc" fill-opacity="0.9">PPO</text>
-              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#4cc9e6" fill-opacity="0.6">RMPC</text>
-              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#6fb9cc" fill-opacity="0.6">PPO</text>
+              <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.9">RMPC</text>
+              <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.9">PPO</text>
+              <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.6">RMPC</text>
+              <text x="144" y="113" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="#7a89c2" fill-opacity="0.6">PPO</text>
               <!-- RMPC Nominal 0.2664 m -->
-              <rect x="148" y="18" width="118" height="16" rx="4" fill="#4cc9e6" fill-opacity="0.82"/>
+              <rect x="148" y="18" width="118" height="16" rx="4" fill="#7a89c2" fill-opacity="0.82"/>
               <text x="272" y="30" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.266 m</text>
               <!-- PPO Nominal 0.7312 m -->
-              <rect x="148" y="38" width="325" height="16" rx="4" fill="#6fb9cc" fill-opacity="0.82"/>
+              <rect x="148" y="38" width="325" height="16" rx="4" fill="#7a89c2" fill-opacity="0.82"/>
               <text x="479" y="50" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.75)">0.731 m</text>
               <line x1="148" y1="63" x2="548" y2="63" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
               <!-- RMPC Denied 0.3245 m -->
-              <rect x="148" y="80" width="144" height="16" rx="4" fill="#4cc9e6" fill-opacity="0.45"/>
+              <rect x="148" y="80" width="144" height="16" rx="4" fill="#7a89c2" fill-opacity="0.45"/>
               <text x="298" y="92" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.325 m</text>
               <!-- PPO Denied 0.8515 m -->
-              <rect x="148" y="100" width="379" height="16" rx="4" fill="#6fb9cc" fill-opacity="0.45"/>
+              <rect x="148" y="100" width="379" height="16" rx="4" fill="#7a89c2" fill-opacity="0.45"/>
               <text x="533" y="112" font-family="ui-sans-serif,sans-serif" font-size="11" fill="rgba(255,255,255,0.55)">0.852 m</text>
               <text x="148" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0</text>
               <text x="281" y="138" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.28)">0.3 m</text>
@@ -467,8 +467,8 @@
 
         </div>
         <div class="chart-legend">
-          <div class="legend-item"><span class="legend-dot" style="background:#4cc9e6;"></span>RMPC</div>
-          <div class="legend-item"><span class="legend-dot" style="background:#6fb9cc;"></span>PPO</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#7a89c2;"></span>RMPC</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#7a89c2;"></span>PPO</div>
           <div class="legend-item" style="margin-left:auto;"><span>Full opacity = nominal &nbsp;·&nbsp; Faded = GNSS-denied</span></div>
         </div>
       </div>
