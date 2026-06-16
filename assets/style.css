@@ -753,7 +753,7 @@
     .title-block{
       width: calc(100% - 36px);
       max-width: calc(var(--maxw) - 36px);
-      margin: 28px auto 64px;
+      margin: 28px auto 0;
       border: 1px solid rgba(120,200,224,0.32);
       border-radius: 4px;
       display: grid;
@@ -768,6 +768,10 @@
       max-width: none;
       margin: 28px 0 0;
     }
+    /* Bottom breathing room below body-level footers (subpages). The homepage
+       footer lives inside .wrap, whose padding already provides this. Uses
+       padding (not margin) because a last-child margin-bottom collapses away. */
+    body:has(> .title-block){ padding-bottom: 56px; }
     .tb-cell{
       padding: 9px 12px;
       border-top: 1px solid rgba(120,200,224,0.18);
