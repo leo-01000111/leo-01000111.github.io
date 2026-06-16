@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>AICalc - Leon Górecki</title>
+  <meta name="description" content="A neural network calculator: GRU seq2seq with Bahdanau attention vs Transformer encoder-decoder, predicting arithmetic results character by character — and exhibiting grokking." />
+  <meta name="theme-color" content="#070b12" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AICalc - Leon Górecki" />
+  <meta property="og:description" content="A calculator where the Compute button is a neural network — GRU seq2seq vs Transformer encoder-decoder, with grokking." />
+  <meta property="og:url" content="https://www.leongorecki.eu/projects/aicalc.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/projects/aicalc.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/aicalc.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/aicalc.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/aicalc.html" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+  <style>
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .arch-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius, 14px);
+      padding: 16px 18px;
+    }
+    .arch-card .ac-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent2, #6fb9cc);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .arch-card .ac-value {
+      font-size: 0.88rem;
+      color: var(--fg, #e2e8f0);
+      line-height: 1.55;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.88rem;
+    }
+    .results-table th {
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(76,201,230,0.3);
+      color: var(--accent, #4cc9e6);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+    .results-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted, #94a3b8);
+      line-height: 1.5;
+    }
+    .results-table td:first-child {
+      color: var(--fg, #e2e8f0);
+      font-weight: 600;
+    }
+    .results-table td.acc {
+      color: var(--accent, #4cc9e6);
+      font-family: ui-monospace, monospace;
+      font-weight: 700;
+    }
+    .results-table tr:last-child td { border-bottom: none; }
+    .media-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 160px;
+      border: 1px dashed rgba(76,201,230,0.25);
+      border-radius: var(--radius, 14px);
+      margin-top: 16px;
+      color: var(--muted, #94a3b8);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body data-project-id="6" data-project-slug="aicalc">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Aerospace / Mechanical Engineering</span>
+        </div>
+      </div>
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/">Home</a>
+          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
+          <a class="pill" href="/notes/">Notes</a>
+        </div>
+        <div aria-label="Language switch" class="lang" role="group">
+          <a data-lang="en" aria-current="page" href="/projects/aicalc.html">EN</a>
+          <a data-lang="fr" href="/fr/projects/aicalc.html">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+
+    <section class="hero" style="padding-bottom:16px;">
+      <div class="hero-top">
+        <div>
+          <div class="kicker" id="ac-kicker">Deep Learning · Grokking</div>
+          <h1 id="proj-title" style="margin-bottom:10px;">AICalc</h1>
+          <p id="proj-desc" class="lead"></p>
+          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <div class="cta" style="margin-top:18px;">
+            <a class="pill" id="proj-back" href="/projects/">All projects</a>
+            <a class="btn primary" href="https://github.com/leo-01000111/AICalc" target="_blank" rel="noopener noreferrer" id="ac-repo-btn">View repo ↗</a>
+          </div>
+        </div>
+        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
+          <img id="proj-thumb" src="/assets/thumbs/aicalc.svg" alt="AICalc project thumbnail" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- What it does -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-ctx-title">What it does</h2>
+        <p class="muted" id="ac-ctx-text" style="line-height:1.7;margin:0;"></p>
+      </div>
+    </section>
+
+    <!-- Architectures -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-arch-title">Architectures</h2>
+        <div class="arch-grid">
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac1-label">Seq2seq encoder</div>
+            <div class="ac-value" id="ac-ac1-value">Bidirectional GRU — reads the input string forwards and backwards; final hidden states averaged to seed the decoder</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac2-label">Seq2seq decoder</div>
+            <div class="ac-value" id="ac-ac2-value">Single-direction GRU with additive (Bahdanau) attention. Teacher forcing decays linearly 100 → 0 % over training</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac3-label">Transformer encoder</div>
+            <div class="ac-value" id="ac-ac3-value">Standard encoder-decoder with sinusoidal positional encoding. AdamW + weight decay triggers generalisation</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac4-label">Transformer decoder</div>
+            <div class="ac-value" id="ac-ac4-value">Full teacher forcing during training, greedy autoregressive decoding at inference</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grokking -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-grokking-title">Grokking</h2>
+        <p class="muted" id="ac-grokking-text" style="line-height:1.7;margin:0;"></p>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-results-title">Results</h2>
+        <table class="results-table" aria-label="Model accuracy comparison">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Architecture</th>
+              <th>Val accuracy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Seq2seq</td>
+              <td>Bidirectional GRU + Bahdanau attention</td>
+              <td class="acc">~90 %</td>
+            </tr>
+            <tr>
+              <td>Transformer</td>
+              <td>Encoder-decoder + sinusoidal positional encoding</td>
+              <td class="acc">96.66 %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Interface -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-gui-title">Interface</h2>
+        <p class="muted" id="ac-gui-text" style="line-height:1.7;margin:0;"></p>
+        <div class="media-placeholder" aria-label="GUI screenshot placeholder">Screenshot coming soon</div>
+      </div>
+    </section>
+
+    <section class="card" id="see-also" style="margin-top:16px;"></section>
+  </main>
+
+  <footer class="title-block" aria-label="Drawing title block">
+    <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
+    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">AICALC</span></div>
+    <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
+    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-16</span></div>
+    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+  </footer>
+
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

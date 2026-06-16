@@ -705,6 +705,109 @@
     });
   }
 
+  function _setAICalcPageCopy(lang) {
+    const slug = (document.body?.getAttribute("data-project-slug") || "").trim();
+    const pid  = (document.body?.getAttribute("data-project-id")   || "").trim();
+    if (slug !== "aicalc" && pid !== "6") return;
+
+    const copy = {
+      en: {
+        kicker:        "Deep Learning · Grokking",
+        repoBtn:       "View repo ↗",
+        ctxTitle:      "What it does",
+        ctxText:
+          "AICalc is a calculator whose Compute button is a neural network. " +
+          "You type an expression like ‘7+3’ or ‘20−100’, and instead of evaluating it arithmetically, " +
+          "the model predicts the answer character by character — the same way a language model generates text. " +
+          "Two architectures are implemented and compared: a GRU-based seq2seq with Bahdanau attention, " +
+          "and a Transformer encoder-decoder. " +
+          "Both operate on addition and subtraction mod 128, so all operands and results live in [0, 127].",
+        archTitle:     "Architectures",
+        ac1Label:      "Seq2seq encoder",
+        ac1Value:      "Bidirectional GRU — reads the input string forwards and backwards; final hidden states averaged to seed the decoder",
+        ac2Label:      "Seq2seq decoder",
+        ac2Value:      "Single-direction GRU with additive (Bahdanau) attention. Teacher forcing decays linearly 100 → 0 % over training",
+        ac3Label:      "Transformer encoder",
+        ac3Value:      "Standard encoder-decoder with sinusoidal positional encoding. AdamW + weight decay triggers generalisation",
+        ac4Label:      "Transformer decoder",
+        ac4Value:      "Full teacher forcing during training, greedy autoregressive decoding at inference",
+        grokkingTitle: "Grokking",
+        grokkingText:
+          "Both models exhibit grokking: training accuracy climbs quickly while validation stays flat (memorisation phase), " +
+          "then at some point validation accuracy suddenly jumps to match. " +
+          "The Transformer took around 500 epochs to generalise; the seq2seq was faster but needed a bidirectional encoder " +
+          "to push past a ∼79 % ceiling. Without AdamW weight decay, the Transformer memorises indefinitely.",
+        resultsTitle:  "Results",
+        guiTitle:      "Interface",
+        guiText:
+          "A Tkinter GUI lets you pick a model type, select a checkpoint from a dropdown, load it, " +
+          "then use the numpad or keyboard to enter expressions. " +
+          "The right panel keeps a scrollable history with correct/wrong colour-coded. " +
+          "A console mode and a side-by-side evaluation script are also included.",
+      },
+      fr: {
+        kicker:        "Apprentissage profond · Grokking",
+        repoBtn:       "Voir le dépôt ↗",
+        ctxTitle:      "Ce que ça fait",
+        ctxText:
+          "AICalc est une calculatrice dont le bouton Calculer est un réseau de neurones. " +
+          "Vous tapez une expression comme « 7+3 » ou « 20−100 », et au lieu de l’évaluer arithmétiquement, " +
+          "le modèle prédit la réponse caractère par caractère — comme un modèle de langage génère du texte. " +
+          "Deux architectures sont implémentées et comparées : un seq2seq GRU avec attention de Bahdanau, " +
+          "et un Transformer encodeur-décodeur. " +
+          "Les deux opèrent sur l’addition et la soustraction modulo 128, donc tous les opérandes et résultats sont dans [0, 127].",
+        archTitle:     "Architectures",
+        ac1Label:      "Encodeur seq2seq",
+        ac1Value:      "GRU bidirectionnel — lit la chaîne d’entrée dans les deux sens ; les états finals sont moyennés pour amorcer le décodeur",
+        ac2Label:      "Décodeur seq2seq",
+        ac2Value:      "GRU unidirectionnel avec attention additive (Bahdanau). Teacher forcing décroît linéairement de 100 → 0 % au cours de l’entraînement",
+        ac3Label:      "Encodeur Transformer",
+        ac3Value:      "Encodeur-décodeur standard avec encodage positionnel sinusoïdal. AdamW + régularisation poids déclenche la généralisation",
+        ac4Label:      "Décodeur Transformer",
+        ac4Value:      "Teacher forcing complet à l’entraînement, décodage autorégressif glouton à l’inférence",
+        grokkingTitle: "Grokking",
+        grokkingText:
+          "Les deux modèles présentent le phénomène de grokking : la précision d’entraînement monte rapidement tandis que la validation reste plate (phase de mémorisation), " +
+          "puis à un certain point la validation saute soudainement pour rattraper l’entraînement. " +
+          "Le Transformer a pris environ 500 époques pour généraliser ; le seq2seq a été plus rapide mais avait besoin d’un encodeur bidirectionnel " +
+          "pour dépasser un plafond de ∼79 %. Sans régularisation AdamW, le Transformer mémorise indéfiniment.",
+        resultsTitle:  "Résultats",
+        guiTitle:      "Interface",
+        guiText:
+          "Une interface Tkinter permet de choisir un type de modèle, sélectionner un point de contrôle dans un menu déroulant, le charger, " +
+          "puis utiliser le pavé numérique ou le clavier pour saisir des expressions. " +
+          "Le panneau droit conserve un historique défilable avec les réponses correctes/incorrectes colorées. " +
+          "Un mode console et un script d’évaluation côte à côte sont également inclus.",
+      },
+    }[lang] || {};
+
+    const map = [
+      ["#ac-kicker",        copy.kicker],
+      ["#ac-repo-btn",      copy.repoBtn],
+      ["#ac-ctx-title",     copy.ctxTitle],
+      ["#ac-ctx-text",      copy.ctxText],
+      ["#ac-arch-title",    copy.archTitle],
+      ["#ac-ac1-label",     copy.ac1Label],
+      ["#ac-ac1-value",     copy.ac1Value],
+      ["#ac-ac2-label",     copy.ac2Label],
+      ["#ac-ac2-value",     copy.ac2Value],
+      ["#ac-ac3-label",     copy.ac3Label],
+      ["#ac-ac3-value",     copy.ac3Value],
+      ["#ac-ac4-label",     copy.ac4Label],
+      ["#ac-ac4-value",     copy.ac4Value],
+      ["#ac-grokking-title", copy.grokkingTitle],
+      ["#ac-grokking-text",  copy.grokkingText],
+      ["#ac-results-title", copy.resultsTitle],
+      ["#ac-gui-title",     copy.guiTitle],
+      ["#ac-gui-text",      copy.guiText],
+    ];
+    map.forEach(([selector, text]) => {
+      if (!text) return;
+      const el = document.querySelector(selector);
+      if (el) el.textContent = text;
+    });
+  }
+
   function _findProjectByPage(all) {
     const idRaw = document.body?.getAttribute("data-project-id");
     if (idRaw && idRaw !== "__ID__") {
@@ -769,6 +872,7 @@
     _setProject1PageCopy(lang);
     _setLgflowPageCopy(lang);
     _setF1PageCopy(lang);
+    _setAICalcPageCopy(lang);
     try {
       const all = await _fetchJSON(_joinRoot("projects/projects.json"));
       const p = _findProjectByPage(Array.isArray(all) ? all : []);

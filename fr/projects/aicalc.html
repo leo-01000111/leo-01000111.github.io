@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>AICalc - Leon Górecki</title>
+  <meta name="description" content="Une calculatrice dont le bouton Calculer est un réseau de neurones — seq2seq GRU avec attention de Bahdanau vs Transformer encodeur-décodeur, avec grokking." />
+  <meta name="theme-color" content="#070b12" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AICalc - Leon Górecki" />
+  <meta property="og:description" content="Une calculatrice dont le bouton Calculer est un réseau de neurones — seq2seq GRU vs Transformer encodeur-décodeur, avec grokking." />
+  <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/aicalc.html" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/fr/projects/aicalc.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/aicalc.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/aicalc.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/aicalc.html" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+  <style>
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .arch-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius, 14px);
+      padding: 16px 18px;
+    }
+    .arch-card .ac-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent2, #6fb9cc);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .arch-card .ac-value {
+      font-size: 0.88rem;
+      color: var(--fg, #e2e8f0);
+      line-height: 1.55;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.88rem;
+    }
+    .results-table th {
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(76,201,230,0.3);
+      color: var(--accent, #4cc9e6);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+    .results-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted, #94a3b8);
+      line-height: 1.5;
+    }
+    .results-table td:first-child {
+      color: var(--fg, #e2e8f0);
+      font-weight: 600;
+    }
+    .results-table td.acc {
+      color: var(--accent, #4cc9e6);
+      font-family: ui-monospace, monospace;
+      font-weight: 700;
+    }
+    .results-table tr:last-child td { border-bottom: none; }
+    .media-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 160px;
+      border: 1px dashed rgba(76,201,230,0.25);
+      border-radius: var(--radius, 14px);
+      margin-top: 16px;
+      color: var(--muted, #94a3b8);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body data-project-id="6" data-project-slug="aicalc">
+<a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Ingénierie aérospatiale / mécanique</span>
+        </div>
+      </div>
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/fr/">Accueil</a>
+          <a class="pill" data-ui="allProjects" href="/fr/projects/">Tous les projets</a>
+          <a class="pill" href="/notes/">Notes</a>
+        </div>
+        <div aria-label="Language switch" class="lang" role="group">
+          <a data-lang="en" href="/projects/aicalc.html">EN</a>
+          <a data-lang="fr" aria-current="page" href="/fr/projects/aicalc.html">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+
+    <section class="hero" style="padding-bottom:16px;">
+      <div class="hero-top">
+        <div>
+          <div class="kicker" id="ac-kicker">Apprentissage profond · Grokking</div>
+          <h1 id="proj-title" style="margin-bottom:10px;">AICalc</h1>
+          <p id="proj-desc" class="lead">Une calculatrice dont le bouton Calculer est un réseau de neurones — seq2seq GRU avec attention de Bahdanau vs Transformer encodeur-décodeur, avec grokking.</p>
+          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <div class="cta" style="margin-top:18px;">
+            <a class="pill" id="proj-back" href="/fr/projects/">Retour aux projets</a>
+            <a class="btn primary" href="https://github.com/leo-01000111/AICalc" target="_blank" rel="noopener noreferrer" id="ac-repo-btn">Voir le dépôt ↗</a>
+          </div>
+        </div>
+        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
+          <img id="proj-thumb" src="/assets/thumbs/aicalc.svg" alt="Miniature du projet AICalc" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Ce que ça fait -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-ctx-title">Ce que ça fait</h2>
+        <p class="muted" id="ac-ctx-text" style="line-height:1.7;margin:0;">AICalc est une calculatrice dont le bouton Calculer est un réseau de neurones. Vous tapez une expression comme « 7+3 » ou « 20−100 », et au lieu de l'évaluer arithmétiquement, le modèle prédit la réponse caractère par caractère — comme un modèle de langage génère du texte. Deux architectures sont implémentées et comparées : un seq2seq GRU avec attention de Bahdanau, et un Transformer encodeur-décodeur. Les deux opèrent sur l'addition et la soustraction modulo 128, donc tous les opérandes et résultats sont dans [0, 127].</p>
+      </div>
+    </section>
+
+    <!-- Architectures -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-arch-title">Architectures</h2>
+        <div class="arch-grid">
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac1-label">Encodeur seq2seq</div>
+            <div class="ac-value" id="ac-ac1-value">GRU bidirectionnel — lit la chaîne d'entrée dans les deux sens ; les états finals sont moyennés pour amorcer le décodeur</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac2-label">Décodeur seq2seq</div>
+            <div class="ac-value" id="ac-ac2-value">GRU unidirectionnel avec attention additive (Bahdanau). Teacher forcing décroît linéairement de 100 → 0 % au cours de l'entraînement</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac3-label">Encodeur Transformer</div>
+            <div class="ac-value" id="ac-ac3-value">Encodeur-décodeur standard avec encodage positionnel sinusoïdal. AdamW + régularisation poids déclenche la généralisation</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label" id="ac-ac4-label">Décodeur Transformer</div>
+            <div class="ac-value" id="ac-ac4-value">Teacher forcing complet à l'entraînement, décodage autorégressif glouton à l'inférence</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grokking -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-grokking-title">Grokking</h2>
+        <p class="muted" id="ac-grokking-text" style="line-height:1.7;margin:0;">Les deux modèles présentent le phénomène de grokking : la précision d'entraînement monte rapidement tandis que la validation reste plate (phase de mémorisation), puis à un certain point la validation saute soudainement pour rattraper l'entraînement. Le Transformer a pris environ 500 époques pour généraliser ; le seq2seq a été plus rapide mais avait besoin d'un encodeur bidirectionnel pour dépasser un plafond de ≈ 79 %. Sans régularisation AdamW, le Transformer mémorise indéfiniment.</p>
+      </div>
+    </section>
+
+    <!-- Résultats -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-results-title">Résultats</h2>
+        <table class="results-table" aria-label="Comparaison de précision des modèles">
+          <thead>
+            <tr>
+              <th>Modèle</th>
+              <th>Architecture</th>
+              <th>Précision val.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Seq2seq</td>
+              <td>GRU bidirectionnel + attention de Bahdanau</td>
+              <td class="acc">≈ 90 %</td>
+            </tr>
+            <tr>
+              <td>Transformer</td>
+              <td>Encodeur-décodeur + encodage positionnel sinusoïdal</td>
+              <td class="acc">96,66 %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Interface -->
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2 id="ac-gui-title">Interface</h2>
+        <p class="muted" id="ac-gui-text" style="line-height:1.7;margin:0;">Une interface Tkinter permet de choisir un type de modèle, sélectionner un point de contrôle dans un menu déroulant, le charger, puis utiliser le pavé numérique ou le clavier pour saisir des expressions. Le panneau droit conserve un historique défilable avec les réponses correctes/incorrectes colorées. Un mode console et un script d'évaluation côte à côte sont également inclus.</p>
+        <div class="media-placeholder" aria-label="Capture d'écran de l'interface">Capture d'écran à venir</div>
+      </div>
+    </section>
+
+    <section class="card" id="see-also" style="margin-top:16px;"></section>
+  </main>
+
+  <footer class="title-block" aria-label="Cartouche">
+    <div class="tb-cell"><span class="tb-key">Dessiné par</span><span class="tb-val">Leon Górecki</span></div>
+    <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">AICALC</span></div>
+    <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
+    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
+    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-06-16</span></div>
+    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+  </footer>
+
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

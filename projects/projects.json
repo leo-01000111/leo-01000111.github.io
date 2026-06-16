@@ -2,7 +2,6 @@
   {
     "id": 5,
     "slug": "navfusion",
-    "featuredOrder": 1,
     "title": {
       "en": "navfusion",
       "fr": "navfusion"
@@ -23,7 +22,7 @@
   {
     "id": 1,
     "slug": "project1",
-    "featuredOrder": 2,
+    "featuredOrder": 1,
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
@@ -44,7 +43,7 @@
   {
     "id": 2,
     "slug": "kaggle",
-    "featuredOrder": 3,
+    "featuredOrder": 2,
     "title": {
       "en": "Kaggle Competitions",
       "fr": "Compétitions Kaggle"
@@ -60,6 +59,25 @@
       "Competition"
     ],
     "thumbnail": "/assets/thumbs/kaggle.svg"
+  },
+  {
+    "id": 6,
+    "slug": "aicalc",
+    "featuredOrder": 3,
+    "title": {
+      "en": "AICalc",
+      "fr": "AICalc"
+    },
+    "description": {
+      "en": "A calculator where the Compute button is a neural network — GRU seq2seq with Bahdanau attention vs Transformer encoder-decoder, predicting arithmetic results character by character and exhibiting grokking.",
+      "fr": "Une calculatrice dont le bouton Calculer est un réseau de neurones — seq2seq GRU avec attention de Bahdanau vs Transformer encodeur-décodeur, prédisant les résultats arithmétiques caractère par caractère avec grokking."
+    },
+    "tags": [
+      "Python",
+      "Transformers",
+      "Deep Learning"
+    ],
+    "thumbnail": "/assets/thumbs/aicalc.svg"
   },
   {
     "id": 3,
