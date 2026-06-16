@@ -753,7 +753,7 @@
     .title-block{
       width: calc(100% - 36px);
       max-width: calc(var(--maxw) - 36px);
-      margin: 28px auto 0;
+      margin: 28px auto 64px;
       border: 1px solid rgba(120,200,224,0.32);
       border-radius: 4px;
       display: grid;
