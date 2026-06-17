@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Korepetycje — Leon Górecki</title>
+<meta name="description" content="Korepetycje z fizyki, matematyki i informatyki online przez Google Meet. Przygotowanie do matury rozszerzonej i egzaminów uczelnianych."/>
+<meta name="theme-color" content="#faf7f4"/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="canonical" href="https://www.leongorecki.eu/korepetycje/"/>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/korepetycje/style.css"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Korepetycje — Leon Górecki",
+  "description": "Online tutoring in Physics, Mathematics and Computer Science (Polish matura and university level).",
+  "provider": {
+    "@type": "Person",
+    "name": "Leon Górecki",
+    "url": "https://www.leongorecki.eu/"
+  },
+  "serviceType": "Tutoring",
+  "areaServed": { "@type": "Country", "name": "Poland" },
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "serviceUrl": "https://www.leongorecki.eu/korepetycje/",
+    "availableLanguage": ["Polish", "English"]
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="k-header">
+  <a href="/" class="k-back">← leongorecki.eu</a>
+  <div class="k-wordmark">Korepetycje <span class="k-sep">|</span> Tutoring</div>
+  <button class="k-lang-toggle" id="langToggle" aria-label="Zmień język / Switch language">PL / EN</button>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <section class="k-hero">
+    <h1>
+      <span data-pl>Korepetycje z Fizyki, Matematyki i Informatyki</span>
+      <span data-en>Tutoring in Physics, Mathematics and Computer Science</span>
+    </h1>
+    <p class="k-hero-sub">
+      <span data-pl>Online przez Google Meet · po polsku i po angielsku</span>
+      <span data-en>Online via Google Meet · in Polish or English</span>
+    </p>
+    <div class="k-credentials">
+      <span class="k-cred-item">
+        <span data-pl>inż. Lotnictwo i Kosmonautyka — Politechnika Warszawska</span>
+        <span data-en>BEng Aerospace Engineering — Warsaw University of Technology</span>
+      </span>
+      <span class="k-cred-sep">·</span>
+      <span class="k-cred-item">
+        <span data-pl>10+ lat korepetycji</span>
+        <span data-en>10+ years tutoring</span>
+      </span>
+      <span class="k-cred-sep">·</span>
+      <span class="k-cred-item">
+        <span data-pl>Instruktor lotniczy (Boeing × NewtonRoom)</span>
+        <span data-en>Flight instructor (Boeing × NewtonRoom)</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- Format strip -->
+  <div class="k-format-strip">
+    <div class="k-format-item">
+      <span class="k-format-label">
+        <span data-pl>Format</span><span data-en>Format</span>
+      </span>
+      <span data-pl>Online · Google Meet</span>
+      <span data-en>Online · Google Meet</span>
+    </div>
+    <div class="k-format-item">
+      <span class="k-format-label">
+        <span data-pl>Czas trwania</span><span data-en>Duration</span>
+      </span>
+      60–180 min
+    </div>
+    <div class="k-format-item">
+      <span class="k-format-label">
+        <span data-pl>Język</span><span data-en>Language</span>
+      </span>
+      <span data-pl>Polski lub angielski</span>
+      <span data-en>Polish or English</span>
+    </div>
+    <div class="k-format-item">
+      <span class="k-format-label">
+        <span data-pl>Poziom</span><span data-en>Level</span>
+      </span>
+      <span data-pl>Matura rozszerzona · pierwsze lata studiów</span>
+      <span data-en>Polish matura · university intro</span>
+    </div>
+  </div>
+
+  <!-- Lesson Material -->
+  <section class="k-section">
+    <h2 class="k-section-title">
+      <span data-pl>Materiały</span>
+      <span data-en>Lesson Material</span>
+    </h2>
+    <div class="subject-tabs" role="tablist">
+      <button class="subject-btn" data-subject="fizyka" role="tab" aria-expanded="false" aria-controls="panel-fizyka">
+        <span data-pl>Fizyka</span><span data-en>Physics</span>
+      </button>
+      <button class="subject-btn" data-subject="matematyka" role="tab" aria-expanded="false" aria-controls="panel-matematyka">
+        <span data-pl>Matematyka</span><span data-en>Mathematics</span>
+      </button>
+      <button class="subject-btn" data-subject="informatyka" role="tab" aria-expanded="false" aria-controls="panel-informatyka">
+        <span data-pl>Informatyka</span><span data-en>IT</span>
+      </button>
+    </div>
+
+    <div class="subject-panel" id="panel-fizyka" role="tabpanel">
+      <div class="topic-grid">
+        <div class="topic-chip">
+          <span class="tn" data-pl>Mechanika</span>
+          <span class="tn" data-en>Mechanics</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Termodynamika</span>
+          <span class="tn" data-en>Thermodynamics</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Elektryczność i magnetyzm</span>
+          <span class="tn" data-en>Electricity &amp; Magnetism</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Optyka</span>
+          <span class="tn" data-en>Optics</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Fale</span>
+          <span class="tn" data-en>Waves</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Fizyka atomowa i jądrowa</span>
+          <span class="tn" data-en>Atomic &amp; Nuclear Physics</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Fizyka relatywistyczna i kwantowa</span>
+          <span class="tn" data-en>Relativistic &amp; Quantum Physics</span>
+          <span class="topic-slot"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subject-panel" id="panel-matematyka" role="tabpanel">
+      <div class="topic-grid">
+        <div class="topic-chip">
+          <span class="tn" data-pl>Liczby i wyrażenia algebraiczne</span>
+          <span class="tn" data-en>Numbers &amp; Algebraic Expressions</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Równania i nierówności</span>
+          <span class="tn" data-en>Equations &amp; Inequalities</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Funkcje</span>
+          <span class="tn" data-en>Functions</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Funkcje wymierne, wykładnicze, logarytmiczne</span>
+          <span class="tn" data-en>Rational, Exponential &amp; Logarithmic Functions</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Trygonometria</span>
+          <span class="tn" data-en>Trigonometry</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Ciągi liczbowe</span>
+          <span class="tn" data-en>Sequences</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Granice i pochodne</span>
+          <span class="tn" data-en>Limits &amp; Derivatives</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Całkowanie</span>
+          <span class="tn" data-en>Integration</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Geometria płaska i analityczna</span>
+          <span class="tn" data-en>Plane &amp; Analytic Geometry</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Stereometria</span>
+          <span class="tn" data-en>Solid Geometry</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Kombinatoryka i rachunek prawdopodobieństwa</span>
+          <span class="tn" data-en>Combinatorics &amp; Probability</span>
+          <span class="topic-slot"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subject-panel" id="panel-informatyka" role="tabpanel">
+      <div class="topic-grid">
+        <div class="topic-chip">
+          <span class="tn" data-pl>Algorytmy i struktury danych</span>
+          <span class="tn" data-en>Algorithms &amp; Data Structures</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Python</span>
+          <span class="tn" data-en>Python</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>C++</span>
+          <span class="tn" data-en>C++</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Metody numeryczne</span>
+          <span class="tn" data-en>Numerical Methods</span>
+          <span class="topic-slot"></span>
+        </div>
+        <div class="topic-chip">
+          <span class="tn" data-pl>Bazy danych (SQL)</span>
+          <span class="tn" data-en>Databases (SQL)</span>
+          <span class="topic-slot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="k-section k-contact-section">
+    <h2 class="k-section-title">
+      <span data-pl>Napisz do mnie</span>
+      <span data-en>Get in touch</span>
+    </h2>
+    <p class="k-contact-intro">
+      <span data-pl>Napisz po aktualną stawkę lub żeby umówić bezpłatną rozmowę wstępną.</span>
+      <span data-en>Contact for current rates or to schedule a free introductory call.</span>
+    </p>
+    <a href="mailto:leon.gorecki.tutoring@gmail.com" class="k-email-btn">leon.gorecki.tutoring@gmail.com</a>
+    <div class="k-form-divider">
+      <span data-pl>lub wypełnij formularz</span>
+      <span data-en>or use the form below</span>
+    </div>
+    <form class="k-form" id="k-contact-form" action="https://formspree.io/f/xykaajqd" method="POST">
+      <input type="hidden" name="_subject" id="form-subject"/>
+      <label class="k-label">
+        <span data-pl>Imię</span><span data-en>Name</span>
+        <input class="k-input" type="text" name="name" id="form-name" required autocomplete="given-name"/>
+      </label>
+      <label class="k-label">
+        <span data-pl>E-mail lub telefon</span><span data-en>Email or phone</span>
+        <input class="k-input" type="text" name="reply" required autocomplete="email"
+          placeholder="jan.kowalski@email.com lub +48 000 000 000"/>
+      </label>
+      <label class="k-label">
+        <span data-pl>Wiadomość</span><span data-en>Message</span>
+        <textarea class="k-input k-textarea" name="message" rows="5" required
+          placeholder="..."></textarea>
+      </label>
+      <button class="k-submit" type="submit">
+        <span data-pl>Wyślij</span><span data-en>Send</span>
+      </button>
+      <p class="k-form-note" id="form-status" aria-live="polite"></p>
+    </form>
+  </section>
+
+</main>
+
+<footer class="k-footer" aria-label="Drawing title block">
+  <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
+  <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">KOREPETYCJE</span></div>
+  <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
+  <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.tutoring@gmail.com">leon.gorecki.tutoring@gmail.com</a></span></div>
+  <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val">2026-06-17</span></div>
+  <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© 2026 Górecki</span></div>
+</footer>
+
+<script>
+/* Language toggle */
+(function(){
+  var body = document.body;
+  var btn = document.getElementById('langToggle');
+  var stored = localStorage.getItem('korep-lang') || 'pl';
+  if(stored === 'en') body.classList.add('lang-en');
+  btn.addEventListener('click', function(){
+    var isEn = body.classList.toggle('lang-en');
+    localStorage.setItem('korep-lang', isEn ? 'en' : 'pl');
+  });
+})();
+
+/* Subject tabs */
+(function(){
+  var btns = document.querySelectorAll('.subject-btn');
+  var panels = document.querySelectorAll('.subject-panel');
+
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.dataset.subject;
+      var panel = document.getElementById('panel-' + target);
+      var isActive = btn.classList.contains('active');
+
+      btns.forEach(function(b){
+        b.classList.remove('active');
+        b.setAttribute('aria-expanded','false');
+      });
+      panels.forEach(function(p){
+        p.style.maxHeight = '0';
+        p.style.opacity = '0';
+      });
+
+      if(!isActive){
+        btn.classList.add('active');
+        btn.setAttribute('aria-expanded','true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        panel.style.opacity = '1';
+      }
+    });
+  });
+})();
+
+/* Form: auto-subject + fetch submit */
+(function(){
+  var form = document.getElementById('k-contact-form');
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = (document.getElementById('form-name').value || '').trim();
+    var date = new Date().toISOString().slice(0,10);
+    document.getElementById('form-subject').value = 'URGENT ' + name + ' ' + date;
+    var status = document.getElementById('form-status');
+    var isEn = document.body.classList.contains('lang-en');
+    status.textContent = isEn ? 'Sending…' : 'Wysyłanie…';
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(r){
+      if(r.ok){
+        form.reset();
+        status.textContent = isEn
+          ? 'Message sent! I\'ll get back to you soon.'
+          : 'Wiadomość wysłana! Odezwę się wkrótce.';
+      } else {
+        status.textContent = isEn
+          ? 'Something went wrong — please email me directly.'
+          : 'Coś poszło nie tak — napisz bezpośrednio na maila.';
+      }
+    }).catch(function(){
+      status.textContent = isEn
+        ? 'Network error — please email me directly.'
+        : 'Błąd sieci — napisz bezpośrednio na maila.';
+    });
+  });
+})();
+</script>
+</body>
+</html>

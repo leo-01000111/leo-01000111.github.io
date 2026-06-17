@@ -1105,6 +1105,35 @@
       color:var(--faint);
     }
 
+    /* ── Tutoring CTA card (home page) ── */
+    a.tutoring-cta{
+      display:block;
+      text-decoration:none;
+      background:rgba(217,119,87,0.10);
+      border:1px solid rgba(217,119,87,0.24);
+      border-radius:var(--radius);
+      padding:14px 18px;
+      margin-bottom:16px;
+      transition:background 0.18s, border-color 0.18s, transform 0.15s;
+    }
+    a.tutoring-cta:hover{
+      background:rgba(217,119,87,0.18);
+      border-color:rgba(217,119,87,0.40);
+      transform:translateY(-2px);
+    }
+    .tutoring-cta-main{
+      color:rgba(217,119,87,1);
+      font-weight:600;
+      font-size:0.88rem;
+      margin:0 0 4px;
+      line-height:1.4;
+    }
+    .tutoring-cta-sub{
+      color:rgba(217,119,87,0.60);
+      font-size:0.80rem;
+      margin:0;
+    }
+
     /* ── Back-to-top button ── */
     #back-to-top{
       position:fixed;
