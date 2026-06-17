@@ -312,6 +312,72 @@ body.lang-en [data-pl]{ display:none; }
   display:block;
 }
 
+/* Priority chip tiers */
+.topic-chip.prio-1{
+  grid-column:span 2;
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+  min-height:auto;
+}
+.topic-chip.prio-1:hover{
+  background:#b05428;
+  border-color:#b05428;
+}
+.topic-chip.prio-1 .tn{
+  color:#fff;
+  font-size:0.90rem;
+}
+
+.topic-chip.prio-2{
+  background:var(--accent-pale);
+  border:2px solid var(--accent);
+  min-height:auto;
+}
+.topic-chip.prio-2:hover{
+  background:rgba(200,100,50,0.18);
+}
+.topic-chip.prio-2 .tn{
+  color:var(--accent);
+}
+
+/* Buttons inside chips */
+.topic-btn-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:4px;
+}
+
+.topic-btn{
+  display:inline-block;
+  font-size:0.70rem;
+  font-family:var(--font-mono);
+  font-weight:600;
+  padding:3px 9px;
+  border-radius:6px;
+  border:1px solid var(--line);
+  color:var(--accent);
+  background:transparent;
+  text-decoration:none;
+  transition:background 0.15s, border-color 0.15s;
+  white-space:nowrap;
+}
+.topic-btn:hover{
+  background:var(--accent-pale);
+  border-color:var(--accent);
+  text-decoration:none;
+}
+
+.topic-chip.prio-1 .topic-btn{
+  background:#fff;
+  border-color:#fff;
+  color:var(--accent);
+}
+.topic-chip.prio-1 .topic-btn:hover{
+  background:rgba(255,255,255,0.85);
+}
+
 /* ── Contact section ── */
 .k-contact-intro{
   color:var(--muted);
