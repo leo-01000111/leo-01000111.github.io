@@ -396,7 +396,8 @@
           <span class="tn" data-pl>Metody numeryczne</span>
           <span class="tn" data-en>Numerical Methods</span>
           <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.medianauka.pl/metody-numeryczne" target="_blank" rel="noopener">Medianauka →</a>
+            <a class="topic-btn" href="https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2004/" target="_blank" rel="noopener">MIT OCW →</a>
+            <a class="topic-btn" href="https://ccfd.github.io/courses/metnum_lab1.html" target="_blank" rel="noopener">CCFD PW →</a>
           </div>
         </div>
 
@@ -450,6 +451,86 @@
       </button>
       <p class="k-form-note" id="form-status" aria-live="polite"></p>
     </form>
+  </section>
+
+  <!-- Opinie -->
+  <section class="k-section k-opinie-section">
+    <h2 class="k-section-title">
+      <span data-pl>Opinie</span>
+      <span data-en>Reviews</span>
+    </h2>
+
+    <!-- Empty on launch. To add a card, paste the Formspree email to Claude: "add this as a review card"
+         Card template:
+         <div class="opinion-card">
+           <div class="opinion-header">
+             <span class="opinion-name">NAME</span>
+             <span class="opinion-subjects">SUBJECT(S)</span>
+             <span class="opinion-stars">★★★★★</span>
+           </div>
+           <p class="opinion-text">"OPINION"</p>
+         </div>
+    -->
+    <div class="opinion-grid" id="opinion-grid"></div>
+
+    <button class="k-opinie-toggle" id="opinie-toggle" aria-expanded="false" aria-controls="opinie-form-wrap">
+      <span data-pl>Zostaw Opinię</span>
+      <span data-en>Leave a Review</span>
+    </button>
+
+    <div class="opinie-form-wrap" id="opinie-form-wrap">
+      <form class="k-form" id="opinie-form" action="https://formspree.io/f/xykaajqd" method="POST">
+        <input type="hidden" name="_subject" id="opinie-subject"/>
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off"/>
+
+        <label class="k-label">
+          <span data-pl>Imię (lub pseudonim)</span><span data-en>Name (or alias)</span>
+          <input class="k-input" type="text" name="opinia_imie" id="opinie-name" required/>
+        </label>
+
+        <fieldset class="k-fieldset">
+          <legend class="k-legend">
+            <span data-pl>Przedmiot(y)</span><span data-en>Subject(s)</span>
+          </legend>
+          <div class="opinie-checks">
+            <label class="k-check-label">
+              <input type="checkbox" name="opinia_przedmiot" value="Fizyka"/>
+              <span data-pl>Fizyka</span><span data-en>Physics</span>
+            </label>
+            <label class="k-check-label">
+              <input type="checkbox" name="opinia_przedmiot" value="Matematyka"/>
+              <span data-pl>Matematyka</span><span data-en>Mathematics</span>
+            </label>
+            <label class="k-check-label">
+              <input type="checkbox" name="opinia_przedmiot" value="Informatyka"/>
+              <span data-pl>Informatyka</span><span data-en>IT/CS</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="k-label">
+          <span><span data-pl>Ocena</span><span data-en>Rating</span></span>
+          <div class="star-rating" id="opinie-stars">
+            <span class="star" data-val="1">★</span>
+            <span class="star" data-val="2">★</span>
+            <span class="star" data-val="3">★</span>
+            <span class="star" data-val="4">★</span>
+            <span class="star" data-val="5">★</span>
+          </div>
+          <input type="hidden" name="opinia_ocena" id="opinie-rating" value=""/>
+        </div>
+
+        <label class="k-label">
+          <span data-pl>Opinia</span><span data-en>Review</span>
+          <textarea class="k-input k-textarea" name="opinia_tekst" rows="5" required placeholder="..."></textarea>
+        </label>
+
+        <button class="k-submit" type="submit">
+          <span data-pl>Wyślij opinię</span><span data-en>Submit review</span>
+        </button>
+        <p class="k-form-note" id="opinie-status" aria-live="polite"></p>
+      </form>
+    </div>
   </section>
 
 </main>
@@ -537,6 +618,78 @@
       status.textContent = isEn
         ? 'Network error — please email me directly.'
         : 'Błąd sieci — napisz bezpośrednio na maila.';
+    });
+  });
+})();
+
+/* Opinie toggle */
+(function(){
+  var btn = document.getElementById('opinie-toggle');
+  var wrap = document.getElementById('opinie-form-wrap');
+  if(!btn || !wrap) return;
+  btn.addEventListener('click', function(){
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    if(!open){
+      wrap.style.maxHeight = wrap.scrollHeight + 'px';
+      wrap.style.opacity = '1';
+      wrap.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+    } else {
+      wrap.style.maxHeight = '0';
+      wrap.style.opacity = '0';
+      wrap.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+
+/* Star rating */
+(function(){
+  var stars = document.querySelectorAll('#opinie-stars .star');
+  var input = document.getElementById('opinie-rating');
+  if(!stars.length || !input) return;
+  var rating = 0;
+  function paint(n){ stars.forEach(function(s){ s.classList.toggle('lit', parseInt(s.dataset.val) <= n); }); }
+  stars.forEach(function(s){
+    s.addEventListener('mouseenter', function(){ paint(parseInt(s.dataset.val)); });
+    s.addEventListener('mouseleave', function(){ paint(rating); });
+    s.addEventListener('click', function(){ rating = parseInt(s.dataset.val); input.value = rating; paint(rating); });
+  });
+})();
+
+/* Opinie form submit */
+(function(){
+  var form = document.getElementById('opinie-form');
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = (document.getElementById('opinie-name').value || '').trim();
+    var date = new Date().toISOString().slice(0,10);
+    document.getElementById('opinie-subject').value = 'OPINIA ' + name + ' ' + date;
+    var status = document.getElementById('opinie-status');
+    var isEn = document.body.classList.contains('lang-en');
+    var checked = form.querySelectorAll('input[name="opinia_przedmiot"]:checked');
+    if(!checked.length){
+      status.textContent = isEn ? 'Please select at least one subject.' : 'Zaznacz przynajmniej jeden przedmiot.';
+      return;
+    }
+    if(!document.getElementById('opinie-rating').value){
+      status.textContent = isEn ? 'Please select a star rating.' : 'Wybierz ocenę gwiazdkową.';
+      return;
+    }
+    status.textContent = isEn ? 'Sending…' : 'Wysyłanie…';
+    fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
+    .then(function(r){
+      if(r.ok){
+        form.reset();
+        document.querySelectorAll('#opinie-stars .star').forEach(function(s){ s.classList.remove('lit'); });
+        document.getElementById('opinie-rating').value = '';
+        status.textContent = isEn ? 'Thank you for your review!' : 'Dziękuję za opinię!';
+      } else {
+        status.textContent = isEn ? 'Something went wrong — please email me directly.' : 'Coś poszło nie tak — napisz bezpośrednio na maila.';
+      }
+    }).catch(function(){
+      status.textContent = isEn ? 'Network error.' : 'Błąd sieci.';
     });
   });
 })();
