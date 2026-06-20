@@ -146,42 +146,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.leongorecki.eu/notes/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/notes/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/notes/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/notes/" />
-    <lastmod>2026-06-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.leongorecki.eu/fr/notes/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/notes/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/notes/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/notes/" />
-    <lastmod>2026-06-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.leongorecki.eu/notes/validating-a-cfd-solver.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/notes/validating-a-cfd-solver.html" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/notes/validating-a-cfd-solver.html" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/notes/validating-a-cfd-solver.html" />
-    <lastmod>2026-06-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.leongorecki.eu/fr/notes/validating-a-cfd-solver.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/notes/validating-a-cfd-solver.html" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/notes/validating-a-cfd-solver.html" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/notes/validating-a-cfd-solver.html" />
-    <lastmod>2026-06-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://www.leongorecki.eu/korepetycje/</loc>
     <xhtml:link rel="alternate" hreflang="pl" href="https://www.leongorecki.eu/korepetycje/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/korepetycje/" />
