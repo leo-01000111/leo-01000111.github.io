@@ -133,6 +133,13 @@
       justify-content:space-between;
       gap: 16px;
     }
+    /* On the homepage the header lives inside .wrap and inherits its 26px top
+       padding. On the Projects listing and individual project pages the header
+       sits at the top level, so it misses that offset and hugs the viewport
+       top. Restore the same gap (26px wrap + 10px header) here. */
+    body > header{
+      padding-top: 36px;
+    }
 
     .brand{
       display:flex;
