@@ -482,6 +482,7 @@
       gap: 10px;
     }
     .proj{
+      position: relative;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(0,0,0,0.14);
       border-radius: 14px;
@@ -912,6 +913,24 @@
     }
     .proj-thumb img{
       transition: transform 0.28s ease;
+    }
+
+    /* === WHOLE-CARD CLICK (stretched link) ===
+       The "Open" pill is the card's primary link; its ::after overlay
+       expands the clickable area to fill the whole .proj card, so a click
+       anywhere on the card opens the project. The overlay can't hang off
+       .proj-thumb because that element has overflow:hidden (for the zoom),
+       which would clip the pseudo-element to the thumbnail. */
+    .proj .pill::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:1;
+    }
+    /* Keep the thumbnail as its own independent link above the overlay. */
+    .proj .proj-thumb{
+      position:relative;
+      z-index:2;
     }
 
     /* === LOADING SKELETON === */
