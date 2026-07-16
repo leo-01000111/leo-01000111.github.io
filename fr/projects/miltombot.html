@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>MILTOM-Bot : un bot d'appels d'offres qui gagne ses propres données d'entraînement - Leon Górecki</title>
+  <meta name="description" content="Pipeline de veille des marchés publics en production chez MILTOM : surveille le bulletin national des appels d'offres, envoie les candidats à l'équipe commerciale et transforme leurs verdicts en données d'entraînement étiquetées." />
+  <meta name="theme-color" content="#070b12" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="MILTOM-Bot : un bot d'appels d'offres qui gagne ses propres données d'entraînement - Leon Górecki" />
+  <meta property="og:description" content="La v0 est un instrument de collecte de données déguisé en outil utile : un filtre par mots-clés ratisse large, et les verdicts en un clic de l'équipe commerciale deviennent le jeu d'entraînement du classifieur qui le remplacera." />
+  <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/miltombot.html" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://www.leongorecki.eu/assets/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="canonical" href="https://www.leongorecki.eu/fr/projects/miltombot.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/miltombot.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/miltombot.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/miltombot.html" />
+  <link rel="icon" href="/assets/miltom-bot-favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/assets/miltom-bot-favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="/assets/miltom-bot-favicon-16.png" sizes="16x16" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+  <style>
+    /* ── miltombot custom components ── */
+
+    /* Hero loop diagram */
+    .loop-svg {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      display: block;
+    }
+    .loop-caption {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.38);
+      text-align: center;
+      margin: 8px 0 2px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Decision cards */
+    .dec-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .dec-card {
+      border-radius: 12px;
+      padding: 16px 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-left: 3px solid #7a89c2;
+      background: rgba(122,137,194,0.05);
+    }
+    .dec-badge {
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: #7a89c2;
+    }
+    .dec-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: rgba(255,255,255,0.88);
+    }
+    .dec-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.66);
+      font-size: 0.875rem;
+      line-height: 1.72;
+    }
+    .dec-card p + p { margin-top: 10px; }
+
+    /* Callout (overrides .card background) */
+    .callout {
+      background: rgba(122,137,194,0.06) !important;
+      border-color: rgba(122,137,194,0.22) !important;
+    }
+    .callout-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .callout-icon {
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #7a89c2;
+    }
+    .callout strong {
+      color: #7a89c2;
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .callout p {
+      margin: 0;
+      color: rgba(255,255,255,0.76);
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    /* Architecture diagram: below ~640px a 580-unit viewBox would squeeze its
+       labels to ~4px. Let it scroll at natural size instead of shrinking —
+       the same treatment the wide tables below it already get. */
+    .arch-scroll {
+      overflow-x: auto;
+    }
+    .arch-scroll svg {
+      min-width: 580px;
+    }
+
+    /* Roadmap note */
+    .roadmap-note {
+      margin: 16px 0 0;
+      line-height: 1.65;
+      border-top: 1px solid rgba(255,255,255,0.09);
+      padding-top: 14px;
+    }
+
+    /* Known debt cards */
+    .debt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .debt-card {
+      border-radius: 12px;
+      padding: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-top: 3px solid rgba(122,137,194,0.55);
+    }
+    .debt-badge {
+      font-size: 0.70rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+      color: #7a89c2;
+    }
+    .debt-card p {
+      margin: 0;
+      font-size: 0.875rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.66);
+    }
+
+    @media (min-width: 900px) {
+      .dec-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body data-project-id="7" data-project-slug="miltombot">
+<a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Ingénierie aérospatiale / mécanique</span>
+        </div>
+      </div>
+
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/fr/">Accueil</a>
+          <a class="pill" data-ui="allProjects" href="/fr/projects/">Tous les projets</a>
+        </div>
+        <div aria-label="Changement de langue" class="lang" role="group">
+          <a data-lang="en" href="/projects/miltombot.html">EN</a>
+          <a data-lang="fr" aria-current="page" href="/fr/projects/miltombot.html">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Basculer la navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="hero" style="padding-bottom: 16px;">
+      <div class="hero-grid">
+        <div>
+          <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot : un bot d'appels d'offres qui gagne ses propres données d'entraînement</h1>
+          <p id="proj-desc" class="lead">Un pipeline de veille des marchés publics en polonais qui surveille le bulletin national des appels d'offres à la recherche de contrats de réservoirs d'eau, les envoie à l'équipe commerciale et capture leurs verdicts comme données d'entraînement étiquetées.</p>
+          <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
+          <div class="cta" style="margin-top: 18px;">
+            <a class="pill" id="proj-back" href="/fr/projects/">Retour aux projets</a>
+          </div>
+          <p class="small" style="margin-top: 14px; color: var(--faint); line-height: 1.6;">
+            Développeur logiciel chez MILTOM, fabricant polonais de réservoirs d'eau pour la protection incendie et l'eau
+            potable. En production depuis le 16 juillet 2026 — premier commit le 1<sup>er</sup> juillet 2026. Le dépôt est
+            privé : il s'agit d'un système en production utilisé par de vrais utilisateurs dans une vraie entreprise.
+          </p>
+        </div>
+        <div class="hero-card">
+          <svg class="loop-svg" viewBox="0 0 360 456" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="La boucle d'étiquetage : le bulletin BZP alimente un filtre par mots-clés, qui envoie par e-mail les appels d'offres candidats à l'équipe commerciale ; leurs clics TAK ou NIE deviennent des données d'entraînement étiquetées pour le classifieur v1 qui remplacera le filtre.">
+            <defs>
+              <marker id="mb-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.82"/>
+              </marker>
+              <marker id="mb-arrow-dim" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.45"/>
+              </marker>
+            </defs>
+
+            <!-- 1 · bulletin BZP -->
+            <rect x="80" y="10" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="29" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">Bulletin BZP</text>
+            <text x="210" y="43" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">tous les marchés publics de Pologne</text>
+            <line x1="210" y1="54" x2="210" y2="86" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+
+            <!-- 2 · filtre par mots-clés -->
+            <rect x="80" y="88" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="107" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">filtre par mots-clés</text>
+            <text x="210" y="121" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">volontairement grossier — ratisse large</text>
+            <line x1="210" y1="132" x2="210" y2="164" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+
+            <!-- 3 · e-mail récapitulatif -->
+            <rect x="80" y="166" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="185" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">e-mail récapitulatif</text>
+            <text x="210" y="199" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">jusqu'à 5 nouveaux avis · lun–ven 08:00</text>
+            <line x1="210" y1="210" x2="210" y2="234" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+
+            <!-- 4 · le clic -->
+            <rect x="80" y="236" width="260" height="58" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <rect x="140" y="246" width="60" height="26" rx="13" fill="#4ade80" fill-opacity="0.14" stroke="#4ade80" stroke-opacity="0.5"/>
+            <text x="170" y="263" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" font-weight="700" fill="#4ade80">TAK</text>
+            <rect x="220" y="246" width="60" height="26" rx="13" fill="#f87171" fill-opacity="0.14" stroke="#f87171" stroke-opacity="0.5"/>
+            <text x="250" y="263" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" font-weight="700" fill="#f87171">NIE</text>
+            <text x="210" y="286" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">un clic, une seconde</text>
+            <line x1="210" y1="296" x2="210" y2="320" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+
+            <!-- 5 · étiquettes -->
+            <rect x="80" y="322" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="341" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" fill="rgba(255,255,255,0.86)">LABELS</text>
+            <text x="210" y="355" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">une ligne par verdict — tout l'enjeu</text>
+            <line x1="210" y1="366" x2="210" y2="398" stroke="#7a89c2" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#mb-arrow-dim)"/>
+
+            <!-- 6 · classifieur v1 (à venir) -->
+            <rect x="80" y="400" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.03" stroke="#7a89c2" stroke-opacity="0.32" stroke-dasharray="4,3"/>
+            <text x="210" y="419" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.55)">classifieur v1</text>
+            <text x="210" y="433" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.30)">TF-IDF + régression logistique</text>
+
+            <!-- boucle de retour : la v1 remplace le filtre -->
+            <path d="M 80 421 L 52 421 Q 40 421 40 409 L 40 121 Q 40 109 52 109 L 76 109"
+                  fill="none" stroke="#7a89c2" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#mb-arrow-dim)"/>
+            <text x="34" y="265" text-anchor="middle" transform="rotate(-90 34 265)" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)" letter-spacing="0.06em">remplace le filtre</text>
+          </svg>
+          <p class="loop-caption">Plein = aujourd'hui (v0) &nbsp;·&nbsp; Pointillé = v1</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Contenu">
+
+      <!-- 1 · De quoi il s'agit -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>De quoi il s'agit</h2>
+        <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
+          La Pologne publie chaque marché public au Biuletyn Zamówień Publicznych (BZP). Quelque part dans ce flot se
+          trouvent les contrats qui valent la peine d'être soumissionnés — pour MILTOM, les réservoirs d'eau pour la
+          protection incendie et l'eau potable. Les trouver à la main suppose que quelqu'un lise les annonces chaque matin,
+          et personne ne tient ce rythme durablement.
+        </p>
+        <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
+          La solution évidente est un classifieur. Le problème, c'est qu'au premier jour il n'existe aucune donnée
+          d'entraînement, et aucune ingéniosité ne la fait apparaître. Le système est donc conçu pour <em>gagner</em> ses
+          données : un filtre par mots-clés volontairement grossier ratisse large, chaque appel d'offres retenu est envoyé
+          à l'équipe commerciale avec deux boutons — <strong>TAK</strong> (à poursuivre) ou <strong>NIE</strong> (non) — et
+          chaque clic est un exemple étiqueté.
+        </p>
+        <p class="muted" style="margin: 0; line-height: 1.72;">
+          La v0 est un instrument de collecte de données déguisé en outil utile. La v1 s'entraîne sur ce qu'elle récolte.
+        </p>
+      </div>
+
+      <!-- 2 · Callout -->
+      <div class="card callout" style="grid-column: 1 / -1;">
+        <div class="callout-inner">
+          <svg class="callout-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
+            <path d="M12 1.5a.75.75 0 01.75.75V4.5a.75.75 0 01-1.5 0V2.25A.75.75 0 0112 1.5zM5.636 4.136a.75.75 0 011.06 0l1.592 1.591a.75.75 0 01-1.061 1.06l-1.591-1.59a.75.75 0 010-1.061zm12.728 0a.75.75 0 010 1.06l-1.591 1.592a.75.75 0 01-1.06-1.061l1.59-1.591a.75.75 0 011.061 0zm-6.816 4.496a.75.75 0 01.82.311l5.228 7.917a.75.75 0 01-.777 1.148l-2.097-.43 1.045 3.9a.75.75 0 01-1.45.388l-1.044-3.899-1.601 1.42a.75.75 0 01-1.247-.606l.569-9.47a.75.75 0 01.554-.68zM3 10.5a.75.75 0 01.75-.75H6a.75.75 0 010 1.5H3.75A.75.75 0 013 10.5zm14.25 0a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H18a.75.75 0 01-.75-.75zm-8.962 3.712a.75.75 0 010 1.061l-1.591 1.591a.75.75 0 11-1.061-1.06l1.591-1.592a.75.75 0 011.06 0z" />
+          </svg>
+          <div>
+            <strong>Pourquoi la boucle fonctionne</strong>
+            <p>Les personnes les mieux placées pour juger un appel d'offres le font en une seconde, comme effet secondaire
+            d'un travail qu'elles faisaient déjà. Personne n'a été chargé d'étiqueter un jeu de données ; on leur demande si
+            un contrat vaut la peine d'être soumissionné — c'est leur métier. Les étiquettes sont un sous-produit de
+            l'utilité réelle de l'outil, et c'est la seule raison pour laquelle elles continuent d'arriver.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 · Architecture -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Architecture</h2>
+        <p class="muted" style="margin: 0 0 4px; font-size: 0.9rem; line-height: 1.65;">
+          Deux conteneurs qui ne s'appellent jamais. Toute la communication passe par Postgres.
+        </p>
+        <div class="chart-wrap" style="margin-top: 14px;">
+          <div class="arch-scroll">
+          <svg viewBox="0 0 580 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img"
+               aria-label="Architecture : un conteneur notifier et un conteneur label_endpoint, sans aucun appel direct entre eux ; chacun communique uniquement avec une base PostgreSQL 16 contenant six tables.">
+            <defs>
+              <marker id="mb-a2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.7"/>
+              </marker>
+            </defs>
+
+            <!-- notifier -->
+            <rect x="40" y="30" width="200" height="76" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="140" y="56" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="rgba(255,255,255,0.86)">notifier</text>
+            <text x="140" y="73" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.45)">3 tâches planifiées · pas de serveur HTTP</text>
+            <text x="140" y="90" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7a89c2" fill-opacity="0.75">aucune surface réseau entrante</text>
+
+            <!-- label_endpoint -->
+            <rect x="340" y="30" width="200" height="76" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="440" y="56" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="rgba(255,255,255,0.86)">label_endpoint</text>
+            <text x="440" y="73" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.45)">FastAPI · sert les liens d'étiquetage</text>
+            <text x="440" y="90" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7a89c2" fill-opacity="0.75">derrière un reverse proxy · loopback seul</text>
+
+            <!-- aucun appel direct -->
+            <line x1="248" y1="68" x2="332" y2="68" stroke="rgba(255,255,255,0.28)" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="284" y1="62" x2="296" y2="74" stroke="rgba(255,255,255,0.5)" stroke-width="1.4"/>
+            <line x1="296" y1="62" x2="284" y2="74" stroke="rgba(255,255,255,0.5)" stroke-width="1.4"/>
+            <text x="290" y="50" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)">aucun appel direct</text>
+
+            <!-- liens vers postgres -->
+            <line x1="140" y1="108" x2="248" y2="136" stroke="#7a89c2" stroke-opacity="0.7" stroke-width="1.2" marker-start="url(#mb-a2)" marker-end="url(#mb-a2)"/>
+            <line x1="440" y1="108" x2="332" y2="136" stroke="#7a89c2" stroke-opacity="0.7" stroke-width="1.2" marker-start="url(#mb-a2)" marker-end="url(#mb-a2)"/>
+
+            <!-- cylindre postgres -->
+            <path d="M 205 150 L 205 196 A 85 12 0 0 0 375 196 L 375 150" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <ellipse cx="290" cy="150" rx="85" ry="12" fill="#7a89c2" fill-opacity="0.10" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="290" y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="rgba(255,255,255,0.86)">PostgreSQL 16</text>
+
+            <text x="290" y="228" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.42)">6 tables · chaque changement via une migration Alembic, jamais à la main</text>
+            <text x="290" y="242" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8.5" fill="#7a89c2" fill-opacity="0.6">SALESMEN · TIPS · TIP_SNAPSHOTS · TIP_HISTORY · LABELS · SOURCES</text>
+          </svg>
+          </div>
+        </div>
+        <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
+          Le notifier n'a aucune surface réseau entrante — rien ne peut l'atteindre. Le service d'étiquetage n'a ni
+          planificateur, ni envoi d'e-mails, ni logique métier dans ses gestionnaires de routes. Comme aucun des deux
+          services n'appelle l'autre, chacun peut être redémarré, redéployé ou tomber en panne sans que l'autre s'en
+          aperçoive ; la base de données est le seul contrat entre eux.
+        </p>
+      </div>
+
+      <!-- 4 · Planification -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>La planification</h2>
+        <p class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">
+          Trois tâches APScheduler indépendantes dans le notifier. Chacune tourne sur sa propre horloge avec sa propre
+          session de base de données.
+        </p>
+        <div class="table-wrap">
+          <table class="results-table" style="min-width:560px;">
+            <thead>
+              <tr>
+                <th>Tâche</th>
+                <th>Fréquence</th>
+                <th>Rôle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>run_ingest</td>
+                <td>toutes les heures</td>
+                <td>récupérer BZP → classer → dédupliquer → stocker</td>
+              </tr>
+              <tr>
+                <td>notify_salesmen</td>
+                <td>lun–ven 08:00</td>
+                <td>envoyer à chaque commercial jusqu'à 5 nouveaux avis</td>
+              </tr>
+              <tr>
+                <td>run_admin_report</td>
+                <td>quotidien 23:00</td>
+                <td>rapport d'exploitation vers la boîte admin</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
+          L'ingestion et l'envoi ne partagent jamais de session et n'ont aucun code commun. Si un envoi échoue, aucune ligne
+          d'historique n'est écrite, l'appel d'offres reste non envoyé et le récapitulatif du lendemain le réessaie. La
+          panne dégénère en retard plutôt qu'en perte. La déduplication est idempotente à deux niveaux — globalement (cet
+          avis BZP a-t-il déjà été vu ?) et par commercial (cette personne l'a-t-elle déjà reçu ?) — de sorte qu'exécuter le
+          pipeline deux fois donne le même résultat qu'une seule, ce qui permet de simplement relancer une exécution bloquée.
+        </p>
+      </div>
+
+      <!-- 5 · Stack -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Stack technique</h2>
+        <div class="table-wrap" style="margin-top:10px;">
+          <table class="results-table" style="min-width:560px;">
+            <thead>
+              <tr>
+                <th>Besoin</th>
+                <th>Choix</th>
+                <th>Pourquoi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Langage</td><td>Python 3.12</td><td>—</td></tr>
+              <tr><td>Analyse HTML</td><td>selectolax</td><td>plus rapide que BeautifulSoup</td></tr>
+              <tr><td>Planification</td><td>APScheduler</td><td>en processus ; Airflow/Celery est le problème de la v2</td></tr>
+              <tr><td>Classification (v0)</td><td>re (stdlib)</td><td>paires de mots-clés + préfixes de codes CPV</td></tr>
+              <tr><td>Classification (v1)</td><td>scikit-learn</td><td>TF-IDF + régression logistique sur les étiquettes collectées</td></tr>
+              <tr><td>ORM / pilote</td><td>SQLAlchemy 2.x async · asyncpg</td><td>—</td></tr>
+              <tr><td>Migrations</td><td>Alembic</td><td>dès le premier commit, sans exception</td></tr>
+              <tr><td>Configuration</td><td>pydantic-settings</td><td>chaque réglage dans un seul endroit typé</td></tr>
+              <tr><td>Validation</td><td>Pydantic v2</td><td>à chaque frontière du système</td></tr>
+              <tr><td>API</td><td>FastAPI</td><td>service d'étiquetage uniquement</td></tr>
+              <tr><td>E-mail</td><td>smtplib</td><td>v0 ; un service d'envoi hébergé est un sujet v1</td></tr>
+              <tr><td>Jetons</td><td>hmac + hashlib (stdlib)</td><td>—</td></tr>
+              <tr><td>Typage</td><td>mypy --strict</td><td>zéro erreur exigée pour committer</td></tr>
+              <tr><td>Tests</td><td>pytest + pytest-asyncio</td><td>contre un vrai Postgres, jamais un mock</td></tr>
+              <tr><td>Déploiement</td><td>Docker Compose + Caddy</td><td>terminaison TLS ; les conteneurs écoutent en loopback</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6 · Décisions -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Décisions qui méritent d'être expliquées</h2>
+        <div class="dec-grid">
+
+          <div class="dec-card">
+            <div class="dec-badge">Sémantique HTTP</div>
+            <div class="dec-name">GET lit, POST écrit — parce que les scanners d'e-mails cliquent sur les liens</div>
+            <p>Les liens d'étiquetage partent par e-mail. Les scanners de messagerie d'entreprise et les robots d'aperçu de
+            liens suivent chaque URL d'un message entrant avant même qu'un humain ne le voie. Si un GET enregistrait une
+            étiquette, le scanner en forgerait une silencieusement.</p>
+            <p>Le GET est donc sans effet de bord : il valide le jeton et affiche une page de confirmation avec un bouton.
+            C'est le POST derrière ce bouton qui écrit. Un robot qui suit aveuglément les liens n'étiquette rien. C'est de
+            la sémantique HTTP ordinaire, mais la conséquence d'une erreur ici est un jeu de données empoisonné qui paraît
+            parfaitement normal — chaque ligne plausible, aucune erreur nulle part, et un modèle entraîné sur du bruit.</p>
+          </div>
+
+          <div class="dec-card">
+            <div class="dec-badge">Déploiement</div>
+            <div class="dec-name">Le système devait pouvoir être testé sans risque contre la production</div>
+            <p>Il n'existe qu'une seule API BZP, et c'est la vraie. Tester le pipeline de bout en bout implique de vraies
+            requêtes — et le risque de vrais e-mails à de vrais collègues depuis une version inachevée.</p>
+            <p>Chaque commercial porte un mode de notification — production, dev ou les deux — et une variable
+            d'environnement choisit la cohorte visée par une exécution. Les adresses de développement reçoivent tout ; les
+            collègues ne reçoivent rien tant que le drapeau n'a pas basculé. Toute la pile a tourné sur des données réelles,
+            en envoyant de vrais e-mails et en écrivant de vraies étiquettes, pendant des heures avant qu'un seul collègue
+            ne soit concerné.</p>
+          </div>
+
+          <div class="dec-card">
+            <div class="dec-badge">Sémantique des étiquettes</div>
+            <div class="dec-name">Non étiqueté est inconnu, pas négatif</div>
+            <p>Un appel d'offres sur lequel personne n'a cliqué n'est pas un « non » — c'est peut-être un « non », ou
+            peut-être un mardi chargé.</p>
+            <p>Traiter le silence comme une étiquette négative entraînerait le modèle sur l'agenda de l'équipe commerciale
+            plutôt que sur son jugement. L'absence de preuve est stockée comme absence de preuve. Cela coûte du volume dans
+            le jeu d'entraînement, et c'est la différence entre un modèle qui apprend à quoi ressemble un bon appel d'offres
+            et un modèle qui apprend à quelle heure les gens sont à leur bureau.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 7 · Tests + Exploitation (2 colonnes) -->
+      <div class="card">
+        <h2>Tests</h2>
+        <p class="muted" style="margin: 0 0 12px; line-height: 1.65;">
+          Les tests d'intégration tournent contre une vraie base PostgreSQL, et la fixture applique les vraies migrations
+          Alembic plutôt que de construire le schéma depuis les modèles ORM. Le raccourci laisse les modèles et les
+          migrations diverger en silence — les tests passent indéfiniment pendant que la production casse au déploiement
+          suivant. Exécuter les vraies migrations transforme cette dérive en échec de test plutôt qu'en panne.
+        </p>
+        <p class="muted" style="margin: 0; line-height: 1.65;">
+          Simuler la base rendrait la suite plus rapide et ne testerait rien d'important : les contraintes, les cascades et
+          la sémantique transactionnelle vivent dans Postgres, pas dans Python. Couvert : les chemins des jetons (valide,
+          expiré, altéré, mauvais destinataire), la déduplication aux deux niveaux, les positifs et négatifs du
+          classifieur, les chemins de lecture/écriture du dépôt.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Exploitation</h2>
+        <p class="muted" style="margin: 0 0 12px; line-height: 1.65;">
+          Docker Compose démarre Postgres, un conteneur de migration à usage unique, puis les deux services — les
+          conteneurs applicatifs sont conditionnés à la réussite de la migration, si bien qu'une migration ratée signifie
+          que rien ne démarre plutôt que quelque chose démarre de travers. Les sauvegardes tournent chaque nuit avec 14
+          jours de rétention, <strong>et la restauration a été testée</strong> dans une base jetable, en vérifiant que le
+          nombre de lignes revenait. Une sauvegarde non testée est un fichier au nom rassurant.
+        </p>
+        <p class="muted" style="margin: 0; line-height: 1.65;">
+          La supervision, c'est un e-mail par jour. Pas de tableau de bord, pas de Prometheus, pas de pile d'alerting,
+          parce que cinq utilisateurs et un développeur n'en ont pas besoin. Si le rapport nocturne n'arrive pas, quelque
+          chose ne va pas. C'est tout le système, et il tient en une phrase.
+        </p>
+      </div>
+
+      <!-- 8 · Le silence -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Le silence est indiscernable d'une panne</h2>
+        <p class="muted" style="margin: 0; line-height: 1.72;">
+          Un commercial sans appel d'offres correspondant reçoit un court e-mail « brak nowych przetargów » (aucun nouvel
+          appel d'offres) plutôt que rien du tout. Si le bot ne parle que lorsqu'il a quelque chose à dire, alors un bot qui
+          a planté ressemble exactement à une semaine calme — et le temps que quelqu'un s'en aperçoive, des semaines
+          d'appels d'offres sont perdues. Le même raisonnement justifie le rapport nocturne : c'est la seule chose qui
+          sépare une panne silencieuse d'une découverte trois mois plus tard.
+        </p>
+      </div>
+
+      <!-- 9 · Feuille de route -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Feuille de route</h2>
+        <div class="timeline" style="margin-top:14px;">
+
+          <div class="tl-item">
+            <div class="tl-period">v0 — en production</div>
+            <div class="tl-title">Filtre par mots-clés → envoyer tout ce qui est plausible → collecter les étiquettes</div>
+            <p class="tl-desc">En production depuis le 16 juillet 2026. Un filtre grossier ratisse large ; chaque appel
+            d'offres retenu est envoyé à l'équipe commerciale, et chaque clic TAK/NIE est stocké comme exemple étiqueté.</p>
+          </div>
+
+          <div class="tl-item" data-type="edu">
+            <div class="tl-period" style="color:var(--accent2);">v1 — prochaine étape</div>
+            <div class="tl-title">TF-IDF + régression logistique entraînés sur ces étiquettes → n'envoyer que les avis à forte confiance</div>
+            <p class="tl-desc">Le classifieur remplace le filtre par mots-clés. Un service d'envoi hébergé remplace smtplib,
+            et la cadence par personne s'active.</p>
+          </div>
+
+          <div class="tl-item" data-type="edu">
+            <div class="tl-period" style="color:var(--accent2);">v2 — plus tard</div>
+            <div class="tl-title">Tableau de bord · sources au-delà du BZP</div>
+            <p class="tl-desc">Seulement une fois que le classifieur l'aura mérité.</p>
+          </div>
+
+        </div>
+        <p class="small muted roadmap-note">
+          Le classifieur est bruyant aujourd'hui, et c'est <em>voulu</em>. Le resserrer réduirait le volume d'étiquettes,
+          qui est le seul actif que la v0 existe pour produire. La précision est le travail de la v1 ; le rappel est celui
+          de la v0. Différer le travail intéressant est ce qui rend le travail intéressant possible.
+        </p>
+      </div>
+
+      <!-- 10 · Dette connue -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Dette technique connue — planifiée, non subie</h2>
+        <p class="muted" style="margin: 0 0 4px; font-size: 0.9rem; line-height: 1.65;">
+          Chacune de ces dettes est un arbitrage v0 délibéré : peu coûteux maintenant, remplacé sur un déclencheur connu.
+        </p>
+        <div class="debt-grid">
+
+          <div class="debt-card">
+            <div class="debt-badge">Envoi d'e-mails</div>
+            <p>smtplib avec un mot de passe d'application plafonne à environ 500 messages par jour. Suffisant pour cinq
+            utilisateurs, et un remplacement v1 est déjà cadré — une dette délibérée avec une limite connue plutôt
+            qu'inconnue.</p>
+          </div>
+
+          <div class="debt-card">
+            <div class="debt-badge">Cadence des envois</div>
+            <p>La cadence est un unique cron global, alors que la table des commerciaux porte déjà une colonne d'intervalle
+            par personne. La colonne existe et n'est pas utilisée — un point d'accroche v1, ou un schéma prématuré, selon
+            l'indulgence du jour.</p>
+          </div>
+
+          <div class="debt-card">
+            <div class="debt-badge">Pas de CI</div>
+            <p>mypy --strict, ruff et la suite de tests sont lancés à la main. Suffisant pour un développeur sur un projet
+            de quinze jours ; la première chose à ajouter pour un deuxième.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <section class="card wrap" id="see-also" style="margin-top:16px;"></section>
+  </main>
+
+  <footer class="title-block" aria-label="Cartouche">
+    <div class="tb-cell"><span class="tb-key">Dessiné par</span><span class="tb-val">Leon Górecki</span></div>
+    <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">MILTOM-BOT</span></div>
+    <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
+    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
+    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-07-16</span></div>
+    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+  </footer>
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

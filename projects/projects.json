@@ -1,5 +1,27 @@
 [
   {
+    "id": 7,
+    "slug": "miltombot",
+    "featuredOrder": 1,
+    "title": {
+      "en": "MILTOM-Bot: A Tender Bot That Earns Its Own Training Data",
+      "fr": "MILTOM-Bot : un bot d'appels d'offres qui gagne ses propres données d'entraînement"
+    },
+    "description": {
+      "en": "In production at MILTOM: watches Poland's public tender bulletin, emails candidates to the sales team, and turns their one-click verdicts into training data for the classifier that replaces the filter.",
+      "fr": "En production chez MILTOM : surveille les marchés publics polonais et transforme les verdicts en un clic de l'équipe commerciale en données d'entraînement pour le classifieur qui remplacera le filtre."
+    },
+    "tags": [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "Docker",
+      "Machine Learning"
+    ],
+    "thumbnail": "/assets/thumbs/miltombot.svg",
+    "thumb_invert": true
+  },
+  {
     "id": 5,
     "slug": "navfusion",
     "title": {
@@ -22,7 +44,7 @@
   {
     "id": 1,
     "slug": "project1",
-    "featuredOrder": 1,
+    "featuredOrder": 2,
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
@@ -43,7 +65,7 @@
   {
     "id": 2,
     "slug": "kaggle",
-    "featuredOrder": 2,
+    "featuredOrder": 3,
     "title": {
       "en": "Kaggle Competitions",
       "fr": "Compétitions Kaggle"
@@ -63,7 +85,7 @@
   {
     "id": 6,
     "slug": "aicalc",
-    "featuredOrder": 3,
+    "featuredOrder": 4,
     "title": {
       "en": "AICalc",
       "fr": "AICalc"
@@ -82,7 +104,7 @@
   {
     "id": 3,
     "slug": "lgflow",
-    "featuredOrder": 4,
+    "featuredOrder": 5,
     "title": {
       "en": "LG-FLOW: 2D CFD Solver",
       "fr": "LG-FLOW : Solveur CFD 2D"
@@ -103,7 +125,7 @@
   {
     "id": 4,
     "slug": "f1predictor",
-    "featuredOrder": 5,
+    "featuredOrder": 6,
     "title": {
       "en": "F1 Race Predictor",
       "fr": "Prédicteur de Course F1"

@@ -1,0 +1,10 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+  <title id="t">Miltom-Bot favicon</title>
+  <desc id="d">Miltom-Bot mark for small sizes: red teardrop with a ragged list in the center.</desc>
+  <path d="M6 6 L32 6 A26 26 0 0 1 58 32 A26 26 0 0 1 32 58 A26 26 0 0 1 6 32 L6 11 A5 5 0 0 1 11 6 Z" fill="#D6293A"/>
+  <circle cx="32" cy="32" r="16" fill="#ffffff"/>
+  <rect x="23" y="26" width="5" height="2.5" rx="1.25" fill="#D6293A"/>
+  <rect x="30" y="26" width="12" height="2.5" rx="1.25" fill="#D6293A"/>
+  <rect x="23" y="30.75" width="15" height="2.5" rx="1.25" fill="#D6293A"/>
+  <rect x="23" y="35.5" width="8" height="2.5" rx="1.25" fill="#D6293A"/>
+</svg>
