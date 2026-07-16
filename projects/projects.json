@@ -8,8 +8,8 @@
       "fr": "MILTOM-Bot : un bot d'appels d'offres qui gagne ses propres données d'entraînement"
     },
     "description": {
-      "en": "In production at MILTOM: watches Poland's public tender bulletin, emails candidates to the sales team, and turns their one-click verdicts into training data for the classifier that replaces the filter.",
-      "fr": "En production chez MILTOM : surveille les marchés publics polonais et transforme les verdicts en un clic de l'équipe commerciale en données d'entraînement pour le classifieur qui remplacera le filtre."
+      "en": "In production at MILTOM: watches Poland's public tender bulletin and turns the sales team's one-click verdicts into training data.",
+      "fr": "En production chez MILTOM : surveille les marchés publics polonais et transforme les verdicts de l'équipe commerciale en données d'entraînement."
     },
     "tags": [
       "Python",
@@ -91,8 +91,8 @@
       "fr": "AICalc"
     },
     "description": {
-      "en": "A calculator where the Compute button is a neural network — GRU seq2seq with Bahdanau attention vs Transformer encoder-decoder, predicting arithmetic results character by character and exhibiting grokking.",
-      "fr": "Une calculatrice dont le bouton Calculer est un réseau de neurones — seq2seq GRU avec attention de Bahdanau vs Transformer encodeur-décodeur, prédisant les résultats arithmétiques caractère par caractère avec grokking."
+      "en": "A calculator where the Compute button is a neural network — GRU seq2seq vs Transformer, predicting arithmetic character by character and exhibiting grokking.",
+      "fr": "Une calculatrice dont le bouton Calculer est un réseau de neurones — seq2seq GRU vs Transformer, prédisant l'arithmétique caractère par caractère avec grokking."
     },
     "tags": [
       "Python",
@@ -131,8 +131,8 @@
       "fr": "Prédicteur de Course F1"
     },
     "description": {
-      "en": "XGBoost + PyTorch ensemble predicting Formula 1 podium probabilities from qualifying, weather and historical race data — served via a Streamlit dashboard.",
-      "fr": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques — interface Streamlit."
+      "en": "XGBoost + PyTorch ensemble predicting Formula 1 podium probabilities from qualifying, weather and historical race data.",
+      "fr": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques."
     },
     "tags": [
       "Machine Learning",
