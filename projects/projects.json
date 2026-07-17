@@ -4,12 +4,12 @@
     "slug": "miltombot",
     "featuredOrder": 1,
     "title": {
-      "en": "MILTOM-Bot: A Tender Bot That Earns Its Own Training Data",
-      "fr": "MILTOM-Bot : un bot d'appels d'offres qui gagne ses propres données d'entraînement"
+      "en": "MILTOM-Bot: a tender-monitoring pipeline that collects its own training data",
+      "fr": "MILTOM-Bot : un pipeline de veille des appels d'offres qui collecte ses propres données d'entraînement"
     },
     "description": {
-      "en": "In production at MILTOM: watches Poland's public tender bulletin and turns the sales team's one-click verdicts into training data.",
-      "fr": "En production chez MILTOM : surveille les marchés publics polonais et transforme les verdicts de l'équipe commerciale en données d'entraînement."
+      "en": "In production at MILTOM. It watches Poland's public tender bulletin, emails matching tenders to the sales team, and stores their one-click verdicts as labelled training data.",
+      "fr": "En production chez MILTOM. Il surveille le bulletin des marchés publics polonais, envoie les appels d'offres correspondants à l'équipe commerciale et stocke leurs verdicts en un clic comme données d'entraînement étiquetées."
     },
     "tags": [
       "Python",

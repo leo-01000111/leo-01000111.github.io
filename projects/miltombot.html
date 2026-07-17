@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
-  <title>MILTOM-Bot: A Tender Bot That Earns Its Own Training Data - Leon Górecki</title>
-  <meta name="description" content="A Polish procurement-monitoring pipeline in production at MILTOM: watches the national tender bulletin, emails candidates to the sales team, and turns their verdicts into labelled training data." />
+  <title>MILTOM-Bot: a tender-monitoring pipeline that collects its own training data - Leon Górecki</title>
+  <meta name="description" content="A Polish procurement-monitoring pipeline in production at MILTOM. It watches the national tender bulletin, emails matching tenders to the sales team, and stores their one-click verdicts as labelled training data." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="MILTOM-Bot: A Tender Bot That Earns Its Own Training Data - Leon Górecki" />
-  <meta property="og:description" content="v0 is a data-collection instrument disguised as a useful tool: a keyword filter casts a wide net, the sales team's one-click verdicts become the training set for the classifier that replaces it." />
+  <meta property="og:title" content="MILTOM-Bot: a tender-monitoring pipeline that collects its own training data - Leon Górecki" />
+  <meta property="og:description" content="v0 does two jobs at once: it emails the sales team the tenders worth reviewing, and it records their TAK/NIE clicks as the training set for the classifier that will replace the keyword filter in v1." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/miltombot.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:image" content="https://www.leongorecki.eu/assets/og-card.png" />
@@ -199,16 +199,16 @@
     <section class="hero" style="padding-bottom: 16px;">
       <div class="hero-grid">
         <div>
-          <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot: A Tender Bot That Earns Its Own Training Data</h1>
-          <p id="proj-desc" class="lead">A Polish-language procurement-monitoring pipeline that watches the national public tender bulletin for water-tank contracts, emails them to the sales team, and captures their verdicts as labelled training data.</p>
+          <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot: a tender-monitoring pipeline that collects its own training data</h1>
+          <p id="proj-desc" class="lead">A Polish-language procurement-monitoring pipeline. It watches the national public tender bulletin for water-tank contracts, emails the matches to the sales team, and stores their verdicts as labelled training data.</p>
           <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
           <div class="cta" style="margin-top: 18px;">
             <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
           </div>
           <p class="small" style="margin-top: 14px; color: var(--faint); line-height: 1.6;">
-            Software developer at MILTOM, a Polish manufacturer of water tanks for fire protection and drinking water.
-            In production since 16 July 2026 — first commit 1 July 2026. The repository is private: this is a live system
-            serving real users at a real company.
+            I built this as a software developer at MILTOM, a Polish manufacturer of water tanks for fire protection and
+            drinking water. It has been in production since 16 July 2026; the first commit was 1 July 2026. The repository is
+            private, since it is a live system serving real users at the company.
           </p>
         </div>
         <div class="hero-card">
@@ -232,7 +232,7 @@
             <!-- 2 · keyword filter -->
             <rect x="80" y="88" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
             <text x="210" y="107" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">keyword filter</text>
-            <text x="210" y="121" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">deliberately crude — casts a wide net</text>
+            <text x="210" y="121" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">deliberately crude, casts a wide net</text>
             <line x1="210" y1="132" x2="210" y2="164" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
             <!-- 3 · digest email -->
@@ -253,7 +253,7 @@
             <!-- 5 · labels -->
             <rect x="80" y="322" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
             <text x="210" y="341" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" fill="rgba(255,255,255,0.86)">LABELS</text>
-            <text x="210" y="355" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">one row per verdict — the whole point</text>
+            <text x="210" y="355" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">one labelled row per verdict</text>
             <line x1="210" y1="366" x2="210" y2="398" stroke="#7a89c2" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#mb-arrow-dim)"/>
 
             <!-- 6 · v1 classifier (future) -->
@@ -277,18 +277,18 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2>What this is</h2>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
-          Poland publishes every public tender to the Biuletyn Zamówień Publicznych (BZP). Somewhere in that firehose are
-          the contracts worth bidding on — in MILTOM's case, water tanks for fire protection and drinking water. Finding
-          them by hand means a person reading listings every morning, and people don't do that reliably for long.
+          Poland publishes every public tender to the Biuletyn Zamówień Publicznych (BZP). A handful of those contracts are
+          worth bidding on; for MILTOM, that means water tanks for fire protection and drinking water. Finding them by hand
+          means someone reads the listings every morning, and that is not something people keep up reliably.
         </p>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
-          The obvious move is an ML classifier. The problem is that on day one there is no training data, and no amount of
-          cleverness conjures it. So the system is designed to <em>earn</em> its training data: a deliberately crude keyword
-          filter casts a wide net, every surviving tender is emailed to the sales team with two buttons — <strong>TAK</strong>
-          (worth pursuing) or <strong>NIE</strong> (not) — and every click is a labelled example.
+          The obvious solution is an ML classifier, but on day one there is no training data to build one from. So v0
+          collects that data as a side effect of being useful. A deliberately crude keyword filter casts a wide net, and
+          every tender it keeps is emailed to the sales team with two buttons: <strong>TAK</strong> (worth pursuing) or
+          <strong>NIE</strong> (not). Each click is one labelled example.
         </p>
         <p class="muted" style="margin: 0; line-height: 1.72;">
-          v0 is a data-collection instrument disguised as a useful tool. v1 trains on what it gathers.
+          v0 is already useful to the sales team today, and while it runs it is building the dataset that v1 will train on.
         </p>
       </div>
 
@@ -300,10 +300,10 @@
           </svg>
           <div>
             <strong>Why the loop works</strong>
-            <p>The people best qualified to judge a tender do so in one second, as a side effect of work they were already
-            doing. Nobody was asked to label a dataset; they were asked whether a contract is worth bidding on — which is
-            their job. The labels are a by-product of the tool being genuinely useful, which is the only reason they keep
-            arriving.</p>
+            <p>The people best qualified to judge a tender are the sales team, and the click takes them about a second on
+            work they were doing anyway. They are not being asked to label a dataset; they are being asked whether a
+            contract is worth bidding on, which is their job. The labels come out of that, so they keep arriving as long as
+            the tool stays useful.</p>
           </div>
         </div>
       </div>
@@ -312,7 +312,7 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2>Architecture</h2>
         <p class="muted" style="margin: 0 0 4px; font-size: 0.9rem; line-height: 1.65;">
-          Two containers that never call each other. All communication goes through Postgres.
+          Two containers that never call each other. All communication between them goes through Postgres.
         </p>
         <div class="chart-wrap" style="margin-top: 14px;">
           <div class="arch-scroll">
@@ -357,9 +357,10 @@
           </div>
         </div>
         <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
-          The notifier has no inbound network surface at all — nothing can reach it. The label endpoint has no scheduler,
-          no email, and no business logic in its route handlers. Because neither service calls the other, either can be
-          restarted, redeployed or fail entirely without the other noticing; the database is the only contract between them.
+          The notifier has no inbound network surface, so nothing can reach it from outside. The label endpoint has no
+          scheduler, no email, and no business logic in its route handlers. Because neither service calls the other, either
+          one can be restarted, redeployed, or fail without the other noticing. The database is the only contract between
+          them.
         </p>
       </div>
 
@@ -367,7 +368,7 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2>The schedule</h2>
         <p class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">
-          Three independent APScheduler jobs inside the notifier. Each runs on its own clock with its own database session.
+          Three independent APScheduler jobs run inside the notifier. Each has its own clock and its own database session.
         </p>
         <div class="table-wrap">
           <table class="results-table" style="min-width:560px;">
@@ -399,10 +400,10 @@
         </div>
         <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
           Ingest and notify never share a session and have no shared code path. If a send fails, no history row is written,
-          the tender stays unsent, and tomorrow's digest retries it. Failure degrades to delay rather than loss.
-          Deduplication is idempotent at two levels — globally (has this BZP notice ever been seen?) and per-salesperson
-          (has this person already had this one?) — so running the pipeline twice produces the same result as running it
-          once, which is what makes a hung run safe to simply re-trigger.
+          the tender stays unsent, and tomorrow's digest retries it, so a failure turns into a delay rather than a lost
+          tender. Deduplication is idempotent at two levels: globally (has this BZP notice ever been seen?) and per
+          salesperson (has this person already had this one?). Running the pipeline twice gives the same result as running
+          it once, which is why a hung run is safe to re-trigger.
         </p>
       </div>
 
@@ -441,39 +442,39 @@
 
       <!-- 6 · Decisions -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2>Decisions worth talking about</h2>
+        <h2>Design decisions</h2>
         <div class="dec-grid">
 
           <div class="dec-card">
             <div class="dec-badge">HTTP semantics</div>
-            <div class="dec-name">GET reads, POST writes — because email scanners click links</div>
-            <p>The label links go out in email. Corporate mail scanners and link-preview bots follow every URL in an inbound
-            message before a human ever sees it. If a GET recorded a label, the scanner would silently forge one.</p>
-            <p>So GET is side-effect-free: it validates the token and renders a confirmation page with a button. The POST
-            behind that button does the write. A bot that blindly follows links labels nothing. This is ordinary HTTP
-            semantics, but the consequence of getting it wrong is a poisoned dataset that looks completely normal — every
-            row plausible, no error anywhere, and a model trained on noise.</p>
+            <div class="dec-name">GET reads, POST writes, because email scanners click links</div>
+            <p>The label links go out by email. Corporate mail scanners and link-preview bots follow every URL in an inbound
+            message before a human sees it. If a GET recorded a label, the scanner would forge one on its own.</p>
+            <p>So GET has no side effects: it validates the token and renders a confirmation page with a button. The POST
+            behind that button does the write, so a bot that follows links labels nothing. This is ordinary HTTP semantics,
+            but getting it wrong here produces a poisoned dataset that looks normal. Every row is plausible, there is no
+            error anywhere, and the model trains on noise.</p>
           </div>
 
           <div class="dec-card">
             <div class="dec-badge">Deployment</div>
             <div class="dec-name">The system had to be safe to test against production</div>
-            <p>There is one BZP API and it is the real one. Testing the pipeline end to end means real fetches — and the risk
-            of real emails to real colleagues from a half-finished build.</p>
-            <p>Each salesperson row carries a notification mode of production, dev or both, and an environment flag selects
-            which cohort a run targets. Development addresses receive everything; colleagues receive nothing until the flag
-            flips. The entire stack ran against live data, sending real mail and writing real labels, for hours before a
-            single colleague was in scope.</p>
+            <p>There is one BZP API and it is the live one. Testing the pipeline end to end means real fetches, which also
+            means a half-finished build could email real colleagues.</p>
+            <p>Each salesperson row carries a notification mode of production, dev, or both, and an environment flag selects
+            which group a run targets. Development addresses receive everything, and colleagues receive nothing until the
+            flag is flipped. The whole stack ran against live data, sending real mail and writing real labels, for hours
+            before a single colleague was in scope.</p>
           </div>
 
           <div class="dec-card">
             <div class="dec-badge">Label semantics</div>
-            <div class="dec-name">Unlabeled is unknown, not negative</div>
-            <p>A tender nobody clicked is not a "no" — it might be a "no", or it might be a busy Tuesday.</p>
-            <p>Treating silence as a negative label would train the model on the sales team's calendar rather than their
-            judgement. Absence of evidence is stored as absence of evidence. It costs volume in the training set, and it is
-            the difference between a model that learns what a good tender looks like and one that learns when people are
-            at their desks.</p>
+            <div class="dec-name">Unlabelled means unknown, not negative</div>
+            <p>A tender nobody clicked is not a "no". It might be a "no", or it might just have been a busy Tuesday.</p>
+            <p>Treating silence as a negative label would train the model on the sales team's calendar instead of their
+            judgement, so an unclicked tender is stored as having no label rather than a negative one. This costs some
+            volume in the training set, but it keeps the model learning what a good tender looks like instead of when people
+            happen to be at their desks.</p>
           </div>
 
         </div>
@@ -484,40 +485,40 @@
         <h2>Testing</h2>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.65;">
           Integration tests run against a real PostgreSQL database, and the fixture applies the real Alembic migrations
-          rather than building the schema from the ORM models. The shortcut lets the models and the migrations silently
-          drift apart — tests pass forever while production breaks on the next deploy. Running the real migrations makes
-          that drift a test failure instead of an outage.
+          instead of building the schema straight from the ORM models. Building from the models would let the models and
+          the migrations drift apart, so the tests would keep passing while production broke on the next deploy. Running the
+          real migrations turns that drift into a test failure.
         </p>
         <p class="muted" style="margin: 0; line-height: 1.65;">
-          Mocking the database would make the suite faster and would test nothing that matters: constraints, cascades and
-          transaction semantics live in Postgres, not in Python. Covered: token paths (valid, expired, tampered, wrong
-          recipient), deduplication at both levels, classifier positives and negatives, repository read/write paths.
+          Mocking the database would make the suite faster while testing nothing that matters, because the constraints,
+          cascades, and transaction semantics live in Postgres rather than in Python. The tests cover the token paths (valid,
+          expired, tampered, wrong recipient), deduplication at both levels, classifier positives and negatives, and the
+          repository read and write paths.
         </p>
       </div>
 
       <div class="card">
         <h2>Operations</h2>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.65;">
-          Docker Compose brings up Postgres, a one-shot migration container, and the two services — the app containers are
-          gated on the migration completing successfully, so a failed migration means nothing starts rather than something
-          starts wrong. Backups run nightly with 14-day retention, <strong>and the restore was tested</strong> into a
-          throwaway database, verifying the row count came back. An untested backup is a file with a reassuring name.
+          Docker Compose brings up Postgres, a one-shot migration container, and the two services. The app containers are
+          gated on the migration finishing successfully, so a failed migration means nothing starts rather than something
+          starting wrong. Backups run nightly with 14-day retention, <strong>and I tested the restore</strong> into a
+          throwaway database and checked that the row count came back. A backup nobody has restored is not really a backup.
         </p>
         <p class="muted" style="margin: 0; line-height: 1.65;">
-          Monitoring is one email a day. No dashboard, no Prometheus, no alerting stack, because five users and one
-          developer do not need one. If the nightly report doesn't arrive, something is wrong. That is the entire system,
-          and it fits in a sentence.
+          Monitoring is one email a day. There is no dashboard and no alerting stack, because five users and one developer
+          do not need one. If the nightly report does not arrive, something is wrong.
         </p>
       </div>
 
       <!-- 8 · Silence callout -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2>Silence is indistinguishable from being dead</h2>
+        <h2>Why the bot mails you nothing</h2>
         <p class="muted" style="margin: 0; line-height: 1.72;">
-          A salesperson with no matching tenders gets a short "brak nowych przetargów" (no new tenders) email rather than
-          nothing at all. If the bot only speaks when it has something to say, then a bot that has crashed looks exactly
-          like a quiet week — and by the time anyone notices, weeks of tenders are gone. The same reasoning drives the
-          nightly ops report: it is the only thing standing between a silent failure and a discovery three months later.
+          A salesperson with no matching tenders still gets a short "brak nowych przetargów" (no new tenders) email rather
+          than nothing at all. If the bot only mailed when it had something to say, a crash would look identical to a quiet
+          week, and weeks of tenders could go missing before anyone noticed. The nightly ops report exists for the same
+          reason: without it, a silent failure could go undiscovered for months.
         </p>
       </div>
 
@@ -529,7 +530,7 @@
           <div class="tl-item">
             <div class="tl-period">v0 — live</div>
             <div class="tl-title">Keyword filter → email everything plausible → collect labels</div>
-            <p class="tl-desc">In production since 16 July 2026. A crude filter casts a wide net; every surviving tender is
+            <p class="tl-desc">In production since 16 July 2026. A crude filter casts a wide net, every tender it keeps is
             emailed to the sales team, and every TAK/NIE click is stored as a labelled example.</p>
           </div>
 
@@ -543,41 +544,41 @@
           <div class="tl-item" data-type="edu">
             <div class="tl-period" style="color:var(--accent2);">v2 — later</div>
             <div class="tl-title">Dashboard · sources beyond BZP</div>
-            <p class="tl-desc">Only once the classifier earns it.</p>
+            <p class="tl-desc">Only once the classifier is good enough to justify it.</p>
           </div>
 
         </div>
         <p class="small muted roadmap-note">
-          The classifier is noisy today and it is <em>supposed</em> to be. Tightening it would reduce the volume of labels,
-          which is the only asset v0 exists to produce. Precision is v1's job; recall is v0's. Deferring the interesting
-          work is what makes the interesting work possible.
+          The filter is deliberately noisy at this stage. Tightening it would cut the volume of labels, and volume is the
+          one thing v0 exists to produce. v0 is optimised for recall, and precision is v1's job. Leaving the classifier for
+          later is what makes it possible to train a good one at all.
         </p>
       </div>
 
       <!-- 10 · Known debt -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2>Known debt — scheduled, not accidental</h2>
+        <h2>Known limitations</h2>
         <p class="muted" style="margin: 0 0 4px; font-size: 0.9rem; line-height: 1.65;">
-          Every one of these was a deliberate v0 trade: cheap now, replaced on a known trigger.
+          Each of these was a deliberate v0 trade-off: cheap to build now, with a known point at which it gets replaced.
         </p>
         <div class="debt-grid">
 
           <div class="debt-card">
             <div class="debt-badge">Email delivery</div>
-            <p>smtplib with an app password is a hard ceiling at roughly 500 messages a day. Fine for five users, and a
-            v1 replacement is already scoped — a deliberate debt with a known limit rather than an unknown one.</p>
+            <p>smtplib with an app password caps out at roughly 500 messages a day. That is fine for five users, and the v1
+            replacement is already scoped, so the limit is a known one rather than a surprise.</p>
           </div>
 
           <div class="debt-card">
             <div class="debt-badge">Digest cadence</div>
-            <p>Timing is a single global cron, though the salesmen table already carries a per-person interval column. The
-            column exists and is unused — a v1 hook, or premature schema, depending on how charitable you feel.</p>
+            <p>Timing is a single global cron, even though the salesmen table already has a per-person interval column. The
+            column exists but is unused for now, ready for v1 to switch on.</p>
           </div>
 
           <div class="debt-card">
             <div class="debt-badge">No CI</div>
-            <p>mypy --strict, ruff and the test suite are run by hand. Fine for one developer on a fifteen-day build; the
-            first thing to add for a second.</p>
+            <p>mypy --strict, ruff, and the test suite are run by hand. That is workable for one developer on a fifteen-day
+            build, and it is the first thing I would add for a second developer.</p>
           </div>
 
         </div>
