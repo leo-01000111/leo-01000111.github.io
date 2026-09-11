@@ -486,6 +486,29 @@ body.lang-en [data-pl]{ display:none; }
   min-height:1.4em;
 }
 
+/* Contact form: centered submit + status line */
+#k-contact-form .k-submit{ align-self:center; }
+#k-contact-form .k-form-note{ text-align:center; }
+
+/* ── Referral box (in-person lessons) ── */
+.k-referral{
+  margin-top:28px;
+  padding:14px 20px;
+  border:1px solid var(--line-faint);
+  border-radius:var(--radius);
+  background:var(--bg-panel);
+  text-align:center;
+  font-size:0.84rem;
+  color:var(--muted);
+  line-height:1.6;
+}
+.k-referral a{
+  font-weight:600;
+  color:var(--accent);
+  text-decoration:none;
+}
+.k-referral a:hover{ text-decoration:underline; }
+
 /* ── Footer cartouche ── */
 .k-footer{
   display:flex;
