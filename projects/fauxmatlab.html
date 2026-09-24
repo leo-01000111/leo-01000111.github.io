@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>FauxMatlab: a control-systems workbench in Python - Leon Górecki</title>
+  <meta name="description" content="A desktop workbench for classical and state-space control, with analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 684 tests." />
+  <meta name="theme-color" content="#070b12" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="FauxMatlab: a control-systems workbench in Python - Leon Górecki" />
+  <meta property="og:description" content="A desktop workbench for classical and state-space control, with analysis plots, a block-diagram simulator and a MATLAB-style command window." />
+  <meta property="og:url" content="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/fauxmatlab.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+  <style>
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .arch-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius, 14px);
+      padding: 16px 18px;
+    }
+    .arch-card .ac-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent2, #7a89c2);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .arch-card .ac-value {
+      font-size: 0.88rem;
+      color: var(--fg, #e2e8f0);
+      line-height: 1.55;
+    }
+    .check-list {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      line-height: 1.7;
+    }
+    .check-list li + li { margin-top: 10px; }
+  </style>
+</head>
+<body data-project-id="8" data-project-slug="fauxmatlab">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div aria-hidden="true" class="mark"></div>
+        <div class="name">
+          <strong>Leon Górecki</strong>
+          <span>Aerospace / Mechanical Engineering</span>
+        </div>
+      </div>
+      <nav>
+        <div class="nav-links">
+          <a class="pill" data-ui="home" href="/">Home</a>
+          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
+        </div>
+        <div aria-label="Language switch" class="lang" role="group">
+          <a data-lang="en" aria-current="page" href="/projects/fauxmatlab.html">EN</a>
+          <a data-lang="fr" href="/fr/projects/fauxmatlab.html">FR</a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+
+    <section class="hero" style="padding-bottom:16px;">
+      <div class="hero-top">
+        <div>
+          <div class="kicker">Control engineering · Desktop app</div>
+          <h1 id="proj-title" style="margin-bottom:10px;">FauxMatlab: a control-systems workbench in Python</h1>
+          <p id="proj-desc" class="lead">A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 684 tests.</p>
+          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <div class="cta" style="margin-top:18px;">
+            <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
+            <a class="btn primary" href="https://github.com/leo-01000111/FauxMatlab" target="_blank" rel="noopener noreferrer">View repo ↗</a>
+          </div>
+        </div>
+        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
+          <img id="proj-thumb" src="/assets/thumbs/fauxmatlab.svg" alt="FauxMatlab project thumbnail" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2>What it does</h2>
+        <p class="muted" style="line-height:1.7;margin:0 0 12px;">
+          FauxMatlab covers the parts of MATLAB, Simulink and the Control System Toolbox that two control courses use:
+          CLACO (classical, frequency domain) and DYBAC (state space). It is one PySide6 application with three workspaces.
+        </p>
+        <p class="muted" style="line-height:1.7;margin:0;">
+          <strong>Analyse</strong> shows responses, margins and stability for the loaded system.
+          <strong>Model</strong> is a block-diagram editor and simulator.
+          <strong>Console</strong> is a command window with a workspace browser and a script editor.
+          All three use the same live model, so a change in one appears in the others.
+        </p>
+      </div>
+    </section>
+
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2>Features</h2>
+        <div class="arch-grid">
+          <div class="arch-card">
+            <div class="ac-label">Analysis</div>
+            <div class="ac-value">Step, impulse and ramp responses, Bode, Nyquist, Nichols, root locus, pole-zero map, Routh table and step metrics. One, two or four panes, all fed by the same model.</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label">Simulator</div>
+            <div class="ac-value">50 block types, nested subsystems, RK4, RK45 and Euler solvers, and scopes. <code>linearize()</code> extracts a state-space model from a nonlinear diagram.</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label">Command window</div>
+            <div class="ac-value">59 MATLAB-style commands, including <code>tf</code>, <code>feedback</code>, <code>bode</code>, <code>margin</code>, <code>rlocus</code>, <code>lqr</code>, <code>place</code>, <code>c2d</code> and <code>pidtune</code>.</div>
+          </div>
+          <div class="arch-card">
+            <div class="ac-label">Design apps</div>
+            <div class="ac-value">LTI Viewer, a root-locus designer (drag a closed-loop pole and the step response follows) and a PID tuner.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2>How the numbers are checked</h2>
+        <ul class="muted check-list">
+          <li>Closed-loop transfer functions come from the diagram itself. The solver treats the diagram as a polynomial matrix over ℚ(s) and never cancels poles against zeros. An unstable mode hidden by a cancellation stays visible in the internal-stability check. This replaced twelve hand-derived formulas, six of which were wrong.</li>
+          <li>Discrete blocks sample and hold. A 50&nbsp;Hz discrete PID changes its output 150 times in 3&nbsp;s. An earlier version let the continuous error pass through and changed it 1498 times.</li>
+          <li>The PID tuner computes its gains instead of searching for them. At the target crossover frequency, the required magnitude and phase fix the PI gains. <code>margin(C·G)</code> then returns the requested crossover and phase margin to within 1e-14.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section style="margin-top:14px;">
+      <div class="card">
+        <h2>Tests and build</h2>
+        <p class="muted" style="line-height:1.7;margin:0 0 12px;">
+          684 pytest tests, plus ruff. Most are golden tests: the expected values are computed by hand or by an independent
+          method. The numeric and symbolic solvers check each other, and python-control is a third reference.
+        </p>
+        <p class="muted" style="line-height:1.7;margin:0;">
+          PyInstaller builds a one-folder Windows bundle, and <code>--check</code> runs a headless self-test in it.
+          There is no slycot dependency: <code>minreal</code>, <code>gram</code>, modal form and <code>d2c</code> are
+          implemented directly, so a plain <code>pip install</code> works.
+        </p>
+      </div>
+    </section>
+
+    <section class="card" id="see-also" style="margin-top:16px;"></section>
+  </main>
+
+  <footer class="title-block" aria-label="Drawing title block">
+    <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
+    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">FAUXMATLAB</span></div>
+    <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
+    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
+    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+  </footer>
+
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

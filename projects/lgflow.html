@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>LG-FLOW: 2D CFD Solver - Leon Górecki</title>
-  <meta name="description" content="Research-grade 2D incompressible Navier-Stokes solver in C++20 using FVM and SIMPLE coupling, validated against Ghia et al." />
+  <meta name="description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="LG-FLOW: 2D CFD Solver - Leon Górecki" />
-  <meta property="og:description" content="Research-grade 2D incompressible Navier-Stokes solver in C++20 using FVM and SIMPLE coupling." />
+  <meta property="og:description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/lgflow.html" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/lgflow.html" />
@@ -137,7 +137,7 @@
         <div>
           <div class="kicker" id="lg-kicker">CFD · Simulation · C++</div>
           <h1 id="proj-title" style="margin-bottom:10px;">LG-FLOW: 2D CFD Solver</h1>
-          <p id="proj-desc" class="lead"></p>
+          <p id="proj-desc" class="lead">2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.</p>
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <div class="cta" style="margin-top:18px;">
             <a class="pill" id="proj-back" href="/projects/">All projects</a>
@@ -154,7 +154,7 @@
     <section style="margin-top:14px;">
       <div class="card">
         <h2 id="lg-ctx-title">What it is</h2>
-        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;"></p>
+        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW is a 2D incompressible Navier-Stokes solver written in C++20. It uses the finite volume method (FVM) with SIMPLE pressure-velocity coupling on a staggered grid. It is validated against the Ghia et al. (1982) lid-driven cavity benchmark at Re = 100 and Re = 1000. It outputs per-iteration residuals, centreline velocity profiles, VTK snapshots and L2/L∞ error metrics.</p>
       </div>
     </section>
 
@@ -180,7 +180,7 @@
             <div class="tc-value" id="lg-tc4-value">CMake 3.20+</div>
           </div>
           <div class="tech-card">
-            <div class="tc-label" id="lg-tc5-label">Convection schemes</div>
+            <div class="tc-label" id="lg-tc5-label">Convection</div>
             <div class="tc-value" id="lg-tc5-value">Upwind · Central difference · Adaptive CFL clamping</div>
           </div>
           <div class="tech-card">
@@ -194,8 +194,8 @@
     <!-- Validation -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="lg-val-title">Validation — Ghia et al. lid-driven cavity</h2>
-        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;"></p>
+        <h2 id="lg-val-title">Validation: Ghia et al. lid-driven cavity</h2>
+        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">The reference is Ghia, Ghia &amp; Shin (1982), the standard benchmark for 2D incompressible lid-driven cavity flow. Both cases, Re = 100 and Re = 1000, pass automated L2 and L∞ error thresholds.</p>
         <table class="val-table">
           <thead>
             <tr>
@@ -220,20 +220,20 @@
             </tr>
           </tbody>
         </table>
-        <p class="small" style="margin:12px 0 0;opacity:0.55;" id="lg-val-note"></p>
+        <p class="small" style="margin:12px 0 0;opacity:0.55;" id="lg-val-note">The check is automated. The solver exits with a non-zero code if any metric is outside tolerance, so CI can use it directly.</p>
       </div>
     </section>
 
     <!-- Implementation phases -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="lg-phase-title">Implementation highlights</h2>
+        <h2 id="lg-phase-title">Implementation</h2>
         <ul class="phase-list" id="lg-phase-list">
-          <li><span class="phase-num">01</span><span id="lg-p1">Staggered grid with collocated pressure — avoids pressure-velocity decoupling</span></li>
-          <li><span class="phase-num">02</span><span id="lg-p2">SIMPLE pressure-correction loop with configurable multi-pass solving</span></li>
-          <li><span class="phase-num">03</span><span id="lg-p3">Stencil-consistent discretisation — same interpolation scheme throughout</span></li>
-          <li><span class="phase-num">04</span><span id="lg-p4">Automated validation suite: machine-readable pass/fail with configurable exit codes</span></li>
-          <li><span class="phase-num">05</span><span id="lg-p5">VTK export for post-processing in ParaView or similar tools</span></li>
+          <li><span class="phase-num">01</span><span id="lg-p1">Staggered grid with collocated pressure, which avoids pressure-velocity decoupling</span></li>
+          <li><span class="phase-num">02</span><span id="lg-p2">SIMPLE pressure-correction loop with a configurable number of passes</span></li>
+          <li><span class="phase-num">03</span><span id="lg-p3">Consistent stencils: one interpolation scheme everywhere</span></li>
+          <li><span class="phase-num">04</span><span id="lg-p4">Automated validation with pass/fail exit codes</span></li>
+          <li><span class="phase-num">05</span><span id="lg-p5">VTK export for post-processing in ParaView</span></li>
         </ul>
       </div>
     </section>
@@ -246,7 +246,7 @@
     <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">LG-FLOW</span></div>
     <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 

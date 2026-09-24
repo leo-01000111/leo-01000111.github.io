@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>F1 Race Predictor - Leon Górecki</title>
-  <meta name="description" content="XGBoost + PyTorch ensemble predicting Formula 1 podium probabilities from qualifying, weather and historical data — Streamlit dashboard." />
+  <meta name="description" content="XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="F1 Race Predictor - Leon Górecki" />
-  <meta property="og:description" content="XGBoost + PyTorch ensemble predicting F1 podium probabilities, served via a Streamlit dashboard." />
+  <meta property="og:description" content="XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/f1predictor.html" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/f1predictor.html" />
@@ -177,7 +177,7 @@
     <section style="margin-top:14px;">
       <div class="card">
         <h2 id="f1-ctx-title">What it does</h2>
-        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;"></p>
+        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;">A machine-learning pipeline that predicts Formula 1 podium probabilities (P1, P2, P3) for upcoming races. It is trained on 2014–2024 data. Inputs are qualifying results, driver and team history, circuit characteristics and live weather. An XGBoost and PyTorch ensemble produces calibrated probabilities, shown in a Streamlit dashboard.</p>
       </div>
     </section>
 
@@ -188,23 +188,23 @@
         <div class="pipeline-steps">
           <div class="pipe-step">
             <div class="pipe-num">1</div>
-            <div class="pipe-text" id="f1-pipe1"><strong>Data ingestion</strong> — Qualifying results (OpenF1), historical race outcomes 2014–2024 (FastF1), circuit data, and live weather (Open-Meteo).</div>
+            <div class="pipe-text" id="f1-pipe1"><strong>Data ingestion.</strong> Qualifying results (OpenF1), race results 2014–2024 (FastF1), circuit data and live weather (Open-Meteo).</div>
           </div>
           <div class="pipe-step">
             <div class="pipe-num">2</div>
-            <div class="pipe-text" id="f1-pipe2"><strong>Feature engineering</strong> — Driver form metrics, team performance trends, grid position advantage, and weather-adjusted pace estimates.</div>
+            <div class="pipe-text" id="f1-pipe2"><strong>Features.</strong> Driver form, team performance trends, grid position and weather-adjusted pace.</div>
           </div>
           <div class="pipe-step">
             <div class="pipe-num">3</div>
-            <div class="pipe-text" id="f1-pipe3"><strong>Ensemble inference</strong> — Three XGBoost binary classifiers (one per podium position) combined with a PyTorch MLP with driver and team embeddings, stacked via logistic regression.</div>
+            <div class="pipe-text" id="f1-pipe3"><strong>Ensemble.</strong> Three XGBoost binary classifiers, one per podium position, plus a PyTorch MLP with driver and team embeddings. A logistic regression stacks their outputs.</div>
           </div>
           <div class="pipe-step">
             <div class="pipe-num">4</div>
-            <div class="pipe-text" id="f1-pipe4"><strong>Probability calibration</strong> — Isotonic regression calibration for reliable probability outputs across all podium positions.</div>
+            <div class="pipe-text" id="f1-pipe4"><strong>Calibration.</strong> Isotonic regression makes the probabilities reliable for every podium position.</div>
           </div>
           <div class="pipe-step">
             <div class="pipe-num">5</div>
-            <div class="pipe-text" id="f1-pipe5"><strong>Dashboard delivery</strong> — Results served via a Streamlit web app with race-by-race probability breakdowns.</div>
+            <div class="pipe-text" id="f1-pipe5"><strong>Dashboard.</strong> A Streamlit app shows the probabilities race by race.</div>
           </div>
         </div>
       </div>
@@ -217,19 +217,19 @@
         <div class="arch-grid">
           <div class="arch-card">
             <div class="ac-label" id="f1-ac1-label">XGBoost layer</div>
-            <div class="ac-value" id="f1-ac1-value">3 binary classifiers (P1, P2, P3) trained independently on engineered features</div>
+            <div class="ac-value" id="f1-ac1-value">Three binary classifiers (P1, P2, P3), each trained separately on the engineered features</div>
           </div>
           <div class="arch-card">
             <div class="ac-label" id="f1-ac2-label">PyTorch layer</div>
-            <div class="ac-value" id="f1-ac2-value">MLP with learnable driver and constructor embeddings — captures latent team/driver identity</div>
+            <div class="ac-value" id="f1-ac2-value">MLP with learned driver and constructor embeddings, which capture team and driver identity</div>
           </div>
           <div class="arch-card">
             <div class="ac-label" id="f1-ac3-label">Stacking</div>
-            <div class="ac-value" id="f1-ac3-value">Logistic regression meta-learner combines XGBoost and PyTorch outputs</div>
+            <div class="ac-value" id="f1-ac3-value">Logistic regression combines the XGBoost and PyTorch outputs</div>
           </div>
           <div class="arch-card">
             <div class="ac-label" id="f1-ac4-label">Calibration</div>
-            <div class="ac-value" id="f1-ac4-value">Isotonic regression post-processing for well-calibrated probability estimates</div>
+            <div class="ac-value" id="f1-ac4-value">Isotonic regression calibrates the final probabilities</div>
           </div>
         </div>
       </div>
@@ -242,8 +242,7 @@
         <ul class="data-list">
           <li><span class="dl-src">FastF1</span><span class="dl-desc" id="f1-ds1">Historical race results, lap times and telemetry (2014–2024 seasons)</span></li>
           <li><span class="dl-src">OpenF1</span><span class="dl-desc" id="f1-ds2">Live qualifying data for upcoming races</span></li>
-          <li><span class="dl-src">Open-Meteo</span><span class="dl-desc" id="f1-ds3">Circuit weather conditions — temperature, rain probability, wind speed</span></li>
-          <li><span class="dl-src">PRAW + RoBERTa</span><span class="dl-desc" id="f1-ds4">Optional: Reddit sentiment analysis on driver and team news pre-race</span></li>
+          <li><span class="dl-src">Open-Meteo</span><span class="dl-desc" id="f1-ds3">Circuit weather: temperature, rain probability, wind speed</span></li>
         </ul>
       </div>
     </section>
@@ -252,7 +251,7 @@
     <section style="margin-top:14px;">
       <div class="card">
         <h2 id="f1-eval-title">Evaluation</h2>
-        <p class="muted" id="f1-eval-text" style="margin:0 0 12px;line-height:1.65;"></p>
+        <p class="muted" id="f1-eval-text" style="margin:0 0 12px;line-height:1.65;">Leave-one-season-out cross-validation, plus a 2023–2024 holdout set that was not used in training. Metrics: Brier score, log loss, ROC-AUC, winner accuracy and podium overlap.</p>
         <div class="eval-row">
           <span class="eval-chip">Brier score</span>
           <span class="eval-chip">Log loss</span>
@@ -271,7 +270,7 @@
     <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">F1</span></div>
     <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 

@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>LG-FLOW : Solveur CFD 2D - Leon Górecki</title>
-  <meta name="description" content="Solveur 2D incompressible de Navier-Stokes en C++20, méthode des volumes finis avec couplage SIMPLE — validé sur le cas de référence de Ghia et al." />
+  <meta name="description" content="Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="LG-FLOW : Solveur CFD 2D - Leon Górecki" />
-  <meta property="og:description" content="Solveur 2D incompressible de Navier-Stokes en C++20, méthode des volumes finis avec couplage SIMPLE — validé sur le cas de référence de Ghia et al." />
+  <meta property="og:description" content="Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al." />
   <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/lgflow.html" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary" />
@@ -138,7 +138,7 @@
         <div>
           <div class="kicker" id="lg-kicker">CFD · Simulation · C++</div>
           <h1 id="proj-title" style="margin-bottom:10px;">LG-FLOW : Solveur CFD 2D</h1>
-          <p id="proj-desc" class="lead">Solveur 2D incompressible de Navier-Stokes en C++20, méthode des volumes finis avec couplage SIMPLE — validé sur le cas de référence de Ghia et al.</p>
+          <p id="proj-desc" class="lead">Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al.</p>
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <div class="cta" style="margin-top:18px;">
             <a class="pill" id="proj-back" href="/projects/">Retour aux projets</a>
@@ -155,7 +155,7 @@
     <section style="margin-top:14px;">
       <div class="card">
         <h2 id="lg-ctx-title">Présentation</h2>
-        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW est un solveur 2D incompressible de Navier-Stokes à visée pédagogique et de recherche, écrit en C++20. Il implémente la méthode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille décalée, et se valide sur le cas de référence de Ghia et al. (1982) en cavité entraînée pour Re = 100 et Re = 1000. Les sorties comprennent les résidus par itération, les profils de vitesse sur la ligne centrale, des instantanés VTK et les métriques d'erreur L2/L∞.</p>
+        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW est un solveur 2D de Navier-Stokes incompressible écrit en C++20. Il utilise la méthode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille décalée. Il est validé sur le cas de la cavité entraînée de Ghia et al. (1982), pour Re = 100 et Re = 1000. Il produit les résidus par itération, les profils de vitesse sur les axes médians, des instantanés VTK et les erreurs L2/L∞.</p>
       </div>
     </section>
 
@@ -195,8 +195,8 @@
     <!-- Validation -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="lg-val-title">Validation — cavité entraînée de Ghia et al.</h2>
-        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">Le solveur est comparé à Ghia, Ghia &amp; Shin (1982), la référence canonique pour l'écoulement incompressible en cavité entraînée 2D. Les deux cas Re = 100 et Re = 1000 passent les seuils d'erreur L2/L∞ automatisés.</p>
+        <h2 id="lg-val-title">Validation : cavité entraînée de Ghia et al.</h2>
+        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">La référence est Ghia, Ghia &amp; Shin (1982), le cas de référence standard pour l'écoulement incompressible 2D en cavité entraînée. Les deux cas, Re = 100 et Re = 1000, passent les seuils d'erreur L2 et L∞ automatisés.</p>
         <table class="val-table">
           <thead>
             <tr>
@@ -221,20 +221,20 @@
             </tr>
           </tbody>
         </table>
-        <p class="small" style="margin:12px 0 0;opacity:0.55;" id="lg-val-note">La validation est automatisée : le solveur retourne un code non nul si une métrique dépasse la tolérance — compatible avec les pipelines CI.</p>
+        <p class="small" style="margin:12px 0 0;opacity:0.55;" id="lg-val-note">La vérification est automatique. Le solveur renvoie un code non nul si une métrique dépasse la tolérance, donc la CI peut l'utiliser directement.</p>
       </div>
     </section>
 
     <!-- Implementation phases -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="lg-phase-title">Points clés d'implémentation</h2>
+        <h2 id="lg-phase-title">Implémentation</h2>
         <ul class="phase-list" id="lg-phase-list">
-          <li><span class="phase-num">01</span><span id="lg-p1">Grille décalée avec pression colloquée — évite le découplage pression-vitesse</span></li>
-          <li><span class="phase-num">02</span><span id="lg-p2">Boucle de correction de pression SIMPLE avec multi-passes configurables</span></li>
-          <li><span class="phase-num">03</span><span id="lg-p3">Discrétisation stencil-cohérente — même schéma d'interpolation partout</span></li>
-          <li><span class="phase-num">04</span><span id="lg-p4">Suite de validation automatisée : pass/fail lisible par machine avec codes de sortie configurables</span></li>
-          <li><span class="phase-num">05</span><span id="lg-p5">Export VTK pour post-traitement dans ParaView ou équivalent</span></li>
+          <li><span class="phase-num">01</span><span id="lg-p1">Grille décalée avec pression colloquée, qui évite le découplage pression-vitesse</span></li>
+          <li><span class="phase-num">02</span><span id="lg-p2">Boucle de correction de pression SIMPLE, nombre de passes configurable</span></li>
+          <li><span class="phase-num">03</span><span id="lg-p3">Stencils cohérents : un seul schéma d'interpolation partout</span></li>
+          <li><span class="phase-num">04</span><span id="lg-p4">Validation automatisée avec codes de sortie réussite/échec</span></li>
+          <li><span class="phase-num">05</span><span id="lg-p5">Export VTK pour le post-traitement dans ParaView</span></li>
         </ul>
       </div>
     </section>
@@ -247,7 +247,7 @@
     <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">LG-FLOW</span></div>
     <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 

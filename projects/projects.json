@@ -4,22 +4,43 @@
     "slug": "miltombot",
     "featuredOrder": 1,
     "title": {
-      "en": "MILTOM-Bot: a tender-monitoring pipeline that collects its own training data",
-      "fr": "MILTOM-Bot : un pipeline de veille des appels d'offres qui collecte ses propres données d'entraînement"
+      "en": "MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team",
+      "fr": "MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale"
     },
     "description": {
-      "en": "In production at MILTOM. It watches Poland's public tender bulletin, emails matching tenders to the sales team, and stores their one-click verdicts as labelled training data.",
-      "fr": "En production chez MILTOM. Il surveille le bulletin des marchés publics polonais, envoie les appels d'offres correspondants à l'équipe commerciale et stocke leurs verdicts en un clic comme données d'entraînement étiquetées."
+      "en": "In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model.",
+      "fr": "En production chez MILTOM. Il lit toutes les heures le bulletin polonais des marchés publics, classe les appels d'offres pertinents avec un classifieur et les présente à l'équipe commerciale dans une application web. Leurs réponses entraînent le modèle suivant."
     },
     "tags": [
       "Python",
       "FastAPI",
       "PostgreSQL",
-      "Docker",
-      "Machine Learning"
+      "scikit-learn",
+      "Docker"
     ],
     "thumbnail": "/assets/thumbs/miltombot.svg",
     "thumb_invert": true
+  },
+  {
+    "id": 8,
+    "slug": "fauxmatlab",
+    "featuredOrder": 2,
+    "title": {
+      "en": "FauxMatlab: a control-systems workbench in Python",
+      "fr": "FauxMatlab : un atelier d'automatique en Python"
+    },
+    "description": {
+      "en": "A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 684 tests.",
+      "fr": "Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 684 tests."
+    },
+    "tags": [
+      "Python",
+      "PySide6",
+      "Control Systems",
+      "SciPy",
+      "SymPy"
+    ],
+    "thumbnail": "/assets/thumbs/fauxmatlab.svg"
   },
   {
     "id": 5,
@@ -29,8 +50,8 @@
       "fr": "navfusion"
     },
     "description": {
-      "en": "Engineering-grade modular sensor fusion for 3D navigation, with real-time event-driven design and robust consistency checks.",
-      "fr": "Fusion de capteurs modulaire de niveau ingenierie pour la navigation 3D, avec architecture temps reel orientee evenements et verifications de coherence robustes."
+      "en": "An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.",
+      "fr": "Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées."
     },
     "tags": [
       "Sensor Fusion",
@@ -44,14 +65,14 @@
   {
     "id": 1,
     "slug": "project1",
-    "featuredOrder": 2,
+    "featuredOrder": 3,
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
     },
     "description": {
-      "en": "A structured comparison of Tube RMPC and PPO across stability, accuracy, robustness and computational load — under nominal and GNSS-denied conditions.",
-      "fr": "Comparaison structurée du Tube RMPC et du PPO sur la stabilité, la précision, la robustesse et la charge de calcul — en conditions nominales et avec refus GNSS."
+      "en": "Tube robust MPC and PPO compared on a simulated robot, with and without GNSS. The metrics are stability, tracking accuracy, robustness and computing cost.",
+      "fr": "Tube RMPC et PPO comparés sur un robot simulé, avec et sans GNSS. Les critères sont la stabilité, la précision de suivi, la robustesse et le coût de calcul."
     },
     "tags": [
       "Control",
@@ -65,7 +86,7 @@
   {
     "id": 2,
     "slug": "kaggle",
-    "featuredOrder": 3,
+    "featuredOrder": 4,
     "title": {
       "en": "Kaggle Competitions",
       "fr": "Compétitions Kaggle"
@@ -85,14 +106,14 @@
   {
     "id": 6,
     "slug": "aicalc",
-    "featuredOrder": 4,
+    "featuredOrder": 5,
     "title": {
       "en": "AICalc",
       "fr": "AICalc"
     },
     "description": {
-      "en": "A calculator where the Compute button is a neural network — GRU seq2seq vs Transformer, predicting arithmetic character by character and exhibiting grokking.",
-      "fr": "Une calculatrice dont le bouton Calculer est un réseau de neurones — seq2seq GRU vs Transformer, prédisant l'arithmétique caractère par caractère avec grokking."
+      "en": "A calculator where the Compute button is a neural network. A GRU seq2seq model and a Transformer predict the answer character by character.",
+      "fr": "Une calculatrice dont le bouton Calculer est un réseau de neurones. Un modèle seq2seq GRU et un Transformer prédisent la réponse caractère par caractère."
     },
     "tags": [
       "Python",
@@ -104,14 +125,14 @@
   {
     "id": 3,
     "slug": "lgflow",
-    "featuredOrder": 5,
+    "featuredOrder": 6,
     "title": {
       "en": "LG-FLOW: 2D CFD Solver",
       "fr": "LG-FLOW : Solveur CFD 2D"
     },
     "description": {
-      "en": "Research-grade 2D incompressible Navier-Stokes solver in C++20, using FVM and SIMPLE coupling — validated against the Ghia et al. lid-driven cavity benchmark.",
-      "fr": "Solveur 2D incompressible de Navier-Stokes en C++20, méthode des volumes finis avec couplage SIMPLE — validé sur le cas de référence de Ghia et al."
+      "en": "2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.",
+      "fr": "Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al."
     },
     "tags": [
       "C++",
@@ -125,14 +146,14 @@
   {
     "id": 4,
     "slug": "f1predictor",
-    "featuredOrder": 6,
+    "featuredOrder": 7,
     "title": {
       "en": "F1 Race Predictor",
       "fr": "Prédicteur de Course F1"
     },
     "description": {
-      "en": "XGBoost + PyTorch ensemble predicting Formula 1 podium probabilities from qualifying, weather and historical race data.",
-      "fr": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques."
+      "en": "XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data.",
+      "fr": "Ensemble XGBoost et PyTorch qui prédit les probabilités de podium en F1 à partir des qualifications, de la météo et des données historiques."
     },
     "tags": [
       "Machine Learning",

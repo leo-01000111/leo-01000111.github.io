@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>navfusion - Engineering-grade modular sensor fusion for 3D navigation</title>
-  <meta name="description" content="navfusion: a real-time-first, event-driven sensor fusion engine with error-state EKF, asynchronous sensor handling, gating diagnostics, and CI consistency checks for robust 3D navigation." />
+  <meta name="description" content="An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="navfusion - Engineering-grade modular sensor fusion for 3D navigation" />
-  <meta property="og:description" content="Real-time-first event-driven fusion engine with error-state EKF, quaternion attitude, robust GNSS handling, and reproducible validation artifacts." />
+  <meta property="og:description" content="An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/navfusion.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:image" content="https://www.leongorecki.eu/assets/og-card.png" />
@@ -63,8 +63,8 @@
         <div>
           <div class="kicker">Robotics navigation stack</div>
           <h1 id="proj-title" style="margin-bottom:10px;">navfusion</h1>
-          <p class="lead" style="margin-bottom:8px;"><strong>Engineering-grade modular sensor fusion for 3D navigation.</strong></p>
-          <p id="proj-desc" class="lead">An event-driven fusion engine for robotics and autonomy systems. It provides stable pose estimation under delayed, missing, and noisy measurements.</p>
+          <p class="lead" style="margin-bottom:8px;"><strong>Modular sensor fusion for 3D navigation.</strong></p>
+          <p id="proj-desc" class="lead">An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.</p>
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <p class="small" style="margin:12px 0 0;"><strong>Status:</strong> v0.1.0-alpha</p>
           <div class="cta" style="margin-top:18px;">
@@ -84,7 +84,7 @@
       <div class="card">
         <h2>What it solves</h2>
         <p class="muted" style="margin:0 0 10px;line-height:1.65;">
-          navfusion addresses navigation stacks that degrade sharply when sensor timing or quality departs from nominal conditions. It provides a modular fusion backbone for engineering teams that need predictable behavior, diagnosable failures, and reproducible validation outputs.
+          Navigation stacks often degrade sharply when sensor timing or quality moves away from nominal. navfusion is a modular fusion core with predictable behaviour, failures that can be diagnosed, and reproducible validation.
         </p>
         <ul class="list">
           <li>Maintains stable state estimation during GNSS dropouts and delayed measurement bursts.</li>
@@ -96,24 +96,24 @@
       <div class="card">
         <h2>Engineering highlights</h2>
         <ul class="list">
-          <li>Real-time-first event-driven fusion engine.</li>
+          <li>Event-driven fusion engine for real-time use.</li>
           <li>Error-state EKF with quaternion attitude representation.</li>
           <li>IMU propagation plus GNSS position/velocity fusion.</li>
           <li>Asynchronous sensors with bounded out-of-order handling.</li>
-          <li>Innovation gating and robust diagnostics for measurement integrity.</li>
-          <li>Modular architecture for extension toward additional sensor modalities.</li>
+          <li>Innovation gating and diagnostics that reject bad measurements.</li>
+          <li>Modular design, so new sensor types can be added.</li>
         </ul>
       </div>
 
       <div class="card" style="grid-column: 1 / -1;">
         <h2>Reliability and validation</h2>
         <p class="muted" style="margin:0 0 10px;line-height:1.65;">
-          Reliability is a first-class design output, not a side effect. Validation pipelines expose estimator inconsistency early and preserve reproducibility across benchmark runs.
+          Validation is part of the design. The pipelines detect estimator inconsistency early, and every benchmark run is reproducible.
         </p>
         <ul class="list">
           <li>NIS/NEES consistency checks integrated in CI.</li>
-          <li>Benchmark artifacts captured for post-run review and hiring-panel walkthroughs.</li>
-          <li>Reproducible docs and demo outputs tied to versioned code paths.</li>
+          <li>Benchmark artifacts are saved for review after each run.</li>
+          <li>Docs and demo outputs are generated from versioned code.</li>
           <li>Diagnostics centered on innovation behavior and gate decisions.</li>
         </ul>
       </div>
@@ -128,21 +128,9 @@
       </div>
 
       <div class="card">
-        <h2>Links</h2>
-        <div class="cta" style="margin-top:0;">
-          <a class="btn primary" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Open navfusion source repository on GitHub">Repository</a>
-          <a class="btn" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Open navfusion documentation website">Documentation</a>
-        </div>
-        <p class="small" style="margin-top:12px;">
-          Repo: <a href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer">github.com/leo-01000111/navfusion</a><br />
-          Docs: <a href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer">www.leongorecki.eu/navfusion/</a>
-        </p>
-      </div>
-
-      <div class="card">
         <h2>Next steps (planned)</h2>
         <p class="muted" style="margin:0;line-height:1.65;">
-          The next planned work adds a UKF branch for stronger nonlinear handling. Current benchmarking discipline and consistency diagnostics are preserved to allow a fair A/B evaluation.
+          Next: a UKF branch for better handling of nonlinearity. The same benchmarks and consistency checks will run on both filters, so the comparison is fair.
         </p>
       </div>
     </section>
@@ -153,7 +141,7 @@
     <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">NAVFUSION</span></div>
     <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
