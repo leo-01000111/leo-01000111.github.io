@@ -125,7 +125,7 @@
   {
     "id": 3,
     "slug": "lgflow",
-    "featuredOrder": 6,
+
     "title": {
       "en": "LG-FLOW: 2D CFD Solver",
       "fr": "LG-FLOW : Solveur CFD 2D"
