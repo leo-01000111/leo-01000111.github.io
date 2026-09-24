@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>AICalc - Leon Górecki</title>
-  <meta name="description" content="A neural network calculator: GRU seq2seq with Bahdanau attention vs Transformer encoder-decoder, predicting arithmetic results character by character — and exhibiting grokking." />
+  <meta name="description" content="A calculator where the Compute button is a neural network. A GRU seq2seq model and a Transformer predict the answer character by character." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="AICalc - Leon Górecki" />
-  <meta property="og:description" content="A calculator where the Compute button is a neural network — GRU seq2seq vs Transformer encoder-decoder, with grokking." />
+  <meta property="og:description" content="A calculator where the Compute button is a neural network. A GRU seq2seq model and a Transformer predict the answer character by character." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/aicalc.html" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/aicalc.html" />
@@ -82,17 +82,16 @@
       font-weight: 700;
     }
     .results-table tr:last-child td { border-bottom: none; }
-    .media-placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 160px;
-      border: 1px dashed rgba(122,137,194,0.25);
-      border-radius: var(--radius, 14px);
-      margin-top: 16px;
-      color: var(--muted, #94a3b8);
-      font-size: 0.82rem;
-      letter-spacing: 0.04em;
+    .shot {
+      margin: 16px 0 0;
+    }
+    .shot img {
+      width: 100%;
+      max-width: 870px;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.10);
     }
   </style>
 </head>
@@ -129,13 +128,13 @@
     <section class="hero" style="padding-bottom:16px;">
       <div class="hero-top">
         <div>
-          <div class="kicker" id="ac-kicker">Deep Learning · Grokking</div>
+          <div class="kicker">Deep Learning · Grokking</div>
           <h1 id="proj-title" style="margin-bottom:10px;">AICalc</h1>
-          <p id="proj-desc" class="lead"></p>
+          <p id="proj-desc" class="lead">A calculator where the Compute button is a neural network. A GRU seq2seq model and a Transformer predict the answer character by character.</p>
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <div class="cta" style="margin-top:18px;">
-            <a class="pill" id="proj-back" href="/projects/">All projects</a>
-            <a class="btn primary" href="https://github.com/leo-01000111/AICalc" target="_blank" rel="noopener noreferrer" id="ac-repo-btn">View repo ↗</a>
+            <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
+            <a class="btn primary" href="https://github.com/leo-01000111/AICalc" target="_blank" rel="noopener noreferrer">View repo ↗</a>
           </div>
         </div>
         <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
@@ -144,52 +143,56 @@
       </div>
     </section>
 
-    <!-- What it does -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="ac-ctx-title">What it does</h2>
-        <p class="muted" id="ac-ctx-text" style="line-height:1.7;margin:0;"></p>
+        <h2>What it does</h2>
+        <p class="muted" style="line-height:1.7;margin:0;">
+          You type an expression such as 7+3 or 20−100. The model reads it as text and writes the answer one character
+          at a time, like a language model. Both models work on addition and subtraction modulo 128, so every number is
+          between 0 and 127.
+        </p>
       </div>
     </section>
 
-    <!-- Architectures -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="ac-arch-title">Architectures</h2>
+        <h2>Architectures</h2>
         <div class="arch-grid">
           <div class="arch-card">
-            <div class="ac-label" id="ac-ac1-label">Seq2seq encoder</div>
-            <div class="ac-value" id="ac-ac1-value">Bidirectional GRU — reads the input string forwards and backwards; final hidden states averaged to seed the decoder</div>
+            <div class="ac-label">Seq2seq encoder</div>
+            <div class="ac-value">Bidirectional GRU. Its two final hidden states are averaged to start the decoder.</div>
           </div>
           <div class="arch-card">
-            <div class="ac-label" id="ac-ac2-label">Seq2seq decoder</div>
-            <div class="ac-value" id="ac-ac2-value">Single-direction GRU with additive (Bahdanau) attention. Teacher forcing decays linearly 100 → 0 % over training</div>
+            <div class="ac-label">Seq2seq decoder</div>
+            <div class="ac-value">GRU with Bahdanau attention. Teacher forcing drops linearly from 100% to 0% during training.</div>
           </div>
           <div class="arch-card">
-            <div class="ac-label" id="ac-ac3-label">Transformer encoder</div>
-            <div class="ac-value" id="ac-ac3-value">Standard encoder-decoder with sinusoidal positional encoding. AdamW + weight decay triggers generalisation</div>
+            <div class="ac-label">Transformer encoder</div>
+            <div class="ac-value">Standard encoder-decoder with sinusoidal positional encoding, trained with AdamW and weight decay.</div>
           </div>
           <div class="arch-card">
-            <div class="ac-label" id="ac-ac4-label">Transformer decoder</div>
-            <div class="ac-value" id="ac-ac4-value">Full teacher forcing during training, greedy autoregressive decoding at inference</div>
+            <div class="ac-label">Transformer decoder</div>
+            <div class="ac-value">Full teacher forcing in training, greedy decoding at inference.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Grokking -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="ac-grokking-title">Grokking</h2>
-        <p class="muted" id="ac-grokking-text" style="line-height:1.7;margin:0;"></p>
+        <h2>Grokking</h2>
+        <p class="muted" style="line-height:1.7;margin:0;">
+          Both models grok. Training accuracy rises fast while validation accuracy stays flat, then validation jumps up to
+          match. The Transformer needed about 500 epochs, and without weight decay it never generalised. The seq2seq model
+          stayed near 79% until I made its encoder bidirectional.
+        </p>
       </div>
     </section>
 
-    <!-- Results -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="ac-results-title">Results</h2>
-        <table class="results-table" aria-label="Model accuracy comparison">
+        <h2>Results</h2>
+        <div class="table-wrap" style="margin-top:16px;"><table class="results-table" style="margin-top:0;" aria-label="Model accuracy comparison">
           <thead>
             <tr>
               <th>Model</th>
@@ -209,16 +212,21 @@
               <td class="acc">96.66 %</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
       </div>
     </section>
 
-    <!-- Interface -->
     <section style="margin-top:14px;">
       <div class="card">
-        <h2 id="ac-gui-title">Interface</h2>
-        <p class="muted" id="ac-gui-text" style="line-height:1.7;margin:0;"></p>
-        <div class="media-placeholder" aria-label="GUI screenshot placeholder">Screenshot coming soon</div>
+        <h2>Interface</h2>
+        <p class="muted" style="line-height:1.7;margin:0;">
+          A Tkinter app. You pick a model and a checkpoint, then type on the keypad. The history panel compares each answer
+          with the true result.
+        </p>
+        <figure class="shot">
+          <img src="/assets/shots/aicalc-ui.webp" width="870" height="472" loading="lazy"
+               alt="AICalc window: model selection with the Transformer checkpoint loaded, a calculator keypad showing 61+12, and a history panel with 61+12 = 73 marked correct." />
+        </figure>
       </div>
     </section>
 
@@ -230,7 +238,7 @@
     <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">AICALC</span></div>
     <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-16</span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 

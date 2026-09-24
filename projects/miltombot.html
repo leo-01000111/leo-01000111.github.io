@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
-  <title>MILTOM-Bot: a tender-monitoring pipeline that collects its own training data - Leon Górecki</title>
-  <meta name="description" content="A Polish procurement-monitoring pipeline in production at MILTOM. It watches the national tender bulletin, emails matching tenders to the sales team, and stores their one-click verdicts as labelled training data." />
+  <title>MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team - Leon Górecki</title>
+  <meta name="description" content="In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="MILTOM-Bot: a tender-monitoring pipeline that collects its own training data - Leon Górecki" />
-  <meta property="og:description" content="v0 does two jobs at once: it emails the sales team the tenders worth reviewing, and it records their TAK/NIE clicks as the training set for the classifier that will replace the keyword filter in v1." />
+  <meta property="og:title" content="MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team - Leon Górecki" />
+  <meta property="og:description" content="Keyword rules pick candidate tenders, a TF-IDF and logistic-regression model ranks them, and every TAK/NIE answer from the sales team becomes a training label." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/miltombot.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:image" content="https://www.leongorecki.eu/assets/og-card.png" />
@@ -29,25 +29,28 @@
   <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
   <style>
-    /* ── miltombot custom components ── */
-
-    /* Hero loop diagram */
     .loop-svg {
       width: 100%;
       max-width: 380px;
       margin: 0 auto;
       display: block;
     }
-    .loop-caption {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      color: rgba(255,255,255,0.38);
-      text-align: center;
-      margin: 8px 0 2px;
-      letter-spacing: 0.04em;
+    .shot {
+      margin: 16px 0 0;
     }
-
-    /* Decision cards */
+    .shot img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .shot figcaption {
+      font-size: 0.8rem;
+      color: var(--faint);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
     .dec-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -61,106 +64,38 @@
       border-left: 3px solid #7a89c2;
       background: rgba(122,137,194,0.05);
     }
-    .dec-badge {
-      font-size: 0.70rem;
-      font-weight: 700;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      color: #7a89c2;
-    }
     .dec-name {
       font-weight: 600;
       font-size: 0.95rem;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       color: rgba(255,255,255,0.88);
     }
     .dec-card p {
       margin: 0;
       color: rgba(255,255,255,0.66);
       font-size: 0.875rem;
-      line-height: 1.72;
+      line-height: 1.7;
     }
-    .dec-card p + p { margin-top: 10px; }
-
-    /* Callout (overrides .card background) */
-    .callout {
-      background: rgba(122,137,194,0.06) !important;
-      border-color: rgba(122,137,194,0.22) !important;
+    .kv-table {
+      min-width: 0;
     }
-    .callout-inner {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
+    .kv-table td {
+      white-space: normal;
+      font-family: var(--font-body);
+      line-height: 1.55;
     }
-    .callout-icon {
-      flex-shrink: 0;
-      margin-top: 1px;
-      color: #7a89c2;
+    .kv-table td:first-child {
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      color: var(--ink);
+      width: 1%;
     }
-    .callout strong {
-      color: #7a89c2;
-      display: block;
-      font-size: 0.74rem;
-      font-weight: 700;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      margin-bottom: 5px;
+    .open-list {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      line-height: 1.7;
     }
-    .callout p {
-      margin: 0;
-      color: rgba(255,255,255,0.76);
-      font-size: 0.92rem;
-      line-height: 1.65;
-    }
-
-    /* Architecture diagram: below ~640px a 580-unit viewBox would squeeze its
-       labels to ~4px. Let it scroll at natural size instead of shrinking —
-       the same treatment the wide tables below it already get. */
-    .arch-scroll {
-      overflow-x: auto;
-    }
-    .arch-scroll svg {
-      min-width: 580px;
-    }
-
-    /* Roadmap note */
-    .roadmap-note {
-      margin: 16px 0 0;
-      line-height: 1.65;
-      border-top: 1px solid rgba(255,255,255,0.09);
-      padding-top: 14px;
-    }
-
-    /* Known debt cards */
-    .debt-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin-top: 14px;
-    }
-    .debt-card {
-      border-radius: 12px;
-      padding: 18px;
-      background: rgba(255,255,255,0.035);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-top: 3px solid rgba(122,137,194,0.55);
-    }
-    .debt-badge {
-      font-size: 0.70rem;
-      font-weight: 700;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      margin-bottom: 9px;
-      color: #7a89c2;
-    }
-    .debt-card p {
-      margin: 0;
-      font-size: 0.875rem;
-      line-height: 1.72;
-      color: rgba(255,255,255,0.66);
-    }
-
+    .open-list li + li { margin-top: 8px; }
     @media (min-width: 900px) {
       .dec-grid { grid-template-columns: repeat(3, 1fr); }
     }
@@ -199,378 +134,170 @@
     <section class="hero" style="padding-bottom: 16px;">
       <div class="hero-grid">
         <div>
-          <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot: a tender-monitoring pipeline that collects its own training data</h1>
-          <p id="proj-desc" class="lead">MILTOM-Bot is a procurement pipeline for Polish-language tenders. It watches the national public tender bulletin for water-tank contracts, emails matching tenders to the sales team, and stores their verdicts as labelled training data.</p>
+          <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team</h1>
+          <p id="proj-desc" class="lead">In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model.</p>
           <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
           <div class="cta" style="margin-top: 18px;">
             <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
           </div>
           <p class="small" style="margin-top: 14px; color: var(--faint); line-height: 1.6;">
-            I built this as a software developer at MILTOM, a Polish manufacturer of water tanks for fire protection and
-            drinking water. It has been in production since 16 July 2026. The first commit was 1 July 2026. The repository is
-            private because the system serves real users at the company.
+            I built this at MILTOM, a Polish manufacturer of fire-protection and drinking-water tanks. It has been in
+            production since 16 July 2026. The code is private.
           </p>
         </div>
         <div class="hero-card">
-          <svg class="loop-svg" viewBox="0 0 360 456" xmlns="http://www.w3.org/2000/svg" role="img"
-               aria-label="The label loop: the BZP bulletin feeds a keyword filter, which emails candidate tenders to the sales team; their TAK or NIE clicks become labelled training data for the v1 classifier that will replace the filter.">
+          <svg class="loop-svg" viewBox="0 0 360 398" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="The loop: the BZP bulletin feeds keyword rules, a classifier ranks the matches, the sales panel shows them with TAK, NIE and POMIŃ buttons, and each answer is stored as a label that retrains the classifier every night.">
             <defs>
               <marker id="mb-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
                 <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.82"/>
               </marker>
-              <marker id="mb-arrow-dim" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.45"/>
-              </marker>
             </defs>
 
-            <!-- 1 · BZP bulletin -->
             <rect x="80" y="10" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
             <text x="210" y="29" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">BZP bulletin</text>
-            <text x="210" y="43" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">every public tender in Poland</text>
-            <line x1="210" y1="54" x2="210" y2="86" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <text x="210" y="43" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">fetched every hour</text>
+            <line x1="210" y1="54" x2="210" y2="80" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <!-- 2 · keyword filter -->
-            <rect x="80" y="88" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="107" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">keyword filter</text>
-            <text x="210" y="121" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">deliberately crude, casts a wide net</text>
-            <line x1="210" y1="132" x2="210" y2="164" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="82" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="101" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">keyword rules</text>
+            <text x="210" y="115" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">word pairs within 5 words, or a CPV code</text>
+            <line x1="210" y1="126" x2="210" y2="152" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <!-- 3 · digest email -->
-            <rect x="80" y="166" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="185" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">digest email</text>
-            <text x="210" y="199" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">up to 5 unseen tenders · Mon–Fri 08:00</text>
-            <line x1="210" y1="210" x2="210" y2="234" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="154" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="173" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">classifier</text>
+            <text x="210" y="187" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">TF-IDF + logistic regression</text>
+            <line x1="210" y1="198" x2="210" y2="224" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <!-- 4 · the click -->
-            <rect x="80" y="236" width="260" height="58" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <rect x="140" y="246" width="60" height="26" rx="13" fill="#4ade80" fill-opacity="0.14" stroke="#4ade80" stroke-opacity="0.5"/>
-            <text x="170" y="263" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" font-weight="700" fill="#4ade80">TAK</text>
-            <rect x="220" y="246" width="60" height="26" rx="13" fill="#f87171" fill-opacity="0.14" stroke="#f87171" stroke-opacity="0.5"/>
-            <text x="250" y="263" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" font-weight="700" fill="#f87171">NIE</text>
-            <text x="210" y="286" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">one click, one second</text>
-            <line x1="210" y1="296" x2="210" y2="320" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="226" width="260" height="70" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="245" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">sales panel</text>
+            <rect x="98" y="256" width="66" height="24" rx="4" fill="#4ade80" fill-opacity="0.14" stroke="#4ade80" stroke-opacity="0.5"/>
+            <text x="131" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#4ade80">TAK</text>
+            <rect x="177" y="256" width="66" height="24" rx="4" fill="#f87171" fill-opacity="0.14" stroke="#f87171" stroke-opacity="0.5"/>
+            <text x="210" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#f87171">NIE</text>
+            <rect x="256" y="256" width="66" height="24" rx="4" fill="#94a3b8" fill-opacity="0.14" stroke="#94a3b8" stroke-opacity="0.5"/>
+            <text x="289" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#94a3b8">POMIŃ</text>
+            <line x1="210" y1="298" x2="210" y2="324" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <!-- 5 · labels -->
-            <rect x="80" y="322" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="341" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" fill="rgba(255,255,255,0.86)">LABELS</text>
-            <text x="210" y="355" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">one labelled row per verdict</text>
-            <line x1="210" y1="366" x2="210" y2="398" stroke="#7a89c2" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#mb-arrow-dim)"/>
+            <rect x="80" y="326" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
+            <text x="210" y="345" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" fill="rgba(255,255,255,0.86)">LABELS</text>
+            <text x="210" y="359" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">one row per answer</text>
 
-            <!-- 6 · v1 classifier (future) -->
-            <rect x="80" y="400" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.03" stroke="#7a89c2" stroke-opacity="0.32" stroke-dasharray="4,3"/>
-            <text x="210" y="419" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.55)">v1 classifier</text>
-            <text x="210" y="433" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.30)">TF-IDF + Logistic Regression</text>
-
-            <!-- return edge: v1 replaces the filter -->
-            <path d="M 80 421 L 52 421 Q 40 421 40 409 L 40 121 Q 40 109 52 109 L 76 109"
-                  fill="none" stroke="#7a89c2" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#mb-arrow-dim)"/>
-            <text x="34" y="265" text-anchor="middle" transform="rotate(-90 34 265)" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)" letter-spacing="0.06em">replaces the filter</text>
+            <path d="M 80 347 L 52 347 Q 40 347 40 335 L 40 187 Q 40 175 52 175 L 76 175"
+                  fill="none" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <text x="30" y="261" text-anchor="middle" transform="rotate(-90 30 261)" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)" letter-spacing="0.04em">retrained nightly</text>
           </svg>
-          <p class="loop-caption">Solid = today (v0) &nbsp;·&nbsp; Dashed = v1</p>
         </div>
       </div>
     </section>
 
     <section class="grid" aria-label="Content">
 
-      <!-- 1 · What this is -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2>What this is</h2>
+        <h2>How it works</h2>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
-          Poland publishes every public tender to the Biuletyn Zamówień Publicznych (BZP). For MILTOM, the contracts worth bidding on are water tanks for fire protection and drinking water. Finding these by hand requires someone to read the listings every morning. People do not do this reliably.
+          Poland publishes every public tender in the Biuletyn Zamówień Publicznych (BZP). MILTOM bids on the ones for
+          water tanks. Before the bot, someone had to read the listings by hand every morning.
         </p>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
-          The obvious solution is an ML classifier, but on day one there is no training data to build one from. So v0
-          collects that data as a side effect of being useful. A deliberately broad keyword filter keeps every plausible tender, and
-          every tender it keeps is emailed to the sales team with two buttons: <strong>TAK</strong> (worth pursuing) or
-          <strong>NIE</strong> (not). Each click is one labelled example.
+          Every hour the bot fetches new notices. Keyword rules decide which ones enter the pool. A noun such as
+          <em>zbiornik</em> (tank) must appear within five words of a modifier such as <em>przeciwpożarowy</em>
+          (fire-protection), or the notice must carry one of four CPV codes. The admin panel edits these rules live.
         </p>
         <p class="muted" style="margin: 0; line-height: 1.72;">
-          v0 is already useful to the sales team. While it runs, it builds the dataset that v1 will train on.
+          The classifier sorts the pool, best tender first. Each salesperson sees one tender at a time and answers
+          <strong>TAK</strong> (yes), <strong>NIE</strong> (no) or <strong>POMIŃ</strong> (skip, it comes back after
+          24 hours). A salesperson can also claim a tender so that colleagues do not work on it twice. Each answer is a
+          training label, and the model retrains every evening.
         </p>
+        <figure class="shot">
+          <img src="/assets/shots/miltombot-salesman.webp" width="1030" height="475" loading="lazy"
+               alt="Sales panel: one tender card with its CPV match, links to the BZP notice and the tender documents, and TAK, NIE and POMIŃ buttons." />
+          <figcaption>The sales panel. One tender per card, three buttons.</figcaption>
+        </figure>
       </div>
 
-      <!-- 2 · Callout -->
-      <div class="card callout" style="grid-column: 1 / -1;">
-        <div class="callout-inner">
-          <svg class="callout-icon" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
-            <path d="M12 1.5a.75.75 0 01.75.75V4.5a.75.75 0 01-1.5 0V2.25A.75.75 0 0112 1.5zM5.636 4.136a.75.75 0 011.06 0l1.592 1.591a.75.75 0 01-1.061 1.06l-1.591-1.59a.75.75 0 010-1.061zm12.728 0a.75.75 0 010 1.06l-1.591 1.592a.75.75 0 01-1.06-1.061l1.59-1.591a.75.75 0 011.061 0zm-6.816 4.496a.75.75 0 01.82.311l5.228 7.917a.75.75 0 01-.777 1.148l-2.097-.43 1.045 3.9a.75.75 0 01-1.45.388l-1.044-3.899-1.601 1.42a.75.75 0 01-1.247-.606l.569-9.47a.75.75 0 01.554-.68zM3 10.5a.75.75 0 01.75-.75H6a.75.75 0 010 1.5H3.75A.75.75 0 013 10.5zm14.25 0a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H18a.75.75 0 01-.75-.75zm-8.962 3.712a.75.75 0 010 1.061l-1.591 1.591a.75.75 0 11-1.061-1.06l1.591-1.592a.75.75 0 011.06 0z" />
-          </svg>
-          <div>
-            <strong>Why the loop works</strong>
-            <p>The sales team is best qualified to judge a tender. The click takes about a second on work they were already doing. They are not asked to label a dataset. They are asked whether a contract is worth bidding on, which is their job. Labels come from that process and keep arriving as long as the tool is useful.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3 · Architecture -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2>Architecture</h2>
-        <p class="muted" style="margin: 0 0 4px; font-size: 0.9rem; line-height: 1.65;">
-          The two containers never call each other directly. All communication between them goes through Postgres.
-        </p>
-        <div class="chart-wrap" style="margin-top: 14px;">
-          <div class="arch-scroll">
-          <svg viewBox="0 0 580 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img"
-               aria-label="Architecture: a notifier container and a label_endpoint container, with no direct call between them; each communicates only with a PostgreSQL 16 database holding six tables.">
-            <defs>
-              <marker id="mb-a2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.7"/>
-              </marker>
-            </defs>
-
-            <!-- notifier -->
-            <rect x="40" y="30" width="200" height="76" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="140" y="56" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="rgba(255,255,255,0.86)">notifier</text>
-            <text x="140" y="73" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.45)">3 scheduled jobs · no HTTP server</text>
-            <text x="140" y="90" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7a89c2" fill-opacity="0.75">no inbound network surface</text>
-
-            <!-- label_endpoint -->
-            <rect x="340" y="30" width="200" height="76" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="440" y="56" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="rgba(255,255,255,0.86)">label_endpoint</text>
-            <text x="440" y="73" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.45)">FastAPI · serves the label links</text>
-            <text x="440" y="90" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7a89c2" fill-opacity="0.75">behind reverse proxy · loopback only</text>
-
-            <!-- no direct call -->
-            <line x1="248" y1="68" x2="332" y2="68" stroke="rgba(255,255,255,0.28)" stroke-width="1" stroke-dasharray="4,3"/>
-            <line x1="284" y1="62" x2="296" y2="74" stroke="rgba(255,255,255,0.5)" stroke-width="1.4"/>
-            <line x1="296" y1="62" x2="284" y2="74" stroke="rgba(255,255,255,0.5)" stroke-width="1.4"/>
-            <text x="290" y="50" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.38)">no direct call</text>
-
-            <!-- edges to postgres -->
-            <line x1="140" y1="108" x2="248" y2="136" stroke="#7a89c2" stroke-opacity="0.7" stroke-width="1.2" marker-start="url(#mb-a2)" marker-end="url(#mb-a2)"/>
-            <line x1="440" y1="108" x2="332" y2="136" stroke="#7a89c2" stroke-opacity="0.7" stroke-width="1.2" marker-start="url(#mb-a2)" marker-end="url(#mb-a2)"/>
-
-            <!-- postgres cylinder -->
-            <path d="M 205 150 L 205 196 A 85 12 0 0 0 375 196 L 375 150" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <ellipse cx="290" cy="150" rx="85" ry="12" fill="#7a89c2" fill-opacity="0.10" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="290" y="180" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="rgba(255,255,255,0.86)">PostgreSQL 16</text>
-
-            <text x="290" y="228" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9" fill="rgba(255,255,255,0.42)">6 tables · every change via Alembic migration, never hand-edited</text>
-            <text x="290" y="242" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8.5" fill="#7a89c2" fill-opacity="0.6">SALESMEN · TIPS · TIP_SNAPSHOTS · TIP_HISTORY · LABELS · SOURCES</text>
-          </svg>
-          </div>
-        </div>
-        <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
-          The notifier has no inbound network surface, so nothing reaches it from outside. The label endpoint has no
-          scheduler, no email, and no business logic in its route handlers. Either service can be restarted, redeployed, or stopped without affecting the other. The database is the only shared interface.
-        </p>
-      </div>
-
-      <!-- 4 · Schedule -->
-      <div class="card" style="grid-column: 1 / -1;">
-        <h2>The schedule</h2>
-        <p class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">
-          Three independent APScheduler jobs run inside the notifier. Each has its own clock and its own database session.
-        </p>
-        <div class="table-wrap">
-          <table class="results-table" style="min-width:560px;">
-            <thead>
-              <tr>
-                <th>Job</th>
-                <th>Schedule</th>
-                <th>Does</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>run_ingest</td>
-                <td>hourly</td>
-                <td>fetch BZP → classify → deduplicate → store</td>
-              </tr>
-              <tr>
-                <td>notify_salesmen</td>
-                <td>Mon–Fri 08:00</td>
-                <td>send each salesperson up to 5 unseen tenders</td>
-              </tr>
-              <tr>
-                <td>run_admin_report</td>
-                <td>daily 23:00</td>
-                <td>ops heartbeat to the admin mailbox</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
-          Ingest and notify never share a session or a code path. If a send fails, no history row is written. The tender stays unsent and tomorrow's digest retries it. A failure becomes a delay rather than a lost tender. Deduplication is idempotent at two levels: globally (has this BZP notice been seen before?) and per salesperson (has this person already received it?). Running the pipeline twice gives the same result as running it once. A hung run is safe to re-trigger.
-        </p>
-      </div>
-
-      <!-- 5 · Stack -->
-      <div class="card" style="grid-column: 1 / -1;">
-        <h2>Stack</h2>
+        <h2>The classifier</h2>
         <div class="table-wrap" style="margin-top:10px;">
-          <table class="results-table" style="min-width:560px;">
-            <thead>
-              <tr>
-                <th>Concern</th>
-                <th>Choice</th>
-                <th>Why</th>
-              </tr>
-            </thead>
+          <table class="results-table kv-table">
             <tbody>
-              <tr><td>Language</td><td>Python 3.12</td><td>—</td></tr>
-              <tr><td>HTML parsing</td><td>selectolax</td><td>faster than BeautifulSoup</td></tr>
-              <tr><td>Scheduling</td><td>APScheduler</td><td>in-process; Airflow/Celery is v2's problem, not v0's</td></tr>
-              <tr><td>Classification (v0)</td><td>stdlib re</td><td>word-boundary keyword pairs + CPV code prefixes</td></tr>
-              <tr><td>Classification (v1)</td><td>scikit-learn</td><td>TF-IDF + Logistic Regression on collected labels</td></tr>
-              <tr><td>ORM / driver</td><td>SQLAlchemy 2.x async · asyncpg</td><td>—</td></tr>
-              <tr><td>Migrations</td><td>Alembic</td><td>from the first commit, no exceptions</td></tr>
-              <tr><td>Config</td><td>pydantic-settings</td><td>every tunable in one typed place</td></tr>
-              <tr><td>Validation</td><td>Pydantic v2</td><td>at every system boundary</td></tr>
-              <tr><td>API</td><td>FastAPI</td><td>label endpoint only</td></tr>
-              <tr><td>Email</td><td>smtplib</td><td>v0; a hosted sender is a v1 concern</td></tr>
-              <tr><td>Tokens</td><td>stdlib hmac + hashlib</td><td>—</td></tr>
-              <tr><td>Types</td><td>mypy --strict</td><td>zero errors required to commit</td></tr>
-              <tr><td>Tests</td><td>pytest + pytest-asyncio</td><td>against real Postgres, never a mock</td></tr>
-              <tr><td>Deploy</td><td>Docker Compose + Caddy</td><td>TLS termination; app containers bind to loopback</td></tr>
+              <tr><td>Features</td><td>word TF-IDF (Polish and BZP boilerplate stopwords removed), character n-gram TF-IDF, CPV one-hot, keyword-rule signal</td></tr>
+              <tr><td>Model</td><td>scikit-learn logistic regression, C = 0.3</td></tr>
+              <tr><td>Validation</td><td>5-fold stratified cross-validation, grouped by tender</td></tr>
+              <tr><td>Training rule</td><td>at least 30 labels, with at least 10 of each class</td></tr>
+              <tr><td>Fallback</td><td>keyword matches, CPV match and TAK minus NIE votes, until a model passes the AUC threshold</td></tr>
             </tbody>
           </table>
         </div>
+        <p class="muted" style="margin: 14px 0 0; line-height: 1.72;">
+          On 24 September 2026 the live model was version 84, trained on 437 labels. Only 36 of them are TAK, so the 94%
+          accuracy says little. The numbers to watch are the cross-validated AUC of 0.81, precision of 91% and recall of 68%.
+        </p>
+        <figure class="shot">
+          <img src="/assets/shots/miltombot-model.webp" width="1030" height="704" loading="lazy"
+               alt="Admin Model page: current version v84 with cross-validated accuracy 94%, precision 91%, recall 68%, F1 74% and AUC 81%, above a chart of these metrics across versions v1 to v84." />
+          <figcaption>Admin panel, model page. Cross-validated metrics for every version since v1.</figcaption>
+        </figure>
       </div>
 
-      <!-- 6 · Decisions -->
       <div class="card" style="grid-column: 1 / -1;">
         <h2>Design decisions</h2>
         <div class="dec-grid">
-
           <div class="dec-card">
-            <div class="dec-badge">HTTP semantics</div>
-            <div class="dec-name">GET reads, POST writes, because email scanners click links</div>
-            <p>The label links go out by email. Corporate mail scanners and link-preview bots follow every URL in an inbound
-            message before a human sees it. If a GET recorded a label, the scanner would forge one on its own.</p>
-            <p>So GET has no side effects: it validates the token and renders a confirmation page with a button. The POST
-            behind that button does the write, so a bot that follows links labels nothing. This is ordinary HTTP semantics,
-            but getting it wrong here produces a poisoned dataset that looks normal. Every row is plausible, there is no
-            error anywhere, and the model trains on noise.</p>
+            <div class="dec-name">Labels come from real work</div>
+            <p>Nobody is asked to label a dataset. The sales team decides whether a tender is worth a bid, which is already
+            their job. The decision takes one click, and the click is the label.</p>
           </div>
-
           <div class="dec-card">
-            <div class="dec-badge">Deployment</div>
-            <div class="dec-name">The system had to be safe to test against production</div>
-            <p>There is one BZP API and it is the live one. Testing the pipeline end to end means real fetches, which also
-            means a half-finished build could email real colleagues.</p>
-            <p>Each salesperson row carries a notification mode of production, dev, or both, and an environment flag selects
-            which group a run targets. Development addresses receive everything, and colleagues receive nothing until the
-            flag is flipped. The whole stack ran against live data, sending real mail and writing real labels, for hours
-            before a single colleague was in scope.</p>
+            <div class="dec-name">Folds are grouped by tender</div>
+            <p>Several salespeople can answer the same tender. Grouping the folds by tender keeps one notice out of
+            training and validation at the same time, so the scores are not inflated.</p>
           </div>
-
           <div class="dec-card">
-            <div class="dec-badge">Label semantics</div>
-            <div class="dec-name">Unlabelled means unknown, not negative</div>
-            <p>A tender nobody clicked is not a "no". It might be a "no", or it might just have been a busy Tuesday.</p>
-            <p>Treating silence as a negative label would train the model on the sales team's calendar instead of their
-            judgement, so an unclicked tender is stored as having no label rather than a negative one. This costs some
-            volume in the training set, but it keeps the model learning what a good tender looks like instead of when people
-            happen to be at their desks.</p>
+            <div class="dec-name">The model has to pass a test</div>
+            <p>A new model ranks the deck only if its cross-validated AUC is above a threshold. Otherwise the panel ranks
+            by the simple keyword score, so a weak model never reaches the sales team.</p>
           </div>
-
         </div>
       </div>
 
-      <!-- 7 · Testing + Operations (2-col) -->
-      <div class="card">
-        <h2>Testing</h2>
-        <p class="muted" style="margin: 0 0 12px; line-height: 1.65;">
-          Integration tests run against a real PostgreSQL database, and the fixture applies the real Alembic migrations
-          instead of building the schema straight from the ORM models. Building from the models would let the models and
-          the migrations drift apart, so the tests would keep passing while production broke on the next deploy. Running the
-          real migrations turns that drift into a test failure.
-        </p>
-        <p class="muted" style="margin: 0; line-height: 1.65;">
-          Mocking the database would make the suite faster while testing nothing that matters, because the constraints,
-          cascades, and transaction semantics live in Postgres rather than in Python. The tests cover the token paths (valid,
-          expired, tampered, wrong recipient), deduplication at both levels, classifier positives and negatives, and the
-          repository read and write paths.
-        </p>
-      </div>
-
-      <div class="card">
-        <h2>Operations</h2>
-        <p class="muted" style="margin: 0 0 12px; line-height: 1.65;">
-          Docker Compose brings up Postgres, a one-shot migration container, and the two services. The app containers are
-          gated on the migration finishing successfully, so a failed migration means nothing starts rather than something
-          starting wrong. Backups run nightly with 14-day retention, <strong>and I tested the restore</strong> into a
-          throwaway database and checked that the row count came back. A backup nobody has restored is not really a backup.
-        </p>
-        <p class="muted" style="margin: 0; line-height: 1.65;">
-          Monitoring is one email a day. There is no dashboard and no alerting stack, because five users and one developer
-          do not need one. If the nightly report does not arrive, something is wrong.
-        </p>
-      </div>
-
-      <!-- 8 · Silence callout -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2>Why the bot mails you nothing</h2>
-        <p class="muted" style="margin: 0; line-height: 1.72;">
-          A salesperson with no matching tenders still gets a short "brak nowych przetargów" (no new tenders) email rather
-          than nothing at all. If the bot only mailed when it had something to say, a crash would look identical to a quiet
-          week, and weeks of tenders could go missing before anyone noticed. The nightly ops report exists for the same
-          reason: without it, a silent failure could go undiscovered for months.
-        </p>
-      </div>
-
-      <!-- 9 · Roadmap -->
-      <div class="card" style="grid-column: 1 / -1;">
-        <h2>Roadmap</h2>
-        <div class="timeline" style="margin-top:14px;">
-
-          <div class="tl-item">
-            <div class="tl-period">v0 — live</div>
-            <div class="tl-title">Keyword filter → email everything plausible → collect labels</div>
-            <p class="tl-desc">In production since 16 July 2026. A crude filter casts a wide net, every tender it keeps is
-            emailed to the sales team, and every TAK/NIE click is stored as a labelled example.</p>
-          </div>
-
-          <div class="tl-item" data-type="edu">
-            <div class="tl-period" style="color:var(--accent2);">v1 — next</div>
-            <div class="tl-title">TF-IDF + Logistic Regression trained on those labels → email only high-confidence</div>
-            <p class="tl-desc">The classifier replaces the keyword filter. A hosted email sender replaces smtplib, and
-            per-person digest timing switches on.</p>
-          </div>
-
-          <div class="tl-item" data-type="edu">
-            <div class="tl-period" style="color:var(--accent2);">v2 — later</div>
-            <div class="tl-title">Dashboard · sources beyond BZP</div>
-            <p class="tl-desc">Only once the classifier is good enough to justify it.</p>
-          </div>
-
-        </div>
-        <p class="small muted roadmap-note">
-          The filter is deliberately noisy at this stage. Tightening it would cut the volume of labels, and volume is the
-          one thing v0 exists to produce. v0 is optimised for recall, and precision is v1's job. Leaving the classifier for
-          later is what makes it possible to train a good one at all.
-        </p>
-      </div>
-
-      <!-- 10 · Known debt -->
-      <div class="card" style="grid-column: 1 / -1;">
-        <h2>Known limitations</h2>
+        <h2>Architecture</h2>
         <p class="muted" style="margin: 0 0 4px; font-size: 0.9rem; line-height: 1.65;">
-          Each of these was a deliberate v0 trade-off: cheap to build now, with a known point at which it gets replaced.
+          Six Docker Compose services on one server. All ports bind to localhost, and Caddy terminates TLS for the public sites.
         </p>
-        <div class="debt-grid">
-
-          <div class="debt-card">
-            <div class="debt-badge">Email delivery</div>
-            <p>smtplib with an app password caps out at roughly 500 messages a day. That is fine for five users, and the v1
-            replacement is already scoped, so the limit is a known one rather than a surprise.</p>
-          </div>
-
-          <div class="debt-card">
-            <div class="debt-badge">Digest cadence</div>
-            <p>Timing is a single global cron, even though the salesmen table already has a per-person interval column. The
-            column exists but is unused for now, ready for v1 to switch on.</p>
-          </div>
-
-          <div class="debt-card">
-            <div class="debt-badge">No CI</div>
-            <p>mypy --strict, ruff, and the test suite are run by hand. That is workable for one developer on a fifteen-day
-            build, and it is the first thing I would add for a second developer.</p>
-          </div>
-
+        <div class="table-wrap" style="margin-top:10px;">
+          <table class="results-table kv-table">
+            <thead><tr><th>Service</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td>db</td><td>PostgreSQL 16, 17 tables, schema managed by Alembic</td></tr>
+              <tr><td>migrate</td><td>runs the migrations once, before anything else starts</td></tr>
+              <tr><td>notifier</td><td>APScheduler: hourly fetch, retrain at 20:00, ops report at 21:00</td></tr>
+              <tr><td>admin</td><td>system health, keyword rules, model metrics, salesperson accounts</td></tr>
+              <tr><td>salesman</td><td>the tender deck, answers, claims and answer history</td></tr>
+              <tr><td>label_endpoint</td><td>signed label links for the email digest, which is switched off since the panel replaced it</td></tr>
+            </tbody>
+          </table>
         </div>
+        <p class="muted" style="margin: 14px 0 0; line-height: 1.72;">
+          About 5,800 lines of Python: FastAPI, SQLAlchemy 2 with asyncpg, scikit-learn and selectolax. 212 tests run
+          against a real PostgreSQL database. ruff and mypy --strict must pass.
+        </p>
+        <figure class="shot">
+          <img src="/assets/shots/miltombot-admin.webp" width="1030" height="582" loading="lazy"
+               alt="Admin panel home: last BZP fetch with status OK, 9 new tenders and 17 answers in the last 24 hours, 110 leads in the pool, 67 active keywords, 5 CPV prefixes, and the active model v84 with a Retrain now button." />
+          <figcaption>Admin panel, system health.</figcaption>
+        </figure>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Open work</h2>
+        <ul class="muted open-list">
+          <li>Polish inflection. The keyword lists spell out every inflected form by hand. A morphological analyser such as Morfeusz2 would replace them.</li>
+          <li>Tender documents. The bot could read tank capacity and dimensions from the SWZ files. A first version downloaded the PDFs, but they did not fit on the 8.8 GB server disk, so I removed it.</li>
+          <li>LLM classification, which the sales team suggested for tenders that the keyword rules miss.</li>
+        </ul>
       </div>
 
     </section>
@@ -583,7 +310,7 @@
     <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">MILTOM-BOT</span></div>
     <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-07-16</span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

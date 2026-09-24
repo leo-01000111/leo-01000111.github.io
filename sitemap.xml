@@ -60,7 +60,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/miltombot.html" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/miltombot.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/miltombot.html" />
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -69,9 +69,27 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/miltombot.html" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/miltombot.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/miltombot.html" />
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.leongorecki.eu/projects/fauxmatlab.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/fauxmatlab.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.leongorecki.eu/fr/projects/fauxmatlab.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/fauxmatlab.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/fauxmatlab.html" />
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.leongorecki.eu/projects/project1.html</loc>
@@ -150,7 +168,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/aicalc.html" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/aicalc.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/aicalc.html" />
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -159,7 +177,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/aicalc.html" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/aicalc.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/aicalc.html" />
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
