@@ -64,7 +64,7 @@
           <div class="kicker">Robotics navigation stack</div>
           <h1 id="proj-title" style="margin-bottom:10px;">navfusion</h1>
           <p class="lead" style="margin-bottom:8px;"><strong>Engineering-grade modular sensor fusion for 3D navigation.</strong></p>
-          <p id="proj-desc" class="lead">A real-time-first, event-driven fusion engine designed for robotics and autonomy systems that need stable pose estimation under delayed, missing, and noisy measurements.</p>
+          <p id="proj-desc" class="lead">An event-driven fusion engine for robotics and autonomy systems. It provides stable pose estimation under delayed, missing, and noisy measurements.</p>
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <p class="small" style="margin:12px 0 0;"><strong>Status:</strong> v0.1.0-alpha</p>
           <div class="cta" style="margin-top:18px;">
@@ -84,12 +84,12 @@
       <div class="card">
         <h2>What it solves</h2>
         <p class="muted" style="margin:0 0 10px;line-height:1.65;">
-          navfusion targets one of the highest-cost autonomy failures: navigation stacks that degrade sharply when sensor timing or quality departs from nominal conditions. It provides a modular fusion backbone built for engineering teams that need predictable behavior, diagnosable failures, and reproducible validation outputs.
+          navfusion addresses navigation stacks that degrade sharply when sensor timing or quality departs from nominal conditions. It provides a modular fusion backbone for engineering teams that need predictable behavior, diagnosable failures, and reproducible validation outputs.
         </p>
         <ul class="list">
           <li>Maintains stable state estimation during GNSS dropouts and delayed measurement bursts.</li>
-          <li>Reduces integration friction for mixed-rate, asynchronous sensor pipelines.</li>
-          <li>Supports recruiter-facing and safety review narratives with concrete diagnostics.</li>
+          <li>Reduces integration effort for mixed-rate, asynchronous sensor pipelines.</li>
+          <li>Provides concrete diagnostics that support safety reviews.</li>
         </ul>
       </div>
 
@@ -108,7 +108,7 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2>Reliability and validation</h2>
         <p class="muted" style="margin:0 0 10px;line-height:1.65;">
-          Reliability is treated as a first-class output, not a side effect. Validation pipelines are designed to expose estimator inconsistency early and to preserve reproducibility across benchmark runs.
+          Reliability is a first-class design output, not a side effect. Validation pipelines expose estimator inconsistency early and preserve reproducibility across benchmark runs.
         </p>
         <ul class="list">
           <li>NIS/NEES consistency checks integrated in CI.</li>
@@ -142,7 +142,7 @@
       <div class="card">
         <h2>Next steps (planned)</h2>
         <p class="muted" style="margin:0;line-height:1.65;">
-          Planned path includes an Unscented Kalman Filter (UKF) branch for stronger nonlinear handling, while preserving current benchmarking discipline and consistency diagnostics for fair A/B evaluation.
+          The next planned work adds a UKF branch for stronger nonlinear handling. Current benchmarking discipline and consistency diagnostics are preserved to allow a fair A/B evaluation.
         </p>
       </div>
     </section>

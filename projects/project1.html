@@ -301,10 +301,9 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2 id="p1-ctx-title">What this thesis is about</h2>
         <p id="p1-ctx-text" class="muted" style="margin: 0; line-height: 1.72;">
-          A simulated ground robot navigates cluttered indoor environments, following a reference path to a goal while avoiding obstacles.
-          The thesis asks one question: when GPS positioning is jammed mid-run, which controller holds up better — Tube Robust MPC, with
-          formal safety guarantees, or PPO, a neural network trained through reinforcement learning?
-          Both were benchmarked head-to-head across 500 identical environments under nominal GPS and GNSS-denied conditions.
+          A simulated ground robot follows a reference path through cluttered indoor environments while it avoids obstacles.
+          The thesis asks one question: when GPS is jammed mid-run, which controller performs better — Tube Robust MPC with formal safety guarantees, or PPO, a policy trained by reinforcement learning?
+          Both controllers were tested in 500 identical environments under nominal GPS and GNSS-denied conditions.
         </p>
       </div>
 
@@ -317,16 +316,16 @@
             <div class="ctrl-name" id="p1-ctrl-rmpc-name">Tube Robust MPC</div>
             <ul class="ctrl-list">
               <li id="p1-ctrl-rmpc-1">Predicts future states using an explicit dynamics model</li>
-              <li id="p1-ctrl-rmpc-2">Tube formulation bounds the effect of noise — hard constraints guaranteed</li>
-              <li id="p1-ctrl-rmpc-3">Conservative by design; higher online compute cost</li>
+              <li id="p1-ctrl-rmpc-2">Tube formulation bounds the effect of noise — hard constraints are guaranteed</li>
+              <li id="p1-ctrl-rmpc-3">Conservative by design. Online compute cost is higher.</li>
             </ul>
           </div>
           <div class="ctrl-card ctrl-ppo">
             <div class="ctrl-badge">PPO</div>
             <div class="ctrl-name" id="p1-ctrl-ppo-name">Proximal Policy Optimisation (PPO)</div>
             <ul class="ctrl-list">
-              <li id="p1-ctrl-ppo-1">Policy learned through simulated trial-and-error — no explicit model</li>
-              <li id="p1-ctrl-ppo-2">Single neural-network forward pass; 63× faster online than RMPC</li>
+              <li id="p1-ctrl-ppo-1">Policy learned through trial-and-error in simulation — no explicit model required</li>
+              <li id="p1-ctrl-ppo-2">Single neural-network forward pass. Online speed is 63× faster than RMPC.</li>
               <li id="p1-ctrl-ppo-3">No formal stability or obstacle-avoidance guarantees</li>
             </ul>
           </div>
@@ -390,7 +389,7 @@
           </svg>
           <div>
             <strong id="p1-safety-title">Safety highlight</strong>
-            <p id="p1-safety-text">RMPC recorded zero collisions in both nominal and GNSS-denied conditions. PPO collided in 3.1% of nominal runs and 4.7% under GPS denial — a direct result of operating without hard obstacle-avoidance constraints.</p>
+            <p id="p1-safety-text">RMPC recorded zero collisions in both nominal and GNSS-denied conditions. PPO collided in 3.1% of nominal runs and 4.7% under GPS denial. PPO has no hard obstacle-avoidance constraints.</p>
           </div>
         </div>
       </div>
@@ -552,10 +551,8 @@
           </div>
         </div>
         <p class="small muted" id="p1-deg-note" style="margin: 14px 0 0; line-height: 1.65;">
-          P_deg-nom compares tracking error under denial vs. nominal. P_deg-InOut isolates whether degradation occurs
-          inside the denial zone or outside it. RMPC's −0.95% means it degrades uniformly throughout.
-          PPO's −75.8% reveals it tracks well inside the denial zone but accumulates large error once outside —
-          suggesting position drift that compounds after denial ends.
+          P_deg-nom compares tracking error under denial versus nominal conditions. P_deg-InOut shows whether degradation occurs inside or outside the denial zone. RMPC's −0.95% means it degrades uniformly across both zones.
+          PPO's −75.8% shows it tracks well inside the denial zone but accumulates large error outside it. This pattern suggests that PPO's position estimate drifts after denial ends.
         </p>
       </div>
 
@@ -573,8 +570,7 @@
       <div class="card">
         <h2 id="p1-key-title">Key Metric Definition</h2>
         <p id="p1-key-text" class="muted" style="margin:0; line-height:1.65;">
-          Tracking quality is measured with Cross-Track Error (XTE), defined as the Euclidean distance from robot
-          position to the nearest reference waypoint with monotonic index progression along the path.
+          Tracking quality is measured with Cross-Track Error (XTE). XTE is the Euclidean distance from the robot to the nearest reference waypoint. Waypoints are selected in monotonic index order along the path.
         </p>
       </div>
 
@@ -582,9 +578,7 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2 id="p1-work-title">Cost of Deployment</h2>
         <p id="p1-work-note" class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">
-          Rollout speed measures how fast each controller issues actions during operation.
-          PPO's advantage (63× faster) comes from a single neural-network forward pass,
-          versus RMPC solving an online optimisation problem at each timestep.
+          Rollout speed measures how fast each controller issues actions. PPO uses a single neural-network forward pass. RMPC solves an optimisation problem at each timestep. This makes PPO 63× faster online.
         </p>
         <div class="table-wrap">
           <table class="results-table" style="min-width:560px;">
@@ -619,15 +613,15 @@
         <div class="verdict-grid">
           <div class="verdict-card verdict-rmpc">
             <div class="verdict-badge" id="p1-v1-badge">Safety &amp; Predictability</div>
-            <p id="p1-v1-text">RMPC is the clear winner where hard constraints matter. Zero collisions across 1 000 runs, predictable degradation under denial, and formal guarantees on obstacle avoidance make it the right choice for safety-critical applications — at the cost of slower online execution and a more complex implementation.</p>
+            <p id="p1-v1-text">RMPC is the right choice where hard constraints matter. It recorded zero collisions across 1 000 runs, degrades predictably under denial, and provides formal obstacle-avoidance guarantees. The cost is slower online execution and a more complex implementation.</p>
           </div>
           <div class="verdict-card verdict-ppo">
             <div class="verdict-badge" id="p1-v2-badge">Flexibility &amp; Online Speed</div>
-            <p id="p1-v2-text">PPO matched or exceeded RMPC on raw success rate and runs 63× faster online. Its policy adapts naturally without an explicit model — but the 3–5% collision rate and lack of formal guarantees disqualify it from safety-critical use as-is.</p>
+            <p id="p1-v2-text">PPO matched or exceeded RMPC on success rate and runs 63× faster online. The policy adapts without an explicit model. A 3–5% collision rate and no formal safety guarantees make PPO unsuitable for safety-critical use.</p>
           </div>
           <div class="verdict-card verdict-neutral">
             <div class="verdict-badge" id="p1-v3-badge">Takeaway</div>
-            <p id="p1-v3-text">No universal winner. RMPC is the right choice when safety is non-negotiable; PPO when throughput and adaptability matter more than constraint guarantees. The real value of this thesis is the direct, controlled comparison under identical conditions — a practical baseline for future controller design decisions.</p>
+            <p id="p1-v3-text">Neither controller is a universal winner. Use RMPC when safety is non-negotiable. Use PPO when throughput and adaptability matter more than constraint guarantees. This thesis provides a direct, controlled comparison under identical conditions. It is a practical baseline for future controller design decisions.</p>
           </div>
         </div>
       </div>

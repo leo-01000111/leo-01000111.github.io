@@ -200,15 +200,15 @@
       <div class="hero-grid">
         <div>
           <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot: a tender-monitoring pipeline that collects its own training data</h1>
-          <p id="proj-desc" class="lead">A Polish-language procurement-monitoring pipeline. It watches the national public tender bulletin for water-tank contracts, emails the matches to the sales team, and stores their verdicts as labelled training data.</p>
+          <p id="proj-desc" class="lead">MILTOM-Bot is a procurement pipeline for Polish-language tenders. It watches the national public tender bulletin for water-tank contracts, emails matching tenders to the sales team, and stores their verdicts as labelled training data.</p>
           <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
           <div class="cta" style="margin-top: 18px;">
             <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
           </div>
           <p class="small" style="margin-top: 14px; color: var(--faint); line-height: 1.6;">
             I built this as a software developer at MILTOM, a Polish manufacturer of water tanks for fire protection and
-            drinking water. It has been in production since 16 July 2026; the first commit was 1 July 2026. The repository is
-            private, since it is a live system serving real users at the company.
+            drinking water. It has been in production since 16 July 2026. The first commit was 1 July 2026. The repository is
+            private because the system serves real users at the company.
           </p>
         </div>
         <div class="hero-card">
@@ -277,18 +277,16 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2>What this is</h2>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
-          Poland publishes every public tender to the Biuletyn Zamówień Publicznych (BZP). A handful of those contracts are
-          worth bidding on; for MILTOM, that means water tanks for fire protection and drinking water. Finding them by hand
-          means someone reads the listings every morning, and that is not something people keep up reliably.
+          Poland publishes every public tender to the Biuletyn Zamówień Publicznych (BZP). For MILTOM, the contracts worth bidding on are water tanks for fire protection and drinking water. Finding these by hand requires someone to read the listings every morning. People do not do this reliably.
         </p>
         <p class="muted" style="margin: 0 0 12px; line-height: 1.72;">
           The obvious solution is an ML classifier, but on day one there is no training data to build one from. So v0
-          collects that data as a side effect of being useful. A deliberately crude keyword filter casts a wide net, and
+          collects that data as a side effect of being useful. A deliberately broad keyword filter keeps every plausible tender, and
           every tender it keeps is emailed to the sales team with two buttons: <strong>TAK</strong> (worth pursuing) or
           <strong>NIE</strong> (not). Each click is one labelled example.
         </p>
         <p class="muted" style="margin: 0; line-height: 1.72;">
-          v0 is already useful to the sales team today, and while it runs it is building the dataset that v1 will train on.
+          v0 is already useful to the sales team. While it runs, it builds the dataset that v1 will train on.
         </p>
       </div>
 
@@ -300,10 +298,7 @@
           </svg>
           <div>
             <strong>Why the loop works</strong>
-            <p>The people best qualified to judge a tender are the sales team, and the click takes them about a second on
-            work they were doing anyway. They are not being asked to label a dataset; they are being asked whether a
-            contract is worth bidding on, which is their job. The labels come out of that, so they keep arriving as long as
-            the tool stays useful.</p>
+            <p>The sales team is best qualified to judge a tender. The click takes about a second on work they were already doing. They are not asked to label a dataset. They are asked whether a contract is worth bidding on, which is their job. Labels come from that process and keep arriving as long as the tool is useful.</p>
           </div>
         </div>
       </div>
@@ -312,7 +307,7 @@
       <div class="card" style="grid-column: 1 / -1;">
         <h2>Architecture</h2>
         <p class="muted" style="margin: 0 0 4px; font-size: 0.9rem; line-height: 1.65;">
-          Two containers that never call each other. All communication between them goes through Postgres.
+          The two containers never call each other directly. All communication between them goes through Postgres.
         </p>
         <div class="chart-wrap" style="margin-top: 14px;">
           <div class="arch-scroll">
@@ -357,10 +352,8 @@
           </div>
         </div>
         <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
-          The notifier has no inbound network surface, so nothing can reach it from outside. The label endpoint has no
-          scheduler, no email, and no business logic in its route handlers. Because neither service calls the other, either
-          one can be restarted, redeployed, or fail without the other noticing. The database is the only contract between
-          them.
+          The notifier has no inbound network surface, so nothing reaches it from outside. The label endpoint has no
+          scheduler, no email, and no business logic in its route handlers. Either service can be restarted, redeployed, or stopped without affecting the other. The database is the only shared interface.
         </p>
       </div>
 
@@ -399,11 +392,7 @@
           </table>
         </div>
         <p class="small muted" style="margin: 14px 0 0; line-height: 1.65;">
-          Ingest and notify never share a session and have no shared code path. If a send fails, no history row is written,
-          the tender stays unsent, and tomorrow's digest retries it, so a failure turns into a delay rather than a lost
-          tender. Deduplication is idempotent at two levels: globally (has this BZP notice ever been seen?) and per
-          salesperson (has this person already had this one?). Running the pipeline twice gives the same result as running
-          it once, which is why a hung run is safe to re-trigger.
+          Ingest and notify never share a session or a code path. If a send fails, no history row is written. The tender stays unsent and tomorrow's digest retries it. A failure becomes a delay rather than a lost tender. Deduplication is idempotent at two levels: globally (has this BZP notice been seen before?) and per salesperson (has this person already received it?). Running the pipeline twice gives the same result as running it once. A hung run is safe to re-trigger.
         </p>
       </div>
 

@@ -504,11 +504,10 @@
         repoBtn:    "View repo \u2197",
         ctxTitle:   "What it is",
         ctxText:
-          "LG-FLOW is a research-grade 2D incompressible Navier-Stokes solver built in C++20. " +
-          "It implements the Finite Volume Method (FVM) with SIMPLE pressure-velocity coupling on a staggered grid, " +
-          "and validates against the canonical Ghia et al. (1982) lid-driven cavity benchmark at Re\u202f=\u202f100 and Re\u202f=\u202f1000. " +
-          "Designed for clarity and correctness, it outputs per-iteration residuals, centerline velocity profiles, " +
-          "VTK snapshots, and L2/L\u221e error metrics.",
+          "LG-FLOW is a 2D incompressible Navier-Stokes solver built in C++20. " +
+          "It uses the Finite Volume Method (FVM) with SIMPLE pressure-velocity coupling on a staggered grid. " +
+          "The solver validates against the Ghia et al. (1982) lid-driven cavity benchmark at Re\u202f=\u202f100 and Re\u202f=\u202f1000. " +
+          "It outputs per-iteration residuals, centerline velocity profiles, VTK snapshots, and L2/L\u221e error metrics.",
         techTitle:  "Technical stack",
         tc1Label: "Language",    tc1Value: "C++20 (GCC 11+, Clang 14+, MSVC 19.29+)",
         tc2Label: "Method",      tc2Value: "Finite Volume Method \u00b7 SIMPLE pressure-velocity coupling",
@@ -526,7 +525,7 @@
         valNote:
           "Validation is automated: the solver exits with a non-zero code if any metric falls outside tolerance \u2014 machine-readable for CI pipelines.",
         phaseTitle: "Implementation highlights",
-        p1: "Staggered grid with collocated pressure \u2014 avoids pressure-velocity decoupling",
+        p1: "Staggered grid with collocated pressure \u2014 this avoids pressure-velocity decoupling",
         p2: "SIMPLE pressure-correction loop with configurable multi-pass solving",
         p3: "Stencil-consistent discretisation \u2014 same interpolation scheme throughout",
         p4: "Automated validation suite: machine-readable pass/fail with configurable exit codes",
@@ -615,20 +614,20 @@
         repoBtn:   "View repo \u2197",
         ctxTitle:  "What it does",
         ctxText:
-          "A machine learning pipeline that predicts Formula 1 podium probabilities (P1/P2/P3) for upcoming races, " +
-          "trained on historical data spanning 2014\u20132024. " +
-          "The system ingests qualifying results, driver and team history, circuit characteristics and live weather data, " +
-          "then runs an XGBoost\u202f+\u202fPyTorch ensemble to generate calibrated podium probability estimates. " +
+          "A machine learning pipeline that predicts Formula 1 podium probabilities (P1/P2/P3) for upcoming races. " +
+          "It uses historical data from 2014 to 2024. " +
+          "The system takes in qualifying results, driver and team history, circuit characteristics, and live weather data. " +
+          "It runs an XGBoost\u202f+\u202fPyTorch ensemble to produce calibrated podium probability estimates. " +
           "Results are delivered via a Streamlit dashboard.",
         pipeTitle: "Prediction pipeline",
         pipe1: "Data ingestion \u2014 Qualifying results (OpenF1), historical race outcomes 2014\u20132024 (FastF1), circuit data, and live weather (Open-Meteo).",
         pipe2: "Feature engineering \u2014 Driver form metrics, team performance trends, grid position advantage, and weather-adjusted pace estimates.",
-        pipe3: "Ensemble inference \u2014 Three XGBoost binary classifiers (one per podium position) combined with a PyTorch MLP with driver and team embeddings, stacked via logistic regression.",
+        pipe3: "Ensemble inference \u2014 Three XGBoost binary classifiers (one per podium position) are combined with a PyTorch MLP that uses driver and team embeddings. A logistic regression layer stacks the outputs.",
         pipe4: "Probability calibration \u2014 Isotonic regression post-processing for reliable probability outputs across all podium positions.",
         pipe5: "Dashboard delivery \u2014 Results served via a Streamlit web app with race-by-race probability breakdowns.",
         archTitle: "Model architecture",
         ac1Label: "XGBoost layer",  ac1Value: "3 binary classifiers (P1, P2, P3) trained independently on engineered features",
-        ac2Label: "PyTorch layer",  ac2Value: "MLP with learnable driver and constructor embeddings \u2014 captures latent team/driver identity",
+        ac2Label: "PyTorch layer",  ac2Value: "An MLP with learnable driver and constructor embeddings. This captures latent team and driver identity.",
         ac3Label: "Stacking",       ac3Value: "Logistic regression meta-learner combines XGBoost and PyTorch outputs",
         ac4Label: "Calibration",    ac4Value: "Isotonic regression post-processing for well-calibrated probability estimates",
         dataTitle: "Data sources",
@@ -638,8 +637,9 @@
         ds4: "Optional: Reddit sentiment analysis on driver and team news pre-race",
         evalTitle: "Evaluation",
         evalText:
-          "Performance is assessed through leave-one-season-out cross-validation and a holdout set covering the 2023\u20132024 seasons (unseen during training). " +
-          "Metrics include Brier score, log loss, ROC-AUC, winner accuracy and podium overlap."
+          "Performance is measured using leave-one-season-out cross-validation and a 2023\u20132024 holdout set. " +
+          "The holdout set was not used during training. " +
+          "Metrics include Brier score, log loss, ROC-AUC, winner accuracy, and podium overlap."
       },
       fr: {
         kicker:    "Machine Learning \u00b7 Formule 1",
@@ -717,32 +717,33 @@
         ctxTitle:      "What it does",
         ctxText:
           "AICalc is a calculator whose Compute button is a neural network. " +
-          "You type an expression like ‘7+3’ or ‘20−100’, and instead of evaluating it arithmetically, " +
-          "the model predicts the answer character by character — the same way a language model generates text. " +
-          "Two architectures are implemented and compared: a GRU-based seq2seq with Bahdanau attention, " +
-          "and a Transformer encoder-decoder. " +
-          "Both operate on addition and subtraction mod 128, so all operands and results live in [0, 127].",
+          "You type an expression such as ‘7+3’ or ‘20−100’. " +
+          "Instead of evaluating it arithmetically, the model predicts the answer character by character. " +
+          "It works the same way a language model generates text. " +
+          "Two architectures are compared: a GRU seq2seq with Bahdanau attention, and a Transformer encoder-decoder. " +
+          "Both operate on addition and subtraction mod 128, so all operands and results are in [0, 127].",
         archTitle:     "Architectures",
         ac1Label:      "Seq2seq encoder",
-        ac1Value:      "Bidirectional GRU — reads the input string forwards and backwards; final hidden states averaged to seed the decoder",
+        ac1Value:      "Bidirectional GRU — reads the input string forwards and backwards. The final hidden states are averaged to seed the decoder.",
         ac2Label:      "Seq2seq decoder",
         ac2Value:      "Single-direction GRU with additive (Bahdanau) attention. Teacher forcing decays linearly 100 → 0 % over training",
         ac3Label:      "Transformer encoder",
-        ac3Value:      "Standard encoder-decoder with sinusoidal positional encoding. AdamW + weight decay triggers generalisation",
+        ac3Value:      "Standard encoder-decoder with sinusoidal positional encoding. AdamW with weight decay triggers generalisation.",
         ac4Label:      "Transformer decoder",
         ac4Value:      "Full teacher forcing during training, greedy autoregressive decoding at inference",
         grokkingTitle: "Grokking",
         grokkingText:
           "Both models exhibit grokking: training accuracy climbs quickly while validation stays flat (memorisation phase), " +
-          "then at some point validation accuracy suddenly jumps to match. " +
-          "The Transformer took around 500 epochs to generalise; the seq2seq was faster but needed a bidirectional encoder " +
-          "to push past a ∼79 % ceiling. Without AdamW weight decay, the Transformer memorises indefinitely.",
+          "then validation accuracy suddenly jumps to match. " +
+          "The Transformer took around 500 epochs to generalise. " +
+          "The seq2seq was faster but needed a bidirectional encoder to exceed a ∼79 % ceiling. " +
+          "Without AdamW weight decay, the Transformer memorises indefinitely.",
         resultsTitle:  "Results",
         guiTitle:      "Interface",
         guiText:
-          "A Tkinter GUI lets you pick a model type, select a checkpoint from a dropdown, load it, " +
-          "then use the numpad or keyboard to enter expressions. " +
-          "The right panel keeps a scrollable history with correct/wrong colour-coded. " +
+          "A Tkinter GUI lets you pick a model type and load a checkpoint from a dropdown. " +
+          "Use the numpad or keyboard to enter expressions. " +
+          "The right panel shows a scrollable history with correct and incorrect answers colour-coded. " +
           "A console mode and a side-by-side evaluation script are also included.",
       },
       fr: {
