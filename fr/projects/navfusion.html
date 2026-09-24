@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>navfusion — Fusion de capteurs modulaire pour la navigation 3D</title>
-  <meta name="description" content="navfusion : un moteur de fusion de capteurs temps-réel et orienté événements, avec EKF à état d'erreur, gestion asynchrone des capteurs, diagnostics de gating et vérifications de cohérence en CI pour une navigation 3D robuste." />
+  <meta name="description" content="Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="navfusion — Fusion de capteurs modulaire pour la navigation 3D" />
-  <meta property="og:description" content="Moteur de fusion temps-réel orienté événements avec EKF à état d'erreur, attitude par quaternions, gestion GNSS robuste et artefacts de validation reproductibles." />
+  <meta property="og:description" content="Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées." />
   <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/navfusion.html" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -64,8 +64,8 @@
         <div>
           <div class="kicker">Pile de navigation robotique</div>
           <h1 id="proj-title" style="margin-bottom:10px;">navfusion</h1>
-          <p class="lead" style="margin-bottom:8px;"><strong>Fusion de capteurs modulaire de niveau ingénierie pour la navigation 3D.</strong></p>
-          <p id="proj-desc" class="lead">Un moteur de fusion temps-réel et orienté événements, conçu pour les systèmes robotiques et autonomes qui nécessitent une estimation de pose stable malgré des mesures retardées, manquantes ou bruitées.</p>
+          <p class="lead" style="margin-bottom:8px;"><strong>Fusion de capteurs modulaire pour la navigation 3D.</strong></p>
+          <p id="proj-desc" class="lead">Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées.</p>
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <p class="small" style="margin:12px 0 0;"><strong>Statut :</strong> v0.1.0-alpha</p>
           <div class="cta" style="margin-top:18px;">
@@ -85,36 +85,36 @@
       <div class="card">
         <h2>Ce que ça résout</h2>
         <p class="muted" style="margin:0 0 10px;line-height:1.65;">
-          navfusion cible l'une des défaillances les plus coûteuses en autonomie : les piles de navigation qui se dégradent brutalement lorsque le timing ou la qualité des capteurs s'écarte des conditions nominales. Il fournit une ossature de fusion modulaire conçue pour les équipes d'ingénierie qui ont besoin d'un comportement prévisible, de défaillances diagnosticables et de sorties de validation reproductibles.
+          Les piles de navigation se dégradent souvent brutalement quand le timing ou la qualité des capteurs s'écarte du nominal. navfusion est un cœur de fusion modulaire au comportement prévisible, aux défaillances diagnostiquables et à la validation reproductible.
         </p>
         <ul class="list">
           <li>Maintient une estimation d'état stable pendant les pertes GNSS et les rafales de mesures retardées.</li>
-          <li>Réduit la friction d'intégration des pipelines de capteurs asynchrones à cadences mixtes.</li>
-          <li>Appuie les présentations pour recruteurs et les revues de sécurité avec des diagnostics concrets.</li>
+          <li>Réduit l'effort d'intégration des chaînes de capteurs asynchrones à cadences mixtes.</li>
+          <li>Fournit des diagnostics concrets pour les revues de sécurité.</li>
         </ul>
       </div>
 
       <div class="card">
         <h2>Points techniques</h2>
         <ul class="list">
-          <li>Moteur de fusion temps-réel et orienté événements.</li>
+          <li>Moteur de fusion piloté par événements, pour le temps réel.</li>
           <li>EKF à état d'erreur avec représentation de l'attitude par quaternions.</li>
           <li>Propagation IMU et fusion de la position/vitesse GNSS.</li>
           <li>Capteurs asynchrones avec gestion bornée du désordre temporel.</li>
-          <li>Gating de l'innovation et diagnostics robustes pour l'intégrité des mesures.</li>
-          <li>Architecture modulaire extensible vers d'autres modalités de capteurs.</li>
+          <li>Gating de l'innovation et diagnostics qui rejettent les mesures aberrantes.</li>
+          <li>Architecture modulaire, pour ajouter d'autres types de capteurs.</li>
         </ul>
       </div>
 
       <div class="card" style="grid-column: 1 / -1;">
         <h2>Fiabilité et validation</h2>
         <p class="muted" style="margin:0 0 10px;line-height:1.65;">
-          La fiabilité est traitée comme une sortie de premier plan, pas comme un effet secondaire. Les pipelines de validation sont conçus pour exposer tôt les incohérences de l'estimateur et préserver la reproductibilité entre les exécutions de référence.
+          La validation fait partie de la conception. Les pipelines détectent tôt les incohérences de l'estimateur, et chaque exécution de référence est reproductible.
         </p>
         <ul class="list">
           <li>Vérifications de cohérence NIS/NEES intégrées en CI.</li>
-          <li>Artefacts de benchmark capturés pour la revue post-exécution et les présentations en entretien.</li>
-          <li>Docs et sorties de démo reproductibles, liées à des versions précises du code.</li>
+          <li>Les artefacts de benchmark sont enregistrés pour relecture après chaque exécution.</li>
+          <li>La doc et les sorties de démo sont générées à partir de versions précises du code.</li>
           <li>Diagnostics centrés sur le comportement de l'innovation et les décisions de gating.</li>
         </ul>
       </div>
@@ -129,21 +129,9 @@
       </div>
 
       <div class="card">
-        <h2>Liens</h2>
-        <div class="cta" style="margin-top:0;">
-          <a class="btn primary" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le dépôt source de navfusion sur GitHub">Dépôt</a>
-          <a class="btn" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le site de documentation de navfusion">Documentation</a>
-        </div>
-        <p class="small" style="margin-top:12px;">
-          Dépôt : <a href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer">github.com/leo-01000111/navfusion</a><br />
-          Docs : <a href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer">www.leongorecki.eu/navfusion/</a>
-        </p>
-      </div>
-
-      <div class="card">
         <h2>Prochaines étapes (prévues)</h2>
         <p class="muted" style="margin:0;line-height:1.65;">
-          La feuille de route prévoit une branche à filtre de Kalman sans parfum (UKF) pour une meilleure gestion des non-linéarités, tout en conservant la discipline de benchmarking et les diagnostics de cohérence actuels pour une évaluation A/B équitable.
+          Prochaine étape : une branche UKF (filtre de Kalman sans parfum) pour mieux gérer les non-linéarités. Les mêmes benchmarks et contrôles de cohérence tourneront sur les deux filtres, pour une comparaison équitable.
         </p>
       </div>
     </section>
@@ -154,7 +142,7 @@
     <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">NAVFUSION</span></div>
     <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

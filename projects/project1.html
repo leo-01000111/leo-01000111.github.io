@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>BEng Thesis: PPO vs Robust MPC - Leon Górecki</title>
-  <meta name="description" content="Thesis benchmark comparing PPO and robust MPC for trajectory tracking under GNSS degradation in simulation." />
+  <meta name="description" content="Tube robust MPC and PPO compared on a simulated robot, with and without GNSS. The metrics are stability, tracking accuracy, robustness and computing cost." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="BEng Thesis: PPO vs Robust MPC - Leon Górecki" />
-  <meta property="og:description" content="Thesis results on RMPC and PPO under nominal and GNSS-denied conditions." />
+  <meta property="og:description" content="Tube robust MPC and PPO compared on a simulated robot, with and without GNSS. The metrics are stability, tracking accuracy, robustness and computing cost." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/project1.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="og:image" content="https://www.leongorecki.eu/assets/og-card.png" />
@@ -280,14 +280,14 @@
       <div class="hero-grid">
         <div>
           <h1 id="proj-title" style="margin-bottom: 10px;">BEng Thesis: PPO vs Robust MPC on a Simulated Roomba</h1>
-          <p id="proj-desc" class="lead">Controller benchmark in simulation: trajectory tracking, obstacle avoidance, and robustness under noise and disturbances.</p>
+          <p id="proj-desc" class="lead">Tube robust MPC and PPO compared on a simulated robot, with and without GNSS. The metrics are stability, tracking accuracy, robustness and computing cost.</p>
           <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
           <div class="cta" style="margin-top: 18px;">
             <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
-            <a class="btn primary" id="p1-pdf-btn" href="/pracaINZ-nodata.pdf" target="_blank" rel="noopener noreferrer">Open thesis PDF</a>
+            <a class="btn primary" id="p1-pdf-btn" href="/pracaINZ-nodata.pdf" target="_blank" rel="noopener noreferrer">Open thesis PDF · 0.5 MB</a>
             <a class="btn" id="p1-repo-btn" href="https://github.com/leo-01000111/BEng-Thesis-PPOvsRMPC" target="_blank" rel="noopener noreferrer">View repo</a>
           </div>
-          <p class="small" id="p1-source" style="margin-top: 14px; color: var(--faint);">BEng thesis — Warsaw University of Technology, Nov 2025. Supervisor: Prof. Marcin Żugaj, DSc, Eng. Source: Chapters 5–6.</p>
+          <p class="small" id="p1-source" style="margin-top: 14px; color: var(--faint);">BEng thesis, Warsaw University of Technology, November 2025. Supervisor: Prof. Marcin Żugaj, DSc, Eng.</p>
         </div>
         <div class="hero-card">
           <img id="proj-thumb" src="/assets/thumbs/robotDiagramReal-1200.webp" width="1200" height="847" alt="Project thumbnail" style="width:100%; height:auto; border-radius: 16px;" />
@@ -299,34 +299,30 @@
 
       <!-- 1 · Context -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-ctx-title">What this thesis is about</h2>
-        <p id="p1-ctx-text" class="muted" style="margin: 0; line-height: 1.72;">
-          A simulated ground robot follows a reference path through cluttered indoor environments while it avoids obstacles.
-          The thesis asks one question: when GPS is jammed mid-run, which controller performs better — Tube Robust MPC with formal safety guarantees, or PPO, a policy trained by reinforcement learning?
-          Both controllers were tested in 500 identical environments under nominal GPS and GNSS-denied conditions.
-        </p>
+        <h2 id="p1-ctx-title">What the thesis is about</h2>
+        <p id="p1-ctx-text" class="muted" style="margin: 0; line-height: 1.72;">Full title: "A Comparative Analysis of Reinforcement Learning and Robust Model Predictive Control under GNSS-denial conditions using a mobile robot platform." A simulated Roomba follows a reference path to a goal through cluttered indoor rooms. It must avoid obstacles and cross a zone where GNSS is jammed. The thesis compares two controllers on stability, accuracy, robustness and computing cost. Both controllers run in the same 500 environments.</p>
       </div>
 
       <!-- 2 · Controllers at a glance -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-ctrl-title">Controllers at a glance</h2>
+        <h2 id="p1-ctrl-title">The two controllers</h2>
         <div class="ctrl-grid">
           <div class="ctrl-card ctrl-rmpc">
             <div class="ctrl-badge">RMPC</div>
             <div class="ctrl-name" id="p1-ctrl-rmpc-name">Tube Robust MPC</div>
             <ul class="ctrl-list">
-              <li id="p1-ctrl-rmpc-1">Predicts future states using an explicit dynamics model</li>
-              <li id="p1-ctrl-rmpc-2">Tube formulation bounds the effect of noise — hard constraints are guaranteed</li>
-              <li id="p1-ctrl-rmpc-3">Conservative by design. Online compute cost is higher.</li>
+              <li id="p1-ctrl-rmpc-1">Predicts future states with an explicit dynamics model. An LQR term rejects disturbances.</li>
+              <li id="p1-ctrl-rmpc-2">The tube bounds the effect of noise. Hard obstacle-avoidance constraints are guaranteed.</li>
+              <li id="p1-ctrl-rmpc-3">Conservative. It timed out in 10–15% of runs, so a real deployment needs constraint relaxation or a fallback.</li>
             </ul>
           </div>
           <div class="ctrl-card ctrl-ppo">
             <div class="ctrl-badge">PPO</div>
             <div class="ctrl-name" id="p1-ctrl-ppo-name">Proximal Policy Optimisation (PPO)</div>
             <ul class="ctrl-list">
-              <li id="p1-ctrl-ppo-1">Policy learned through trial-and-error in simulation — no explicit model required</li>
-              <li id="p1-ctrl-ppo-2">Single neural-network forward pass. Online speed is 63× faster than RMPC.</li>
-              <li id="p1-ctrl-ppo-3">No formal stability or obstacle-avoidance guarantees</li>
+              <li id="p1-ctrl-ppo-1">Learns its policy end to end with multi-stage curriculum training. It has no explicit system model.</li>
+              <li id="p1-ctrl-ppo-2">One neural-network forward pass per action. 63× faster online than RMPC.</li>
+              <li id="p1-ctrl-ppo-3">Collides in 3–5% of runs. Part of this comes from a conflict between the path-following and obstacle-avoidance rewards.</li>
             </ul>
           </div>
         </div>
@@ -334,10 +330,8 @@
 
       <!-- 3 · In action -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-action-title">In action — GNSS-denied run, environment 044</h2>
-        <p id="p1-action-desc" class="muted" style="margin: 0 0 16px; font-size: 0.9rem; line-height: 1.6;">
-          Same environment, same conditions. Watch how each controller handles the denial zone.
-        </p>
+        <h2 id="p1-action-title">GNSS-denied run, environment 044</h2>
+        <p id="p1-action-desc" class="muted" style="margin: 0 0 16px; font-size: 0.9rem; line-height: 1.6;">Both controllers run in the same environment under the same conditions.</p>
         <div class="ctrl-grid">
           <div class="gif-panel">
             <div class="gif-label gif-label-rmpc">RMPC</div>
@@ -360,7 +354,7 @@
 
       <!-- 4 · Experiment at a glance -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-exp-title">Experiment at a glance</h2>
+        <h2 id="p1-exp-title">The experiment in numbers</h2>
         <div class="stat-row">
           <div class="stat-box">
             <div class="stat-num">500</div>
@@ -388,20 +382,20 @@
             <path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.947 11.947 0 007.078 2.749.5.5 0 01.479.425c.069.52.104 1.05.104 1.589 0 5.162-3.26 9.563-7.834 11.256a.48.48 0 01-.332 0C5.26 16.563 2 12.162 2 7c0-.538.035-1.069.104-1.589a.5.5 0 01.48-.425 11.947 11.947 0 007.077-2.749z" clip-rule="evenodd" />
           </svg>
           <div>
-            <strong id="p1-safety-title">Safety highlight</strong>
-            <p id="p1-safety-text">RMPC recorded zero collisions in both nominal and GNSS-denied conditions. PPO collided in 3.1% of nominal runs and 4.7% under GPS denial. PPO has no hard obstacle-avoidance constraints.</p>
+            <strong id="p1-safety-title">Safety</strong>
+            <p id="p1-safety-text">RMPC had zero collisions, with and without GNSS. PPO collided in 3.1% of nominal runs and 4.7% of denied runs, because it has no hard obstacle-avoidance constraints.</p>
           </div>
         </div>
       </div>
 
       <!-- 5 · Results visualised -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-charts-title">Results Visualised</h2>
+        <h2 id="p1-charts-title">Results</h2>
         <div class="chart-grid-2">
 
           <!-- Chart 1: Success Rate -->
           <div class="chart-wrap">
-            <p class="chart-title" id="p1-chart1-title">Success Rate</p>
+            <p class="chart-title" id="p1-chart1-title">Success rate</p>
             <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Success rate comparison: RMPC vs PPO under nominal and GNSS-denied conditions">
               <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
               <line x1="248" y1="6" x2="248" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
@@ -437,7 +431,7 @@
 
           <!-- Chart 2: Mean Cross-Track Error -->
           <div class="chart-wrap">
-            <p class="chart-title" id="p1-chart2-title">Cross-Track Error — lower is better</p>
+            <p class="chart-title" id="p1-chart2-title">Cross-track error (lower is better)</p>
             <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Mean cross-track error comparison: RMPC vs PPO">
               <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
               <line x1="281" y1="6" x2="281" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
@@ -479,7 +473,7 @@
 
       <!-- 6 · Raw results table -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-raw-title">Raw Results (Thesis Table, N = 500)</h2>
+        <h2 id="p1-raw-title">Full results (thesis table, N = 500)</h2>
         <div class="table-wrap" style="margin-top:10px;">
           <table class="results-table">
             <thead>
@@ -523,7 +517,7 @@
 
       <!-- 7 · GNSS denial impact -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-deg-title">GNSS Denial: Performance Impact</h2>
+        <h2 id="p1-deg-title">Effect of GNSS denial</h2>
         <div class="delta-grid">
           <div class="delta-item">
             <div class="delta-ctrl">RMPC</div>
@@ -533,7 +527,7 @@
           </div>
           <div class="delta-item">
             <div class="delta-ctrl">RMPC</div>
-            <div class="delta-metric" id="p1-deg-m2">Denial-zone consistency (inside vs. outside)</div>
+            <div class="delta-metric" id="p1-deg-m2">Inside vs outside the denial zone</div>
             <div class="delta-badge delta-flat">−0.95%</div>
             <div class="delta-detail" id="p1-deg-d2">XTE_in 0.321 m ≈ XTE_out 0.328 m</div>
           </div>
@@ -545,41 +539,34 @@
           </div>
           <div class="delta-item">
             <div class="delta-ctrl delta-ctrl-ppo">PPO</div>
-            <div class="delta-metric" id="p1-deg-m4">Denial-zone consistency (inside vs. outside)</div>
+            <div class="delta-metric" id="p1-deg-m4">Inside vs outside the denial zone</div>
             <div class="delta-badge delta-flag">−75.8%</div>
-            <div class="delta-detail" id="p1-deg-d4">XTE_in 0.210 m vs XTE_out 0.867 m — spike after denial</div>
+            <div class="delta-detail" id="p1-deg-d4">XTE_in 0.210 m vs XTE_out 0.867 m, spike after denial</div>
           </div>
         </div>
-        <p class="small muted" id="p1-deg-note" style="margin: 14px 0 0; line-height: 1.65;">
-          P_deg-nom compares tracking error under denial versus nominal conditions. P_deg-InOut shows whether degradation occurs inside or outside the denial zone. RMPC's −0.95% means it degrades uniformly across both zones.
-          PPO's −75.8% shows it tracks well inside the denial zone but accumulates large error outside it. This pattern suggests that PPO's position estimate drifts after denial ends.
-        </p>
+        <p class="small muted" id="p1-deg-note" style="margin: 14px 0 0; line-height: 1.65;">P_deg-nom compares tracking error with and without denial. P_deg-InOut compares error inside and outside the denial zone. RMPC's −0.95% means its error is about the same everywhere. PPO's −75.8% means it tracks well inside the zone and loses accuracy after it leaves. This suggests that position drift builds up after denial ends.</p>
       </div>
 
       <!-- 8 · Study setup + Key metric (2-col) -->
       <div class="card">
-        <h2 id="p1-setup-title">Study Setup</h2>
+        <h2 id="p1-setup-title">Study setup</h2>
         <ul class="list">
           <li id="p1-setup-1">Controllers: Tube RMPC and PPO.</li>
-          <li id="p1-setup-2">Evaluation dataset size: N = 500 environments.</li>
-          <li id="p1-setup-3">Same worlds used for both controllers and both denial configurations.</li>
-          <li id="p1-setup-4">Conditions: nominal and GNSS-denied operation.</li>
+          <li id="p1-setup-2">500 evaluation environments.</li>
+          <li id="p1-setup-3">Both controllers and both conditions use the same environments.</li>
+          <li id="p1-setup-4">Conditions: nominal and GNSS-denied.</li>
         </ul>
       </div>
 
       <div class="card">
-        <h2 id="p1-key-title">Key Metric Definition</h2>
-        <p id="p1-key-text" class="muted" style="margin:0; line-height:1.65;">
-          Tracking quality is measured with Cross-Track Error (XTE). XTE is the Euclidean distance from the robot to the nearest reference waypoint. Waypoints are selected in monotonic index order along the path.
-        </p>
+        <h2 id="p1-key-title">Tracking metric</h2>
+        <p id="p1-key-text" class="muted" style="margin:0; line-height:1.65;">Tracking quality is measured with cross-track error (XTE): the Euclidean distance from the robot to the nearest reference waypoint. The waypoint index can only move forward along the path.</p>
       </div>
 
       <!-- 9 · Cost of deployment -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-work-title">Cost of Deployment</h2>
-        <p id="p1-work-note" class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">
-          Rollout speed measures how fast each controller issues actions. PPO uses a single neural-network forward pass. RMPC solves an optimisation problem at each timestep. This makes PPO 63× faster online.
-        </p>
+        <h2 id="p1-work-title">Cost of deployment</h2>
+        <p id="p1-work-note" class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">Rollout speed is the number of actions each controller issues per second. PPO needs one neural-network forward pass per action. RMPC solves an optimisation problem at every timestep, so PPO is 63× faster.</p>
         <div class="table-wrap">
           <table class="results-table" style="min-width:560px;">
             <thead>
@@ -612,16 +599,16 @@
         <h2 id="p1-verdict-title">Verdict</h2>
         <div class="verdict-grid">
           <div class="verdict-card verdict-rmpc">
-            <div class="verdict-badge" id="p1-v1-badge">Safety &amp; Predictability</div>
-            <p id="p1-v1-text">RMPC is the right choice where hard constraints matter. It recorded zero collisions across 1 000 runs, degrades predictably under denial, and provides formal obstacle-avoidance guarantees. The cost is slower online execution and a more complex implementation.</p>
+            <div class="verdict-badge" id="p1-v1-badge">Safety and predictability</div>
+            <p id="p1-v1-text">RMPC suits safety-critical work. It had zero collisions in 1 000 runs and guarantees its obstacle-avoidance constraints. Its weakness is a 10–15% timeout rate: the solver sometimes cannot find a feasible path in time. A real deployment would need constraint relaxation or a fallback controller.</p>
           </div>
           <div class="verdict-card verdict-ppo">
-            <div class="verdict-badge" id="p1-v2-badge">Flexibility &amp; Online Speed</div>
-            <p id="p1-v2-text">PPO matched or exceeded RMPC on success rate and runs 63× faster online. The policy adapts without an explicit model. A 3–5% collision rate and no formal safety guarantees make PPO unsuitable for safety-critical use.</p>
+            <div class="verdict-badge" id="p1-v2-badge">Flexibility and online speed</div>
+            <p id="p1-v2-text">PPO matched or beat RMPC on success rate and runs 63× faster online. Its error was lower inside the denial zone (0.21 m) than outside it (0.87 m). It holds the path during denial, then drifts after GNSS returns. The 3–5% collision rate comes partly from reward shaping, because path following and obstacle avoidance conflicted during training. It may not be a limit of the method.</p>
           </div>
           <div class="verdict-card verdict-neutral">
             <div class="verdict-badge" id="p1-v3-badge">Takeaway</div>
-            <p id="p1-v3-text">Neither controller is a universal winner. Use RMPC when safety is non-negotiable. Use PPO when throughput and adaptability matter more than constraint guarantees. This thesis provides a direct, controlled comparison under identical conditions. It is a practical baseline for future controller design decisions.</p>
+            <p id="p1-v3-text">Neither controller wins everywhere. Use RMPC when about 20 fps is fast enough and you need safety guarantees. PPO's adaptability and noise rejection would likely matter more in harder environments with stronger disturbances. The test environment may have been too simple for a fully fair verdict, a point raised at the defence. The thesis gives a reproducible baseline. A final comparison would need both controllers optimised to the same level.</p>
           </div>
         </div>
       </div>
@@ -636,7 +623,7 @@
     <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">THESIS</span></div>
     <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

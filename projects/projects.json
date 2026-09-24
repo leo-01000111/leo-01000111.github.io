@@ -50,8 +50,8 @@
       "fr": "navfusion"
     },
     "description": {
-      "en": "Engineering-grade modular sensor fusion for 3D navigation, with real-time event-driven design and robust consistency checks.",
-      "fr": "Fusion de capteurs modulaire de niveau ingenierie pour la navigation 3D, avec architecture temps reel orientee evenements et verifications de coherence robustes."
+      "en": "An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.",
+      "fr": "Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées."
     },
     "tags": [
       "Sensor Fusion",
@@ -71,8 +71,8 @@
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
     },
     "description": {
-      "en": "A structured comparison of Tube RMPC and PPO across stability, accuracy, robustness and computational load — under nominal and GNSS-denied conditions.",
-      "fr": "Comparaison structurée du Tube RMPC et du PPO sur la stabilité, la précision, la robustesse et la charge de calcul — en conditions nominales et avec refus GNSS."
+      "en": "Tube robust MPC and PPO compared on a simulated robot, with and without GNSS. The metrics are stability, tracking accuracy, robustness and computing cost.",
+      "fr": "Tube RMPC et PPO comparés sur un robot simulé, avec et sans GNSS. Les critères sont la stabilité, la précision de suivi, la robustesse et le coût de calcul."
     },
     "tags": [
       "Control",
@@ -131,8 +131,8 @@
       "fr": "LG-FLOW : Solveur CFD 2D"
     },
     "description": {
-      "en": "Research-grade 2D incompressible Navier-Stokes solver in C++20, using FVM and SIMPLE coupling — validated against the Ghia et al. lid-driven cavity benchmark.",
-      "fr": "Solveur 2D incompressible de Navier-Stokes en C++20, méthode des volumes finis avec couplage SIMPLE — validé sur le cas de référence de Ghia et al."
+      "en": "2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.",
+      "fr": "Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al."
     },
     "tags": [
       "C++",
@@ -152,8 +152,8 @@
       "fr": "Prédicteur de Course F1"
     },
     "description": {
-      "en": "XGBoost + PyTorch ensemble predicting Formula 1 podium probabilities from qualifying, weather and historical race data.",
-      "fr": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques."
+      "en": "XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data.",
+      "fr": "Ensemble XGBoost et PyTorch qui prédit les probabilités de podium en F1 à partir des qualifications, de la météo et des données historiques."
     },
     "tags": [
       "Machine Learning",

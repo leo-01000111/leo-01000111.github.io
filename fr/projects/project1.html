@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé - Leon Górecki</title>
-  <meta name="description" content="Comparaison structurée du Tube RMPC et du PPO sur la stabilité, la précision, la robustesse et la charge de calcul — en conditions nominales et avec refus GNSS." />
+  <meta name="description" content="Tube RMPC et PPO comparés sur un robot simulé, avec et sans GNSS. Les critères sont la stabilité, la précision de suivi, la robustesse et le coût de calcul." />
   <meta name="theme-color" content="#070b12" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé - Leon Górecki" />
-  <meta property="og:description" content="Comparaison structurée du Tube RMPC et du PPO sur la stabilité, la précision, la robustesse et la charge de calcul — en conditions nominales et avec refus GNSS." />
+  <meta property="og:description" content="Tube RMPC et PPO comparés sur un robot simulé, avec et sans GNSS. Les critères sont la stabilité, la précision de suivi, la robustesse et le coût de calcul." />
   <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/project1.html" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -281,14 +281,14 @@
       <div class="hero-grid">
         <div>
           <h1 id="proj-title" style="margin-bottom: 10px;">Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé</h1>
-          <p id="proj-desc" class="lead">Comparaison structurée du Tube RMPC et du PPO sur la stabilité, la précision, la robustesse et la charge de calcul — en conditions nominales et avec refus GNSS.</p>
+          <p id="proj-desc" class="lead">Tube RMPC et PPO comparés sur un robot simulé, avec et sans GNSS. Les critères sont la stabilité, la précision de suivi, la robustesse et le coût de calcul.</p>
           <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
           <div class="cta" style="margin-top: 18px;">
             <a class="pill" id="proj-back" href="/projects/">Retour aux projets</a>
             <a class="btn primary" id="p1-pdf-btn" href="/pracaINZ-nodata.pdf" target="_blank" rel="noopener noreferrer">Ouvrir le PDF du mémoire · 0,5 Mo</a>
             <a class="btn" id="p1-repo-btn" href="https://github.com/leo-01000111/BEng-Thesis-PPOvsRMPC" target="_blank" rel="noopener noreferrer">Voir le dépôt</a>
           </div>
-          <p class="small" id="p1-source" style="margin-top: 14px; color: var(--faint);">Mémoire de licence — Université de Technologie de Varsovie, nov. 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing.</p>
+          <p class="small" id="p1-source" style="margin-top: 14px; color: var(--faint);">Mémoire de licence, Université de Technologie de Varsovie, novembre 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing.</p>
         </div>
         <div class="hero-card">
           <img id="proj-thumb" src="/assets/thumbs/robotDiagramReal-1200.webp" width="1200" height="847" alt="Project thumbnail" style="width:100%; height:auto; border-radius: 16px;" />
@@ -300,30 +300,30 @@
 
       <!-- 1 · Context -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-ctx-title">De quoi parle cette thèse</h2>
-        <p id="p1-ctx-text" class="muted" style="margin: 0; line-height: 1.72;">Titre complet : « Analyse comparative de l'apprentissage par renforcement et du contrôle prédictif robuste en conditions de refus GNSS sur une plateforme robotique mobile. » Un Roomba simulé navigue dans des environnements intérieurs encombrés, en suivant une trajectoire de référence tout en évitant les obstacles et une zone de refus GNSS locale. L'objectif de recherche était une comparaison structurée selon quatre dimensions : stabilité, précision, robustesse et charge de calcul — en conditions nominales et avec brouillage actif. Les deux contrôleurs ont été comparés sur 500 environnements identiques pour garantir une comparaison équitable et reproductible.</p>
+        <h2 id="p1-ctx-title">Le sujet du mémoire</h2>
+        <p id="p1-ctx-text" class="muted" style="margin: 0; line-height: 1.72;">Titre complet : « Analyse comparative de l'apprentissage par renforcement et du contrôle prédictif robuste en conditions de refus GNSS sur une plateforme robotique mobile. » Un Roomba simulé suit une trajectoire de référence jusqu'à un but, dans des pièces encombrées. Il doit éviter les obstacles et traverser une zone où le GNSS est brouillé. Le mémoire compare deux contrôleurs sur la stabilité, la précision, la robustesse et le coût de calcul. Les deux contrôleurs roulent dans les mêmes 500 environnements.</p>
       </div>
 
       <!-- 2 · Controllers at a glance -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-ctrl-title">Les contrôleurs en un coup d'œil</h2>
+        <h2 id="p1-ctrl-title">Les deux contrôleurs</h2>
         <div class="ctrl-grid">
           <div class="ctrl-card ctrl-rmpc">
             <div class="ctrl-badge">RMPC</div>
             <div class="ctrl-name" id="p1-ctrl-rmpc-name">Tube Robust MPC</div>
             <ul class="ctrl-list">
-              <li id="p1-ctrl-rmpc-1">Prédit les états futurs via un modèle dynamique explicite avec rejet de perturbations par LQR</li>
-              <li id="p1-ctrl-rmpc-2">La formulation tube borne l'effet du bruit — contraintes d'évitement d'obstacles garanties</li>
-              <li id="p1-ctrl-rmpc-3">Conservateur par construction ; taux de timeout de 10–15 % nécessitant une relaxation des contraintes en déploiement réel</li>
+              <li id="p1-ctrl-rmpc-1">Prédit les états futurs avec un modèle dynamique explicite. Un terme LQR rejette les perturbations.</li>
+              <li id="p1-ctrl-rmpc-2">Le tube borne l'effet du bruit. Les contraintes dures d'évitement d'obstacles sont garanties.</li>
+              <li id="p1-ctrl-rmpc-3">Conservateur. Timeout dans 10–15 % des courses, donc un déploiement réel demande de relâcher les contraintes ou un contrôleur de secours.</li>
             </ul>
           </div>
           <div class="ctrl-card ctrl-ppo">
             <div class="ctrl-badge">PPO</div>
             <div class="ctrl-name" id="p1-ctrl-ppo-name">Proximal Policy Optimisation (PPO)</div>
             <ul class="ctrl-list">
-              <li id="p1-ctrl-ppo-1">Politique apprise de bout en bout par curriculum d'entraînement progressif — sans modèle explicite</li>
-              <li id="p1-ctrl-ppo-2">Passage direct dans un réseau de neurones ; 63× plus rapide en ligne que RMPC</li>
-              <li id="p1-ctrl-ppo-3">Taux de collision de 3–5 % en partie dû à un conflit de récompenses, pas nécessairement une limite fondamentale</li>
+              <li id="p1-ctrl-ppo-1">Apprend sa politique de bout en bout, avec un entraînement par curriculum en plusieurs étapes. Il n'a pas de modèle explicite du système.</li>
+              <li id="p1-ctrl-ppo-2">Un passage dans un réseau de neurones par action. 63× plus rapide en ligne que RMPC.</li>
+              <li id="p1-ctrl-ppo-3">Collisions dans 3–5 % des courses. Une partie vient d'un conflit entre les récompenses de suivi et d'évitement.</li>
             </ul>
           </div>
         </div>
@@ -331,8 +331,8 @@
 
       <!-- 3 · In action -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-action-title">En action — course avec refus GNSS, environnement 044</h2>
-        <p id="p1-action-desc" class="muted" style="margin: 0 0 16px; font-size: 0.9rem; line-height: 1.6;">Même environnement, mêmes conditions. Observez comment chaque contrôleur gère la zone de refus.</p>
+        <h2 id="p1-action-title">Course avec refus GNSS, environnement 044</h2>
+        <p id="p1-action-desc" class="muted" style="margin: 0 0 16px; font-size: 0.9rem; line-height: 1.6;">Les deux contrôleurs roulent dans le même environnement, dans les mêmes conditions.</p>
         <div class="ctrl-grid">
           <div class="gif-panel">
             <div class="gif-label gif-label-rmpc">RMPC</div>
@@ -383,15 +383,15 @@
             <path fill-rule="evenodd" d="M9.661 2.237a.531.531 0 01.678 0 11.947 11.947 0 007.078 2.749.5.5 0 01.479.425c.069.52.104 1.05.104 1.589 0 5.162-3.26 9.563-7.834 11.256a.48.48 0 01-.332 0C5.26 16.563 2 12.162 2 7c0-.538.035-1.069.104-1.589a.5.5 0 01.48-.425 11.947 11.947 0 007.077-2.749z" clip-rule="evenodd" />
           </svg>
           <div>
-            <strong id="p1-safety-title">Résultat de sécurité</strong>
-            <p id="p1-safety-text">RMPC n'a enregistré aucune collision, ni en conditions nominales ni avec refus GNSS. PPO a percuté des obstacles dans 3,1 % des courses nominales et 4,7 % avec refus GPS — conséquence directe de l'absence de contraintes formelles d'évitement.</p>
+            <strong id="p1-safety-title">Sécurité</strong>
+            <p id="p1-safety-text">RMPC n'a eu aucune collision, avec ou sans GNSS. PPO a eu des collisions dans 3,1 % des courses nominales et 4,7 % des courses avec refus, car il n'a pas de contraintes dures d'évitement.</p>
           </div>
         </div>
       </div>
 
       <!-- 5 · Results visualised -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-charts-title">Résultats visualisés</h2>
+        <h2 id="p1-charts-title">Résultats</h2>
         <div class="chart-grid-2">
 
           <!-- Chart 1: Success Rate -->
@@ -432,7 +432,7 @@
 
           <!-- Chart 2: Mean Cross-Track Error -->
           <div class="chart-wrap">
-            <p class="chart-title" id="p1-chart2-title">Erreur transversale — plus bas = mieux</p>
+            <p class="chart-title" id="p1-chart2-title">Erreur transversale (plus bas = mieux)</p>
             <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Mean cross-track error comparison: RMPC vs PPO">
               <line x1="148" y1="6" x2="148" y2="122" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
               <line x1="281" y1="6" x2="281" y2="122" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3,3"/>
@@ -474,7 +474,7 @@
 
       <!-- 6 · Raw results table -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-raw-title">Résultats bruts (table de thèse, N = 500)</h2>
+        <h2 id="p1-raw-title">Résultats complets (table du mémoire, N = 500)</h2>
         <div class="table-wrap" style="margin-top:10px;">
           <table class="results-table">
             <thead>
@@ -518,7 +518,7 @@
 
       <!-- 7 · GNSS denial impact -->
       <div class="card" style="grid-column: 1 / -1;">
-        <h2 id="p1-deg-title">Refus GNSS : impact sur les performances</h2>
+        <h2 id="p1-deg-title">Effet du refus GNSS</h2>
         <div class="delta-grid">
           <div class="delta-item">
             <div class="delta-ctrl">RMPC</div>
@@ -528,7 +528,7 @@
           </div>
           <div class="delta-item">
             <div class="delta-ctrl">RMPC</div>
-            <div class="delta-metric" id="p1-deg-m2">Cohérence en zone de refus (intérieur vs. extérieur)</div>
+            <div class="delta-metric" id="p1-deg-m2">Intérieur vs extérieur de la zone de refus</div>
             <div class="delta-badge delta-flat">−0.95%</div>
             <div class="delta-detail" id="p1-deg-d2">XTE_in 0,321 m ≈ XTE_out 0,328 m</div>
           </div>
@@ -540,12 +540,12 @@
           </div>
           <div class="delta-item">
             <div class="delta-ctrl delta-ctrl-ppo">PPO</div>
-            <div class="delta-metric" id="p1-deg-m4">Cohérence en zone de refus (intérieur vs. extérieur)</div>
+            <div class="delta-metric" id="p1-deg-m4">Intérieur vs extérieur de la zone de refus</div>
             <div class="delta-badge delta-flag">−75.8%</div>
-            <div class="delta-detail" id="p1-deg-d4">XTE_in 0,210 m vs XTE_out 0,867 m — pic après le refus</div>
+            <div class="delta-detail" id="p1-deg-d4">XTE_in 0,210 m vs XTE_out 0,867 m, pic après le refus</div>
           </div>
         </div>
-        <p class="small muted" id="p1-deg-note" style="margin: 14px 0 0; line-height: 1.65;">P_deg-nom : erreur de suivi avec refus vs nominale. P_deg-InOut : erreur à l'intérieur de la zone de refus par rapport à l'extérieur. Le −0,95 % de RMPC indique une dégradation uniforme. Le −75,8 % de PPO révèle qu'il suit bien à l'intérieur de la zone mais accumule une grande erreur après — suggérant une dérive de position qui s'amplifie une fois le refus terminé.</p>
+        <p class="small muted" id="p1-deg-note" style="margin: 14px 0 0; line-height: 1.65;">P_deg-nom compare l'erreur de suivi avec et sans refus. P_deg-InOut compare l'erreur à l'intérieur et à l'extérieur de la zone de refus. Le −0,95 % de RMPC signifie que son erreur est à peu près la même partout. Le −75,8 % de PPO signifie qu'il suit bien dans la zone et perd en précision après. Cela suggère une dérive de position qui s'accumule après la fin du refus.</p>
       </div>
 
       <!-- 8 · Study setup + Key metric (2-col) -->
@@ -553,21 +553,21 @@
         <h2 id="p1-setup-title">Cadre de l'étude</h2>
         <ul class="list">
           <li id="p1-setup-1">Contrôleurs : Tube RMPC et PPO.</li>
-          <li id="p1-setup-2">Taille du jeu d'évaluation : N = 500 environnements.</li>
-          <li id="p1-setup-3">Mêmes mondes utilisés pour les deux contrôleurs et les deux configurations de refus.</li>
-          <li id="p1-setup-4">Conditions : nominale et GNSS refusé.</li>
+          <li id="p1-setup-2">500 environnements d'évaluation.</li>
+          <li id="p1-setup-3">Les deux contrôleurs et les deux conditions utilisent les mêmes environnements.</li>
+          <li id="p1-setup-4">Conditions : nominale et avec refus GNSS.</li>
         </ul>
       </div>
 
       <div class="card">
-        <h2 id="p1-key-title">Définition de la mesure clé</h2>
-        <p id="p1-key-text" class="muted" style="margin:0; line-height:1.65;">La qualité de suivi est mesurée par la Cross-Track Error (XTE), définie comme la distance euclidienne entre la position du robot et le point de référence le plus proche, avec progression monotone de l'index le long de la trajectoire.</p>
+        <h2 id="p1-key-title">Mesure du suivi</h2>
+        <p id="p1-key-text" class="muted" style="margin:0; line-height:1.65;">La qualité du suivi est mesurée par l'erreur transversale (XTE) : la distance euclidienne entre le robot et le point de référence le plus proche. L'index du point ne peut qu'avancer le long de la trajectoire.</p>
       </div>
 
       <!-- 9 · Cost of deployment -->
       <div class="card" style="grid-column: 1 / -1;">
         <h2 id="p1-work-title">Coût de déploiement</h2>
-        <p id="p1-work-note" class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">La vitesse de rollout mesure la rapidité avec laquelle chaque contrôleur émet des actions en fonctionnement. L'avantage de PPO (63× plus rapide) vient d'un passage direct dans un réseau de neurones, contre la résolution d'un problème d'optimisation en ligne à chaque pas de temps pour RMPC.</p>
+        <p id="p1-work-note" class="muted" style="margin: 0 0 14px; font-size: 0.9rem; line-height: 1.65;">La vitesse de rollout est le nombre d'actions par seconde de chaque contrôleur. PPO a besoin d'un passage dans un réseau de neurones par action. RMPC résout un problème d'optimisation à chaque pas de temps, donc PPO est 63× plus rapide.</p>
         <div class="table-wrap">
           <table class="results-table" style="min-width:560px;">
             <thead>
@@ -600,16 +600,16 @@
         <h2 id="p1-verdict-title">Verdict</h2>
         <div class="verdict-grid">
           <div class="verdict-card verdict-rmpc">
-            <div class="verdict-badge" id="p1-v1-badge">Sécurité &amp; Prévisibilité</div>
-            <p id="p1-v1-text">RMPC est le grand gagnant là où la sécurité est non-négociable. Zéro collision sur 1 000 courses et garanties formelles d'évitement font de lui le choix approprié pour les applications critiques. Point faible réel : un taux de timeout de 10–15 % — le solveur à horizon glissant ne trouve parfois pas de trajectoire faisable à temps, ce qui nécessiterait une relaxation des contraintes ou un contrôleur de secours en déploiement réel.</p>
+            <div class="verdict-badge" id="p1-v1-badge">Sécurité et prévisibilité</div>
+            <p id="p1-v1-text">RMPC convient aux applications critiques. Il n'a eu aucune collision sur 1 000 courses et garantit ses contraintes d'évitement. Son point faible est un taux de timeout de 10–15 % : le solveur ne trouve parfois pas de trajectoire faisable à temps. Un déploiement réel demanderait de relâcher les contraintes ou un contrôleur de secours.</p>
           </div>
           <div class="verdict-card verdict-ppo">
-            <div class="verdict-badge" id="p1-v2-badge">Flexibilité &amp; Vitesse en ligne</div>
-            <p id="p1-v2-text">PPO égale ou dépasse RMPC sur le taux de succès brut et est 63× plus rapide en ligne. Résultat intra-contrôleur notable : la XTE de PPO est plus faible à l'intérieur de la zone de refus (0,21 m) qu'à l'extérieur (0,87 m) — il maintient la trajectoire correctement pendant le refus, mais accumule une dérive qui s'amplifie après le retour du GPS. Le taux de collision de 3–5 % est en partie un artefact de la forme de récompense — conflit entre suivi de trajectoire et évitement d'obstacles durant l'entraînement — et non nécessairement un plafond fondamental.</p>
+            <div class="verdict-badge" id="p1-v2-badge">Flexibilité et vitesse en ligne</div>
+            <p id="p1-v2-text">PPO égale ou dépasse RMPC sur le taux de succès et est 63× plus rapide en ligne. Son erreur est plus faible dans la zone de refus (0,21 m) qu'à l'extérieur (0,87 m). Il tient la trajectoire pendant le refus, puis dérive après le retour du GNSS. Le taux de collision de 3–5 % vient en partie de la forme des récompenses, car suivi et évitement se contredisaient pendant l'entraînement. Ce n'est peut-être pas une limite de la méthode.</p>
           </div>
           <div class="verdict-card verdict-neutral">
-            <div class="verdict-badge" id="p1-v3-badge">À retenir honnêtement</div>
-            <p id="p1-v3-text">Pas de gagnant universel — et l'aveu honnête de la soutenance : l'environnement de test était peut-être trop simple pour un verdict définitif. RMPC excelle quand une opération lente (~20 fps) est acceptable et que des garanties de sécurité sont requises. Les forces relatives de PPO en adaptabilité et rejet du bruit se manifesteraient davantage dans des environnements plus complexes avec des perturbations plus sévères. La thèse établit une base reproductible ; une comparaison définitive nécessiterait les deux contrôleurs au même niveau d'optimisation.</p>
+            <div class="verdict-badge" id="p1-v3-badge">À retenir</div>
+            <p id="p1-v3-text">Aucun contrôleur ne gagne partout. RMPC convient quand environ 20 fps suffisent et que des garanties de sécurité sont nécessaires. L'adaptabilité de PPO et son rejet du bruit compteraient sans doute plus dans des environnements plus durs, avec des perturbations plus fortes. L'environnement de test était peut-être trop simple pour un verdict tout à fait équitable, un point soulevé à la soutenance. Le mémoire fournit une base reproductible. Une comparaison définitive demanderait deux contrôleurs optimisés au même niveau.</p>
           </div>
         </div>
       </div>
@@ -624,7 +624,7 @@
     <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">THESIS</span></div>
     <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
     <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-06-15</span></div>
+    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-09-24</span></div>
     <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
