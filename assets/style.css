@@ -340,7 +340,12 @@ h1{
 .gh-months{ position:relative; height:18px; margin-bottom:2px; }
 .gh-month-label{ position:absolute; font-size:10px; font-family: var(--font-mono); color: var(--ink-muted); white-space:nowrap; }
 .gh-grid{ display:grid; grid-template-rows:repeat(7,10px); grid-auto-flow:column; grid-auto-columns:10px; gap:2px; }
-.gh-cell{ box-shadow: inset 0 0 0 1px var(--rule); }
+.gh-cell{ box-shadow: inset 0 0 0 1px var(--rule); background: var(--rule); }
+.gh-cell[data-level="0"]{ background: var(--rule); }
+.gh-cell[data-level="1"]{ background: color-mix(in srgb, var(--signal) 28%, var(--ink) 4%, var(--surface)); }
+.gh-cell[data-level="2"]{ background: color-mix(in srgb, var(--signal) 52%, var(--surface)); }
+.gh-cell[data-level="3"]{ background: color-mix(in srgb, var(--signal) 76%, var(--surface)); }
+.gh-cell[data-level="4"]{ background: var(--signal); }
 
 @media (max-width: 520px){ .proj-thumb{ width: 92px; } }
 
@@ -371,9 +376,6 @@ h1{
 .tl-org{ font-size:0.90rem; color:var(--ink-muted); margin-bottom:4px; }
 .tl-desc{ font-size:0.87rem; color:var(--ink-muted); line-height:1.45; margin:0; }
 
-/* Status dot (static) — reuses the lamp-go token */
-.status-dot{ display:inline-block; width:7px; height:7px; background:var(--lamp-go); margin-right:6px; vertical-align:middle; }
-
 /* === CHARTS === */
 .chart-wrap{ box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule); background: var(--surface); padding:var(--space-3) var(--space-3) var(--space-2); overflow:hidden; }
 .chart-title{ font-family:var(--font-mono); font-size:0.76rem; font-weight:600; color:var(--ink-muted); text-transform:uppercase; letter-spacing:0.12em; margin:0 0 10px; }
@@ -393,22 +395,9 @@ h1{
 }
 .skip-link:focus{ top: 8px; }
 
-/* ── Dimension-line section divider ── */
-.dim-divider{ display:flex; align-items:center; gap: var(--space-3); margin: var(--space-5) 0 var(--space-2); color: var(--ink-muted); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; }
-.dim-divider::before, .dim-divider::after{ content:""; height:1px; flex:1; background: var(--rule); }
-.dim-divider .dim-label{ color: var(--ink-muted); white-space:nowrap; }
-.dim-divider .dim-arrow{ width:0; height:0; flex:0 0 auto; border-top:4px solid transparent; border-bottom:4px solid transparent; }
-.dim-divider .dim-arrow.left{ border-right:6px solid var(--rule); }
-.dim-divider .dim-arrow.right{ border-left:6px solid var(--rule); }
-
 @media (prefers-reduced-motion: reduce){
   *{ scroll-behavior: auto !important; }
 }
-
-/* === SCROLL REVEAL === */
-.reveal{ opacity:0; transform:translateY(18px); transition:opacity 0.45s ease, transform 0.45s ease; }
-.reveal.visible{ opacity:1; transform:none; }
-@media (prefers-reduced-motion:reduce){ .reveal, .reveal.visible{ opacity:1; transform:none; transition:none; } }
 
 /* === PROJECT CARD HOVER === */
 .proj{ transition: box-shadow var(--t-fast) var(--ease-out), transform var(--t-step) var(--ease-step); }
@@ -464,17 +453,6 @@ h1{
 .live-dot{ display:inline-block; width:7px; height:7px; background:var(--lamp-go); margin-right:5px; vertical-align:middle; }
 .kaggle-updated{ font-size:0.82rem; color:var(--ink-muted); font-family: var(--font-mono); }
 
-/* ── Tutoring CTA card (home page) — kept as-is pending phase 3 ── */
-a.tutoring-cta{
-  display:block; text-decoration:none; background:rgba(217,119,87,0.10);
-  box-shadow: inset 0 0 0 var(--stroke-hair) rgba(217,119,87,0.4);
-  padding: var(--space-3) var(--space-4); margin-bottom: var(--space-3);
-  transition: background 0.18s, transform var(--t-step) var(--ease-step);
-}
-a.tutoring-cta:hover{ background:rgba(217,119,87,0.18); transform:translateY(-2px); }
-.tutoring-cta-main{ color:rgba(217,119,87,1); font-weight:600; font-size:0.88rem; margin:0 0 4px; line-height:1.4; }
-.tutoring-cta-sub{ color:rgba(217,119,87,0.72); font-size:0.80rem; margin:0; }
-
 /* ── Back-to-top button ── */
 #back-to-top{
   position:fixed; bottom:28px; right:24px; z-index:200; width:44px; height:44px;
@@ -497,3 +475,104 @@ a.tutoring-cta:hover{ background:rgba(217,119,87,0.18); transform:translateY(-2p
   box-shadow: inset 0 0 0 var(--stroke-hair) var(--ink-muted); background: var(--surface);
   display:flex; align-items:center; justify-content:center; color:var(--ink);
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   HOME PAGE (phase 3) — built from hp-* components, per BRAND.md
+   "Page anatomy (home)". Layout-only; component styling is in
+   components.css. Section rhythm uses the space-7 ("between ideas") jump.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.home-hero{ position: relative; margin-top: var(--space-6); overflow: visible; }
+.home-hero__row{
+  position: relative;
+  display: grid;
+  /* fr units (not percentages) so --space-6's gap doesn't overflow the row:
+     with %, major% + minor% + gap > 100% of the container. */
+  grid-template-columns: 61.5fr 38.5fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+.home-hero__major{ min-width: 0; }
+.home-hero__kicker{ display:flex; align-items:center; gap: var(--space-3); margin: 0 0 var(--space-4); color: var(--ink-muted); }
+.home-hero__rule{ display:inline-block; width: 28px; height: 2px; background: var(--ink); flex: none; }
+.home-hero__headline{ margin: 0 0 var(--space-4); color: var(--ink); max-width: 16ch; overflow-wrap: normal; word-break: normal; hyphens: auto; }
+@media (max-width: 480px){ .home-hero__headline{ overflow-wrap: break-word; word-break: break-word; } }
+.home-hero__lede{ margin: 0 0 var(--space-5); color: var(--ink-muted); max-width: 60ch; }
+.home-hero__actions{ display:flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.home-hero__minor{ position: relative; min-width: 0; }
+.home-hero__minor .hp-plate{ position: relative; z-index: 2; max-width: none; }
+.home-hero__bleed{
+  position: absolute;
+  z-index: 1;
+  top: -72px;
+  /* Bleed to the true viewport edge: undo the .wrap auto-margin gutter
+     (when the viewport is wider than --content-max) plus its own padding. */
+  right: calc(-1 * (((100vw - min(100vw, var(--content-max))) / 2) + var(--space-4)));
+  width: 62%;
+  height: calc(100% + 72px);
+  background: var(--signal);
+}
+@media (max-width: 860px){
+  .home-hero__row{ grid-template-columns: 1fr; }
+  .home-hero__bleed{ display: none; }
+}
+
+/* ── Markings with a trailing label (extends Marking: centreline also
+   carries a "Selected projects ↓" label here, not only holding markings) ── */
+.home-marking{ margin: var(--space-7) 0; }
+
+/* ── Selected projects ── */
+.home-projects{ margin: var(--space-7) 0; }
+.home-projects__all{ margin-top: var(--space-4); }
+
+/* Generic stacked ProjectCard list — shared by the home "Selected projects"
+   section and the projects/index.html full listing. */
+.hp-card-list{ display:flex; flex-direction:column; gap: var(--space-4); }
+
+/* ── Skills ── */
+.home-skills{ margin: var(--space-7) 0; }
+.home-section__title{ margin: 0 0 var(--space-4); color: var(--ink-muted); }
+.home-section__ext{ text-transform: none; color: var(--ink-muted); opacity: .7; }
+.home-contrib{ margin-top: var(--space-6); }
+.home-contrib__title{ margin: 0 0 var(--space-1); color: var(--ink-muted); }
+.home-contrib .small{ margin: 0 0 var(--space-3); color: var(--ink-muted); }
+
+/* ── Tutoring ── */
+.home-tutoring{
+  margin: var(--space-7) 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule);
+}
+.home-tutoring__link{ flex: 1 1 320px; min-width: 0; text-decoration: none; color: inherit; }
+.home-tutoring__link:hover .home-tutoring__pl{ text-decoration: underline; text-decoration-thickness: 2px; }
+.home-tutoring__pl{ margin: 0 0 4px; font-family: var(--font-sans); font-size: 17px; font-weight: 600; color: var(--ink); }
+.home-tutoring__en{ margin: 0; color: var(--ink-muted); }
+
+/* ── Background (extension: timeline restyled with hairline rows + mono
+   dates, kept from the pre-migration site and listed as an extension) ── */
+.home-background{ margin: var(--space-7) 0; }
+.home-timeline{ display:flex; flex-direction:column; }
+.home-tl-row{
+  display: grid;
+  grid-template-columns: minmax(120px, var(--split-minor)) 1fr;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-top: var(--stroke-hair) solid var(--rule);
+}
+.home-tl-row:first-child{ border-top: 0; }
+.home-tl-date{ color: var(--ink-muted); padding-top: 2px; }
+.home-tl-title{ margin: 0 0 2px; font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--ink); }
+.home-tl-org{ margin: 0 0 4px; color: var(--ink-muted); }
+.home-tl-org a, .home-tl-desc a{ color: var(--edge); }
+.home-tl-desc{ margin: 0; color: var(--ink-muted); }
+@media (max-width: 640px){ .home-tl-row{ grid-template-columns: 1fr; gap: var(--space-1); } }
+
+/* ── Contact ── */
+.home-contact{ margin: var(--space-7) 0 var(--space-6); display:flex; flex-direction:column; align-items:flex-start; gap: var(--space-4); }
+.home-contact__text{ margin: 0; color: var(--ink-muted); max-width: 60ch; }
+.home-contact__text a{ color: var(--edge); }
