@@ -261,7 +261,7 @@ D&eacute;m&eacute;nagement &agrave; Nantes en sept. 2026. Ouvert aux stages et o
 <script>
 (function() {
   var MONTHS = ["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"];
-  var CELL = 10, GAP = 2;
+  var GAP = 2;
   fetch("/assets/contributions.json")
     .then(function(r) { if (!r.ok) throw r; return r.json(); })
     .then(function(data) {
@@ -290,17 +290,32 @@ D&eacute;m&eacute;nagement &agrave; Nantes en sept. 2026. Ouvert aux stages et o
         empty.dataset.level = "0";
         grid.appendChild(empty);
       }
+      // Size the cells so the weeks fill the column (8 to 18 px each).
+      var outer = inner.closest(".gh-outer") || inner;
+      function fit() {
+        var weeks = Math.ceil(grid.children.length / 7);
+        var cell = Math.floor((inner.clientWidth - (weeks - 1) * GAP) / weeks);
+        outer.style.setProperty("--gh-cell", Math.max(8, Math.min(18, cell)) + "px");
+      }
+      fit();
+      var resizeTimer;
+      window.addEventListener("resize", function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(fit, 100); });
       var monthsEl = document.getElementById("gh-months");
       if (monthsEl) {
-        var lastMonth = -1;
+        var lastMonth = -1, lastLbl = null, lastWeek = -9;
         slice.forEach(function(day, i) {
           var month = new Date(day.date + "T00:00:00").getMonth();
           if (month !== lastMonth) {
+            var week = Math.floor(i / 7);
+            // A partial first month leaves no room for its label: drop it
+            if (lastLbl && week - lastWeek < 3) lastLbl.remove();
+            lastWeek = week;
             var lbl = document.createElement("span");
             lbl.className = "gh-month-label";
-            lbl.style.left = Math.floor(i / 7) * (CELL + GAP) + "px";
+            lbl.style.left = "calc(" + Math.floor(i / 7) + " * (var(--gh-cell) + " + GAP + "px))";
             lbl.textContent = MONTHS[month];
             monthsEl.appendChild(lbl);
+            lastLbl = lbl;
             lastMonth = month;
           }
         });
