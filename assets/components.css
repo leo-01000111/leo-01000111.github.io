@@ -60,8 +60,8 @@ a.hp-sign svg { transition: transform var(--t-step) var(--ease-step); }
 .hp-tag--solid b { color: inherit; opacity: .8; }
 
 /* ——— Lamp ——— */
-.hp-lamp { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: 13px; line-height: 20px; color: var(--ink); }
-.hp-lamp i { width: 10px; height: 10px; border-radius: var(--radius-lamp); flex: none; }
+.hp-lamp { display: inline-flex; align-items: flex-start; gap: var(--space-2); font-family: var(--font-mono); font-size: 13px; line-height: 20px; color: var(--ink); }
+.hp-lamp i { width: 10px; height: 10px; margin-top: 5px; border-radius: var(--radius-lamp); flex: none; }
 .hp-lamp--go i { background: var(--lamp-go); box-shadow: 0 0 0 3px color-mix(in srgb, var(--lamp-go) 22%, transparent); }
 .hp-lamp--caution i { background: var(--lamp-caution); box-shadow: 0 0 0 1.5px var(--ink); }
 .hp-lamp--hold i { background: var(--hold); box-shadow: 0 0 0 1.5px var(--ink); }

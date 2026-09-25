@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 135">
-  <rect width="240" height="135" rx="12" fill="#f5f5f2"/>
+  <rect width="240" height="135" fill="#f5f5f2"/>
 
   <!-- Input box -->
-  <rect x="12" y="48" width="48" height="38" rx="5" fill="rgba(75,79,85,0.07)" stroke="rgba(75,79,85,0.35)" stroke-width="1"/>
+  <rect x="12" y="48" width="48" height="38" fill="rgba(75,79,85,0.07)" stroke="rgba(75,79,85,0.35)" stroke-width="1"/>
   <text x="36" y="62" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6.5" fill="rgba(75,79,85,0.55)" letter-spacing="0.12em">INPUT</text>
   <text x="36" y="79" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" font-weight="700" fill="#121314">7+3</text>
 
@@ -52,7 +52,7 @@
   <polygon points="179,67 175,64 175,70" fill="rgba(75,79,85,0.5)"/>
 
   <!-- Output box -->
-  <rect x="181" y="48" width="48" height="38" rx="5" fill="rgba(75,79,85,0.12)" stroke="rgba(75,79,85,0.6)" stroke-width="1"/>
+  <rect x="181" y="48" width="48" height="38" fill="rgba(75,79,85,0.12)" stroke="rgba(75,79,85,0.6)" stroke-width="1"/>
   <text x="205" y="62" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6.5" fill="rgba(75,79,85,0.6)" letter-spacing="0.12em">OUTPUT</text>
   <text x="205" y="79" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" font-weight="700" fill="#121314">10</text>
 
@@ -60,11 +60,11 @@
   <text x="120" y="107" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" fill="rgba(18,19,20,0.28)" letter-spacing="0.1em">TRANSFORMER · SEQ2SEQ · GRU</text>
 
   <!-- Accuracy badge -->
-  <rect x="12" y="112" width="76" height="14" rx="3" fill="rgba(75,79,85,0.1)" stroke="rgba(75,79,85,0.22)" stroke-width="0.8"/>
+  <rect x="12" y="112" width="76" height="14" fill="rgba(75,79,85,0.1)" stroke="rgba(75,79,85,0.22)" stroke-width="0.8"/>
   <text x="50" y="122" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7.5" fill="#121314" letter-spacing="0.06em">TRANSFORMER 96.66 %</text>
 
   <!-- Grokking badge -->
-  <rect x="182" y="112" width="48" height="14" rx="3" fill="rgba(75,79,85,0.07)" stroke="rgba(75,79,85,0.2)" stroke-width="0.8"/>
+  <rect x="182" y="112" width="48" height="14" fill="rgba(75,79,85,0.07)" stroke="rgba(75,79,85,0.2)" stroke-width="0.8"/>
   <text x="206" y="122" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" fill="rgba(75,79,85,0.6)" letter-spacing="0.1em">GROKKING</text>
 
   <!-- Title -->

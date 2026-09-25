@@ -20,9 +20,7 @@
       "PostgreSQL",
       "scikit-learn",
       "Docker"
-    ],
-    "thumbnail": "/assets/thumbs/miltombot.svg",
-    "thumb_invert": true
+    ]
   },
   {
     "id": 8,
@@ -43,8 +41,7 @@
       "Control Systems",
       "SciPy",
       "SymPy"
-    ],
-    "thumbnail": "/assets/thumbs/fauxmatlab.svg"
+    ]
   },
   {
     "id": 5,
@@ -64,8 +61,7 @@
       "Robotics",
       "GNSS",
       "Real-time"
-    ],
-    "thumbnail": "/assets/thumbs/navfusion.svg"
+    ]
   },
   {
     "id": 1,
@@ -86,9 +82,7 @@
       "Reinforcement Learning",
       "Robust MPC",
       "Python"
-    ],
-    "thumbnail": "/assets/thumbs/robotDiagramReal-240.webp",
-    "thumb_invert": true
+    ]
   },
   {
     "id": 2,
@@ -108,8 +102,7 @@
       "Python",
       "Data Science",
       "Competition"
-    ],
-    "thumbnail": "/assets/thumbs/kaggle.svg"
+    ]
   },
   {
     "id": 6,
@@ -128,8 +121,7 @@
       "Python",
       "Transformers",
       "Deep Learning"
-    ],
-    "thumbnail": "/assets/thumbs/aicalc.svg"
+    ]
   },
   {
     "id": 3,
@@ -149,8 +141,7 @@
       "Simulation",
       "FVM",
       "CMake"
-    ],
-    "thumbnail": "/assets/thumbs/lgflow.svg"
+    ]
   },
   {
     "id": 4,
@@ -170,7 +161,6 @@
       "XGBoost",
       "PyTorch",
       "Streamlit"
-    ],
-    "thumbnail": "/assets/thumbs/f1predictor.svg"
+    ]
   }
 ]
