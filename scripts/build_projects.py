@@ -97,6 +97,22 @@ def render_card(p, index, lang, tone=None):
     )
 
 
+# Each project page's "See also" targets, by slug, in display order. Kept
+# from the hand-authored hp-sign links the pages carried before this round;
+# navfusion had none, so two related picks (thesis GNC work, the control
+# workbench) were chosen for it.
+SEE_ALSO = {
+    "aicalc": ["fauxmatlab", "kaggle"],
+    "f1predictor": ["aicalc", "kaggle"],
+    "fauxmatlab": ["lgflow", "project1"],
+    "kaggle": ["aicalc", "f1predictor"],
+    "lgflow": ["fauxmatlab", "miltombot"],
+    "miltombot": ["fauxmatlab", "lgflow"],
+    "navfusion": ["project1", "fauxmatlab"],
+    "project1": ["navfusion", "fauxmatlab"],
+}
+
+
 def order_all(projects):
     """Flagship first, then the rest in projects.json order."""
     flagship = [p for p in projects if p.get("flagship")]
@@ -132,15 +148,28 @@ def render_list(projects, lang, alternate_plain=False):
     return "\n".join(out)
 
 
-def inject(path: Path, html: str):
+SEE_ALSO_START = "<!-- see-also:start -->"
+SEE_ALSO_END = "<!-- see-also:end -->"
+
+
+def inject(path: Path, html: str, start=START, end=END):
     text = path.read_text(encoding="utf-8")
-    if START not in text or END not in text:
-        raise SystemExit(f"{path}: missing {START}/{END} markers")
-    pattern = re.compile(re.escape(START) + r".*?" + re.escape(END), re.DOTALL)
-    replacement = f"{START}\n{html}\n{END}"
+    if start not in text or end not in text:
+        raise SystemExit(f"{path}: missing {start}/{end} markers")
+    pattern = re.compile(re.escape(start) + r".*?" + re.escape(end), re.DOTALL)
+    replacement = f"{start}\n{html}\n{end}"
     new_text = pattern.sub(lambda _: replacement, text, count=1)
     path.write_text(new_text, encoding="utf-8")
     print(f"wrote {path.relative_to(ROOT)}")
+
+
+def render_see_also(target_slugs, lang, by_slug, numeral_by_slug):
+    cards = []
+    for slug in target_slugs:
+        p = by_slug[slug]
+        tone = "hold" if p.get("flagship") else None
+        cards.append(render_card(p, numeral_by_slug[slug], lang, tone))
+    return f'<div class="hp-card-list">\n{"".join(c + chr(10) for c in cards)}</div>'
 
 
 def main():
@@ -148,6 +177,8 @@ def main():
 
     featured = order_featured(projects, limit=3)
     all_ordered = order_all(projects)
+    by_slug = {p["slug"]: p for p in projects}
+    numeral_by_slug = {p["slug"]: i for i, p in enumerate(all_ordered, start=1)}
 
     inject(ROOT / "index.html", render_list(featured, "en"))
     inject(ROOT / "fr" / "index.html", render_list(featured, "fr"))
@@ -156,6 +187,14 @@ def main():
         ROOT / "fr" / "projects" / "index.html",
         render_list(all_ordered, "fr", alternate_plain=True),
     )
+
+    # "See also": full-width ProjectCards on each EN + FR detail page, using
+    # the project's own numeral from the /projects/ ordering above.
+    for slug, targets in SEE_ALSO.items():
+        for lang, base in [("en", "projects"), ("fr", "fr/projects")]:
+            path = ROOT / base / f"{slug}.html"
+            html = render_see_also(targets, lang, by_slug, numeral_by_slug)
+            inject(path, html, start=SEE_ALSO_START, end=SEE_ALSO_END)
 
 
 if __name__ == "__main__":
