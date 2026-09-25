@@ -569,10 +569,14 @@ h1{
      i.e. it's 20px (space-4) taller than the plate, shifted up by a fixed
      108px that isn't a clean multiple of the spacing scale. */
   top: -108px;
+  /* Left edge is anchored to the plate (a fixed 141px in from the plate's
+     own left edge, since this block and the plate share the same left
+     offset inside .home-hero__minor), so it never drifts as the viewport
+     grows — only the right edge bleeds. Width is implicit (left + right). */
+  left: 141px;
   /* Bleed to the true viewport edge: undo the .wrap auto-margin gutter
      (when the viewport is wider than --content-max) plus its own padding. */
   right: calc(-1 * (((100vw - min(100vw, var(--content-max))) / 2) + var(--space-6)));
-  width: 78%;
   height: calc(100% + var(--space-4));
   background: var(--signal);
 }
