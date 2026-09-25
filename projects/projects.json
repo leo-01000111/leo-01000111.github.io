@@ -3,6 +3,9 @@
     "id": 7,
     "slug": "miltombot",
     "featuredOrder": 1,
+    "code": "OPS",
+    "meta": ["2026", "Miltom"],
+    "flagship": true,
     "title": {
       "en": "MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team",
       "fr": "MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale"
@@ -25,6 +28,7 @@
     "id": 8,
     "slug": "fauxmatlab",
     "featuredOrder": 2,
+    "code": "GNC",
     "title": {
       "en": "FauxMatlab: a control-systems workbench in Python",
       "fr": "FauxMatlab : un atelier d'automatique en Python"
@@ -45,6 +49,7 @@
   {
     "id": 5,
     "slug": "navfusion",
+    "code": "GNC",
     "title": {
       "en": "navfusion",
       "fr": "navfusion"
@@ -66,6 +71,8 @@
     "id": 1,
     "slug": "project1",
     "featuredOrder": 3,
+    "code": "GNC",
+    "meta": ["2025", "Thesis"],
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
@@ -87,6 +94,7 @@
     "id": 2,
     "slug": "kaggle",
     "featuredOrder": 4,
+    "code": "ML",
     "title": {
       "en": "Kaggle Competitions",
       "fr": "Compétitions Kaggle"
@@ -107,6 +115,7 @@
     "id": 6,
     "slug": "aicalc",
     "featuredOrder": 5,
+    "code": "ML",
     "title": {
       "en": "AICalc",
       "fr": "AICalc"
@@ -125,7 +134,7 @@
   {
     "id": 3,
     "slug": "lgflow",
-
+    "code": "OPS",
     "title": {
       "en": "LG-FLOW: 2D CFD Solver",
       "fr": "LG-FLOW : Solveur CFD 2D"
@@ -147,6 +156,7 @@
     "id": 4,
     "slug": "f1predictor",
     "featuredOrder": 7,
+    "code": "ML",
     "title": {
       "en": "F1 Race Predictor",
       "fr": "Prédicteur de Course F1"
