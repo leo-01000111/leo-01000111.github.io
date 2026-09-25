@@ -505,8 +505,11 @@ h1{
 .home-hero__major{ min-width: 0; }
 .home-hero__kicker{ display:flex; align-items:center; gap: var(--space-3); margin: 0 0 var(--space-4); color: var(--ink-muted); }
 .home-hero__rule{ display:inline-block; width: 28px; height: 2px; background: var(--ink); flex: none; }
-.home-hero__headline{ margin: 0 0 var(--space-4); color: var(--ink); max-width: 16ch; overflow-wrap: normal; word-break: normal; hyphens: auto; }
-@media (max-width: 480px){ .home-hero__headline{ overflow-wrap: break-word; word-break: break-word; } }
+.home-hero__headline{ margin: 0 0 var(--space-4); color: var(--ink); max-width: 16ch; overflow-wrap: normal; word-break: normal; hyphens: none; }
+/* At phone widths the longest single word in either language must still
+   clear the gutter without a mid-word break; a small size step covers it
+   without touching the shared .display scale used nowhere else. */
+@media (max-width: 480px){ .home-hero__headline{ font-size: 58px; } }
 .home-hero__lede{ margin: 0 0 var(--space-5); color: var(--ink-muted); max-width: 60ch; }
 .home-hero__actions{ display:flex; flex-wrap: wrap; gap: var(--space-2); }
 
