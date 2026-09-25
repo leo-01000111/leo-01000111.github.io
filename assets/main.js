@@ -137,8 +137,6 @@
     }[lang] || {};
 
     const map = [
-      ["[data-ui='home']", copy.home],
-      ["[data-ui='allProjects']", copy.all],
       ["#projects-title", copy.title],
       ["#projects-lead", copy.lead],
       ["#projects-noscript", copy.noscript]
@@ -176,8 +174,6 @@
     }[lang] || {};
 
     const map = [
-      ["[data-ui='home']", copy.home],
-      ["[data-ui='allProjects']", copy.all],
       ["#proj-back", copy.back],
       ["#proj-home", copy.homeBtn],
       ["#sec-overview", copy.overview],

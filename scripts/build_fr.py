@@ -210,20 +210,23 @@ SHEET_RE = re.compile(r'<p class="site-footer__text data">Drawn by Leon Górecki
 def fr_header_html(slug):
     en_href = "/projects/%s.html" % slug
     fr_href = "/fr/projects/%s.html" % slug
+    # Skills/Contact only exist on the home page, same as Home itself, so
+    # from a project page they're all "behind" you: left arrow, sit left of
+    # the (last) location panel — see components.md's SignArray ordering rule.
     return '''<header class="site-header">
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/">%s<span>Accueil</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills"><span>Compétences</span>%s</a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact"><span>Contact</span>%s</a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills">%s<span>Compétences</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact">%s<span>Contact</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
       </nav>
       <div class="hp-lang" role="group" aria-label="Language">
         <a data-lang="en" href="%s" hreflang="en" lang="en">EN</a>
         <a data-lang="fr" aria-current="page" href="%s" hreflang="fr" lang="fr">FR</a>
       </div>
     </div>
-  </header>''' % (ARROW_L, ARROW_D, ARROW_D, en_href, fr_href)
+  </header>''' % (ARROW_L, ARROW_L, ARROW_L, en_href, fr_href)
 
 
 def fr_footer_html(sheet_name, pattern_id):
