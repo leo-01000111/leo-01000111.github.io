@@ -566,46 +566,57 @@ h1{
    section and the projects/index.html full listing. */
 .hp-card-list{ display:flex; flex-direction:column; gap: var(--space-4); }
 
-/* ── Skills ── */
-.home-skills{ margin: var(--space-7) 0; }
+/* ── Skills / Contributions / Background, as one 8:5 two-column section:
+   Skills + Contributions in the major (left) column, Background in the
+   minor (right) column. Stacks to one column below 900px. ── */
+.home-columns{
+  margin: var(--space-7) 0;
+  display: grid;
+  /* 5:8 this time (minor column first): the hero already put its minor
+     column on the right, so this alternates it to the left per BRAND.md;
+     it also gives Background (the taller content) the wider 61.5% column,
+     balancing the two columns' heights. */
+  grid-template-columns: 38.5fr 61.5fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+.home-columns__major, .home-columns__minor{ min-width: 0; }
+@media (max-width: 900px){
+  .home-columns{ grid-template-columns: 1fr; gap: var(--space-7); }
+}
+
 .home-section__title{ margin: 0 0 var(--space-4); color: var(--ink-muted); }
 .home-contrib{ margin-top: var(--space-6); }
 .home-contrib__title{ margin: 0 0 var(--space-1); color: var(--ink-muted); }
 .home-contrib .small{ margin: 0 0 var(--space-3); color: var(--ink-muted); }
 
-/* ── Tutoring ── */
-.home-tutoring{
-  margin: var(--space-7) 0;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule);
+/* ── Background: a continuous rail on the left with a marker per entry
+   (Lamp for ongoing/upcoming, a hollow square for past), translating the
+   pre-migration timeline's structure into Holding Point components. ── */
+.home-timeline{ position: relative; padding-left: 28px; }
+.home-timeline::before{
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 5px;
+  width: var(--stroke-bold);
+  background: var(--rule);
 }
-.home-tutoring__link{ flex: 1 1 320px; min-width: 0; text-decoration: none; color: inherit; }
-.home-tutoring__link:hover .home-tutoring__pl{ text-decoration: underline; text-decoration-thickness: 2px; }
-.home-tutoring__pl{ margin: 0 0 4px; font-family: var(--font-sans); font-size: 17px; font-weight: 600; color: var(--ink); }
-.home-tutoring__en{ margin: 0; color: var(--ink-muted); }
-
-/* ── Background (extension: timeline restyled with hairline rows + mono
-   dates, kept from the pre-migration site and listed as an extension) ── */
-.home-background{ margin: var(--space-7) 0; }
-.home-timeline{ display:flex; flex-direction:column; }
-.home-tl-row{
-  display: grid;
-  grid-template-columns: minmax(120px, var(--split-minor)) 1fr;
-  gap: var(--space-4);
-  padding: var(--space-3) 0;
-  border-top: var(--stroke-hair) solid var(--rule);
+.home-tl-entry{ position: relative; padding-bottom: var(--space-5); }
+.home-tl-entry:last-child{ padding-bottom: 0; }
+.home-tl-marker{ position: absolute; left: -27px; top: 3px; margin: 0; }
+.home-tl-marker--past{
+  display: block;
+  width: 10px; height: 10px;
+  box-shadow: inset 0 0 0 1.5px var(--ink-muted);
+  background: var(--ground);
 }
-.home-tl-row:first-child{ border-top: 0; }
-.home-tl-date{ color: var(--ink-muted); padding-top: 2px; }
+.home-tl-date{ display: block; margin: 0 0 var(--space-1); color: var(--ink-muted); text-transform: uppercase; }
 .home-tl-title{ margin: 0 0 2px; font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--ink); }
 .home-tl-org{ margin: 0 0 4px; color: var(--ink-muted); }
 .home-tl-org a, .home-tl-desc a{ color: var(--edge); }
 .home-tl-desc{ margin: 0; color: var(--ink-muted); }
-@media (max-width: 640px){ .home-tl-row{ grid-template-columns: 1fr; gap: var(--space-1); } }
 
 /* ── Contact ── */
 .home-contact{ margin: var(--space-7) 0 var(--space-6); display:flex; flex-direction:column; align-items:flex-start; gap: var(--space-4); }

@@ -137,7 +137,9 @@
 <a class="hp-btn hp-btn--ghost home-projects__all" href="/projects/" data-ui="allProjects"><span>All projects</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
 </section>
 
-<section class="home-skills" id="skills" aria-label="Skills">
+<section class="home-columns" aria-label="Skills, contributions and background">
+<div class="home-columns__major">
+<div class="home-skills" id="skills">
 <h2 class="label home-section__title">Skills</h2>
 <ul class="hp-tags" aria-label="Skills">
 <li><span class="hp-tag"><b>CAD:</b>Siemens NX, AutoCAD, Blender</span></li>
@@ -148,6 +150,7 @@
 <li><span class="hp-tag"><b>Tools:</b>Git, GitHub, Linux, Office</span></li>
 <li><span class="hp-tag"><b>Languages:</b>Polish (native), English, French, German</span></li>
 </ul>
+</div>
 <div id="gh-contrib" class="home-contrib">
 <h3 class="label home-contrib__title">Contributions</h3>
 <p class="small" id="gh-label">GitHub activity</p>
@@ -169,83 +172,69 @@
 </div>
 </div>
 </div>
-</section>
-
-<section class="home-tutoring" aria-label="Tutoring">
-<span class="hp-sign hp-sign--info"><span>Korepetycje</span></span>
-<a class="home-tutoring__link" href="/korepetycje/">
-<p class="home-tutoring__pl">Kontakt w sprawie korepetycji: fizyka, matematyka, informatyka</p>
-<p class="home-tutoring__en small">Contact me for tutoring in Physics, Math and IT</p>
-</a>
-<a class="hp-btn hp-btn--secondary" href="/korepetycje/"><span lang="pl">Szczegóły</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
-</section>
-
-<section class="home-background" id="background" aria-label="Background">
+</div>
+<div class="home-columns__minor">
+<div class="home-background" id="background">
 <h2 class="label home-section__title">Background</h2>
 <div class="home-timeline">
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--caution">
+<span class="hp-lamp hp-lamp--caution home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">Upcoming</span></span>
 <span class="data home-tl-date">2026&ndash;2028</span>
-<div class="home-tl-body">
 <p class="home-tl-title">MSc &middot; Control and Robotics (CORO-IMARO)</p>
 <p class="small home-tl-org"><a href="https://www.ec-nantes.fr" rel="noopener noreferrer" target="_blank">Centrale Nantes</a></p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--go">
+<span class="hp-lamp hp-lamp--go home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">Ongoing</span></span>
 <span class="data home-tl-date">2026&ndash;present</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Software Developer</p>
 <p class="small home-tl-org"><a href="https://miltom.com.pl" rel="noopener noreferrer" target="_blank">Miltom sp. z o.o.</a></p>
 <p class="small home-tl-desc">Built <a href="/projects/miltombot.html">MILTOM-Bot</a>, a procurement-monitoring pipeline in production since July 2026. Python, FastAPI, PostgreSQL, Docker.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--go">
+<span class="hp-lamp hp-lamp--go home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">Ongoing</span></span>
 <span class="data home-tl-date">2025&ndash;present</span>
-<div class="home-tl-body">
 <p class="home-tl-title">CAD Designer</p>
 <p class="small home-tl-org"><a href="https://miltom.com.pl" rel="noopener noreferrer" target="_blank">Miltom sp. z o.o.</a></p>
 <p class="small home-tl-desc">AutoCAD drafting for industrial tank projects (fire protection &middot; drinking water). ~60% improvement in offer-to-contract conversion rate.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--past">
+<span class="home-tl-marker home-tl-marker--past" aria-hidden="true"></span>
 <span class="data home-tl-date">2025</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Flight Instructor</p>
 <p class="small home-tl-org"><a href="https://newtonroom.com" rel="noopener noreferrer" target="_blank">NewtonRoom</a> &times; Boeing</p>
 <p class="small home-tl-desc">Aerospace navigation basics and Cessna 172 simulator flying for high-school students.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--past">
+<span class="home-tl-marker home-tl-marker--past" aria-hidden="true"></span>
 <span class="data home-tl-date">Sept 2024 &ndash; Jan 2025</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Erasmus+ Exchange</p>
 <p class="small home-tl-org"><a href="https://www.upc.edu" rel="noopener noreferrer" target="_blank">Universitat Polit&egrave;cnica de Catalunya (UPC)</a>, Barcelona</p>
 <p class="small home-tl-desc">Aerospace engineering courses at bachelor and master level.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--past">
+<span class="home-tl-marker home-tl-marker--past" aria-hidden="true"></span>
 <span class="data home-tl-date">2022&ndash;2025</span>
-<div class="home-tl-body">
 <p class="home-tl-title">BEng &middot; Aerospace Engineering</p>
 <p class="small home-tl-org"><a href="https://www.pw.edu.pl" rel="noopener noreferrer" target="_blank">Warsaw University of Technology (Politechnika Warszawska)</a></p>
 <p class="small home-tl-desc">Automation &amp; Aircraft Systems</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--go">
+<span class="hp-lamp hp-lamp--go home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">Ongoing</span></span>
 <span class="data home-tl-date">2015&ndash;present</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Physics &amp; Mathematics Tutor</p>
 <p class="small home-tl-org">Independent &middot; Warsaw &middot; <a href="mailto:leon.gorecki.tutoring@gmail.com">leon.gorecki.tutoring@gmail.com</a></p>
 <p class="small home-tl-desc">High-school level &middot; Polish matura preparation</p>
 </div>
-</div>
 
+</div>
+</div>
 </div>
 </section>
 
@@ -281,12 +270,14 @@ Relocating to Nantes, France in Sept 2026. Open to internships and roles in aero
       var inner = document.querySelector(".gh-inner");
       if (!grid || !inner) return;
       var contribs = data.contributions || [];
-      var total = contribs.reduce(function(s, d) { return s + d.count; }, 0);
-      var label = document.getElementById("gh-label");
-      if (label) label.textContent = total.toLocaleString() + " contributions in the last year";
+      // Show the most recent half year only (26 weeks) so the grid fits the
+      // column without horizontal scroll.
+      var WEEKS = 26;
       var futureDays = 6 - new Date().getDay();
-      var weeks = Math.floor(inner.offsetWidth / (CELL + GAP));
-      var slice = contribs.slice(-(weeks * 7 - futureDays));
+      var slice = contribs.slice(-(WEEKS * 7 - futureDays));
+      var total = slice.reduce(function(s, d) { return s + d.count; }, 0);
+      var label = document.getElementById("gh-label");
+      if (label) label.textContent = total.toLocaleString() + " contributions in the last 6 months";
       // Render contribution cells
       slice.forEach(function(day) {
         var cell = document.createElement("div");

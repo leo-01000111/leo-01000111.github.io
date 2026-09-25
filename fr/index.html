@@ -136,7 +136,9 @@
 <a class="hp-btn hp-btn--ghost home-projects__all" href="/fr/projects/" data-ui="allProjects"><span>Tous les projets</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
 </section>
 
-<section class="home-skills" id="skills" aria-label="Comp&eacute;tences">
+<section class="home-columns" aria-label="Comp&eacute;tences, contributions et parcours">
+<div class="home-columns__major">
+<div class="home-skills" id="skills">
 <h2 class="label home-section__title">Comp&eacute;tences</h2>
 <ul class="hp-tags" aria-label="Comp&eacute;tences">
 <li><span class="hp-tag"><b>CAO :</b>Siemens NX, AutoCAD, Blender</span></li>
@@ -147,6 +149,7 @@
 <li><span class="hp-tag"><b>Outils :</b>Git, GitHub, Linux, Office</span></li>
 <li><span class="hp-tag"><b>Langues :</b>Polonais (langue maternelle), Anglais, Fran&ccedil;ais, Allemand</span></li>
 </ul>
+</div>
 <div id="gh-contrib" class="home-contrib">
 <h3 class="label home-contrib__title">Contributions</h3>
 <p class="small" id="gh-label">Activit&eacute; GitHub</p>
@@ -168,83 +171,69 @@
 </div>
 </div>
 </div>
-</section>
-
-<section class="home-tutoring" aria-label="Korepetycje">
-<span class="hp-sign hp-sign--info"><span>Korepetycje</span></span>
-<a class="home-tutoring__link" href="/korepetycje/">
-<p class="home-tutoring__pl">Kontakt w sprawie korepetycji: fizyka, matematyka, informatyka</p>
-<p class="home-tutoring__en small">Cours particuliers en physique, math&eacute;matiques et informatique</p>
-</a>
-<a class="hp-btn hp-btn--secondary" href="/korepetycje/"><span lang="pl">Szczegóły</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
-</section>
-
-<section class="home-background" id="background" aria-label="Parcours">
+</div>
+<div class="home-columns__minor">
+<div class="home-background" id="background">
 <h2 class="label home-section__title">Parcours</h2>
 <div class="home-timeline">
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--caution">
+<span class="hp-lamp hp-lamp--caution home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">&Agrave; venir</span></span>
 <span class="data home-tl-date">2026&ndash;2028</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Master &middot; Contr&ocirc;le et Robotique (CORO-IMARO)</p>
 <p class="small home-tl-org"><a href="https://www.ec-nantes.fr" rel="noopener noreferrer" target="_blank">Centrale Nantes</a></p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--go">
+<span class="hp-lamp hp-lamp--go home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">En cours</span></span>
 <span class="data home-tl-date">2026&ndash;pr&eacute;sent</span>
-<div class="home-tl-body">
 <p class="home-tl-title">D&eacute;veloppeur logiciel</p>
 <p class="small home-tl-org"><a href="https://miltom.com.pl" rel="noopener noreferrer" target="_blank">Miltom sp. z o.o.</a></p>
 <p class="small home-tl-desc">D&eacute;veloppement de <a href="/fr/projects/miltombot.html">MILTOM-Bot</a>, un pipeline de veille des march&eacute;s publics en production depuis juillet 2026. Python, FastAPI, PostgreSQL, Docker.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--go">
+<span class="hp-lamp hp-lamp--go home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">En cours</span></span>
 <span class="data home-tl-date">2025&ndash;pr&eacute;sent</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Concepteur CAO</p>
 <p class="small home-tl-org"><a href="https://miltom.com.pl" rel="noopener noreferrer" target="_blank">Miltom sp. z o.o.</a></p>
 <p class="small home-tl-desc">Dessin technique AutoCAD pour des projets de r&eacute;servoirs industriels (protection incendie &middot; eau potable). ~60&nbsp;% d&rsquo;am&eacute;lioration du taux de conversion offre-contrat.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--past">
+<span class="home-tl-marker home-tl-marker--past" aria-hidden="true"></span>
 <span class="data home-tl-date">2025</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Instructeur de vol</p>
 <p class="small home-tl-org"><a href="https://newtonroom.com" rel="noopener noreferrer" target="_blank">NewtonRoom</a> &times; Boeing</p>
 <p class="small home-tl-desc">Navigation a&eacute;rospatiale et vols simul&eacute;s sur Cessna 172 pour lyc&eacute;ens.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--past">
+<span class="home-tl-marker home-tl-marker--past" aria-hidden="true"></span>
 <span class="data home-tl-date">Sept 2024 &ndash; Jan 2025</span>
-<div class="home-tl-body">
 <p class="home-tl-title">&Eacute;change Erasmus+</p>
 <p class="small home-tl-org"><a href="https://www.upc.edu" rel="noopener noreferrer" target="_blank">Universitat Polit&egrave;cnica de Catalunya (UPC)</a>, Barcelone</p>
 <p class="small home-tl-desc">Cours d&rsquo;ing&eacute;nierie a&eacute;rospatiale aux niveaux licence et master.</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--past">
+<span class="home-tl-marker home-tl-marker--past" aria-hidden="true"></span>
 <span class="data home-tl-date">2022&ndash;2025</span>
-<div class="home-tl-body">
 <p class="home-tl-title">BEng &middot; Ing&eacute;nierie A&eacute;rospatiale</p>
 <p class="small home-tl-org"><a href="https://www.pw.edu.pl" rel="noopener noreferrer" target="_blank">Universit&eacute; de Technologie de Varsovie (Politechnika Warszawska)</a></p>
 <p class="small home-tl-desc">Automatique &amp; Syst&egrave;mes A&eacute;ronautiques</p>
 </div>
-</div>
 
-<div class="home-tl-row">
+<div class="home-tl-entry home-tl-entry--go">
+<span class="hp-lamp hp-lamp--go home-tl-marker" aria-hidden="false"><i aria-hidden="true"></i><span class="sr-only">En cours</span></span>
 <span class="data home-tl-date">2015&ndash;pr&eacute;sent</span>
-<div class="home-tl-body">
 <p class="home-tl-title">Tuteur en physique et math&eacute;matiques</p>
 <p class="small home-tl-org">Ind&eacute;pendant &middot; Varsovie &middot; <a href="mailto:leon.gorecki.tutoring@gmail.com">leon.gorecki.tutoring@gmail.com</a></p>
 <p class="small home-tl-desc">Niveau lyc&eacute;e &middot; pr&eacute;paration &agrave; la matura polonaise</p>
 </div>
-</div>
 
+</div>
+</div>
 </div>
 </section>
 
@@ -280,12 +269,14 @@ D&eacute;m&eacute;nagement &agrave; Nantes en sept. 2026. Ouvert aux stages et o
       var inner = document.querySelector(".gh-inner");
       if (!grid || !inner) return;
       var contribs = data.contributions || [];
-      var total = contribs.reduce(function(s, d) { return s + d.count; }, 0);
-      var label = document.getElementById("gh-label");
-      if (label) label.textContent = total.toLocaleString() + " contributions cette année";
+      // N'affiche que le dernier semestre (26 semaines) pour que la grille
+      // tienne dans la colonne sans défilement horizontal.
+      var WEEKS = 26;
       var futureDays = 6 - new Date().getDay();
-      var weeks = Math.floor(inner.offsetWidth / (CELL + GAP));
-      var slice = contribs.slice(-(weeks * 7 - futureDays));
+      var slice = contribs.slice(-(WEEKS * 7 - futureDays));
+      var total = slice.reduce(function(s, d) { return s + d.count; }, 0);
+      var label = document.getElementById("gh-label");
+      if (label) label.textContent = total.toLocaleString() + " contributions ces 6 derniers mois";
       slice.forEach(function(day) {
         var cell = document.createElement("div");
         cell.className = "gh-cell";
