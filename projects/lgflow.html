@@ -6,7 +6,8 @@
   <meta name="site-root" content="/" />
   <title>LG-FLOW: 2D CFD Solver - Leon Górecki</title>
   <meta name="description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark." />
-  <meta name="theme-color" content="#070b12" />
+  <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="LG-FLOW: 2D CFD Solver - Leon Górecki" />
   <meta property="og:description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark." />
@@ -20,138 +21,62 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/style.css" />
+<link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <script src="/assets/theme.js"></script>
+<link rel="stylesheet" href="/assets/tokens.css" />
+<link rel="stylesheet" href="/assets/components.css" />
+<link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
-  <style>
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .tech-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius, 14px);
-      padding: 16px 18px;
-    }
-    .tech-card .tc-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent, #7a89c2);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    .tech-card .tc-value {
-      font-size: 0.9rem;
-      color: var(--fg, #e2e8f0);
-      line-height: 1.5;
-    }
-    .val-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-      margin-top: 14px;
-    }
-    .val-table th, .val-table td {
-      padding: 8px 12px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-    .val-table th {
-      color: var(--muted, #94a3b8);
-      font-weight: 500;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .val-table tr:last-child td { border-bottom: none; }
-    .pass-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      background: rgba(34,197,94,0.15);
-      color: #4ade80;
-      border: 1px solid rgba(34,197,94,0.25);
-    }
-    .phase-list {
-      margin: 12px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-    .phase-list li {
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.88rem;
-      color: var(--muted, #94a3b8);
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
-    .phase-list li:last-child { border-bottom: none; }
-    .phase-num {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--accent2, #7a89c2);
-      min-width: 22px;
-    }
-  </style>
 </head>
 <body data-project-id="3" data-project-slug="lgflow">
 <a class="skip-link" href="#main">Skip to main content</a>
 
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <div aria-hidden="true" class="mark"></div>
-        <div class="name">
-          <strong>Leon Górecki</strong>
-          <span>Aerospace / Mechanical Engineering</span>
-        </div>
-      </div>
-      <nav>
-        <div class="nav-links">
-          <a class="pill" data-ui="home" href="/">Home</a>
-          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
-        </div>
-        <div aria-label="Language switch" class="lang" role="group">
-          <a data-lang="en" aria-current="page" href="/projects/lgflow.html">EN</a>
-          <a data-lang="fr" href="/fr/projects/lgflow.html">FR</a>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projects</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>LG-FLOW</span></span>
       </nav>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Theme" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Day</button><button type="button" data-set-theme="dark" aria-pressed="false">Night</button></div>
+        <div class="hp-lang" role="group" aria-label="Language">
+        <a data-lang="en" aria-current="page" href="/projects/lgflow.html" hreflang="en" lang="en">EN</a>
+        <a data-lang="fr" href="/fr/projects/lgflow.html" hreflang="fr" lang="fr">FR</a>
+      </div>
+      </div>
     </div>
   </header>
 
   <main id="main" class="wrap">
 
-    <section class="hero" style="padding-bottom:16px;">
+    <section class="proj-hero">
       <div class="hero-top">
         <div>
-          <div class="kicker" id="lg-kicker">CFD · Simulation · C++</div>
-          <h1 id="proj-title" style="margin-bottom:10px;">LG-FLOW: 2D CFD Solver</h1>
-          <p id="proj-desc" class="lead">2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.</p>
-          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <p class="label" id="lg-kicker">CFD · Simulation · C++</p>
+          <h1 id="proj-title">LG-FLOW: 2D CFD Solver</h1>
+          <p id="proj-desc" class="lede">2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">C++</span></li>
+            <li><span class="hp-tag">CFD</span></li>
+            <li><span class="hp-tag">Simulation</span></li>
+            <li><span class="hp-tag">FVM</span></li>
+            <li><span class="hp-tag">CMake</span></li>
+          </ul>
           <div class="cta" style="margin-top:18px;">
-            <a class="pill" id="proj-back" href="/projects/">All projects</a>
-            <a class="btn primary" href="https://github.com/leo-01000111/LG-FLOW" target="_blank" rel="noopener noreferrer" id="lg-repo-btn">View repo ↗</a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Back to projects</span></a>
+            <a class="hp-btn hp-btn--ghost" href="https://github.com/leo-01000111/LG-FLOW" target="_blank" rel="noopener noreferrer" id="lg-repo-btn"><span>View repo</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
           </div>
         </div>
-        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
-          <img id="proj-thumb" src="/assets/thumbs/lgflow.svg" alt="LG-FLOW project thumbnail" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
-        </div>
+        <figure class="proj-hero__figure">
+          <img id="proj-thumb" class="theme-day" src="/assets/thumbs/lgflow-day.svg" alt="LG-FLOW project thumbnail" loading="lazy" width="120" height="68" />
+          <img class="theme-night" src="/assets/thumbs/lgflow-night.svg" alt="LG-FLOW project thumbnail" loading="lazy" width="120" height="68" />
+        </figure>
       </div>
     </section>
 
     <!-- Context -->
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2 id="lg-ctx-title">What it is</h2>
         <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW is a 2D incompressible Navier-Stokes solver written in C++20. It uses the finite volume method (FVM) with SIMPLE pressure-velocity coupling on a staggered grid. It is validated against the Ghia et al. (1982) lid-driven cavity benchmark at Re = 100 and Re = 1000. It outputs per-iteration residuals, centreline velocity profiles, VTK snapshots and L2/L∞ error metrics.</p>
@@ -159,44 +84,44 @@
     </section>
 
     <!-- Tech stack -->
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2 id="lg-tech-title">Technical stack</h2>
-        <div class="tech-grid">
-          <div class="tech-card">
-            <div class="tc-label" id="lg-tc1-label">Language</div>
-            <div class="tc-value" id="lg-tc1-value">C++20 (GCC 11+, Clang 14+, MSVC 19.29+)</div>
+        <div class="data-grid">
+          <div class="data-grid__item">
+            <div class="data-grid__label" id="lg-tc1-label">Language</div>
+            <div class="data-grid__value" id="lg-tc1-value">C++20 (GCC 11+, Clang 14+, MSVC 19.29+)</div>
           </div>
-          <div class="tech-card">
-            <div class="tc-label" id="lg-tc2-label">Method</div>
-            <div class="tc-value" id="lg-tc2-value">Finite Volume Method · SIMPLE pressure-velocity coupling</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label" id="lg-tc2-label">Method</div>
+            <div class="data-grid__value" id="lg-tc2-value">Finite Volume Method · SIMPLE pressure-velocity coupling</div>
           </div>
-          <div class="tech-card">
-            <div class="tc-label" id="lg-tc3-label">Libraries</div>
-            <div class="tc-value" id="lg-tc3-value">Eigen3 (linear algebra) · GoogleTest (unit testing)</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label" id="lg-tc3-label">Libraries</div>
+            <div class="data-grid__value" id="lg-tc3-value">Eigen3 (linear algebra) · GoogleTest (unit testing)</div>
           </div>
-          <div class="tech-card">
-            <div class="tc-label" id="lg-tc4-label">Build</div>
-            <div class="tc-value" id="lg-tc4-value">CMake 3.20+</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label" id="lg-tc4-label">Build</div>
+            <div class="data-grid__value" id="lg-tc4-value">CMake 3.20+</div>
           </div>
-          <div class="tech-card">
-            <div class="tc-label" id="lg-tc5-label">Convection</div>
-            <div class="tc-value" id="lg-tc5-value">Upwind · Central difference · Adaptive CFL clamping</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label" id="lg-tc5-label">Convection</div>
+            <div class="data-grid__value" id="lg-tc5-value">Upwind · Central difference · Adaptive CFL clamping</div>
           </div>
-          <div class="tech-card">
-            <div class="tc-label" id="lg-tc6-label">Output</div>
-            <div class="tc-value" id="lg-tc6-value">VTK snapshots · Centerline velocity profiles · L2/L∞ error metrics · CSV residuals</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label" id="lg-tc6-label">Output</div>
+            <div class="data-grid__value" id="lg-tc6-value">VTK snapshots · Centerline velocity profiles · L2/L∞ error metrics · CSV residuals</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Validation -->
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2 id="lg-val-title">Validation: Ghia et al. lid-driven cavity</h2>
         <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">The reference is Ghia, Ghia &amp; Shin (1982), the standard benchmark for 2D incompressible lid-driven cavity flow. Both cases, Re = 100 and Re = 1000, pass automated L2 and L∞ error thresholds.</p>
-        <table class="val-table">
+        <div class="table-wrap"><table class="results-table">
           <thead>
             <tr>
               <th id="lg-vth-case">Case</th>
@@ -210,44 +135,51 @@
               <td id="lg-vc1-case">Lid-driven cavity</td>
               <td>100</td>
               <td>Ghia et al. 1982</td>
-              <td><span class="pass-badge" id="lg-pass1">PASS</span></td>
+              <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass1">PASS</span></span></td>
             </tr>
             <tr>
               <td id="lg-vc2-case">Lid-driven cavity</td>
               <td>1000</td>
               <td>Ghia et al. 1982</td>
-              <td><span class="pass-badge" id="lg-pass2">PASS</span></td>
+              <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass2">PASS</span></span></td>
             </tr>
           </tbody>
-        </table>
-        <p class="small" style="margin:12px 0 0;opacity:0.55;" id="lg-val-note">The check is automated. The solver exits with a non-zero code if any metric is outside tolerance, so CI can use it directly.</p>
+        </table></div>
+        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">The check is automated. The solver exits with a non-zero code if any metric is outside tolerance, so CI can use it directly.</p>
       </div>
     </section>
 
     <!-- Implementation phases -->
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2 id="lg-phase-title">Implementation</h2>
-        <ul class="phase-list" id="lg-phase-list">
-          <li><span class="phase-num">01</span><span id="lg-p1">Staggered grid with collocated pressure, which avoids pressure-velocity decoupling</span></li>
-          <li><span class="phase-num">02</span><span id="lg-p2">SIMPLE pressure-correction loop with a configurable number of passes</span></li>
-          <li><span class="phase-num">03</span><span id="lg-p3">Consistent stencils: one interpolation scheme everywhere</span></li>
-          <li><span class="phase-num">04</span><span id="lg-p4">Automated validation with pass/fail exit codes</span></li>
-          <li><span class="phase-num">05</span><span id="lg-p5">VTK export for post-processing in ParaView</span></li>
-        </ul>
+        <div class="step-list" id="lg-phase-list">
+          <div class="step-list__row"><span class="step-list__num">01</span><span class="step-list__text" id="lg-p1">Staggered grid with collocated pressure, which avoids pressure-velocity decoupling</span></div>
+          <div class="step-list__row"><span class="step-list__num">02</span><span class="step-list__text" id="lg-p2">SIMPLE pressure-correction loop with a configurable number of passes</span></div>
+          <div class="step-list__row"><span class="step-list__num">03</span><span class="step-list__text" id="lg-p3">Consistent stencils: one interpolation scheme everywhere</span></div>
+          <div class="step-list__row"><span class="step-list__num">04</span><span class="step-list__text" id="lg-p4">Automated validation with pass/fail exit codes</span></div>
+          <div class="step-list__row"><span class="step-list__num">05</span><span class="step-list__text" id="lg-p5">VTK export for post-processing in ParaView</span></div>
+        </div>
       </div>
     </section>
 
-    <section class="card" id="see-also" style="margin-top:16px;"></section>
+    <nav class="see-also" id="see-also" aria-label="See also">
+      <h2 class="label see-also__title">See also</h2>
+      <!-- see-also:start -->
+<div class="hp-card-list">
+<a class="hp-card" href="/projects/fauxmatlab.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>02</span></div><div class="hp-card__body"><h3 class="hp-card__title">FauxMatlab: a control-systems workbench in Python</h3><p class="hp-card__summary">A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 684 tests.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">PySide6</span></li><li><span class="hp-tag">Control Systems</span></li><li><span class="hp-tag">SciPy</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card hp-card--hold" href="/projects/miltombot.html"><div class="hp-card__index" aria-hidden="true"><em>OPS</em><span>01</span></div><div class="hp-card__body"><div class="hp-card__kicker"><span>2026</span><span>Miltom</span></div><h3 class="hp-card__title">MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team</h3><p class="hp-card__summary">In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">FastAPI</span></li><li><span class="hp-tag">PostgreSQL</span></li><li><span class="hp-tag">scikit-learn</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+</div>
+<!-- see-also:end -->
+    </nav>
   </main>
 
-    <footer class="title-block" aria-label="Drawing title block">
-    <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
-    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">LG-FLOW</span></div>
-    <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
-    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
-    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+    <footer class="site-footer" aria-label="Site footer">
+    <div role="separator"><svg class="hp-marking" width="100%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="hp-mk-proj-lgflow" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%" height="28" fill="url(#hp-mk-proj-lgflow)"></rect></svg></div>
+    <div class="site-footer__row">
+      <p class="site-footer__copy data">&copy; <span id="year">2026</span> Leon G&oacute;recki</p>
+      <p class="site-footer__links data"><a href="mailto:leon.gorecki.fr@proton.me">Email</a> &middot; <a href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a> &middot; <a href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" rel="noopener noreferrer" target="_blank">LinkedIn</a> &middot; <a href="/cv.pdf" rel="noopener noreferrer" target="_blank">CV</a></p>
+    </div>
   </footer>
 
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

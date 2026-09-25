@@ -6,7 +6,8 @@
   <meta name="site-root" content="/" />
   <title>navfusion - Engineering-grade modular sensor fusion for 3D navigation</title>
   <meta name="description" content="An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy." />
-  <meta name="theme-color" content="#070b12" />
+  <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="navfusion - Engineering-grade modular sensor fusion for 3D navigation" />
   <meta property="og:description" content="An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy." />
@@ -23,60 +24,59 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/style.css" />
+<link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <script src="/assets/theme.js"></script>
+<link rel="stylesheet" href="/assets/tokens.css" />
+<link rel="stylesheet" href="/assets/components.css" />
+<link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
 </head>
 <body data-project-id="5" data-project-slug="navfusion">
 <a class="skip-link" href="#main">Skip to main content</a>
 
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <div aria-hidden="true" class="mark"></div>
-        <div class="name">
-          <strong>Leon Górecki</strong>
-          <span>Aerospace / Mechanical Engineering</span>
-        </div>
-      </div>
-
-      <nav>
-        <div class="nav-links">
-          <a class="pill" data-ui="home" href="/">Home</a>
-          <a class="pill" data-ui="allProjects" href="/projects/">All projects</a>
-        </div>
-        <div aria-label="Language switch" class="lang" role="group">
-          <a data-lang="en" aria-current="page" href="/projects/navfusion.html">EN</a>
-          <a data-lang="fr" href="/fr/projects/navfusion.html">FR</a>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projects</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>navfusion</span></span>
       </nav>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Theme" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Day</button><button type="button" data-set-theme="dark" aria-pressed="false">Night</button></div>
+        <div class="hp-lang" role="group" aria-label="Language">
+        <a data-lang="en" aria-current="page" href="/projects/navfusion.html" hreflang="en" lang="en">EN</a>
+        <a data-lang="fr" href="/fr/projects/navfusion.html" hreflang="fr" lang="fr">FR</a>
+      </div>
+      </div>
     </div>
   </header>
 
   <main id="main" class="wrap">
-    <section class="hero" style="padding-bottom:16px;">
+    <section class="proj-hero">
       <div class="hero-top">
         <div>
-          <div class="kicker">Robotics navigation stack</div>
-          <h1 id="proj-title" style="margin-bottom:10px;">navfusion</h1>
-          <p class="lead" style="margin-bottom:8px;"><strong>Modular sensor fusion for 3D navigation.</strong></p>
-          <p id="proj-desc" class="lead">An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.</p>
-          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
-          <p class="small" style="margin:12px 0 0;"><strong>Status:</strong> v0.1.0-alpha</p>
+          <p class="label" id="proj-kicker">Robotics navigation stack</p>
+          <h1 id="proj-title">navfusion</h1>
+          <p class="lede" style="margin-bottom:8px;"><strong>Modular sensor fusion for 3D navigation.</strong></p>
+          <p id="proj-desc" class="lede">An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">Sensor Fusion</span></li>
+            <li><span class="hp-tag">EKF</span></li>
+            <li><span class="hp-tag">Robotics</span></li>
+            <li><span class="hp-tag">GNSS</span></li>
+            <li><span class="hp-tag">Real-time</span></li>
+          </ul>
+          <p class="small" style="margin:12px 0 0;"><span class="hp-lamp hp-lamp--caution"><i aria-hidden="true"></i><span>Status: v0.1.0-alpha</span></span></p>
           <div class="cta" style="margin-top:18px;">
-            <a class="pill" id="proj-back" href="/projects/">All projects</a>
-            <a class="pill ghost" id="proj-home" href="/">Home</a>
-            <a class="btn primary" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Open navfusion repository on GitHub">View repo</a>
-            <a class="btn" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Open navfusion technical docs">Open docs</a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Back to projects</span></a>
+            <a class="hp-btn hp-btn--ghost" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Open navfusion repository on GitHub"><span>View repo</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
+            <a class="hp-btn hp-btn--ghost" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Open navfusion technical docs"><span>Open docs</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
           </div>
         </div>
-        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
-          <img id="proj-thumb" src="/assets/thumbs/navfusion.svg" alt="Diagram-style thumbnail showing IMU and GNSS streams entering a fusion core with a 3D navigation output trajectory." style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
-        </div>
+        <figure class="proj-hero__figure">
+          <img id="proj-thumb" class="theme-day" src="/assets/thumbs/navfusion-day.svg" alt="Diagram-style thumbnail showing IMU and GNSS streams entering a fusion core with a 3D navigation output trajectory." loading="lazy" width="240" height="135" />
+          <img class="theme-night" src="/assets/thumbs/navfusion-night.svg" alt="Diagram-style thumbnail showing IMU and GNSS streams entering a fusion core with a 3D navigation output trajectory." loading="lazy" width="240" height="135" />
+        </figure>
       </div>
     </section>
 
@@ -134,15 +134,23 @@
         </p>
       </div>
     </section>
+    <nav class="see-also" id="see-also" aria-label="See also">
+      <h2 class="label see-also__title">See also</h2>
+      <!-- see-also:start -->
+<div class="hp-card-list">
+<a class="hp-card" href="/projects/project1.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>04</span></div><div class="hp-card__body"><div class="hp-card__kicker"><span>2025</span><span>Thesis</span></div><h3 class="hp-card__title">BEng Thesis: PPO vs Robust MPC on a Simulated Roomba</h3><p class="hp-card__summary">Tube robust MPC and PPO compared on a simulated robot, with and without GNSS. The metrics are stability, tracking accuracy, robustness and computing cost.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Control</span></li><li><span class="hp-tag">Reinforcement Learning</span></li><li><span class="hp-tag">Robust MPC</span></li><li><span class="hp-tag">Python</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card" href="/projects/fauxmatlab.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>02</span></div><div class="hp-card__body"><h3 class="hp-card__title">FauxMatlab: a control-systems workbench in Python</h3><p class="hp-card__summary">A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 684 tests.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">PySide6</span></li><li><span class="hp-tag">Control Systems</span></li><li><span class="hp-tag">SciPy</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+</div>
+<!-- see-also:end -->
+    </nav>
   </main>
 
-    <footer class="title-block" aria-label="Drawing title block">
-    <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
-    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">NAVFUSION</span></div>
-    <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
-    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-09-24</span></div>
-    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+    <footer class="site-footer" aria-label="Site footer">
+    <div role="separator"><svg class="hp-marking" width="100%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="hp-mk-proj-navfusion" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%" height="28" fill="url(#hp-mk-proj-navfusion)"></rect></svg></div>
+    <div class="site-footer__row">
+      <p class="site-footer__copy data">&copy; <span id="year">2026</span> Leon G&oacute;recki</p>
+      <p class="site-footer__links data"><a href="mailto:leon.gorecki.fr@proton.me">Email</a> &middot; <a href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a> &middot; <a href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" rel="noopener noreferrer" target="_blank">LinkedIn</a> &middot; <a href="/cv.pdf" rel="noopener noreferrer" target="_blank">CV</a></p>
+    </div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

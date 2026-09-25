@@ -6,7 +6,8 @@
   <meta name="site-root" content="/" />
   <title>MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale - Leon Górecki</title>
   <meta name="description" content="En production chez MILTOM. Il lit toutes les heures le bulletin polonais des marchés publics, classe les appels d'offres pertinents avec un classifieur et les présente à l'équipe commerciale dans une application web. Leurs réponses entraînent le modèle suivant." />
-  <meta name="theme-color" content="#070b12" />
+  <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale - Leon Górecki" />
   <meta property="og:description" content="Des règles par mots-clés sélectionnent les appels d'offres candidats, un modèle TF-IDF et régression logistique les classe, et chaque réponse TAK/NIE de l'équipe commerciale devient une étiquette d'entraînement." />
@@ -25,170 +26,97 @@
   <link rel="icon" href="/assets/miltom-bot-favicon-16.png" sizes="16x16" type="image/png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/style.css" />
+<link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <script src="/assets/theme.js"></script>
+<link rel="stylesheet" href="/assets/tokens.css" />
+<link rel="stylesheet" href="/assets/components.css" />
+<link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
-  <style>
-    .loop-svg {
-      width: 100%;
-      max-width: 380px;
-      margin: 0 auto;
-      display: block;
-    }
-    .shot {
-      margin: 16px 0 0;
-    }
-    .shot img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    .shot figcaption {
-      font-size: 0.8rem;
-      color: var(--faint);
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-    .dec-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-top: 14px;
-    }
-    .dec-card {
-      border-radius: 12px;
-      padding: 16px 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-left: 3px solid #7a89c2;
-      background: rgba(122,137,194,0.05);
-    }
-    .dec-name {
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-      color: rgba(255,255,255,0.88);
-    }
-    .dec-card p {
-      margin: 0;
-      color: rgba(255,255,255,0.66);
-      font-size: 0.875rem;
-      line-height: 1.7;
-    }
-    .kv-table {
-      min-width: 0;
-    }
-    .kv-table td {
-      white-space: normal;
-      font-family: var(--font-body);
-      line-height: 1.55;
-    }
-    .kv-table td:first-child {
-      white-space: nowrap;
-      font-family: var(--font-mono);
-      color: var(--ink);
-      width: 1%;
-    }
-    .open-list {
-      margin: 12px 0 0;
-      padding-left: 18px;
-      line-height: 1.7;
-    }
-    .open-list li + li { margin-top: 8px; }
-    @media (min-width: 900px) {
-      .dec-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-  </style>
 </head>
 <body data-project-id="7" data-project-slug="miltombot">
 <a class="skip-link" href="#main">Aller au contenu principal</a>
 
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <div aria-hidden="true" class="mark"></div>
-        <div class="name">
-          <strong>Leon Górecki</strong>
-          <span>Ingénierie aérospatiale / mécanique</span>
-        </div>
-      </div>
-
-      <nav>
-        <div class="nav-links">
-          <a class="pill" data-ui="home" href="/fr/">Accueil</a>
-          <a class="pill" data-ui="allProjects" href="/fr/projects/">Tous les projets</a>
-        </div>
-        <div aria-label="Changement de langue" class="lang" role="group">
-          <a data-lang="en" href="/projects/miltombot.html">EN</a>
-          <a data-lang="fr" aria-current="page" href="/fr/projects/miltombot.html">FR</a>
-        </div>
-        <button class="nav-toggle" aria-label="Basculer la navigation" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Accueil</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projets</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>MILTOM-Bot</span></span>
       </nav>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
+        <div class="hp-lang" role="group" aria-label="Language">
+        <a data-lang="en" href="/projects/miltombot.html" hreflang="en" lang="en">EN</a>
+        <a data-lang="fr" aria-current="page" href="/fr/projects/miltombot.html" hreflang="fr" lang="fr">FR</a>
+      </div>
+      </div>
     </div>
   </header>
 
   <main id="main" class="wrap">
-    <section class="hero" style="padding-bottom: 16px;">
+    <section class="proj-hero">
       <div class="hero-grid">
         <div>
-          <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale</h1>
-          <p id="proj-desc" class="lead">En production chez MILTOM. Il lit toutes les heures le bulletin polonais des marchés publics, classe les appels d'offres pertinents avec un classifieur et les présente à l'équipe commerciale dans une application web. Leurs réponses entraînent le modèle suivant.</p>
-          <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
+          <h1 id="proj-title">MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale</h1>
+          <p id="proj-desc" class="lede">En production chez MILTOM. Il lit toutes les heures le bulletin polonais des marchés publics, classe les appels d'offres pertinents avec un classifieur et les présente à l'équipe commerciale dans une application web. Leurs réponses entraînent le modèle suivant.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">Python</span></li>
+            <li><span class="hp-tag">FastAPI</span></li>
+            <li><span class="hp-tag">PostgreSQL</span></li>
+            <li><span class="hp-tag">scikit-learn</span></li>
+            <li><span class="hp-tag">Docker</span></li>
+          </ul>
           <div class="cta" style="margin-top: 18px;">
-            <a class="pill" id="proj-back" href="/fr/projects/">Retour aux projets</a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Retour aux projets</span></a>
           </div>
-          <p class="small" style="margin-top: 14px; color: var(--faint); line-height: 1.6;">
+          <p class="small" style="margin-top: 14px; color: var(--ink-muted); line-height: 1.6;">
             Je l'ai développé chez MILTOM, fabricant polonais de réservoirs pour la protection incendie et l'eau potable.
             Il est en production depuis le 16 juillet 2026. Le code est privé.
           </p>
         </div>
-        <div class="hero-card">
-          <svg class="loop-svg" viewBox="0 0 360 398" xmlns="http://www.w3.org/2000/svg" role="img"
+        <figure class="proj-hero__figure">
+          <svg class="loop-svg" viewBox="0 0 360 398" xmlns="http://www.w3.org/2000/svg" role="img" style="width:100%;max-width:380px;margin:0 auto;display:block;"
                aria-label="La boucle : le bulletin BZP alimente des règles par mots-clés, un classifieur ordonne les résultats, l'application commerciale les affiche avec les boutons TAK, NIE et POMIŃ, et chaque réponse est enregistrée comme étiquette qui réentraîne le classifieur chaque nuit.">
             <defs>
               <marker id="mb-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.82"/>
+                <path d="M0 0 L8 4 L0 8 z" fill="var(--ink)"/>
               </marker>
             </defs>
 
-            <rect x="80" y="10" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="29" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">bulletin BZP</text>
-            <text x="210" y="43" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">récupéré toutes les heures</text>
-            <line x1="210" y1="54" x2="210" y2="80" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="10" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="29" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">bulletin BZP</text>
+            <text x="210" y="43" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">récupéré toutes les heures</text>
+            <line x1="210" y1="54" x2="210" y2="80" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="82" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="101" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">règles par mots-clés</text>
-            <text x="210" y="115" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">paires de mots à 5 mots près, ou code CPV</text>
-            <line x1="210" y1="126" x2="210" y2="152" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="82" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="101" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">règles par mots-clés</text>
+            <text x="210" y="115" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">paires de mots à 5 mots près, ou code CPV</text>
+            <line x1="210" y1="126" x2="210" y2="152" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="154" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="173" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">classifieur</text>
-            <text x="210" y="187" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">TF-IDF + régression logistique</text>
-            <line x1="210" y1="198" x2="210" y2="224" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="154" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="173" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">classifieur</text>
+            <text x="210" y="187" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">TF-IDF + régression logistique</text>
+            <line x1="210" y1="198" x2="210" y2="224" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="226" width="260" height="70" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="245" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">application commerciale</text>
-            <rect x="98" y="256" width="66" height="24" rx="4" fill="#4ade80" fill-opacity="0.14" stroke="#4ade80" stroke-opacity="0.5"/>
-            <text x="131" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#4ade80">TAK</text>
-            <rect x="177" y="256" width="66" height="24" rx="4" fill="#f87171" fill-opacity="0.14" stroke="#f87171" stroke-opacity="0.5"/>
-            <text x="210" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#f87171">NIE</text>
-            <rect x="256" y="256" width="66" height="24" rx="4" fill="#94a3b8" fill-opacity="0.14" stroke="#94a3b8" stroke-opacity="0.5"/>
-            <text x="289" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#94a3b8">POMIŃ</text>
-            <line x1="210" y1="298" x2="210" y2="324" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="226" width="260" height="70" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="245" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">application commerciale</text>
+            <rect x="98" y="256" width="66" height="24" fill="var(--ground)" stroke="var(--lamp-go)" stroke-width="1.2"/>
+            <text x="131" y="272" text-anchor="middle" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="var(--lamp-go)">TAK</text>
+            <rect x="177" y="256" width="66" height="24" fill="var(--ground)" stroke="var(--hold-ink)" stroke-width="1.2"/>
+            <text x="210" y="272" text-anchor="middle" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="var(--hold-ink)">NIE</text>
+            <rect x="256" y="256" width="66" height="24" fill="var(--ground)" stroke="var(--ink-muted)" stroke-width="1.2"/>
+            <text x="289" y="272" text-anchor="middle" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="var(--ink-muted)">POMIŃ</text>
+            <line x1="210" y1="298" x2="210" y2="324" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="326" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="345" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" fill="rgba(255,255,255,0.86)">ÉTIQUETTES</text>
-            <text x="210" y="359" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">une ligne par réponse</text>
+            <rect x="80" y="326" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="345" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--ink)">ÉTIQUETTES</text>
+            <text x="210" y="359" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">une ligne par réponse</text>
 
             <path d="M 80 347 L 52 347 Q 40 347 40 335 L 40 187 Q 40 175 52 175 L 76 175"
-                  fill="none" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
-            <text x="30" y="261" text-anchor="middle" transform="rotate(-90 30 261)" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)" letter-spacing="0.04em">réentraîné chaque nuit</text>
+                  fill="none" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <text x="30" y="261" text-anchor="middle" transform="rotate(-90 30 261)" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)" letter-spacing="0.04em">réentraîné chaque nuit</text>
           </svg>
-        </div>
+        </figure>
       </div>
     </section>
 
@@ -216,7 +144,7 @@
         <figure class="shot">
           <img src="/assets/shots/miltombot-salesman.webp" width="1030" height="475" loading="lazy"
                alt="Application commerciale : une carte d'appel d'offres avec son code CPV, des liens vers l'annonce BZP et le dossier de consultation, et les boutons TAK, NIE et POMIŃ." />
-          <figcaption>L'application commerciale. Un appel d'offres par carte, trois boutons.</figcaption>
+          <figcaption class="label">FIG. 01 : L'application commerciale, un appel d'offres par carte, trois boutons</figcaption>
         </figure>
       </div>
 
@@ -241,7 +169,7 @@
         <figure class="shot">
           <img src="/assets/shots/miltombot-model.webp" width="1030" height="704" loading="lazy"
                alt="Page Modèle de l'administration : version v84 avec exactitude 94 %, précision 91 %, rappel 68 %, F1 74 % et AUC 81 % en validation croisée, au-dessus d'un graphique de ces métriques de v1 à v84." />
-          <figcaption>Administration, page du modèle. Métriques en validation croisée pour chaque version depuis v1.</figcaption>
+          <figcaption class="label">FIG. 02 : Administration, page du modèle, métriques en validation croisée pour chaque version depuis v1</figcaption>
         </figure>
       </div>
 
@@ -292,7 +220,7 @@
         <figure class="shot">
           <img src="/assets/shots/miltombot-admin.webp" width="1030" height="582" loading="lazy"
                alt="Accueil de l'administration : dernière récupération BZP avec statut OK, 9 nouveaux appels d'offres et 17 réponses sur 24 heures, 110 pistes dans la sélection, 67 mots-clés actifs, 5 préfixes CPV, et le modèle actif v84 avec un bouton de réentraînement." />
-          <figcaption>Administration, état du système.</figcaption>
+          <figcaption class="label">FIG. 03 : Administration, état du système</figcaption>
         </figure>
       </div>
 
@@ -307,16 +235,23 @@
 
     </section>
 
-    <section class="card wrap" id="see-also" style="margin-top:16px;"></section>
+    <nav class="see-also" id="see-also" aria-label="Voir aussi">
+      <h2 class="label see-also__title">Voir aussi</h2>
+      <!-- see-also:start -->
+<div class="hp-card-list">
+<a class="hp-card" href="/fr/projects/fauxmatlab.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>02</span></div><div class="hp-card__body"><h3 class="hp-card__title">FauxMatlab : un atelier d'automatique en Python</h3><p class="hp-card__summary">Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 684 tests.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">PySide6</span></li><li><span class="hp-tag">Control Systems</span></li><li><span class="hp-tag">SciPy</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card" href="/fr/projects/lgflow.html"><div class="hp-card__index" aria-hidden="true"><em>OPS</em><span>07</span></div><div class="hp-card__body"><h3 class="hp-card__title">LG-FLOW : Solveur CFD 2D</h3><p class="hp-card__summary">Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">C++</span></li><li><span class="hp-tag">CFD</span></li><li><span class="hp-tag">Simulation</span></li><li><span class="hp-tag">FVM</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+</div>
+<!-- see-also:end -->
+    </nav>
   </main>
 
-  <footer class="title-block" aria-label="Cartouche">
-    <div class="tb-cell"><span class="tb-key">Dessiné par</span><span class="tb-val">Leon Górecki</span></div>
-    <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">MILTOM-BOT</span></div>
-    <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
-    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-09-24</span></div>
-    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+  <footer class="site-footer" aria-label="Pied de page">
+    <div role="separator"><svg class="hp-marking" width="100%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="hp-mk-fr-proj-miltombot" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%" height="28" fill="url(#hp-mk-fr-proj-miltombot)"></rect></svg></div>
+    <div class="site-footer__row">
+      <p class="site-footer__copy data">&copy; <span id="year">2026</span> Leon G&oacute;recki</p>
+      <p class="site-footer__links data"><a href="mailto:leon.gorecki.fr@proton.me">E-mail</a> &middot; <a href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a> &middot; <a href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" rel="noopener noreferrer" target="_blank">LinkedIn</a> &middot; <a href="/cv.pdf" rel="noopener noreferrer" target="_blank">CV</a></p>
+    </div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

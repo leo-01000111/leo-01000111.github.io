@@ -2,7 +2,11 @@
   {
     "id": 7,
     "slug": "miltombot",
+    "short": "MILTOM-Bot",
     "featuredOrder": 1,
+    "code": "OPS",
+    "meta": ["2026", "Miltom"],
+    "flagship": true,
     "title": {
       "en": "MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team",
       "fr": "MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale"
@@ -17,14 +21,14 @@
       "PostgreSQL",
       "scikit-learn",
       "Docker"
-    ],
-    "thumbnail": "/assets/thumbs/miltombot.svg",
-    "thumb_invert": true
+    ]
   },
   {
     "id": 8,
     "slug": "fauxmatlab",
+    "short": "FauxMatlab",
     "featuredOrder": 2,
+    "code": "GNC",
     "title": {
       "en": "FauxMatlab: a control-systems workbench in Python",
       "fr": "FauxMatlab : un atelier d'automatique en Python"
@@ -39,12 +43,13 @@
       "Control Systems",
       "SciPy",
       "SymPy"
-    ],
-    "thumbnail": "/assets/thumbs/fauxmatlab.svg"
+    ]
   },
   {
     "id": 5,
     "slug": "navfusion",
+    "short": "navfusion",
+    "code": "GNC",
     "title": {
       "en": "navfusion",
       "fr": "navfusion"
@@ -59,13 +64,15 @@
       "Robotics",
       "GNSS",
       "Real-time"
-    ],
-    "thumbnail": "/assets/thumbs/navfusion.svg"
+    ]
   },
   {
     "id": 1,
     "slug": "project1",
+    "short": "BEng thesis",
     "featuredOrder": 3,
+    "code": "GNC",
+    "meta": ["2025", "Thesis"],
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
@@ -79,14 +86,14 @@
       "Reinforcement Learning",
       "Robust MPC",
       "Python"
-    ],
-    "thumbnail": "/assets/thumbs/robotDiagramReal-240.webp",
-    "thumb_invert": true
+    ]
   },
   {
     "id": 2,
     "slug": "kaggle",
+    "short": "Kaggle",
     "featuredOrder": 4,
+    "code": "ML",
     "title": {
       "en": "Kaggle Competitions",
       "fr": "Compétitions Kaggle"
@@ -100,13 +107,14 @@
       "Python",
       "Data Science",
       "Competition"
-    ],
-    "thumbnail": "/assets/thumbs/kaggle.svg"
+    ]
   },
   {
     "id": 6,
     "slug": "aicalc",
+    "short": "AICalc",
     "featuredOrder": 5,
+    "code": "ML",
     "title": {
       "en": "AICalc",
       "fr": "AICalc"
@@ -119,13 +127,13 @@
       "Python",
       "Transformers",
       "Deep Learning"
-    ],
-    "thumbnail": "/assets/thumbs/aicalc.svg"
+    ]
   },
   {
     "id": 3,
     "slug": "lgflow",
-
+    "short": "LG-FLOW",
+    "code": "OPS",
     "title": {
       "en": "LG-FLOW: 2D CFD Solver",
       "fr": "LG-FLOW : Solveur CFD 2D"
@@ -140,13 +148,14 @@
       "Simulation",
       "FVM",
       "CMake"
-    ],
-    "thumbnail": "/assets/thumbs/lgflow.svg"
+    ]
   },
   {
     "id": 4,
     "slug": "f1predictor",
+    "short": "F1 Predictor",
     "featuredOrder": 7,
+    "code": "ML",
     "title": {
       "en": "F1 Race Predictor",
       "fr": "Prédicteur de Course F1"
@@ -160,7 +169,6 @@
       "XGBoost",
       "PyTorch",
       "Streamlit"
-    ],
-    "thumbnail": "/assets/thumbs/f1predictor.svg"
+    ]
   }
 ]

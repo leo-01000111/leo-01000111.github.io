@@ -5,7 +5,7 @@
   "competitions": [
     {
       "id": "house-prices-advanced-regression-techniques",
-      "title": "House Prices \u2014 Advanced Regression Techniques",
+      "title": "House Prices: Advanced Regression Techniques",
       "url": "https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques",
       "repo_url": "https://github.com/leo-01000111/kaggleHPR",
       "score_label": "RMSE",

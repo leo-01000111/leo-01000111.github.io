@@ -28,7 +28,7 @@ PORTFOLIO_USERNAME = "leo01000111"
 TRACKED_COMPETITIONS = [
     {
         "id": "house-prices-advanced-regression-techniques",
-        "title": "House Prices — Advanced Regression Techniques",
+        "title": "House Prices: Advanced Regression Techniques",
         "url": "https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques",
         "repo_url": "https://github.com/leo-01000111/kaggleHPR",
         "score_label": "RMSE",

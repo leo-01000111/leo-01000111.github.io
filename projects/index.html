@@ -6,7 +6,8 @@
   <meta name="site-root" content="/" />
   <title>Projects - Leon Górecki</title>
   <meta name="description" content="Engineering projects in controls, simulation, and analysis." />
-  <meta name="theme-color" content="#070b12" />
+  <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Projects - Leon Górecki" />
   <meta property="og:description" content="Engineering projects in controls, simulation, and analysis." />
@@ -20,35 +21,31 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/style.css" />
+<link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <script src="/assets/theme.js"></script>
+<link rel="stylesheet" href="/assets/tokens.css" />
+<link rel="stylesheet" href="/assets/components.css" />
+<link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <div aria-hidden="true" class="mark"></div>
-        <div class="name">
-          <strong>Leon Górecki</strong>
-          <span>Aerospace / Mechanical Engineering</span>
-        </div>
-      </div>
-
-      <nav>
-        <div class="nav-links">
-          <a class="pill" data-ui="home" href="/">Home</a>
-        </div>
-        <div aria-label="Language switch" class="lang" role="group">
-          <a data-lang="en" aria-current="page" href="/projects/">EN</a>
-          <a data-lang="fr" href="/fr/projects/">FR</a>
-        </div>
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#skills"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Skills</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projects</span></span>
       </nav>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Theme" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Day</button><button type="button" data-set-theme="dark" aria-pressed="false">Night</button></div>
+        <div class="hp-lang" role="group" aria-label="Language">
+        <a data-lang="en" aria-current="page" href="/projects/" hreflang="en" lang="en">EN</a>
+        <a data-lang="fr" href="/fr/projects/" hreflang="fr" lang="fr">FR</a>
+      </div>
+      </div>
     </div>
   </header>
 
@@ -58,22 +55,28 @@
       <p id="projects-lead" class="lead">Engineering work in controls, simulation, and analysis.</p>
     </section>
 
-    <section class="grid" aria-label="Projects">
-      <div class="card" style="grid-column: 1 / -1;">
-        <div class="projects" id="projects-grid">
-          <noscript id="projects-noscript">Enable JavaScript to see the projects list.</noscript>
-        </div>
+    <section aria-label="Projects" style="margin-top: var(--space-5);">
+      <div class="hp-card-list">
+        <!-- projects:start -->
+<a class="hp-card hp-card--hold" href="/projects/miltombot.html"><div class="hp-card__index" aria-hidden="true"><em>OPS</em><span>01</span></div><div class="hp-card__body"><div class="hp-card__kicker"><span>2026</span><span>Miltom</span></div><h3 class="hp-card__title">MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team</h3><p class="hp-card__summary">In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">FastAPI</span></li><li><span class="hp-tag">PostgreSQL</span></li><li><span class="hp-tag">scikit-learn</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card hp-card--plain" href="/projects/fauxmatlab.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>02</span></div><div class="hp-card__body"><h3 class="hp-card__title">FauxMatlab: a control-systems workbench in Python</h3><p class="hp-card__summary">A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 684 tests.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">PySide6</span></li><li><span class="hp-tag">Control Systems</span></li><li><span class="hp-tag">SciPy</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card" href="/projects/navfusion.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>03</span></div><div class="hp-card__body"><h3 class="hp-card__title">navfusion</h3><p class="hp-card__summary">An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Sensor Fusion</span></li><li><span class="hp-tag">EKF</span></li><li><span class="hp-tag">Robotics</span></li><li><span class="hp-tag">GNSS</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card hp-card--plain" href="/projects/project1.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>04</span></div><div class="hp-card__body"><div class="hp-card__kicker"><span>2025</span><span>Thesis</span></div><h3 class="hp-card__title">BEng Thesis: PPO vs Robust MPC on a Simulated Roomba</h3><p class="hp-card__summary">Tube robust MPC and PPO compared on a simulated robot, with and without GNSS. The metrics are stability, tracking accuracy, robustness and computing cost.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Control</span></li><li><span class="hp-tag">Reinforcement Learning</span></li><li><span class="hp-tag">Robust MPC</span></li><li><span class="hp-tag">Python</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card" href="/projects/kaggle.html"><div class="hp-card__index" aria-hidden="true"><em>ML</em><span>05</span></div><div class="hp-card__body"><h3 class="hp-card__title">Kaggle Competitions</h3><p class="hp-card__summary">Live leaderboard rankings across ML competitions, auto-updated daily via GitHub Actions.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Machine Learning</span></li><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">Data Science</span></li><li><span class="hp-tag">Competition</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card hp-card--plain" href="/projects/aicalc.html"><div class="hp-card__index" aria-hidden="true"><em>ML</em><span>06</span></div><div class="hp-card__body"><h3 class="hp-card__title">AICalc</h3><p class="hp-card__summary">A calculator where the Compute button is a neural network. A GRU seq2seq model and a Transformer predict the answer character by character.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">Transformers</span></li><li><span class="hp-tag">Deep Learning</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card" href="/projects/lgflow.html"><div class="hp-card__index" aria-hidden="true"><em>OPS</em><span>07</span></div><div class="hp-card__body"><h3 class="hp-card__title">LG-FLOW: 2D CFD Solver</h3><p class="hp-card__summary">2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">C++</span></li><li><span class="hp-tag">CFD</span></li><li><span class="hp-tag">Simulation</span></li><li><span class="hp-tag">FVM</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card hp-card--plain" href="/projects/f1predictor.html"><div class="hp-card__index" aria-hidden="true"><em>ML</em><span>08</span></div><div class="hp-card__body"><h3 class="hp-card__title">F1 Race Predictor</h3><p class="hp-card__summary">XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Machine Learning</span></li><li><span class="hp-tag">XGBoost</span></li><li><span class="hp-tag">PyTorch</span></li><li><span class="hp-tag">Streamlit</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<!-- projects:end -->
       </div>
     </section>
   </main>
 
-  <footer class="title-block" aria-label="Drawing title block">
-    <div class="tb-cell"><span class="tb-key">Drawn by</span><span class="tb-val">Leon Górecki</span></div>
-    <div class="tb-cell"><span class="tb-key">Sheet</span><span class="tb-val">PROJECTS</span></div>
-    <div class="tb-cell"><span class="tb-key">Scale</span><span class="tb-val">NTS</span></div>
-    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rev</span><span class="tb-val tb-rev">2026-06-15</span></div>
-    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+  <footer class="site-footer" aria-label="Site footer">
+    <div role="separator"><svg class="hp-marking" width="100%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="hp-mk-projects" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%" height="28" fill="url(#hp-mk-projects)"></rect></svg></div>
+    <div class="site-footer__row">
+      <p class="site-footer__copy data">&copy; <span id="year">2026</span> Leon G&oacute;recki</p>
+      <p class="site-footer__links data"><a href="mailto:leon.gorecki.fr@proton.me">Email</a> &middot; <a href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a> &middot; <a href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" rel="noopener noreferrer" target="_blank">LinkedIn</a> &middot; <a href="/cv.pdf" rel="noopener noreferrer" target="_blank">CV</a></p>
+    </div>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

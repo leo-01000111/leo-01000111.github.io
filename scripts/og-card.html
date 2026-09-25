@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+  Source for assets/og-card.png (1200x630). Not a served site page: this
+  file exists only to be rasterized. To regenerate after a brand change,
+  serve the repo root (e.g. `python3 -m http.server 8000`) and screenshot
+  this page at exactly 1200x630, device scale factor 1, no browser chrome,
+  e.g. with Playwright:
+
+    const { chromium } = require('playwright-core');
+    (async () => {
+      const b = await chromium.launch();
+      const p = await b.newPage({ viewport: { width: 1200, height: 630 } });
+      await p.goto('http://localhost:8000/scripts/og-card.html');
+      await p.screenshot({ path: 'assets/og-card.png' });
+      await b.close();
+    })();
+
+  Save the result to assets/og-card.png (1200x630, referenced by every
+  page's og:image / twitter:card meta).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>OG card source</title>
+<style>
+  @font-face {
+    font-family: 'Archivo Variable';
+    font-style: normal;
+    font-weight: 100 900;
+    font-stretch: 62% 125%;
+    src: url(../assets/fonts/archivo-latin-wdth-normal.woff2) format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Martian Mono Variable';
+    font-style: normal;
+    font-weight: 100 800;
+    font-stretch: 75% 112.5%;
+    src: url(../assets/fonts/martian-mono-latin-wdth-normal.woff2) format('woff2-variations');
+  }
+  :root{
+    --ground: #e7e8e3;
+    --ink: #121314;
+    --ink-muted: #4b4f55;
+    --signal: #f5c518;
+    --on-signal: #121314;
+    --plate: #121314;
+    --on-plate: #f5c518;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ width:1200px; height:630px; overflow:hidden; }
+  body{
+    position: relative;
+    background: var(--ground);
+    font-family: 'Archivo Variable', 'Archivo', sans-serif;
+  }
+  /* Bleed block: the one constructivist gesture per BRAND.md */
+  .bleed{
+    position:absolute;
+    top:-60px;
+    right:-80px;
+    width:560px;
+    height:420px;
+    background: var(--signal);
+    z-index:1;
+  }
+  .frame{
+    position:absolute;
+    inset: 56px;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .kicker{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    color: var(--ink-muted);
+    font-family: 'Martian Mono Variable', monospace;
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+  }
+  .kicker .rule{ width:44px; height:3px; background: var(--ink); display:inline-block; }
+  .plate{
+    position:relative;
+    z-index:3;
+    display:inline-flex;
+    align-self:flex-start;
+    background: var(--plate);
+    color: var(--on-plate);
+    padding: 28px 40px;
+    box-shadow: inset 0 0 0 3px var(--signal);
+  }
+  .plate h1{
+    font-family: 'Archivo Variable', sans-serif;
+    font-stretch: 118%;
+    font-weight: 820;
+    font-size:76px;
+    line-height:0.98;
+    letter-spacing:-0.03em;
+    white-space: nowrap;
+  }
+  .foot{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    color: var(--ink);
+    font-family: 'Martian Mono Variable', monospace;
+    font-size:18px;
+    letter-spacing:0.06em;
+  }
+  .foot .dim{ color: var(--ink-muted); }
+</style>
+</head>
+<body>
+  <div class="bleed" aria-hidden="true"></div>
+  <div class="frame">
+    <p class="kicker"><span class="rule" aria-hidden="true"></span>Engineering portfolio</p>
+    <div class="plate"><h1>Leon G&oacute;recki</h1></div>
+    <p class="foot"><span>LEONGORECKI.EU</span><span class="dim">AEROSPACE &middot; CONTROL &middot; ROBOTICS</span></p>
+  </div>
+</body>
+</html>
