@@ -10,6 +10,13 @@ and its live board renders French on its own from <html lang="fr">.
 This is NOT a deploy step — it is run once (or when an English page changes)
 to (re)materialise the hand-maintained French pages. Output is plain static
 HTML committed to the repo.
+
+Run order: this script reads from the EN pages under projects/ and
+overwrites fr/projects/{project1,lgflow,f1predictor,kaggle}.html wholesale,
+including their ProjectCard "See also" markup. Always run this BEFORE
+scripts/build_projects.py, never after — running it after would blow away
+build_projects.py's French "See also" cards with English ones copied from
+the EN source page.
 """
 import re, os
 
@@ -203,7 +210,6 @@ ARROW_D = ARROW_R.replace('rotate(0', 'rotate(90')
 
 HEADER_RE = re.compile(r'<header class="site-header">.*?</header>', re.S)
 FOOTER_RE = re.compile(r'<footer class="site-footer"[^>]*>.*?</footer>', re.S)
-SHEET_RE = re.compile(r'<p class="site-footer__text data">Drawn by Leon Górecki · Sheet (.*?) · Scale NTS', re.S)
 
 
 # Short location-panel name per project, for the header SignArray (FR).
@@ -243,11 +249,17 @@ def fr_header_html(slug):
   </header>''' % (ARROW_L, ARROW_L, name, en_href, fr_href)
 
 
-def fr_footer_html(sheet_name, pattern_id):
-    return '''<footer class="site-footer" aria-label="Cartouche">
+def fr_footer_html(pattern_id):
+    # Clean footer (item 6 / round 5): copy left, a short link row right.
+    # Keep in step with fix_footers.py's FR_ROW / the hand-maintained FR
+    # pages under fr/ (index.html, projects/index.html, ...).
+    return '''<footer class="site-footer" aria-label="Pied de page">
     <div role="separator"><svg class="hp-marking" width="100%%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="%s" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%%" height="28" fill="url(#%s)"></rect></svg></div>
-    <p class="site-footer__text data">Dessiné par Leon Górecki · Feuille %s · Échelle NTS · Contact <a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a> · Rév 2026-06-15 · © <span id="year"></span> Górecki</p>
-  </footer>''' % (pattern_id, pattern_id, sheet_name)
+    <div class="site-footer__row">
+      <p class="site-footer__copy data">&copy; <span id="year">2026</span> Leon Górecki</p>
+      <p class="site-footer__links data"><a href="mailto:leon.gorecki.fr@proton.me">E-mail</a> · <a href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a> · <a href="https://www.linkedin.com/in/leon-g%%C3%%B3recki-10a823352/" rel="noopener noreferrer" target="_blank">LinkedIn</a> · <a href="/cv.pdf" rel="noopener noreferrer" target="_blank">CV</a></p>
+    </div>
+  </footer>''' % (pattern_id, pattern_id)
 
 
 def generic(html, slug, title_fr, desc_fr):
@@ -270,10 +282,8 @@ def generic(html, slug, title_fr, desc_fr):
     html = html.replace('href="#main">Skip to main content<', 'href="#main">Aller au contenu principal<')
     # header (SignArray + LangSwitch), fully re-rendered in French
     html = HEADER_RE.sub(lambda m: fr_header_html(slug), html, count=1)
-    # footer (marking + mono text), keeping the sheet name the EN page carried
-    m = SHEET_RE.search(html)
-    sheet_name = m.group(1) if m else slug.upper()
-    html = FOOTER_RE.sub(lambda m: fr_footer_html(sheet_name, "hp-mk-fr-proj-%s" % slug), html, count=1)
+    # footer (marking + clean copy/links row)
+    html = FOOTER_RE.sub(lambda m: fr_footer_html("hp-mk-fr-proj-%s" % slug), html, count=1)
     # proj-back / proj-home inner text
     html = set_inner_by_id_attr(html, "proj-back", ARROW_L + "<span>Retour aux projets</span>")
     html = set_inner_by_id_attr(html, "proj-home", ARROW_L + "<span>Accueil</span>")

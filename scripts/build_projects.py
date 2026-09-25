@@ -8,8 +8,19 @@ Writes ProjectCard HTML between the `<!-- projects:start -->` /
   - projects/index.html   (all projects, EN)
   - fr/projects/index.html (all projects, FR)
 
+Also writes each project detail page's own `<!-- see-also:start -->` /
+`<!-- see-also:end -->` block (EN + FR) with full-width ProjectCards.
+
 Card markup follows design/holding-point/components.md ("ProjectCard").
 Run with no arguments: `python3 scripts/build_projects.py`.
+
+Run order: run this AFTER scripts/build_fr.py, never before. build_fr.py
+regenerates fr/projects/{project1,lgflow,f1predictor,kaggle}.html wholesale
+from their EN sources, which would overwrite this script's French "See
+also" cards with English ones. The correct sequence is:
+
+    python3 scripts/build_fr.py
+    python3 scripts/build_projects.py
 """
 import json
 import re
