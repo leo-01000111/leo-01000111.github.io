@@ -42,17 +42,20 @@ body{
 a{ color: var(--edge); text-decoration: none; }
 a:hover{ text-decoration: underline; }
 
+/* Page frame gutter (BRAND.md "Grid"): space-6 on desktop, space-4 on
+   phones. Shared by .wrap and the two header/footer rules below so every
+   page's side gutter lines up, not just the home page. */
 .wrap{
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 0 var(--space-4) 64px;
+  padding: 0 var(--space-6) 64px;
 }
 
 /* ——— Header ———
    Sits either inside .wrap (home pages) or straight under <body>, ahead of
    a body-level .wrap (projects/404/korepetycje) — this rule centres it the
    same way in the second case. */
-.site-header{ padding: var(--space-4) 0; }
+.site-header{ padding: var(--space-5) 0 var(--space-4); }
 .header-inner{
   display:flex;
   align-items:center;
@@ -63,8 +66,8 @@ a:hover{ text-decoration: underline; }
 body > .site-header{
   max-width: var(--content-max);
   margin: 0 auto;
-  padding-left: var(--space-4);
-  padding-right: var(--space-4);
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
   box-sizing: border-box;
 }
 .hp-signarray{ max-width: 100%; }
@@ -77,10 +80,16 @@ body > .site-header{
 body > .site-footer{
   max-width: var(--content-max);
   margin: 0 auto;
-  padding-left: var(--space-4);
-  padding-right: var(--space-4);
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
   box-sizing: border-box;
   padding-bottom: var(--space-6);
+}
+
+@media (max-width: 640px){
+  .wrap{ padding-left: var(--space-4); padding-right: var(--space-4); }
+  body > .site-header{ padding-left: var(--space-4); padding-right: var(--space-4); }
+  body > .site-footer{ padding-left: var(--space-4); padding-right: var(--space-4); }
 }
 
 /* ——— AI translation badge (kept from the previous system) ——— */
@@ -482,7 +491,7 @@ h1{
    components.css. Section rhythm uses the space-7 ("between ideas") jump.
    ══════════════════════════════════════════════════════════════════════ */
 
-.home-hero{ position: relative; margin-top: var(--space-6); overflow: visible; }
+.home-hero{ position: relative; margin-top: var(--space-7); overflow: visible; }
 .home-hero__row{
   position: relative;
   display: grid;
@@ -500,17 +509,24 @@ h1{
 .home-hero__lede{ margin: 0 0 var(--space-5); color: var(--ink-muted); max-width: 60ch; }
 .home-hero__actions{ display:flex; flex-wrap: wrap; gap: var(--space-2); }
 
-.home-hero__minor{ position: relative; min-width: 0; }
+/* The DataPlate sits lower than the kicker/headline baseline (per
+   HomePage-*.png) — pushed down as a block so the bleed block, anchored
+   to this same box below, stays in step with it. */
+.home-hero__minor{ position: relative; min-width: 0; margin-top: var(--space-7); }
 .home-hero__minor .hp-plate{ position: relative; z-index: 2; max-width: none; }
 .home-hero__bleed{
   position: absolute;
   z-index: 1;
-  top: -72px;
+  /* Reference (HomePage-*.png, 1200x830): the block's top sits 108px above
+     the plate's top, and its bottom sits 88px above the plate's bottom —
+     i.e. it's 20px (space-4) taller than the plate, shifted up by a fixed
+     108px that isn't a clean multiple of the spacing scale. */
+  top: -108px;
   /* Bleed to the true viewport edge: undo the .wrap auto-margin gutter
      (when the viewport is wider than --content-max) plus its own padding. */
-  right: calc(-1 * (((100vw - min(100vw, var(--content-max))) / 2) + var(--space-4)));
-  width: 62%;
-  height: calc(100% + 72px);
+  right: calc(-1 * (((100vw - min(100vw, var(--content-max))) / 2) + var(--space-6)));
+  width: 78%;
+  height: calc(100% + var(--space-4));
   background: var(--signal);
 }
 @media (max-width: 860px){
@@ -533,7 +549,6 @@ h1{
 /* ── Skills ── */
 .home-skills{ margin: var(--space-7) 0; }
 .home-section__title{ margin: 0 0 var(--space-4); color: var(--ink-muted); }
-.home-section__ext{ text-transform: none; color: var(--ink-muted); opacity: .7; }
 .home-contrib{ margin-top: var(--space-6); }
 .home-contrib__title{ margin: 0 0 var(--space-1); color: var(--ink-muted); }
 .home-contrib .small{ margin: 0 0 var(--space-3); color: var(--ink-muted); }
