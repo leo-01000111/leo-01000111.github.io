@@ -697,6 +697,10 @@ figure.shot figcaption{ margin-top: var(--space-2); color: var(--ink-muted); }
    per project as "LG-<slug code>") */
 .hp-plate + .proj-section{ margin-top: var(--space-5); }
 
+/* ── 404 ── */
+.notfound{ margin: var(--space-8) 0; display:flex; flex-direction:column; align-items:flex-start; gap: var(--space-4); }
+.notfound__text{ margin:0; color: var(--ink-muted); }
+
 /* project1.html (BEng thesis, RMPC vs PPO): bespoke compare widgets kept
    under their original class names (ids are targeted by scripts/build_fr.py)
    and restyled on tokens: rectangular, hairline/stroke-bold frames, no
