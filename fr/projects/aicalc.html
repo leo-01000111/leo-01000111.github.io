@@ -28,76 +28,6 @@
 <link rel="stylesheet" href="/assets/components.css" />
 <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
-  <style>
-    .arch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .arch-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius, 14px);
-      padding: 16px 18px;
-    }
-    .arch-card .ac-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent2, #7a89c2);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    .arch-card .ac-value {
-      font-size: 0.88rem;
-      color: var(--fg, #e2e8f0);
-      line-height: 1.55;
-    }
-    .results-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
-      font-size: 0.88rem;
-    }
-    .results-table th {
-      text-align: left;
-      padding: 8px 12px;
-      border-bottom: 1px solid rgba(122,137,194,0.3);
-      color: var(--accent, #7a89c2);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 600;
-    }
-    .results-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      color: var(--muted, #94a3b8);
-      line-height: 1.5;
-    }
-    .results-table td:first-child {
-      color: var(--fg, #e2e8f0);
-      font-weight: 600;
-    }
-    .results-table td.acc {
-      color: var(--accent, #7a89c2);
-      font-family: ui-monospace, monospace;
-      font-weight: 700;
-    }
-    .results-table tr:last-child td { border-bottom: none; }
-    .shot {
-      margin: 16px 0 0;
-    }
-    .shot img {
-      width: 100%;
-      max-width: 870px;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-  </style>
 </head>
 <body data-project-id="6" data-project-slug="aicalc">
 <a class="skip-link" href="#main">Aller au contenu principal</a>
@@ -106,9 +36,8 @@
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Accueil</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Compétences</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projets</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>AICalc</span></span>
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
@@ -122,25 +51,29 @@
 
   <main id="main" class="wrap">
 
-    <section class="hero" style="padding-bottom:16px;">
+    <section class="proj-hero">
       <div class="hero-top">
         <div>
-          <div class="kicker">Apprentissage profond · Grokking</div>
-          <h1 id="proj-title" style="margin-bottom:10px;">AICalc</h1>
-          <p id="proj-desc" class="lead">Une calculatrice dont le bouton Calculer est un réseau de neurones. Un modèle seq2seq GRU et un Transformer prédisent la réponse caractère par caractère.</p>
-          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
-          <div class="cta" style="margin-top:18px;">
-            <a class="pill" id="proj-back" href="/fr/projects/">Retour aux projets</a>
-            <a class="btn primary" href="https://github.com/leo-01000111/AICalc" target="_blank" rel="noopener noreferrer">Voir le dépôt ↗</a>
+          <p class="label" id="proj-kicker">Apprentissage profond &middot; Grokking</p>
+          <h1 id="proj-title">AICalc</h1>
+          <p id="proj-desc" class="lede">Une calculatrice dont le bouton Calculer est un réseau de neurones. Un modèle seq2seq GRU et un Transformer prédisent la réponse caractère par caractère.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">Python</span></li>
+            <li><span class="hp-tag">Transformers</span></li>
+            <li><span class="hp-tag">Deep Learning</span></li>
+          </ul>
+          <div class="cta">
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Retour aux projets</span></a>
+            <a class="hp-btn hp-btn--ghost" href="https://github.com/leo-01000111/AICalc" target="_blank" rel="noopener noreferrer"><span>Voir le dépôt</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
           </div>
         </div>
-        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
-          <img id="proj-thumb" src="/assets/thumbs/aicalc.svg" alt="Miniature du projet AICalc" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
-        </div>
+        <figure class="proj-hero__figure">
+          <img id="proj-thumb" src="/assets/thumbs/aicalc.svg" alt="Miniature du projet AICalc" />
+        </figure>
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Ce que ça fait</h2>
         <p class="muted" style="line-height:1.7;margin:0;">
@@ -151,31 +84,31 @@
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Architectures</h2>
-        <div class="arch-grid">
-          <div class="arch-card">
-            <div class="ac-label">Encodeur seq2seq</div>
-            <div class="ac-value">GRU bidirectionnel. Ses deux états cachés finaux sont moyennés pour initialiser le décodeur.</div>
+        <div class="data-grid">
+          <div class="data-grid__item">
+            <div class="data-grid__label">Encodeur seq2seq</div>
+            <div class="data-grid__value">GRU bidirectionnel. Ses deux états cachés finaux sont moyennés pour initialiser le décodeur.</div>
           </div>
-          <div class="arch-card">
-            <div class="ac-label">Décodeur seq2seq</div>
-            <div class="ac-value">GRU avec attention de Bahdanau. Le teacher forcing baisse linéairement de 100&nbsp;% à 0&nbsp;% pendant l'entraînement.</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Décodeur seq2seq</div>
+            <div class="data-grid__value">GRU avec attention de Bahdanau. Le teacher forcing baisse linéairement de 100&nbsp;% à 0&nbsp;% pendant l'entraînement.</div>
           </div>
-          <div class="arch-card">
-            <div class="ac-label">Encodeur Transformer</div>
-            <div class="ac-value">Encodeur-décodeur standard avec encodage positionnel sinusoïdal, entraîné avec AdamW et weight decay.</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Encodeur Transformer</div>
+            <div class="data-grid__value">Encodeur-décodeur standard avec encodage positionnel sinusoïdal, entraîné avec AdamW et weight decay.</div>
           </div>
-          <div class="arch-card">
-            <div class="ac-label">Décodeur Transformer</div>
-            <div class="ac-value">Teacher forcing complet à l'entraînement, décodage glouton à l'inférence.</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Décodeur Transformer</div>
+            <div class="data-grid__value">Teacher forcing complet à l'entraînement, décodage glouton à l'inférence.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Grokking</h2>
         <p class="muted" style="line-height:1.7;margin:0;">
@@ -187,7 +120,7 @@
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Résultats</h2>
         <div class="table-wrap" style="margin-top:16px;"><table class="results-table" style="margin-top:0;" aria-label="Comparaison de précision des modèles">
@@ -214,7 +147,7 @@
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Interface</h2>
         <p class="muted" style="line-height:1.7;margin:0;">
@@ -224,11 +157,18 @@
         <figure class="shot">
           <img src="/assets/shots/aicalc-ui.webp" width="870" height="472" loading="lazy"
                alt="Fenêtre AICalc : choix du modèle avec le point de contrôle Transformer chargé, pavé de calculatrice affichant 61+12, et historique avec 61+12 = 73 marqué correct." />
+          <figcaption class="label">FIG. 01 : Sélection du modèle, pavé et historique des réponses</figcaption>
         </figure>
       </div>
     </section>
 
-    <section class="card" id="see-also" style="margin-top:16px;"></section>
+    <nav class="see-also" id="see-also" aria-label="Voir aussi">
+      <h2 class="label see-also__title">Voir aussi</h2>
+      <ul class="see-also__list">
+        <li><a class="hp-sign hp-sign--direction" href="/fr/projects/fauxmatlab.html"><span>FauxMatlab</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+        <li><a class="hp-sign hp-sign--direction" href="/fr/projects/kaggle.html"><span>Kaggle</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+      </ul>
+    </nav>
   </main>
 
   <footer class="site-footer" aria-label="Cartouche">

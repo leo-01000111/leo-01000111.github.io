@@ -28,39 +28,6 @@
 <link rel="stylesheet" href="/assets/components.css" />
 <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
-  <style>
-    .arch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .arch-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius, 14px);
-      padding: 16px 18px;
-    }
-    .arch-card .ac-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent2, #7a89c2);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    .arch-card .ac-value {
-      font-size: 0.88rem;
-      color: var(--fg, #e2e8f0);
-      line-height: 1.55;
-    }
-    .check-list {
-      margin: 12px 0 0;
-      padding-left: 18px;
-      line-height: 1.7;
-    }
-    .check-list li + li { margin-top: 10px; }
-  </style>
 </head>
 <body data-project-id="8" data-project-slug="fauxmatlab">
 <a class="skip-link" href="#main">Aller au contenu principal</a>
@@ -69,9 +36,8 @@
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Accueil</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Compétences</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projets</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>FauxMatlab</span></span>
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
@@ -85,25 +51,30 @@
 
   <main id="main" class="wrap">
 
-    <section class="hero" style="padding-bottom:16px;">
+    <section class="proj-hero">
       <div class="hero-top">
         <div>
-          <div class="kicker">Automatique · Logiciel de bureau</div>
-          <h1 id="proj-title" style="margin-bottom:10px;">FauxMatlab : un atelier d'automatique en Python</h1>
-          <p id="proj-desc" class="lead">Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 684 tests.</p>
-          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
-          <div class="cta" style="margin-top:18px;">
-            <a class="pill" id="proj-back" href="/fr/projects/">Retour aux projets</a>
-            <a class="btn primary" href="https://github.com/leo-01000111/FauxMatlab" target="_blank" rel="noopener noreferrer">Voir le dépôt ↗</a>
+          <p class="label" id="proj-kicker">Automatique &middot; Logiciel de bureau</p>
+          <h1 id="proj-title">FauxMatlab : un atelier d'automatique en Python</h1>
+          <p id="proj-desc" class="lede">Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 684 tests.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">Python</span></li>
+            <li><span class="hp-tag">PySide6</span></li>
+            <li><span class="hp-tag">Control Systems</span></li>
+            <li><span class="hp-tag">SciPy</span></li>
+          </ul>
+          <div class="cta">
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Retour aux projets</span></a>
+            <a class="hp-btn hp-btn--ghost" href="https://github.com/leo-01000111/FauxMatlab" target="_blank" rel="noopener noreferrer"><span>Voir le dépôt</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
           </div>
         </div>
-        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
-          <img id="proj-thumb" src="/assets/thumbs/fauxmatlab.svg" alt="Miniature du projet FauxMatlab" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
-        </div>
+        <figure class="proj-hero__figure">
+          <img id="proj-thumb" src="/assets/thumbs/fauxmatlab.svg" alt="Miniature du projet FauxMatlab" />
+        </figure>
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Ce que fait le logiciel</h2>
         <p class="muted" style="line-height:1.7;margin:0 0 12px;">
@@ -120,31 +91,31 @@
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Fonctionnalités</h2>
-        <div class="arch-grid">
-          <div class="arch-card">
-            <div class="ac-label">Analyse</div>
-            <div class="ac-value">Réponses indicielle, impulsionnelle et à la rampe, Bode, Nyquist, Nichols, lieu des racines, carte pôles-zéros, tableau de Routh et indicateurs de réponse. Un, deux ou quatre panneaux, tous alimentés par le même modèle.</div>
+        <div class="data-grid">
+          <div class="data-grid__item">
+            <div class="data-grid__label">Analyse</div>
+            <div class="data-grid__value">Réponses indicielle, impulsionnelle et à la rampe, Bode, Nyquist, Nichols, lieu des racines, carte pôles-zéros, tableau de Routh et indicateurs de réponse. Un, deux ou quatre panneaux, tous alimentés par le même modèle.</div>
           </div>
-          <div class="arch-card">
-            <div class="ac-label">Simulateur</div>
-            <div class="ac-value">50 types de blocs, sous-systèmes imbriqués, solveurs RK4, RK45 et Euler, et oscilloscopes. <code>linearize()</code> extrait un modèle d'état d'un schéma non linéaire.</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Simulateur</div>
+            <div class="data-grid__value">50 types de blocs, sous-systèmes imbriqués, solveurs RK4, RK45 et Euler, et oscilloscopes. <code>linearize()</code> extrait un modèle d'état d'un schéma non linéaire.</div>
           </div>
-          <div class="arch-card">
-            <div class="ac-label">Console</div>
-            <div class="ac-value">59 commandes façon MATLAB, dont <code>tf</code>, <code>feedback</code>, <code>bode</code>, <code>margin</code>, <code>rlocus</code>, <code>lqr</code>, <code>place</code>, <code>c2d</code> et <code>pidtune</code>.</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Console</div>
+            <div class="data-grid__value">59 commandes façon MATLAB, dont <code>tf</code>, <code>feedback</code>, <code>bode</code>, <code>margin</code>, <code>rlocus</code>, <code>lqr</code>, <code>place</code>, <code>c2d</code> et <code>pidtune</code>.</div>
           </div>
-          <div class="arch-card">
-            <div class="ac-label">Outils de conception</div>
-            <div class="ac-value">LTI Viewer, un outil de synthèse par lieu des racines (on déplace un pôle en boucle fermée et la réponse indicielle suit) et un réglage de PID.</div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Outils de conception</div>
+            <div class="data-grid__value">LTI Viewer, un outil de synthèse par lieu des racines (on déplace un pôle en boucle fermée et la réponse indicielle suit) et un réglage de PID.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Comment les résultats sont vérifiés</h2>
         <ul class="muted check-list">
@@ -155,7 +126,7 @@
       </div>
     </section>
 
-    <section style="margin-top:14px;">
+    <section class="proj-section">
       <div class="card">
         <h2>Tests et compilation</h2>
         <p class="muted" style="line-height:1.7;margin:0 0 12px;">
@@ -171,7 +142,13 @@
       </div>
     </section>
 
-    <section class="card" id="see-also" style="margin-top:16px;"></section>
+    <nav class="see-also" id="see-also" aria-label="Voir aussi">
+      <h2 class="label see-also__title">Voir aussi</h2>
+      <ul class="see-also__list">
+        <li><a class="hp-sign hp-sign--direction" href="/fr/projects/lgflow.html"><span>LG-FLOW</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+        <li><a class="hp-sign hp-sign--direction" href="/fr/projects/project1.html"><span>Mémoire de licence</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+      </ul>
+    </nav>
   </main>
 
   <footer class="site-footer" aria-label="Cartouche">

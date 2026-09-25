@@ -41,8 +41,8 @@ JSON_FR = {
 P1 = {
     "proj-title": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé",
     "proj-desc": "Tube RMPC et PPO comparés sur un robot simulé, avec et sans GNSS. Les critères sont la stabilité, la précision de suivi, la robustesse et le coût de calcul.",
-    "p1-pdf-btn": "Ouvrir le PDF du mémoire · 0,5 Mo",
-    "p1-repo-btn": "Voir le dépôt",
+    "p1-pdf-btn": '<span>Ouvrir le PDF du mémoire · 0,5 Mo</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>',
+    "p1-repo-btn": '<span>Voir le dépôt</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>',
     "p1-source": "Mémoire de licence, Université de Technologie de Varsovie, novembre 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing.",
     "p1-action-title": "Course avec refus GNSS, environnement 044",
     "p1-action-desc": "Les deux contrôleurs roulent dans le même environnement, dans les mêmes conditions.",
@@ -117,7 +117,7 @@ LG = {
     "proj-title": "LG-FLOW : Solveur CFD 2D",
     "proj-desc": "Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al.",
     "lg-kicker": "CFD · Simulation · C++",
-    "lg-repo-btn": "Voir le dépôt ↗",
+    "lg-repo-btn": '<span>Voir le dépôt</span>' + '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>',
     "lg-ctx-title": "Présentation",
     "lg-ctx-text": "LG-FLOW est un solveur 2D de Navier-Stokes incompressible écrit en C++20. Il utilise la méthode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille décalée. Il est validé sur le cas de la cavité entraînée de Ghia et al. (1982), pour Re = 100 et Re = 1000. Il produit les résidus par itération, les profils de vitesse sur les axes médians, des instantanés VTK et les erreurs L2/L∞.",
     "lg-tech-title": "Stack technique",
@@ -143,9 +143,8 @@ LG = {
 
 F1 = {
     "proj-title": "Prédicteur de Course F1",
-    "proj-desc": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques, avec une interface Streamlit.",
     "f1-kicker": "Machine Learning · Formule 1",
-    "f1-repo-btn": "Voir le dépôt ↗",
+    "f1-repo-btn": '<span>Voir le dépôt</span>' + '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>',
     "f1-ctx-title": "Ce que ça fait",
     "f1-ctx-text": "Un pipeline d'apprentissage automatique qui prédit les probabilités de podium en Formule 1 (P1, P2, P3) pour les prochaines courses. Il est entraîné sur les données 2014–2024. Les entrées sont les qualifications, l'historique des pilotes et des écuries, les caractéristiques des circuits et la météo en direct. Un ensemble XGBoost et PyTorch produit des probabilités calibrées, affichées dans un tableau de bord Streamlit.",
     "f1-pipe-title": "Pipeline de prédiction",
@@ -165,13 +164,14 @@ F1 = {
     "f1-ds3": "Météo sur le circuit : température, probabilité de pluie, vent",
     "f1-eval-title": "Évaluation",
     "f1-eval-text": "Validation croisée leave-one-season-out, plus un jeu de test 2023–2024 non utilisé à l'entraînement. Métriques : Brier score, log loss, ROC-AUC, précision sur le vainqueur et recouvrement du podium.",
+    "proj-desc": "Ensemble XGBoost et PyTorch qui prédit les probabilités de podium en F1 à partir des qualifications, de la météo et des données historiques.",
 }
 
 KG = {
     "proj-title": "Compétitions Kaggle",
     "proj-desc": "Classements en direct sur des compétitions ML. Les rangs sont récupérés chaque jour depuis l'API Kaggle via GitHub Actions.",
     "kg-kicker": "Science des données · Compétitions",
-    "kg-profile-btn": "Profil Kaggle ↗",
+    "kg-profile-btn": '<span class="btn-label">Profil Kaggle</span>' + '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>',
 }
 
 PAGES = {"project1": P1, "lgflow": LG, "f1predictor": F1, "kaggle": KG}
@@ -206,19 +206,31 @@ FOOTER_RE = re.compile(r'<footer class="site-footer"[^>]*>.*?</footer>', re.S)
 SHEET_RE = re.compile(r'<p class="site-footer__text data">Drawn by Leon Górecki · Sheet (.*?) · Scale NTS', re.S)
 
 
+# Short location-panel name per project, for the header SignArray (FR).
+FR_SHORT_NAME = {
+    "project1": "Mémoire",
+    "lgflow": "LG-FLOW",
+    "f1predictor": "Prédicteur F1",
+    "kaggle": "Kaggle",
+}
+
+
 def fr_header_html(slug):
     en_href = "/projects/%s.html" % slug
     fr_href = "/fr/projects/%s.html" % slug
-    # Skills/Contact only exist on the home page, same as Home itself, so
-    # from a project page they're all "behind" you: left arrow, sit left of
-    # the (last) location panel — see components.md's SignArray ordering rule.
+    name = FR_SHORT_NAME.get(slug, slug)
+    # On a detail page, Home and the projects list both sit "behind" you:
+    # left arrow, left of the location panel (components.md's SignArray
+    # ordering rule). The location panel is the current project, not
+    # "Projets" — that's now a direction sign pointing back to the list.
+    # Skills/Contact are dropped here (home-page-only anchors) so the array
+    # stays to 3 panels and doesn't wrap past two rows at 375px.
     return '''<header class="site-header">
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/">%s<span>Accueil</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills">%s<span>Compétences</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact">%s<span>Contact</span></a>
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/projects/">%s<span>Projets</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>%s</span></span>
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
@@ -228,7 +240,7 @@ def fr_header_html(slug):
         </div>
       </div>
     </div>
-  </header>''' % (ARROW_L, ARROW_L, ARROW_L, en_href, fr_href)
+  </header>''' % (ARROW_L, ARROW_L, name, en_href, fr_href)
 
 
 def fr_footer_html(sheet_name, pattern_id):
@@ -263,8 +275,8 @@ def generic(html, slug, title_fr, desc_fr):
     sheet_name = m.group(1) if m else slug.upper()
     html = FOOTER_RE.sub(lambda m: fr_footer_html(sheet_name, "hp-mk-fr-proj-%s" % slug), html, count=1)
     # proj-back / proj-home inner text
-    html = set_inner_by_id_attr(html, "proj-back", "Retour aux projets")
-    html = set_inner_by_id_attr(html, "proj-home", "Accueil")
+    html = set_inner_by_id_attr(html, "proj-back", ARROW_L + "<span>Retour aux projets</span>")
+    html = set_inner_by_id_attr(html, "proj-home", ARROW_L + "<span>Accueil</span>")
     return html
 
 

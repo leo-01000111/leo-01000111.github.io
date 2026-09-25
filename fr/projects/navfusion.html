@@ -39,9 +39,8 @@
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Accueil</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Compétences</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projets</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>navfusion</span></span>
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
@@ -54,25 +53,30 @@
   </header>
 
   <main id="main" class="wrap">
-    <section class="hero" style="padding-bottom:16px;">
+    <section class="proj-hero">
       <div class="hero-top">
         <div>
-          <div class="kicker">Pile de navigation robotique</div>
-          <h1 id="proj-title" style="margin-bottom:10px;">navfusion</h1>
-          <p class="lead" style="margin-bottom:8px;"><strong>Fusion de capteurs modulaire pour la navigation 3D.</strong></p>
-          <p id="proj-desc" class="lead">Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées.</p>
-          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
-          <p class="small" style="margin:12px 0 0;"><strong>Statut :</strong> v0.1.0-alpha</p>
+          <p class="label" id="proj-kicker">Pile de navigation robotique</p>
+          <h1 id="proj-title">navfusion</h1>
+          <p class="lede" style="margin-bottom:8px;"><strong>Fusion de capteurs modulaire pour la navigation 3D.</strong></p>
+          <p id="proj-desc" class="lede">Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">Sensor Fusion</span></li>
+            <li><span class="hp-tag">EKF</span></li>
+            <li><span class="hp-tag">Robotics</span></li>
+            <li><span class="hp-tag">GNSS</span></li>
+            <li><span class="hp-tag">Real-time</span></li>
+          </ul>
+          <p class="small" style="margin:12px 0 0;"><span class="hp-lamp hp-lamp--caution"><i aria-hidden="true"></i><span>Statut : v0.1.0-alpha</span></span></p>
           <div class="cta" style="margin-top:18px;">
-            <a class="pill" id="proj-back" href="/fr/projects/">Tous les projets</a>
-            <a class="pill ghost" id="proj-home" href="/fr/">Accueil</a>
-            <a class="btn primary" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le dépôt navfusion sur GitHub">Voir le dépôt</a>
-            <a class="btn" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la documentation technique de navfusion">Ouvrir la doc</a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Retour aux projets</span></a>
+            <a class="hp-btn hp-btn--ghost" href="https://github.com/leo-01000111/navfusion" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le dépôt navfusion sur GitHub"><span>Voir le dépôt</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
+            <a class="hp-btn hp-btn--ghost" href="https://www.leongorecki.eu/navfusion/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la documentation technique de navfusion"><span>Ouvrir la doc</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
           </div>
         </div>
-        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
-          <img id="proj-thumb" src="/assets/thumbs/navfusion.svg" alt="Miniature schématique montrant des flux IMU et GNSS entrant dans un cœur de fusion avec une trajectoire de navigation 3D en sortie." style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
-        </div>
+        <figure class="proj-hero__figure">
+          <img id="proj-thumb" src="/assets/thumbs/navfusion.svg" alt="Miniature schématique montrant des flux IMU et GNSS entrant dans un cœur de fusion avec une trajectoire de navigation 3D en sortie." />
+        </figure>
       </div>
     </section>
 
