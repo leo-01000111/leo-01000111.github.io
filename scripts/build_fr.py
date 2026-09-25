@@ -221,9 +221,12 @@ def fr_header_html(slug):
         <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact">%s<span>Contact</span></a>
         <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
       </nav>
-      <div class="hp-lang" role="group" aria-label="Language">
-        <a data-lang="en" href="%s" hreflang="en" lang="en">EN</a>
-        <a data-lang="fr" aria-current="page" href="%s" hreflang="fr" lang="fr">FR</a>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
+        <div class="hp-lang" role="group" aria-label="Language">
+          <a data-lang="en" href="%s" hreflang="en" lang="en">EN</a>
+          <a data-lang="fr" aria-current="page" href="%s" hreflang="fr" lang="fr">FR</a>
+        </div>
       </div>
     </div>
   </header>''' % (ARROW_L, ARROW_L, ARROW_L, en_href, fr_href)

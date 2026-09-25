@@ -237,8 +237,8 @@
         '<path d="M6 0.5L7.35 4.65L11.5 6L7.35 7.35L6 11.5L4.65 7.35L0.5 6L4.65 4.65Z"/>' +
       "</svg>" +
       "Traduit par IA";
-    const langDiv = host.querySelector(".hp-lang");
-    if (langDiv) host.insertBefore(badge, langDiv);
+    const langDiv = host.querySelector('.hp-lang[aria-label="Language"]');
+    if (langDiv) langDiv.parentNode.insertBefore(badge, langDiv);
     else host.appendChild(badge);
   }
 

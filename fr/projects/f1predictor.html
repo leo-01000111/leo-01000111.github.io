@@ -23,7 +23,8 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
 <link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/tokens.css" />
+  <script src="/assets/theme.js"></script>
+<link rel="stylesheet" href="/assets/tokens.css" />
 <link rel="stylesheet" href="/assets/components.css" />
 <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
@@ -139,9 +140,12 @@
         <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
         <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
       </nav>
-      <div class="hp-lang" role="group" aria-label="Language">
-        <a data-lang="en" href="/projects/f1predictor.html" hreflang="en" lang="en">EN</a>
-        <a data-lang="fr" aria-current="page" href="/fr/projects/f1predictor.html" hreflang="fr" lang="fr">FR</a>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
+        <div class="hp-lang" role="group" aria-label="Language">
+          <a data-lang="en" href="/projects/f1predictor.html" hreflang="en" lang="en">EN</a>
+          <a data-lang="fr" aria-current="page" href="/fr/projects/f1predictor.html" hreflang="fr" lang="fr">FR</a>
+        </div>
       </div>
     </div>
   </header>
