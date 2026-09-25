@@ -198,6 +198,41 @@ def set_inner_by_id_attr(html, _id, text):
     return pat.sub(lambda m: m.group(1) + esc(text) + m.group(4), html, count=1)
 
 
+ARROW_R = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>'
+ARROW_L = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>'
+ARROW_D = ARROW_R.replace('rotate(0', 'rotate(90')
+
+HEADER_RE = re.compile(r'<header class="site-header">.*?</header>', re.S)
+FOOTER_RE = re.compile(r'<footer class="site-footer"[^>]*>.*?</footer>', re.S)
+SHEET_RE = re.compile(r'<p class="site-footer__text data">Drawn by Leon Górecki · Sheet (.*?) · Scale NTS', re.S)
+
+
+def fr_header_html(slug):
+    en_href = "/projects/%s.html" % slug
+    fr_href = "/fr/projects/%s.html" % slug
+    return '''<header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/">%s<span>Accueil</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills"><span>Compétences</span>%s</a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact"><span>Contact</span>%s</a>
+      </nav>
+      <div class="hp-lang" role="group" aria-label="Language">
+        <a data-lang="en" href="%s" hreflang="en" lang="en">EN</a>
+        <a data-lang="fr" aria-current="page" href="%s" hreflang="fr" lang="fr">FR</a>
+      </div>
+    </div>
+  </header>''' % (ARROW_L, ARROW_D, ARROW_D, en_href, fr_href)
+
+
+def fr_footer_html(sheet_name, pattern_id):
+    return '''<footer class="site-footer" aria-label="Cartouche">
+    <div role="separator"><svg class="hp-marking" width="100%%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="%s" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%%" height="28" fill="url(#%s)"></rect></svg></div>
+    <p class="site-footer__text data">Dessiné par Leon Górecki · Feuille %s · Échelle NTS · Contact <a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a> · Rév 2026-06-15 · © <span id="year"></span> Górecki</p>
+  </footer>''' % (pattern_id, pattern_id, sheet_name)
+
+
 def generic(html, slug, title_fr, desc_fr):
     html = html.replace('<html lang="en">', '<html lang="fr">')
     html = re.sub(r'<title>.*?</title>', '<title>%s - Leon Górecki</title>' % esc(title_fr), html, flags=re.S)
@@ -214,26 +249,17 @@ def generic(html, slug, title_fr, desc_fr):
                         '<link rel="canonical" href="%s" />' % frc)
     html = html.replace('<meta property="og:url" content="%s" />' % can,
                         '<meta property="og:url" content="%s" />\n  <meta property="og:locale" content="fr_FR" />' % frc)
-    # language toggle: move aria-current to FR
-    html = html.replace('<a data-lang="en" aria-current="page" href="/projects/%s.html">EN</a>' % slug,
-                        '<a data-lang="en" href="/projects/%s.html">EN</a>' % slug)
-    html = html.replace('<a data-lang="fr" href="/fr/projects/%s.html">FR</a>' % slug,
-                        '<a data-lang="fr" aria-current="page" href="/fr/projects/%s.html">FR</a>' % slug)
-    # shared chrome text
+    # skip link
     html = html.replace('href="#main">Skip to main content<', 'href="#main">Aller au contenu principal<')
-    html = html.replace('<span>Aerospace / Mechanical Engineering</span>', '<span>Ingénierie aérospatiale / mécanique</span>')
-    html = html.replace('data-ui="home" href="/">Home</a>', 'data-ui="home" href="/fr/">Accueil</a>')
-    html = html.replace('data-ui="allProjects" href="/projects/">All projects</a>',
-                        'data-ui="allProjects" href="/fr/projects/">Tous les projets</a>')
+    # header (SignArray + LangSwitch), fully re-rendered in French
+    html = HEADER_RE.sub(lambda m: fr_header_html(slug), html, count=1)
+    # footer (marking + mono text), keeping the sheet name the EN page carried
+    m = SHEET_RE.search(html)
+    sheet_name = m.group(1) if m else slug.upper()
+    html = FOOTER_RE.sub(lambda m: fr_footer_html(sheet_name, "hp-mk-fr-proj-%s" % slug), html, count=1)
     # proj-back / proj-home inner text
     html = set_inner_by_id_attr(html, "proj-back", "Retour aux projets")
     html = set_inner_by_id_attr(html, "proj-home", "Accueil")
-    # title block keys
-    html = html.replace('aria-label="Drawing title block"', 'aria-label="Cartouche"')
-    html = html.replace('<span class="tb-key">Drawn by</span>', '<span class="tb-key">Dessiné par</span>')
-    html = html.replace('<span class="tb-key">Sheet</span>', '<span class="tb-key">Feuille</span>')
-    html = html.replace('<span class="tb-key">Scale</span>', '<span class="tb-key">Échelle</span>')
-    html = html.replace('<span class="tb-key">Rev</span>', '<span class="tb-key">Rév</span>')
     return html
 
 

@@ -6,7 +6,8 @@
   <meta name="site-root" content="/" />
   <title>navfusion — Fusion de capteurs modulaire pour la navigation 3D</title>
   <meta name="description" content="Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées." />
-  <meta name="theme-color" content="#070b12" />
+  <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="navfusion — Fusion de capteurs modulaire pour la navigation 3D" />
   <meta property="og:description" content="Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées." />
@@ -24,37 +25,27 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/assets/fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/style.css" />
+<link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/tokens.css" />
+<link rel="stylesheet" href="/assets/components.css" />
+<link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
 </head>
 <body data-project-id="5" data-project-slug="navfusion">
 <a class="skip-link" href="#main">Aller au contenu principal</a>
 
-  <header>
-    <div class="wrap">
-      <div class="brand">
-        <div aria-hidden="true" class="mark"></div>
-        <div class="name">
-          <strong>Leon Górecki</strong>
-          <span>Ingénierie aérospatiale / mécanique</span>
-        </div>
-      </div>
-
-      <nav>
-        <div class="nav-links">
-          <a class="pill" data-ui="home" href="/fr/">Accueil</a>
-          <a class="pill" data-ui="allProjects" href="/fr/projects/">Tous les projets</a>
-        </div>
-        <div aria-label="Changement de langue" class="lang" role="group">
-          <a data-lang="en" href="/projects/navfusion.html">EN</a>
-          <a data-lang="fr" aria-current="page" href="/fr/projects/navfusion.html">FR</a>
-        </div>
-        <button class="nav-toggle" aria-label="Basculer la navigation" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projets</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Accueil</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#skills"><span>Compétences</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(90 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/#contact"><span>Contact</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(90 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
       </nav>
+      <div class="hp-lang" role="group" aria-label="Language">
+        <a data-lang="en" href="/projects/navfusion.html" hreflang="en" lang="en">EN</a>
+        <a data-lang="fr" aria-current="page" href="/fr/projects/navfusion.html" hreflang="fr" lang="fr">FR</a>
+      </div>
     </div>
   </header>
 
@@ -137,13 +128,9 @@
     </section>
   </main>
 
-    <footer class="title-block" aria-label="Cartouche">
-    <div class="tb-cell"><span class="tb-key">Dessiné par</span><span class="tb-val">Leon Górecki</span></div>
-    <div class="tb-cell"><span class="tb-key">Feuille</span><span class="tb-val">NAVFUSION</span></div>
-    <div class="tb-cell"><span class="tb-key">Échelle</span><span class="tb-val">NTS</span></div>
-    <div class="tb-cell"><span class="tb-key">Contact</span><span class="tb-val"><a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a></span></div>
-    <div class="tb-cell"><span class="tb-key">Rév</span><span class="tb-val tb-rev">2026-09-24</span></div>
-    <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© <span id="year"></span> Górecki</span></div>
+    <footer class="site-footer" aria-label="Cartouche">
+    <div role="separator"><svg class="hp-marking" width="100%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="hp-mk-fr-proj-navfusion" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%" height="28" fill="url(#hp-mk-fr-proj-navfusion)"></rect></svg></div>
+    <p class="site-footer__text data">Dessiné par Leon Górecki · Feuille NAVFUSION · Échelle NTS · Contact <a href="mailto:leon.gorecki.fr@proton.me">leon.gorecki.fr@proton.me</a> · Rév 2026-06-15 · © <span id="year"></span> Górecki</p>
   </footer>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

@@ -310,8 +310,8 @@
 
   function _initAiBadge(lang) {
     if (lang !== "fr") return;
-    const nav = document.querySelector("nav");
-    if (!nav || nav.querySelector(".ai-badge")) return;
+    const host = document.querySelector(".header-inner");
+    if (!host || host.querySelector(".ai-badge")) return;
     const badge = document.createElement("div");
     badge.className = "ai-badge";
     badge.title = "Certaines traductions sont générées par IA et peuvent être imparfaites.";
@@ -322,9 +322,9 @@
         '<path d="M6 0.5L7.35 4.65L11.5 6L7.35 7.35L6 11.5L4.65 7.35L0.5 6L4.65 4.65Z"/>' +
       "</svg>" +
       "Traduit par IA";
-    const langDiv = nav.querySelector(".lang");
-    if (langDiv) nav.insertBefore(badge, langDiv);
-    else nav.appendChild(badge);
+    const langDiv = host.querySelector(".hp-lang");
+    if (langDiv) host.insertBefore(badge, langDiv);
+    else host.appendChild(badge);
   }
 
   function _initBackToTop() {
@@ -374,31 +374,6 @@
       });
     });
   }
-
-  // === HAMBURGER NAV TOGGLE ===
-  (function() {
-    var toggle = document.querySelector(".nav-toggle");
-    var nav    = document.querySelector("nav");
-    if (!toggle || !nav) return;
-    toggle.addEventListener("click", function(e) {
-      e.stopPropagation();
-      var open = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    document.addEventListener("click", function(e) {
-      if (nav.classList.contains("open") && !nav.contains(e.target)) {
-        nav.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-      }
-    });
-    // Close on Escape
-    document.addEventListener("keydown", function(e) {
-      if (e.key === "Escape" && nav.classList.contains("open")) {
-        nav.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-      }
-    });
-  })();
 
   const lang = _getLang();
   _syncLangUI(lang);
