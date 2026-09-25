@@ -513,6 +513,22 @@ h1{
 .home-hero__lede{ margin: 0 0 var(--space-5); color: var(--ink-muted); max-width: 60ch; }
 .home-hero__actions{ display:flex; flex-wrap: wrap; gap: var(--space-2); }
 
+/* Compact tutoring bar, directly under the hero button row. Stays visually
+   subordinate to the primary actions: a slim hairline-framed row, not a card. */
+.home-hero__tutoring{
+  margin-top: var(--space-3);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule);
+}
+.home-hero__tutoring-link{ flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+.home-hero__tutoring-link:hover .home-hero__tutoring-pl{ text-decoration: underline; text-decoration-thickness: 2px; }
+.home-hero__tutoring-pl{ font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--ink); }
+.home-hero__tutoring-en{ color: var(--ink-muted); }
+
 /* The DataPlate sits lower than the kicker/headline baseline (per
    HomePage-*.png) — pushed down as a block so the bleed block, anchored
    to this same box below, stays in step with it. */
