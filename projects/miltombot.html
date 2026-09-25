@@ -31,78 +31,6 @@
 <link rel="stylesheet" href="/assets/components.css" />
 <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
-  <style>
-    .loop-svg {
-      width: 100%;
-      max-width: 380px;
-      margin: 0 auto;
-      display: block;
-    }
-    .shot {
-      margin: 16px 0 0;
-    }
-    .shot img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    .shot figcaption {
-      font-size: 0.8rem;
-      color: var(--faint);
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-    .dec-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-top: 14px;
-    }
-    .dec-card {
-      border-radius: 12px;
-      padding: 16px 18px;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-left: 3px solid #7a89c2;
-      background: rgba(122,137,194,0.05);
-    }
-    .dec-name {
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-      color: rgba(255,255,255,0.88);
-    }
-    .dec-card p {
-      margin: 0;
-      color: rgba(255,255,255,0.66);
-      font-size: 0.875rem;
-      line-height: 1.7;
-    }
-    .kv-table {
-      min-width: 0;
-    }
-    .kv-table td {
-      white-space: normal;
-      font-family: var(--font-body);
-      line-height: 1.55;
-    }
-    .kv-table td:first-child {
-      white-space: nowrap;
-      font-family: var(--font-mono);
-      color: var(--ink);
-      width: 1%;
-    }
-    .open-list {
-      margin: 12px 0 0;
-      padding-left: 18px;
-      line-height: 1.7;
-    }
-    .open-list li + li { margin-top: 8px; }
-    @media (min-width: 900px) {
-      .dec-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-  </style>
 </head>
 <body data-project-id="7" data-project-slug="miltombot">
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -111,9 +39,8 @@
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#skills"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Skills</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projects</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projects</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>MILTOM-Bot</span></span>
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Theme" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Day</button><button type="button" data-set-theme="dark" aria-pressed="false">Night</button></div>
@@ -126,63 +53,69 @@
   </header>
 
   <main id="main" class="wrap">
-    <section class="hero" style="padding-bottom: 16px;">
+    <section class="proj-hero">
       <div class="hero-grid">
         <div>
-          <h1 id="proj-title" style="margin-bottom: 10px;">MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team</h1>
-          <p id="proj-desc" class="lead">In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model.</p>
-          <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
+          <h1 id="proj-title">MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team</h1>
+          <p id="proj-desc" class="lede">In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">Python</span></li>
+            <li><span class="hp-tag">FastAPI</span></li>
+            <li><span class="hp-tag">PostgreSQL</span></li>
+            <li><span class="hp-tag">scikit-learn</span></li>
+            <li><span class="hp-tag">Docker</span></li>
+          </ul>
           <div class="cta" style="margin-top: 18px;">
-            <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Back to projects</span></a>
           </div>
-          <p class="small" style="margin-top: 14px; color: var(--faint); line-height: 1.6;">
+          <p class="small" style="margin-top: 14px; color: var(--ink-muted); line-height: 1.6;">
             I built this at MILTOM, a Polish manufacturer of fire-protection and drinking-water tanks. It has been in
             production since 16 July 2026. The code is private.
           </p>
         </div>
-        <div class="hero-card">
-          <svg class="loop-svg" viewBox="0 0 360 398" xmlns="http://www.w3.org/2000/svg" role="img"
+        <figure class="proj-hero__figure">
+          <svg class="loop-svg" viewBox="0 0 360 398" xmlns="http://www.w3.org/2000/svg" role="img" style="width:100%;max-width:380px;margin:0 auto;display:block;"
                aria-label="The loop: the BZP bulletin feeds keyword rules, a classifier ranks the matches, the sales panel shows them with TAK, NIE and POMIŃ buttons, and each answer is stored as a label that retrains the classifier every night.">
             <defs>
               <marker id="mb-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M0 0 L8 4 L0 8 z" fill="#7a89c2" fill-opacity="0.82"/>
+                <path d="M0 0 L8 4 L0 8 z" fill="var(--ink)"/>
               </marker>
             </defs>
 
-            <rect x="80" y="10" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="29" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">BZP bulletin</text>
-            <text x="210" y="43" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">fetched every hour</text>
-            <line x1="210" y1="54" x2="210" y2="80" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="10" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="29" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">BZP bulletin</text>
+            <text x="210" y="43" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">fetched every hour</text>
+            <line x1="210" y1="54" x2="210" y2="80" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="82" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="101" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">keyword rules</text>
-            <text x="210" y="115" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">word pairs within 5 words, or a CPV code</text>
-            <line x1="210" y1="126" x2="210" y2="152" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="82" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="101" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">keyword rules</text>
+            <text x="210" y="115" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">word pairs within 5 words, or a CPV code</text>
+            <line x1="210" y1="126" x2="210" y2="152" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="154" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="173" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">classifier</text>
-            <text x="210" y="187" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">TF-IDF + logistic regression</text>
-            <line x1="210" y1="198" x2="210" y2="224" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="154" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="173" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">classifier</text>
+            <text x="210" y="187" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">TF-IDF + logistic regression</text>
+            <line x1="210" y1="198" x2="210" y2="224" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="226" width="260" height="70" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="245" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="14" fill="rgba(255,255,255,0.86)">sales panel</text>
-            <rect x="98" y="256" width="66" height="24" rx="4" fill="#4ade80" fill-opacity="0.14" stroke="#4ade80" stroke-opacity="0.5"/>
-            <text x="131" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#4ade80">TAK</text>
-            <rect x="177" y="256" width="66" height="24" rx="4" fill="#f87171" fill-opacity="0.14" stroke="#f87171" stroke-opacity="0.5"/>
-            <text x="210" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#f87171">NIE</text>
-            <rect x="256" y="256" width="66" height="24" rx="4" fill="#94a3b8" fill-opacity="0.14" stroke="#94a3b8" stroke-opacity="0.5"/>
-            <text x="289" y="272" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700" fill="#94a3b8">POMIŃ</text>
-            <line x1="210" y1="298" x2="210" y2="324" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <rect x="80" y="226" width="260" height="70" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="245" text-anchor="middle" font-family="var(--font-sans)" font-size="14" fill="var(--ink)">sales panel</text>
+            <rect x="98" y="256" width="66" height="24" fill="var(--ground)" stroke="var(--lamp-go)" stroke-width="1.2"/>
+            <text x="131" y="272" text-anchor="middle" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="var(--lamp-go)">TAK</text>
+            <rect x="177" y="256" width="66" height="24" fill="var(--ground)" stroke="var(--hold-ink)" stroke-width="1.2"/>
+            <text x="210" y="272" text-anchor="middle" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="var(--hold-ink)">NIE</text>
+            <rect x="256" y="256" width="66" height="24" fill="var(--ground)" stroke="var(--ink-muted)" stroke-width="1.2"/>
+            <text x="289" y="272" text-anchor="middle" font-family="var(--font-mono)" font-size="12" font-weight="700" fill="var(--ink-muted)">POMIŃ</text>
+            <line x1="210" y1="298" x2="210" y2="324" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
 
-            <rect x="80" y="326" width="260" height="42" rx="6" fill="#7a89c2" fill-opacity="0.07" stroke="#7a89c2" stroke-opacity="0.5"/>
-            <text x="210" y="345" text-anchor="middle" font-family="ui-monospace,monospace" font-size="14" fill="rgba(255,255,255,0.86)">LABELS</text>
-            <text x="210" y="359" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)">one row per answer</text>
+            <rect x="80" y="326" width="260" height="42" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"/>
+            <text x="210" y="345" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--ink)">LABELS</text>
+            <text x="210" y="359" text-anchor="middle" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)">one row per answer</text>
 
             <path d="M 80 347 L 52 347 Q 40 347 40 335 L 40 187 Q 40 175 52 175 L 76 175"
-                  fill="none" stroke="#7a89c2" stroke-opacity="0.82" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
-            <text x="30" y="261" text-anchor="middle" transform="rotate(-90 30 261)" font-family="ui-sans-serif,sans-serif" font-size="12" fill="rgba(255,255,255,0.42)" letter-spacing="0.04em">retrained nightly</text>
+                  fill="none" stroke="var(--ink)" stroke-width="1.2" marker-end="url(#mb-arrow)"/>
+            <text x="30" y="261" text-anchor="middle" transform="rotate(-90 30 261)" font-family="var(--font-sans)" font-size="12" fill="var(--ink-muted)" letter-spacing="0.04em">retrained nightly</text>
           </svg>
-        </div>
+        </figure>
       </div>
     </section>
 
@@ -208,7 +141,7 @@
         <figure class="shot">
           <img src="/assets/shots/miltombot-salesman.webp" width="1030" height="475" loading="lazy"
                alt="Sales panel: one tender card with its CPV match, links to the BZP notice and the tender documents, and TAK, NIE and POMIŃ buttons." />
-          <figcaption>The sales panel. One tender per card, three buttons.</figcaption>
+          <figcaption class="label">FIG. 01: The sales panel, one tender per card, three buttons</figcaption>
         </figure>
       </div>
 
@@ -232,7 +165,7 @@
         <figure class="shot">
           <img src="/assets/shots/miltombot-model.webp" width="1030" height="704" loading="lazy"
                alt="Admin Model page: current version v84 with cross-validated accuracy 94%, precision 91%, recall 68%, F1 74% and AUC 81%, above a chart of these metrics across versions v1 to v84." />
-          <figcaption>Admin panel, model page. Cross-validated metrics for every version since v1.</figcaption>
+          <figcaption class="label">FIG. 02: Admin panel, model page, cross-validated metrics for every version since v1</figcaption>
         </figure>
       </div>
 
@@ -282,7 +215,7 @@
         <figure class="shot">
           <img src="/assets/shots/miltombot-admin.webp" width="1030" height="582" loading="lazy"
                alt="Admin panel home: last BZP fetch with status OK, 9 new tenders and 17 answers in the last 24 hours, 110 leads in the pool, 67 active keywords, 5 CPV prefixes, and the active model v84 with a Retrain now button." />
-          <figcaption>Admin panel, system health.</figcaption>
+          <figcaption class="label">FIG. 03: Admin panel, system health</figcaption>
         </figure>
       </div>
 
@@ -297,7 +230,13 @@
 
     </section>
 
-    <section class="card wrap" id="see-also" style="margin-top:16px;"></section>
+    <nav class="see-also" id="see-also" aria-label="See also">
+      <h2 class="label see-also__title">See also</h2>
+      <ul class="see-also__list">
+        <li><a class="hp-sign hp-sign--direction" href="/projects/fauxmatlab.html"><span>FauxMatlab</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+        <li><a class="hp-sign hp-sign--direction" href="/projects/lgflow.html"><span>LG-FLOW</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+      </ul>
+    </nav>
   </main>
 
   <footer class="site-footer" aria-label="Drawing title block">

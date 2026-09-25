@@ -35,9 +35,8 @@
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#skills"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Skills</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projects</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projects</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>__ID__</span></span>
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Theme" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Day</button><button type="button" data-set-theme="dark" aria-pressed="false">Night</button></div>
@@ -50,20 +49,21 @@
   </header>
 
   <main id="main" class="wrap">
-    <section class="hero" style="padding-bottom: 16px;">
+    <section class="proj-hero">
       <div class="hero-grid">
         <div>
-          <h1 id="proj-title" style="margin-bottom: 10px;">Project __ID__</h1>
-          <p id="proj-desc" class="lead"></p>
-          <div id="proj-tags" class="meta" style="margin-top: 14px;"></div>
+          <p class="label">Category · Context</p>
+          <h1 id="proj-title">Project __ID__</h1>
+          <p id="proj-desc" class="lede"></p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags"></ul>
           <div class="cta" style="margin-top: 18px;">
-            <a class="pill" id="proj-back" href="/projects/">Back to projects</a>
-            <a class="pill ghost" id="proj-home" href="/">Home</a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Back to projects</span></a>
+            <a class="hp-btn hp-btn--ghost" id="proj-home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
           </div>
         </div>
-        <div class="hero-card">
-          <img id="proj-thumb" src="/assets/thumbs/1.svg" alt="Project thumbnail" style="width:100%; height:auto; border-radius: 16px;"/>
-        </div>
+        <figure class="proj-hero__figure">
+          <img id="proj-thumb" src="/assets/thumbs/1.svg" alt="Project thumbnail" />
+        </figure>
       </div>
     </section>
 

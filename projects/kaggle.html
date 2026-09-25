@@ -35,9 +35,8 @@
     <div class="header-inner">
       <nav class="hp-signarray" aria-label="Site">
         <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#skills"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Skills</span></a>
-        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/#contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Contact</span></a>
-        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Projects</span></span>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projects</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Kaggle</span></span>
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Theme" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Day</button><button type="button" data-set-theme="dark" aria-pressed="false">Night</button></div>
@@ -51,39 +50,50 @@
 
   <main id="main" class="wrap">
 
-    <section class="hero" style="padding-bottom:16px;">
+    <section class="proj-hero">
       <div class="hero-top">
         <div>
-          <div class="kicker" id="kg-kicker">Data Science · Competitions</div>
-          <h1 id="proj-title" style="margin-bottom:10px;">Kaggle Competitions</h1>
-          <p id="proj-desc" class="lead">Live leaderboard rankings across ML competitions. Rankings are fetched daily from the Kaggle API via GitHub Actions.</p>
-          <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
+          <p class="label" id="kg-kicker">Data Science &middot; Competitions</p>
+          <h1 id="proj-title">Kaggle Competitions</h1>
+          <p id="proj-desc" class="lede">Live leaderboard rankings across ML competitions. Rankings are fetched daily from the Kaggle API via GitHub Actions.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">Machine Learning</span></li>
+            <li><span class="hp-tag">Python</span></li>
+            <li><span class="hp-tag">Data Science</span></li>
+            <li><span class="hp-tag">Competition</span></li>
+          </ul>
           <div class="cta" style="margin-top:18px;">
-            <a class="pill" id="proj-back" href="/projects/">All projects</a>
-            <a class="btn primary" href="https://www.kaggle.com/leo01000111" target="_blank" rel="noopener noreferrer" id="kg-profile-btn">Kaggle profile ↗</a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Back to projects</span></a>
+            <a class="hp-btn hp-btn--ghost" href="https://www.kaggle.com/leo01000111" target="_blank" rel="noopener noreferrer" id="kg-profile-btn"><span class="btn-label">Kaggle profile</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
           </div>
         </div>
-        <div class="hero-card" style="display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;border-radius:var(--radius);">
-          <img id="proj-thumb" src="/assets/thumbs/kaggle.svg" alt="Kaggle leaderboard thumbnail" style="width:100%;height:auto;border-radius:var(--radius);display:block;" />
-        </div>
+        <figure class="proj-hero__figure">
+          <img id="proj-thumb" src="/assets/thumbs/kaggle.svg" alt="Kaggle leaderboard thumbnail" />
+        </figure>
       </div>
     </section>
 
     <!-- Competition board (rendered by inline JS) -->
-    <section aria-label="Competition rankings" style="margin-top:14px;">
+    <section class="proj-section" aria-label="Competition rankings">
       <div id="kaggle-board">
         <!-- skeleton while loading -->
         <div class="skel-proj" aria-hidden="true" role="presentation" style="padding:18px 20px;">
           <div class="skel-body">
             <div class="skel" style="height:18px;width:55%;"></div>
             <div class="skel" style="height:13px;width:80%;margin-top:6px;"></div>
-            <div class="skel" style="height:8px;width:100%;border-radius:999px;margin-top:14px;"></div>
+            <div class="skel" style="height:8px;width:100%;margin-top:14px;"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="card" id="see-also" style="margin-top:16px;"></section>
+    <nav class="see-also" id="see-also" aria-label="See also">
+      <h2 class="label see-also__title">See also</h2>
+      <ul class="see-also__list">
+        <li><a class="hp-sign hp-sign--direction" href="/projects/aicalc.html"><span>AICalc</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+        <li><a class="hp-sign hp-sign--direction" href="/projects/f1predictor.html"><span>F1 Predictor</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a></li>
+      </ul>
+    </nav>
   </main>
 
     <footer class="site-footer" aria-label="Drawing title block">
@@ -95,11 +105,12 @@
   // === Kaggle board renderer ===
   (function() {
     var SCORES_URL = "/projects/kaggle-scores.json?t=" + Date.now();
+    var ARROW_UR = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg>';
 
     var copy = {
       en: {
         kicker: "Data Science · Competitions",
-        profileBtn: "Kaggle profile \u2197",
+        profileBtn: "Kaggle profile",
         howTitle: "How it works",
         howText: "A GitHub Actions workflow runs every day at 04:00 UTC. It calls the Kaggle API, finds my team on each competition leaderboard, and commits the updated ranks and scores to projects/kaggle-scores.json in this repository. The page reads that file on load: no server, no secrets exposed in the browser.",
         workflowBtn: "View workflow source on GitHub \u2197",
@@ -109,8 +120,8 @@
         percentile: "Percentile",
         topPct: function(pct) { return "Top " + pct + "%"; },
         updated: "Updated",
-        viewComp: "View competition \u2197",
-        viewRepo: "View repo \u2197",
+        viewComp: "View competition",
+        viewRepo: "View repo",
         lowerBetter: "lower is better",
         higherBetter: "higher is better",
         loading: "Loading rankings\u2026",
@@ -118,7 +129,7 @@
       },
       fr: {
         kicker: "Science des données · Compétitions",
-        profileBtn: "Profil Kaggle \u2197",
+        profileBtn: "Profil Kaggle",
         howTitle: "Comment ça marche",
         howText: "Un workflow GitHub Actions s'exécute chaque jour à 04h00 UTC. Il interroge l'API Kaggle, retrouve mon équipe dans le classement de chaque compétition, puis enregistre les rangs et scores mis à jour dans projects/kaggle-scores.json dans ce dépôt. La page lit ce fichier au chargement : aucun serveur, aucun secret exposé dans le navigateur.",
         workflowBtn: "Voir le workflow sur GitHub \u2197",
@@ -128,8 +139,8 @@
         percentile: "Percentile",
         topPct: function(pct) { return "Top " + pct + "%"; },
         updated: "Mis à jour",
-        viewComp: "Voir la compétition \u2197",
-        viewRepo: "Voir le dépôt \u2197",
+        viewComp: "Voir la compétition",
+        viewRepo: "Voir le dépôt",
         lowerBetter: "plus bas = mieux",
         higherBetter: "plus haut = mieux",
         loading: "Chargement des classements\u2026",
@@ -214,10 +225,10 @@
         // Footer
         html += '<div class="kaggle-footer">';
         if (comp.url) {
-          html += '<a class="pill" href="' + escHtml(comp.url) + '" target="_blank" rel="noopener noreferrer">' + c.viewComp + '</a>';
+          html += '<a class="hp-btn hp-btn--ghost" href="' + escHtml(comp.url) + '" target="_blank" rel="noopener noreferrer"><span>' + c.viewComp + '</span>' + ARROW_UR + '</a>';
         }
         if (comp.repo_url) {
-          html += '<a class="pill" href="' + escHtml(comp.repo_url) + '" target="_blank" rel="noopener noreferrer">' + c.viewRepo + '</a>';
+          html += '<a class="hp-btn hp-btn--ghost" href="' + escHtml(comp.repo_url) + '" target="_blank" rel="noopener noreferrer"><span>' + c.viewRepo + '</span>' + ARROW_UR + '</a>';
         }
         html += '<span class="kaggle-updated">';
         if (data.updated_at) {
@@ -247,23 +258,10 @@
     // Apply bilingual copy to static elements
     function applyStaticCopy(lang) {
       var c = copy[lang] || copy.en;
-      var map = {
-        "kg-kicker": c.kicker,
-        "kg-profile-btn": c.profileBtn,
-        "kg-how-title": c.howTitle,
-        "kg-workflow-btn": c.workflowBtn
-      };
-      Object.keys(map).forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.textContent = map[id];
-      });
-      var howText = document.getElementById("kg-how-text");
-      if (howText) {
-        howText.innerHTML = c.howText.replace(
-          "projects/kaggle-scores.json",
-          '<code style="background:rgba(255,255,255,0.07);padding:1px 6px;border-radius:5px;">projects/kaggle-scores.json</code>'
-        );
-      }
+      var kicker = document.getElementById("kg-kicker");
+      if (kicker) kicker.textContent = c.kicker;
+      var profileLabel = document.querySelector("#kg-profile-btn .btn-label");
+      if (profileLabel) profileLabel.textContent = c.profileBtn;
     }
 
     var lang = getLang();
