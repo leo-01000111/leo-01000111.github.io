@@ -143,7 +143,7 @@ LG = {
 
 F1 = {
     "proj-title": "Prédicteur de Course F1",
-    "proj-desc": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques — interface Streamlit.",
+    "proj-desc": "Ensemble XGBoost + PyTorch prédisant les probabilités de podium F1 à partir des qualifications, de la météo et des données historiques, avec une interface Streamlit.",
     "f1-kicker": "Machine Learning · Formule 1",
     "f1-repo-btn": "Voir le dépôt ↗",
     "f1-ctx-title": "Ce que ça fait",
@@ -169,7 +169,7 @@ F1 = {
 
 KG = {
     "proj-title": "Compétitions Kaggle",
-    "proj-desc": "Classements en direct sur des compétitions ML — rangs récupérés chaque jour depuis l'API Kaggle via GitHub Actions.",
+    "proj-desc": "Classements en direct sur des compétitions ML. Les rangs sont récupérés chaque jour depuis l'API Kaggle via GitHub Actions.",
     "kg-kicker": "Science des données · Compétitions",
     "kg-profile-btn": "Profil Kaggle ↗",
 }

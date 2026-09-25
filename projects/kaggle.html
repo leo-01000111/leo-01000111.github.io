@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>Kaggle Competitions - Leon Górecki</title>
-  <meta name="description" content="Live Kaggle competition rankings for Leon Górecki — updated daily via GitHub Actions." />
+  <meta name="description" content="Live Kaggle competition rankings for Leon Górecki, updated daily via GitHub Actions." />
   <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
@@ -56,7 +56,7 @@
         <div>
           <div class="kicker" id="kg-kicker">Data Science · Competitions</div>
           <h1 id="proj-title" style="margin-bottom:10px;">Kaggle Competitions</h1>
-          <p id="proj-desc" class="lead">Live leaderboard rankings across ML competitions — rankings fetched daily from the Kaggle API via GitHub Actions.</p>
+          <p id="proj-desc" class="lead">Live leaderboard rankings across ML competitions. Rankings are fetched daily from the Kaggle API via GitHub Actions.</p>
           <div id="proj-tags" class="meta" style="margin-top:14px;"></div>
           <div class="cta" style="margin-top:18px;">
             <a class="pill" id="proj-back" href="/projects/">All projects</a>
@@ -101,7 +101,7 @@
         kicker: "Data Science · Competitions",
         profileBtn: "Kaggle profile \u2197",
         howTitle: "How it works",
-        howText: "A GitHub Actions workflow runs every day at 04:00 UTC. It calls the Kaggle API, finds my team on each competition leaderboard, and commits the updated ranks and scores to projects/kaggle-scores.json in this repository. The page reads that file on load \u2014 no server, no secrets exposed in the browser.",
+        howText: "A GitHub Actions workflow runs every day at 04:00 UTC. It calls the Kaggle API, finds my team on each competition leaderboard, and commits the updated ranks and scores to projects/kaggle-scores.json in this repository. The page reads that file on load: no server, no secrets exposed in the browser.",
         workflowBtn: "View workflow source on GitHub \u2197",
         rank: "Rank",
         total: "Teams",
@@ -120,7 +120,7 @@
         kicker: "Science des données · Compétitions",
         profileBtn: "Profil Kaggle \u2197",
         howTitle: "Comment ça marche",
-        howText: "Un workflow GitHub Actions s'exécute chaque jour à 04h00 UTC. Il interroge l'API Kaggle, retrouve mon équipe dans le classement de chaque compétition, puis enregistre les rangs et scores mis à jour dans projects/kaggle-scores.json dans ce dépôt. La page lit ce fichier au chargement — aucun serveur, aucun secret exposé dans le navigateur.",
+        howText: "Un workflow GitHub Actions s'exécute chaque jour à 04h00 UTC. Il interroge l'API Kaggle, retrouve mon équipe dans le classement de chaque compétition, puis enregistre les rangs et scores mis à jour dans projects/kaggle-scores.json dans ce dépôt. La page lit ce fichier au chargement : aucun serveur, aucun secret exposé dans le navigateur.",
         workflowBtn: "Voir le workflow sur GitHub \u2197",
         rank: "Rang",
         total: "Équipes",
@@ -144,7 +144,7 @@
     }
 
     function formatDate(iso) {
-      if (!iso) return "—";
+      if (!iso) return "–";
       try {
         var d = new Date(iso);
         return d.toLocaleDateString(undefined, {year:"numeric",month:"short",day:"numeric"})
@@ -181,7 +181,7 @@
         html += '<div>';
         html +=   '<p class="kaggle-card-title">' + escHtml(comp.title || comp.id) + '</p>';
         if (comp.score_label) {
-          html += '<span class="small" style="margin-top:2px;display:inline-block;">' + escHtml(comp.score_label) + ' &mdash; ' + escHtml(comp[comp.lower_is_better ? "lowerBetter" : "higherBetter"] || (comp.lower_is_better ? c.lowerBetter : c.higherBetter)) + '</span>';
+          html += '<span class="small" style="margin-top:2px;display:inline-block;">' + escHtml(comp.score_label) + ': ' + escHtml(comp[comp.lower_is_better ? "lowerBetter" : "higherBetter"] || (comp.lower_is_better ? c.lowerBetter : c.higherBetter)) + '</span>';
         }
         html += '</div>';
         html += '</div>';
@@ -189,7 +189,7 @@
         // Stats row
         html += '<div class="kaggle-meta-row">';
         html += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.rank + '</span>';
-        html += '<span class="kaggle-stat-value">' + (rank != null ? '#' + rank.toLocaleString() : '—') + '</span></div>';
+        html += '<span class="kaggle-stat-value">' + (rank != null ? '#' + rank.toLocaleString() : '–') + '</span></div>';
         if (total != null) {
           html += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.total + '</span>';
           html += '<span class="kaggle-stat-value">' + total.toLocaleString() + '</span></div>';
@@ -208,7 +208,7 @@
         // Progress bar (position in leaderboard)
         if (pct != null) {
           html += '<div class="kaggle-bar-wrap"><div class="kaggle-bar" style="width:' + barW + '%"></div></div>';
-          html += '<p class="kaggle-bar-label">Rank ' + rank.toLocaleString() + ' of ' + total.toLocaleString() + ' &mdash; ' + c.topPct(pct) + '</p>';
+          html += '<p class="kaggle-bar-label">Rank ' + rank.toLocaleString() + ' of ' + total.toLocaleString() + ' · ' + c.topPct(pct) + '</p>';
         }
 
         // Footer
