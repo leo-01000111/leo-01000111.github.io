@@ -1,8 +1,15 @@
 /* Holding Point — components.css. Load after tokens.css. Every class is prefixed hp-.
    Markup for each component: see components.md. */
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 26px; -webkit-font-smoothing: antialiased; }
-a { color: var(--edge); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:hover { text-decoration-thickness: 2px; }
+/* In-text links (not buttons, signs, cards or tags — those set their own
+   color and text-decoration: none): ink text with a solid signal-yellow
+   underline bar, like a painted taxiway marking, instead of the old --edge
+   blue. Yellow never appears as text on the Day ground, but a fill or an
+   underline bar is fine (BRAND.md "Colour"). The focus ring stays --focus
+   (= --edge) for accessibility; --edge itself is otherwise retired from
+   link colour. */
+a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-decoration-thickness: 3px; text-underline-offset: 3px; }
+a:hover, a:focus-visible { text-decoration-thickness: 5px; }
 :focus-visible { outline: var(--stroke-bold) solid var(--focus); outline-offset: 2px; }
 
 /* ——— Sign ——— */
