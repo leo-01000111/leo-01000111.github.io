@@ -17,7 +17,5 @@ Fills the empty space under Skills and Contributions, left of Background.
 
 ## Other open items
 
-- Project detail pages: facts are in tables and data grids; a formal DataPlate per page was not added.
-- Polish version of the site (EN / FR / PL switch).
-- `assets/thumbs/robotDiagramReal.png` (236 KB) is unreferenced; its `-240.webp` / `-1200.webp` versions are used. Delete once Leon confirms.
-- Copy awaiting approval: 404 sentence "This page does not exist, or it moved."; OG card line "Aerospace · Control · Robotics".
+- Polish version of the site (EN / FR / PL switch). Later.
+- `assets/thumbs/miltombot-day.svg` / `-night.svg` exist but no page uses them yet (the MILTOM-Bot page draws its own diagram). Kept for possible later use.
