@@ -2,6 +2,7 @@
   {
     "id": 7,
     "slug": "miltombot",
+    "short": "MILTOM-Bot",
     "featuredOrder": 1,
     "code": "OPS",
     "meta": ["2026", "Miltom"],
@@ -25,6 +26,7 @@
   {
     "id": 8,
     "slug": "fauxmatlab",
+    "short": "FauxMatlab",
     "featuredOrder": 2,
     "code": "GNC",
     "title": {
@@ -46,6 +48,7 @@
   {
     "id": 5,
     "slug": "navfusion",
+    "short": "navfusion",
     "code": "GNC",
     "title": {
       "en": "navfusion",
@@ -66,6 +69,7 @@
   {
     "id": 1,
     "slug": "project1",
+    "short": "BEng thesis",
     "featuredOrder": 3,
     "code": "GNC",
     "meta": ["2025", "Thesis"],
@@ -87,6 +91,7 @@
   {
     "id": 2,
     "slug": "kaggle",
+    "short": "Kaggle",
     "featuredOrder": 4,
     "code": "ML",
     "title": {
@@ -107,6 +112,7 @@
   {
     "id": 6,
     "slug": "aicalc",
+    "short": "AICalc",
     "featuredOrder": 5,
     "code": "ML",
     "title": {
@@ -126,6 +132,7 @@
   {
     "id": 3,
     "slug": "lgflow",
+    "short": "LG-FLOW",
     "code": "OPS",
     "title": {
       "en": "LG-FLOW: 2D CFD Solver",
@@ -146,6 +153,7 @@
   {
     "id": 4,
     "slug": "f1predictor",
+    "short": "F1 Predictor",
     "featuredOrder": 7,
     "code": "ML",
     "title": {

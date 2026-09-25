@@ -11,6 +11,28 @@ Writes ProjectCard HTML between the `<!-- projects:start -->` /
 Also writes each project detail page's own `<!-- see-also:start -->` /
 `<!-- see-also:end -->` block (EN + FR) with full-width ProjectCards.
 
+Also writes the split-flap "Currently improving" board between the
+`<!-- flip:start -->` / `<!-- flip:end -->` markers in index.html and
+fr/index.html, reading the rotation list from projects/flip.json (shape
+`{"flip-through-projects": ["<slug>", ...]}`, the slugs matching
+projects.json). The generated markup is:
+  - the static, no-JS fallback: line 1 ("Currently improving:" / "En
+    amélioration :") plus the FIRST project in flip.json's list, as real
+    flap tiles with a working link, so the page makes sense without JS;
+  - a `<script type="application/json" id="flip-data">` block holding
+    {line1, list, projects: {slug: {short, href}, ...}} for EVERY project
+    in projects.json (not just those in flip.json) so assets/flipboard.js
+    can resolve a slug the owner adds to flip.json later without needing a
+    rebuild. flipboard.js still fetches /projects/flip.json itself at
+    runtime (this script's `list` is only its fallback), so an edit to
+    flip.json alone takes effect immediately, without rerunning this
+    script — a rebuild is only needed when a *new* project (not yet in
+    projects.json) is added to the rotation, or when line 1's wording
+    changes.
+Board width (both the static markup and flipboard.js's own rebuild) is the
+longest string it will ever show: line 1 in that language vs. the longest
+`short` name among flip.json's list, in characters (tiles).
+
 Card markup follows design/holding-point/components.md ("ProjectCard").
 Run with no arguments: `python3 scripts/build_projects.py`.
 
@@ -28,9 +50,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PROJECTS_JSON = ROOT / "projects" / "projects.json"
+FLIP_JSON = ROOT / "projects" / "flip.json"
 
 START = "<!-- projects:start -->"
 END = "<!-- projects:end -->"
+
+FLIP_START = "<!-- flip:start -->"
+FLIP_END = "<!-- flip:end -->"
+
+FLIP_LINE1 = {
+    "en": "Currently improving:",
+    # French non-breaking space (U+202F) before the colon.
+    "fr": "En amélioration :",
+}
 
 ARROW = (
     '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
@@ -172,8 +204,68 @@ def render_see_also(target_slugs, lang, by_slug, numeral_by_slug):
     return f'<div class="hp-card-list">\n{"".join(c + chr(10) for c in cards)}</div>'
 
 
+def render_flip_tiles(text, cols):
+    chars = list(text.upper())
+    chars = chars[:cols] + [""] * max(0, cols - len(chars))
+    return "".join(
+        '<span class="hp-flip__tile"><span class="hp-flip__face">'
+        f"{esc(c)}</span><span class=\"hp-flip__flap\" aria-hidden=\"true\"></span></span>"
+        for c in chars
+    )
+
+
+def render_flip_board(projects, flip_list, lang):
+    by_slug = {p["slug"]: p for p in projects if p.get("slug")}
+    line1 = FLIP_LINE1[lang]
+
+    def short_of(slug):
+        p = by_slug.get(slug)
+        return (p or {}).get("short") or slug
+
+    cols = len(line1)
+    for slug in flip_list:
+        cols = max(cols, len(short_of(slug)))
+
+    first_slug = flip_list[0] if flip_list else None
+    first_short = short_of(first_slug) if first_slug else ""
+    href = project_href(by_slug[first_slug], lang) if first_slug in by_slug else "#"
+    aria = f"{line1.replace(chr(0x202F), ' ')} {first_short}".strip()
+
+    line1_html = (
+        '<span class="hp-flip__line" data-flip-line="0" aria-hidden="true">'
+        f"{render_flip_tiles(line1, cols)}</span>"
+    )
+    line2_html = (
+        '<span class="hp-flip__line" data-flip-line="1" aria-hidden="true">'
+        f"{render_flip_tiles(first_short, cols)}</span>"
+    )
+
+    board_html = (
+        '<div class="home-flip">'
+        f'<a class="hp-flip" href="{href}" data-flip-board style="--flip-cols:{cols}" '
+        f'aria-label="{esc(aria)}">{line1_html}{line2_html}</a>'
+        "</div>"
+    )
+
+    projects_map = {
+        p["slug"]: {"short": p.get("short") or p["slug"], "href": project_href(p, lang)}
+        for p in projects
+        if p.get("slug")
+    }
+    payload = {"line1": line1, "list": flip_list, "projects": projects_map}
+    script_html = (
+        '<script type="application/json" id="flip-data">'
+        + json.dumps(payload, ensure_ascii=False)
+        + "</script>"
+    )
+    return board_html + "\n" + script_html
+
+
 def main():
     projects = json.loads(PROJECTS_JSON.read_text(encoding="utf-8"))
+    flip_list = json.loads(FLIP_JSON.read_text(encoding="utf-8")).get(
+        "flip-through-projects", []
+    )
 
     featured = order_featured(projects, limit=3)
     all_ordered = order_all(projects)
@@ -186,6 +278,19 @@ def main():
     inject(
         ROOT / "fr" / "projects" / "index.html",
         render_list(all_ordered, "fr", alternate_plain=True),
+    )
+
+    inject(
+        ROOT / "index.html",
+        render_flip_board(projects, flip_list, "en"),
+        start=FLIP_START,
+        end=FLIP_END,
+    )
+    inject(
+        ROOT / "fr" / "index.html",
+        render_flip_board(projects, flip_list, "fr"),
+        start=FLIP_START,
+        end=FLIP_END,
     )
 
     # "See also": full-width ProjectCards on each EN + FR detail page, using

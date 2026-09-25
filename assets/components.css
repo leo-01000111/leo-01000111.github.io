@@ -125,3 +125,54 @@ a.hp-card:hover .hp-card__go svg { transform: translateX(3px); }
   .hp-btn:hover, a.hp-card:hover, .hp-btn--secondary:hover { transform: none; }
 }
 
+/* ——— FlipBoard (split-flap "Currently improving" display, home page) ———
+   Every character is its own flap tile in a fixed grid (--flip-cols columns,
+   set inline from the longest string the board will ever show). Two lines:
+   the label, then a project name, both padded to --flip-cols with blank
+   tiles. Legends are Martian Mono (the system's data/mono face) rather than
+   Archivo: a real split-flap is a mechanical character display, closer in
+   spirit to `.data`/`.label` than to a word-shaped sign legend, and a fixed
+   mono metric keeps every flap's glyph centred the same way. Tiles are
+   `--flip-tile`/`--flip-on-tile` (surface+ink by day, plate+on-plate by
+   night, like the location sign) with an `--flip-hairline` crease across
+   the middle, `radius-0`. The whole board is one link; hover/focus adds a
+   signal ring + shadow-lift + 2px lift without disturbing the standard
+   `--focus` ring drawn by the global `:focus-visible` rule. */
+.hp-flip {
+  --flip-step-t: 150ms; /* a single flap's click: --ease-step's overshoot, shorter than --t-step so a run of them reads as one mechanical flutter */
+  display: flex; flex-direction: column; gap: var(--space-2); width: 100%; box-sizing: border-box;
+  text-decoration: none; color: inherit; padding: var(--space-1); container-type: inline-size;
+  transition: transform var(--t-step) var(--ease-step), box-shadow var(--t-fast) var(--ease-out);
+}
+.hp-flip:hover, .hp-flip:focus-visible { transform: translate(-2px, -2px); box-shadow: 0 0 0 2px var(--signal), var(--shadow-lift); }
+.hp-flip__line { display: grid; grid-template-columns: repeat(var(--flip-cols, 1), 1fr); gap: clamp(1px, 0.4cqi, 3px); }
+.hp-flip__tile {
+  position: relative; overflow: hidden; box-sizing: border-box;
+  aspect-ratio: 3 / 4; min-width: 0;
+  background: var(--flip-tile); color: var(--flip-on-tile);
+  box-shadow: inset 0 0 0 var(--stroke-hair) var(--flip-hairline);
+  border-radius: var(--radius-0);
+  perspective: 200px;
+}
+.hp-flip__tile::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: var(--stroke-hair);
+  background: var(--flip-hairline); transform: translateY(-50%); z-index: 2; pointer-events: none;
+}
+.hp-flip__face, .hp-flip__flap {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-weight: 600; text-transform: uppercase; font-variant-numeric: tabular-nums;
+  font-size: clamp(9px, 3.6cqi, 20px); line-height: 1; letter-spacing: 0;
+  backface-visibility: hidden;
+}
+.hp-flip__flap { transform-origin: 50% 50%; background: var(--flip-tile); z-index: 1; opacity: 0; }
+.hp-flip__tile.is-flipping .hp-flip__flap { animation: hp-flap-step var(--flip-step-t, var(--t-fast)) var(--ease-step); }
+@keyframes hp-flap-step {
+  0% { transform: rotateX(0deg); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: rotateX(-100deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hp-flip:hover, .hp-flip:focus-visible { transform: none; }
+  .hp-flip__tile.is-flipping .hp-flip__flap { animation: none; opacity: 0; }
+}
+

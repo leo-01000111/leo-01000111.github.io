@@ -626,6 +626,12 @@ h1{
 .home-contrib__title{ margin: 0 0 var(--space-1); color: var(--ink-muted); }
 .home-contrib .small{ margin: 0 0 var(--space-3); color: var(--ink-muted); }
 
+/* ── FlipBoard placement: fills the major column below Skills and
+   Contributions, beside the Background timeline in the minor column.
+   Sized to the column's own width; component sizing (tile clamp, container
+   query units) is in components.css. ── */
+.home-flip{ margin-top: var(--space-6); width: 100%; }
+
 /* ── Background: a continuous rail on the left with a marker per entry
    (Lamp for ongoing/upcoming, a hollow square for past), translating the
    pre-migration timeline's structure into Holding Point components. ── */

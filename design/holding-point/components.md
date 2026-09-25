@@ -165,3 +165,15 @@ In the light theme markings are outlined in `ink`, as real markings are on light
 ```
 
 Each marking's `<pattern id>` must be unique on the page (`hp-mk-1`, `hp-mk-2`, …).
+
+## FlipBoard
+
+An airport-departures split-flap board: every character is its own flap tile in a fixed grid, two lines (a label, then a project name), the whole board one link. Legends are Martian Mono (uppercase, tabular): a split-flap is a mechanical character display, not a word-shaped sign, and a fixed mono metric keeps every glyph centred the same in its tile regardless of letter width. Tiles are `--flip-tile`/`--flip-on-tile` (day: `surface`/`ink`; night: `plate`/`on-plate`, like the location sign and the mark) with a `--flip-hairline` crease across the middle and `radius-0` corners.
+
+It animates once, when it scrolls into view: line 1 flips into place, a brief pause, then line 2. Each tile cycles through a few intermediate characters (its own mechanical alphabet) before landing, staggered left to right, using `--ease-step`. It never re-animates on the same page load. Hover and keyboard focus both add a `signal` box-shadow ring plus `shadow-lift` and a 2px lift, layered so the standard `--focus` outline (from the global `:focus-visible` rule) still shows through it. `prefers-reduced-motion` shows the final text immediately, no flipping.
+
+Content: `cols` (the widest string the board will ever show, in characters — pad every shorter line with blank tiles), `line1`, `line2` (a project's short name) and `href`. Without JS the board still renders real text and a working link (see `scripts/build_projects.py`'s `flip:start`/`flip:end` markers); `assets/flipboard.js` then rebuilds the tiles for the day's rotation and runs the flip. One per page (the home page only, in the Skills/Contributions column, beside Background).
+
+```html
+<div class="home-flip"><a class="hp-flip" href="/projects/miltombot.html" data-flip-board style="--flip-cols:20" aria-label="Currently improving: MILTOM-Bot"><span class="hp-flip__line" data-flip-line="0" aria-hidden="true"><span class="hp-flip__tile"><span class="hp-flip__face">C</span><span class="hp-flip__flap" aria-hidden="true"></span></span><!-- … one tile per character, padded with empty faces --></span><span class="hp-flip__line" data-flip-line="1" aria-hidden="true"><!-- … --></span></a></div>
+```

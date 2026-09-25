@@ -28,6 +28,11 @@
   --shadow-lift: 4px 4px 0 #121314;
   --signarray-frame: var(--ink);
   --marking-edge: var(--ink);
+  /* Split-flap board: light departures tile by day (surface + ink), dark
+     plate tile by night (plate + on-plate), like the location sign. */
+  --flip-tile: var(--surface);
+  --flip-on-tile: var(--ink);
+  --flip-hairline: var(--ink);
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -52,6 +57,9 @@
     --shadow-lift: 4px 4px 0 #f5c518;
     --signarray-frame: var(--rule);
     --marking-edge: transparent;
+    --flip-tile: var(--plate);
+    --flip-on-tile: var(--on-plate);
+    --flip-hairline: var(--rule);
     color-scheme: dark;
   }
 }
@@ -76,6 +84,9 @@
   --shadow-lift: 4px 4px 0 #f5c518;
   --signarray-frame: var(--rule);
   --marking-edge: transparent;
+  --flip-tile: var(--plate);
+  --flip-on-tile: var(--on-plate);
+  --flip-hairline: var(--rule);
   color-scheme: dark;
 }
 
