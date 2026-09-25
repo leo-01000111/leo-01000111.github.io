@@ -686,15 +686,27 @@ h1{
    ══════════════════════════════════════════════════════════════════════ */
 
 .proj-hero{ margin-top: var(--space-6); }
-/* Most thumbnails (assets/thumbs/*.svg) paint their own dark background, made
-   for a dark canvas. Frame them on --plate so they read as a deliberate dark
-   panel against the light Day ground instead of floating in a mismatched
-   light gutter. thumb_invert assets (a logo mark, a white diagram photo) get
-   the opposite: a fixed light backing, like the site mark's own plate, so
-   they don't vanish into --surface in Night. */
-.proj-hero__figure{ margin: 0; box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule); background: var(--plate); }
+/* Each thumbnail now bakes its own themed background into the asset itself
+   (recoloured onto tokens.css's literal Day/Night values — see item 7), so
+   the figure needs no forced --plate/light-backing frame any more. */
+.proj-hero__figure{ margin: 0; box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule); }
 .proj-hero__figure img, .proj-hero__figure svg{ display:block; width:100%; height:auto; }
-.proj-hero__figure--invert{ background: #f5f5f2; }
+/* Day/Night thumbnail pairs: show exactly one image based on the effective
+   theme, mirroring tokens.css's own light/dark selectors exactly so the
+   swap tracks the explicit toggle and the OS preference the same way the
+   colour tokens do. Default (no JS, light OS): Day shows, Night is hidden
+   and (being display:none) never loads in a modern browser. */
+/* Specificity note: ".proj-hero__figure img" above is (0,1,1); a bare
+   ".theme-night{display:none}" (0,1,0) would lose to it regardless of
+   source order, so every rule here is scoped under .proj-hero__figure
+   to win outright (0,2,0) or (0,2,1) and up. */
+.proj-hero__figure .theme-night{ display: none; }
+:root[data-theme="dark"] .proj-hero__figure .theme-day{ display: none; }
+:root[data-theme="dark"] .proj-hero__figure .theme-night{ display: block; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .proj-hero__figure .theme-day{ display: none; }
+  :root:not([data-theme="light"]) .proj-hero__figure .theme-night{ display: block; }
+}
 .proj-facts{ margin-top: var(--space-4); }
 .proj-section{ margin-top: var(--space-4); }
 
