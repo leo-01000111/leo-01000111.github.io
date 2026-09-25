@@ -140,23 +140,23 @@ a.hp-card:hover .hp-card__go svg { transform: translateX(3px); }
    `--focus` ring drawn by the global `:focus-visible` rule. */
 .hp-flip {
   --flip-step-t: 150ms; /* a single flap's click: --ease-step's overshoot, shorter than --t-step so a run of them reads as one mechanical flutter */
-  display: flex; flex-direction: column; gap: var(--space-2); width: 100%; box-sizing: border-box;
-  text-decoration: none; color: inherit; padding: var(--space-1); container-type: inline-size;
+  display: flex; flex-direction: column; gap: 3px; width: 100%; box-sizing: border-box;
+  text-decoration: none; color: inherit; padding: 3px; container-type: inline-size;
+  background: var(--flip-hairline); border-radius: var(--radius-plate); /* housing, same frame as the SignArray */
   transition: transform var(--t-step) var(--ease-step), box-shadow var(--t-fast) var(--ease-out);
 }
 .hp-flip:hover, .hp-flip:focus-visible { transform: translate(-2px, -2px); box-shadow: 0 0 0 2px var(--signal), var(--shadow-lift); }
-.hp-flip__line { display: grid; grid-template-columns: repeat(var(--flip-cols, 1), 1fr); gap: clamp(1px, 0.4cqi, 3px); }
+.hp-flip__line { display: grid; grid-template-columns: repeat(var(--flip-cols, 1), 1fr); gap: 2px; }
 .hp-flip__tile {
   position: relative; overflow: hidden; box-sizing: border-box;
   aspect-ratio: 3 / 4; min-width: 0;
   background: var(--flip-tile); color: var(--flip-on-tile);
-  box-shadow: inset 0 0 0 var(--stroke-hair) var(--flip-hairline);
   border-radius: var(--radius-0);
   perspective: 200px;
 }
 .hp-flip__tile::after {
   content: ""; position: absolute; left: 0; right: 0; top: 50%; height: var(--stroke-hair);
-  background: var(--flip-hairline); transform: translateY(-50%); z-index: 2; pointer-events: none;
+  background: var(--rule); transform: translateY(-50%); z-index: 2; pointer-events: none; /* the split between the two flap halves */
 }
 .hp-flip__face, .hp-flip__flap {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
