@@ -649,10 +649,28 @@ h1{
 .home-tl-org a, .home-tl-desc a{ color: var(--edge); }
 .home-tl-desc{ margin: 0; color: var(--ink-muted); }
 
-/* ── Contact ── */
-.home-contact{ margin: var(--space-7) 0 var(--space-6); display:flex; flex-direction:column; align-items:flex-start; gap: var(--space-4); }
-.home-contact__text{ margin: 0; color: var(--ink-muted); max-width: 60ch; }
-.home-contact__text a{ color: var(--edge); }
+/* ── Contact: an 8:5 split like the hero — a "Let's talk." statement +
+   lede + the primary action in the major column, a Contact DataPlate
+   (mirroring the hero's Quick specs plate, refId "LG-02") in the minor
+   column. Replaces the old plain-text paragraph + button. ── */
+.home-contact{ margin: var(--space-7) 0 var(--space-6); }
+.home-contact__row{
+  display: grid;
+  grid-template-columns: 61.5fr 38.5fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+.home-contact__major{ min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+.home-contact__minor{ min-width: 0; }
+.home-contact__title{ margin: 0; font-stretch: var(--stretch-display); }
+.home-contact__lede{ margin: 0; color: var(--ink-muted); max-width: 60ch; }
+@media (max-width: 860px){
+  .home-contact__row{ grid-template-columns: 1fr; gap: var(--space-6); }
+}
+/* External-link rows (GitHub, LinkedIn, CV) carry a trailing up-right arrow;
+   Email and "Based in" don't leave the site so they get none. */
+.hp-plate dd a.ext-link{ display: inline-flex; align-items: center; gap: var(--space-1); }
+.hp-plate dd a.ext-link svg{ width: 13px; height: 13px; flex: none; }
 
 /* ══════════════════════════════════════════════════════════════════════
    PROJECT DETAIL PAGES (phase 4) — hp-* components in the hero, plain
