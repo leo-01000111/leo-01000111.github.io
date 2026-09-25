@@ -513,21 +513,48 @@ h1{
 .home-hero__lede{ margin: 0 0 var(--space-5); color: var(--ink-muted); max-width: 60ch; }
 .home-hero__actions{ display:flex; flex-wrap: wrap; gap: var(--space-2); }
 
+/* Button row + tutoring bar share one width: a shrink-to-fit container sized
+   to the button row's content, with the bar stretched to fill it (item 5
+   review). fit-content also clamps to the available width, so on phones
+   (where the buttons wrap) the bar simply takes the container's width. */
+.home-hero__actions-wrap{ display: inline-grid; width: fit-content; max-width: 100%; gap: var(--space-3); }
+.home-hero__actions-wrap .home-hero__actions{ min-width: 0; }
+
 /* Compact tutoring bar, directly under the hero button row. Stays visually
-   subordinate to the primary actions: a slim hairline-framed row, not a card. */
+   subordinate to the primary actions: a slim hairline-framed row, not a card.
+   The whole bar is the link (no separate "Szczegóły" button): a plate-style
+   hover (lift + shadow-lift) and the shared focus ring make that legible. */
 .home-hero__tutoring{
-  margin-top: var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: var(--space-3);
   padding: var(--space-2) var(--space-3);
   box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule);
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--t-step) var(--ease-step), box-shadow var(--t-fast) var(--ease-out);
 }
-.home-hero__tutoring-link{ flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-.home-hero__tutoring-link:hover .home-hero__tutoring-pl{ text-decoration: underline; text-decoration-thickness: 2px; }
-.home-hero__tutoring-pl{ font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--ink); }
-.home-hero__tutoring-en{ color: var(--ink-muted); }
+.home-hero__tutoring:hover, .home-hero__tutoring:focus-visible{
+  transform: translate(-2px, -2px);
+  box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule), var(--shadow-lift);
+}
+.home-hero__tutoring-text{ flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; white-space: nowrap; overflow: hidden; }
+.home-hero__tutoring-pl{ font-family: var(--font-sans); font-size: 14px; font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; }
+.home-hero__tutoring-en{ color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; }
+.home-hero__tutoring-arrow{ width: 18px; height: 18px; flex: none; color: var(--ink-muted); transition: transform var(--t-step) var(--ease-step); }
+.home-hero__tutoring:hover .home-hero__tutoring-arrow,
+.home-hero__tutoring:focus-visible .home-hero__tutoring-arrow{ transform: translateX(3px); }
+/* One row at desktop widths: at 1024 the Polish line is the long pole, so
+   drop the bar's text one size step rather than let it wrap to two lines. */
+@media (max-width: 1100px){
+  .home-hero__tutoring-pl{ font-size: 13px; }
+  .home-hero__tutoring-en{ font-size: 12px; line-height: 18px; }
+}
+@media (max-width: 860px){
+  .home-hero__tutoring-text{ white-space: normal; }
+}
 
 /* The DataPlate sits lower than the kicker/headline baseline (per
    HomePage-*.png) — pushed down as a block so the bleed block, anchored
