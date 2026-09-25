@@ -81,16 +81,6 @@
   function _projectThumbAlt(title, lang) {
     return lang === "fr" ? `Miniature du projet : ${title}` : `Project thumbnail: ${title}`;
   }
-  function _skeletonCard() {
-    return `<div class="skel-proj" aria-hidden="true" role="presentation">
-      <div class="skel" style="width:120px;height:68px;border-radius:12px;flex-shrink:0;"></div>
-      <div class="skel-body">
-        <div class="skel" style="height:17px;width:58%;"></div>
-        <div class="skel" style="height:13px;width:88%;"></div>
-        <div class="skel" style="height:13px;width:70%;"></div>
-      </div>
-    </div>`;
-  }
   function _renderProjectCard(p, lang) {
     const title = p?.title?.[lang] || p?.title?.en || "";
     const desc = p?.description?.[lang] || p?.description?.en || "";
@@ -117,37 +107,6 @@
         </div>
       </article>
     `;
-  }
-  function _setProjectsPageCopy(lang) {
-    const copy = {
-      en: {
-        home: "Home",
-        all: "All projects",
-        title: "Projects",
-        lead: "Engineering work in controls, simulation, and analysis.",
-        noscript: "Enable JavaScript to see the projects list."
-      },
-      fr: {
-        home: "Accueil",
-        all: "Tous les projets",
-        title: "Projets",
-        lead: "Travaux d'ingénierie en commande, simulation et analyse.",
-        noscript: "Active JavaScript pour afficher la liste des projets."
-      }
-    }[lang] || {};
-
-    const map = [
-      ["#projects-title", copy.title],
-      ["#projects-lead", copy.lead],
-      ["#projects-noscript", copy.noscript]
-    ];
-    map.forEach(([selector, text]) => {
-      if (!text) return;
-      const el = document.querySelector(selector);
-      if (el) el.textContent = text;
-    });
-
-    if (copy.title) document.title = `${copy.title} - Leon Górecki`;
   }
   function _setProjectPageCopy(lang) {
     const copy = {
@@ -201,46 +160,6 @@
     const slug = file.replace(/\.html$/i, "");
     if (!slug || slug.toLowerCase() === "index") return null;
     return (all || []).find((x) => (x?.slug || `project${x?.id || ""}`) === slug) || null;
-  }
-
-  async function _initFeaturedProjects(lang) {
-    const host = document.getElementById("featured-projects");
-    if (!host) return;
-
-    host.innerHTML = _skeletonCard();
-    try {
-      const all = await _fetchJSON(_joinRoot("projects/projects.json"));
-      const featured = (all || []).filter((p) => p.featuredOrder != null);
-      const list = featured.length
-        ? featured.sort((a, b) => a.featuredOrder - b.featuredOrder)
-        : (all || []);
-
-      if (!list.length) {
-        host.innerHTML = `<div class="small">${lang === "fr" ? "Aucun projet configuré." : "No projects configured."}</div>`;
-        return;
-      }
-      host.innerHTML = list.map((p) => _renderProjectCard(p, lang)).join("");
-    } catch (e) {
-      host.innerHTML = `<div class="small">${lang === "fr" ? "Impossible de charger les projets." : "Could not load projects."}</div>`;
-    }
-  }
-
-  async function _initProjectsIndex(lang) {
-    const grid = document.getElementById("projects-grid");
-    if (!grid) return;
-
-    _setProjectsPageCopy(lang);
-    grid.innerHTML = [1,2].map(_skeletonCard).join("");
-    try {
-      const all = await _fetchJSON(_joinRoot("projects/projects.json"));
-      if (!Array.isArray(all) || !all.length) {
-        grid.innerHTML = `<div class="small">${lang === "fr" ? "Aucun projet pour le moment." : "No projects yet."}</div>`;
-        return;
-      }
-      grid.innerHTML = all.map((p) => _renderProjectCard(p, lang)).join("");
-    } catch (e) {
-      grid.innerHTML = `<div class="small">${lang === "fr" ? "Impossible de charger la liste des projets." : "Could not load the projects list."}</div>`;
-    }
   }
 
   async function _initProjectPage(lang) {
@@ -337,40 +256,6 @@
     });
   }
 
-  // Scroll-reveal via IntersectionObserver
-  function _initReveal() {
-    if (!("IntersectionObserver" in window)) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.10, rootMargin: "0px 0px -20px 0px" });
-
-    // Wait one frame so we know which elements are already in viewport
-    requestAnimationFrame(function() {
-      var vh = window.innerHeight;
-      document.querySelectorAll(".card, .tl-item").forEach(function(el) {
-        var rect = el.getBoundingClientRect();
-        if (rect.top >= vh) {
-          // Below fold — animate it in
-          el.classList.add("reveal");
-          io.observe(el);
-        }
-        // Already visible on load — no animation, avoid flash
-      });
-      // Stagger timeline items
-      var tlItems = document.querySelectorAll(".tl-item.reveal");
-      tlItems.forEach(function(el, i) {
-        el.style.transitionDelay = (i * 90) + "ms";
-      });
-    });
-  }
-
   const lang = _getLang();
   _syncLangUI(lang);
   // Fix home link to respect current language
@@ -382,10 +267,7 @@
     a.setAttribute("href", lang === "fr" ? (_siteRoot() + "fr/projects/") : (_siteRoot() + "projects/"));
   });
   _initAiBadge(lang);
-  _initFeaturedProjects(lang);
-  _initProjectsIndex(lang);
   _initProjectPage(lang);
   _initSeeAlso(lang);
   _initBackToTop();
-  _initReveal();
 })();
