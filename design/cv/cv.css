@@ -1,0 +1,173 @@
+/* CV layout — rendered to A4 PDF by build.mjs */
+@font-face { font-family: "Plex"; font-weight: 400; src: url("../../assets/fonts/ibm-plex-sans-latin-ext-400-normal.woff2") format("woff2"); unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Plex"; font-weight: 600; src: url("../../assets/fonts/ibm-plex-sans-latin-ext-600-normal.woff2") format("woff2"); unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Plex"; font-weight: 400; src: url("../../assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Plex"; font-weight: 600; src: url("../../assets/fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Archivo"; font-weight: 100 900; src: url("../../assets/fonts/archivo-latin-ext-wdth-normal.woff2") format("woff2"); unicode-range: U+0100-024F, U+1E00-1EFF, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Archivo"; font-weight: 100 900; src: url("../../assets/fonts/archivo-latin-wdth-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+2122, U+2212; }
+
+@page { size: A4; margin: 0; }
+
+:root {
+  --ink: #1b2430;
+  --muted: #5b6573;
+  --rule: #d5dbe3;
+  --navy: #14263d;
+  --navy-ink: #e8edf3;
+  --navy-muted: #9fb0c4;
+  --accent: #2f6db3;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 210mm;
+  height: 297mm;
+  background: #fff;
+  color: var(--ink);
+  font-family: "Plex", "Helvetica Neue", Arial, sans-serif;
+  font-size: 8.8pt;
+  line-height: 1.45;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.page {
+  display: grid;
+  grid-template-columns: 66mm 1fr;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+}
+
+/* ---------- Sidebar ---------- */
+.side {
+  background: var(--navy);
+  color: var(--navy-ink);
+  padding: 11mm 7.5mm 9mm 8.5mm;
+}
+
+.photo {
+  display: block;
+  width: 36mm;
+  height: 36mm;
+  margin: 0 auto 7mm;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.2mm solid rgba(255, 255, 255, 0.12);
+}
+
+.side h2 {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: 8.4pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+  padding-bottom: 1.6mm;
+  margin: 5.4mm 0 2.4mm;
+  border-bottom: 0.3mm solid rgba(255, 255, 255, 0.22);
+}
+.side h2:first-of-type { margin-top: 0; }
+
+.contact { list-style: none; }
+.contact li {
+  display: grid;
+  grid-template-columns: 4.6mm 1fr;
+  align-items: center;
+  column-gap: 2mm;
+  margin-bottom: 1.7mm;
+  font-size: 8.3pt;
+  word-break: break-word;
+}
+.contact svg { width: 3.6mm; height: 3.6mm; fill: none; stroke: var(--navy-muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.skill { margin-bottom: 2.3mm; }
+.skill dt {
+  font-weight: 600;
+  font-size: 7.6pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--navy-muted);
+}
+.skill dd { font-size: 8.4pt; }
+
+.lang { list-style: none; }
+.lang li {
+  display: flex;
+  justify-content: space-between;
+  gap: 2mm;
+  margin-bottom: 1.3mm;
+  font-size: 8.4pt;
+}
+.lang span { color: var(--navy-muted); text-align: right; }
+
+.plain { list-style: none; font-size: 8.4pt; }
+.plain li { margin-bottom: 1.1mm; }
+
+/* ---------- Main ---------- */
+.main { padding: 11mm 11mm 8mm 10mm; }
+
+.name {
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  font-size: 27pt;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--navy);
+  text-transform: uppercase;
+}
+.title {
+  margin-top: 2.4mm;
+  font-family: "Archivo", sans-serif;
+  font-weight: 500;
+  font-size: 11pt;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.main h2 {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: 9.6pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--navy);
+  margin: 6mm 0 2.6mm;
+}
+.main h2::after { content: ""; flex: 1; height: 0.3mm; background: var(--rule); }
+
+.profile { color: var(--ink); text-align: justify; hyphens: auto; }
+
+.entry { margin-bottom: 3.2mm; break-inside: avoid; }
+.entry:last-child { margin-bottom: 0; }
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 3mm;
+}
+.entry-title { font-weight: 600; font-size: 9.3pt; color: var(--navy); }
+.entry-date {
+  flex: none;
+  font-size: 8pt;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.entry-org { color: var(--muted); font-size: 8.6pt; margin-top: 0.2mm; }
+.entry-org b { font-weight: 600; color: var(--ink); }
+
+.entry ul { margin: 1mm 0 0 3.6mm; }
+.entry li { margin-bottom: 0.5mm; padding-left: 0.6mm; }
+.entry li::marker { color: var(--accent); }
+.entry p.desc { margin-top: 0.8mm; }
+
+.tags { margin-top: 0.8mm; font-size: 7.8pt; color: var(--muted); letter-spacing: 0.02em; }
+
