@@ -46,6 +46,28 @@
     ]
   },
   {
+    "id": 9,
+    "slug": "mostmobilemouse",
+    "short": "MostMobileMouse",
+    "code": "GNC",
+    "meta": ["2026", "In progress"],
+    "title": {
+      "en": "MostMobileMouse: a phone as a desk mouse",
+      "fr": "MostMobileMouse : un téléphone comme souris de bureau"
+    },
+    "description": {
+      "en": "A phone lies face-down on the desk and works as a mouse. The rear camera tracks the ceiling, and the IMU measures the motion between frames. Work in progress.",
+      "fr": "Un téléphone posé face contre le bureau sert de souris. La caméra arrière suit le plafond, et la centrale inertielle mesure le mouvement entre deux images. Projet en cours."
+    },
+    "tags": [
+      "Sensor Fusion",
+      "Computer Vision",
+      "Kotlin",
+      "Python",
+      "Android"
+    ]
+  },
+  {
     "id": 5,
     "slug": "navfusion",
     "short": "navfusion",

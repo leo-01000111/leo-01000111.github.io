@@ -92,6 +92,24 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.leongorecki.eu/projects/mostmobilemouse.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/mostmobilemouse.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/mostmobilemouse.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/mostmobilemouse.html" />
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.leongorecki.eu/fr/projects/mostmobilemouse.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/mostmobilemouse.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/mostmobilemouse.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/mostmobilemouse.html" />
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.leongorecki.eu/projects/project1.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/project1.html" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/project1.html" />

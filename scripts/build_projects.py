@@ -140,6 +140,7 @@ SEE_ALSO = {
     "kaggle": ["aicalc", "f1predictor"],
     "lgflow": ["fauxmatlab", "miltombot"],
     "miltombot": ["fauxmatlab", "lgflow"],
+    "mostmobilemouse": ["navfusion", "project1"],
     "navfusion": ["project1", "fauxmatlab"],
     "project1": ["navfusion", "fauxmatlab"],
 }
