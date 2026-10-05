@@ -49,6 +49,7 @@
     "id": 9,
     "slug": "mostmobilemouse",
     "short": "MostMobileMouse",
+    "featuredOrder": 3,
     "code": "GNC",
     "meta": ["2026", "In progress"],
     "title": {
@@ -92,7 +93,6 @@
     "id": 1,
     "slug": "project1",
     "short": "BEng thesis",
-    "featuredOrder": 3,
     "code": "GNC",
     "meta": ["2025", "Thesis"],
     "title": {

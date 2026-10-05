@@ -723,6 +723,15 @@ figure.shot figcaption{ margin-top: var(--space-2); color: var(--ink-muted); }
 .media-pair{ display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-4); }
 .media-pair figure.shot{ margin-top:0; }
 @media (max-width: 640px){ .media-pair{ grid-template-columns: 1fr; } }
+/* Day/Night screenshot pairs inside figure.shot, same selectors as the
+   hero thumbnails above; (0,2,1) beats "figure.shot img" (0,1,2). */
+figure.shot .theme-night{ display: none; }
+:root[data-theme="dark"] figure.shot .theme-day{ display: none; }
+:root[data-theme="dark"] figure.shot .theme-night{ display: block; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) figure.shot .theme-day{ display: none; }
+  :root:not([data-theme="light"]) figure.shot .theme-night{ display: block; }
+}
 
 /* Data grid: labelled fact tiles (architecture, tech stack, features) */
 .data-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-3); margin-top: var(--space-4); }
