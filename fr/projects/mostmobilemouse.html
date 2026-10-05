@@ -56,7 +56,7 @@
         <div>
           <p class="label" id="proj-kicker">Fusion de capteurs &middot; Android + PC</p>
           <h1 id="proj-title">MostMobileMouse : un téléphone comme souris de bureau</h1>
-          <p id="proj-desc" class="lede">Un téléphone posé face contre le bureau sert de souris. La caméra arrière suit le plafond, et la centrale inertielle mesure le mouvement entre deux images. Projet en cours.</p>
+          <p id="proj-desc" class="lede">Un téléphone posé face contre le bureau sert de souris. La caméra arrière suit le plafond, et la centrale inertielle fixe l'échelle et détecte les tapes et les levées. Projet en cours.</p>
           <ul class="hp-tags" aria-label="Stack" id="proj-tags">
             <li><span class="hp-tag">Sensor Fusion</span></li>
             <li><span class="hp-tag">Computer Vision</span></li>
@@ -80,12 +80,12 @@
         <h2>Ce que fait le projet</h2>
         <p class="muted" style="line-height:1.7;margin:0 0 12px;">
           Le téléphone est posé face contre le bureau. On le fait glisser et le curseur bouge. On tape sur son dos pour
-          cliquer. On le tourne pour faire défiler. On le soulève pour le repositionner, comme une souris normale.
+          cliquer. Le défilement par rotation existe aussi, mais il est expérimental et désactivé par défaut. On le soulève pour le repositionner, comme une souris normale.
         </p>
         <p class="muted" style="line-height:1.7;margin:0;">
           La caméra arrière regarde le plafond et y suit des points. La caméra ne dérive pas, mais ses données arrivent en
           retard et dépendent de la texture. La centrale inertielle (IMU) tourne à 500&nbsp;Hz avec peu de latence, mais elle
-          dérive quand on l'intègre. Le projet combine les deux. Le développement part des données : enregistrer de vraies
+          dérive quand on l'intègre. L'objectif est de fusionner les deux dans un filtre. Pour l'instant, la caméra donne le mouvement, et l'IMU donne l'échelle, les clics et les levées. Le développement part des données : enregistrer de vraies
           mesures, construire l'algorithme hors ligne en Python, le mesurer, et seulement ensuite écrire l'application temps réel.
         </p>
       </div>
@@ -145,7 +145,7 @@
       <div class="card">
         <h2>Prochaines étapes</h2>
         <ul class="muted check-list">
-          <li>Un EKF qui fusionne l'IMU et les mesures visuelles de chaque point, avec des mises à jour à vitesse nulle. Puis une décision go/no-go sur des objectifs de précision.</li>
+          <li>Un EKF qui fusionne l'IMU et les mesures visuelles de chaque point, avec des mises à jour à vitesse nulle.</li>
           <li>Un cœur C++ (OpenCV, Eigen) qui tourne sur le téléphone. Seuls les événements du curseur passent alors par la liaison. Le flux brut demande environ 150&nbsp;Mbit/s.</li>
           <li>Bluetooth HID, pour que le téléphone s'appaire comme une souris normale, sans logiciel sur le PC. Le S24 prend en charge le profil HID.</li>
         </ul>

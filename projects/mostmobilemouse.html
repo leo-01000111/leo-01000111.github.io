@@ -55,7 +55,7 @@
         <div>
           <p class="label" id="proj-kicker">Sensor fusion &middot; Android + PC</p>
           <h1 id="proj-title">MostMobileMouse: a phone as a desk mouse</h1>
-          <p id="proj-desc" class="lede">A phone lies face-down on the desk and works as a mouse. The rear camera tracks the ceiling, and the IMU measures the motion between frames. Work in progress.</p>
+          <p id="proj-desc" class="lede">A phone lies face-down on the desk and works as a mouse. The rear camera tracks the ceiling, and the IMU sets the scale and detects taps and lifts. Work in progress.</p>
           <ul class="hp-tags" aria-label="Stack" id="proj-tags">
             <li><span class="hp-tag">Sensor Fusion</span></li>
             <li><span class="hp-tag">Computer Vision</span></li>
@@ -78,13 +78,13 @@
       <div class="card">
         <h2>What it does</h2>
         <p class="muted" style="line-height:1.7;margin:0 0 12px;">
-          The phone lies face-down on the desk. Slide it and the cursor moves. Tap its back to click. Twist it to scroll.
+          The phone lies face-down on the desk. Slide it and the cursor moves. Tap its back to click. Twisting it to scroll also works, but it is experimental and off by default.
           Lift it to reposition, like a normal mouse.
         </p>
         <p class="muted" style="line-height:1.7;margin:0;">
           The rear camera faces the ceiling and tracks features on it. The camera does not drift, but its data is late and
-          depends on texture. The IMU runs at 500&nbsp;Hz with low latency, but it drifts when integrated. The project combines
-          the two. Development is data-first: record real sensor data, build the algorithm offline in Python, measure it, and
+          depends on texture. The IMU runs at 500&nbsp;Hz with low latency, but it drifts when integrated. The plan is to fuse
+          the two in a filter. For now the camera gives the motion, and the IMU gives the scale, the clicks and the lifts. Development is data-first: record real sensor data, build the algorithm offline in Python, measure it, and
           only then write the real-time app.
         </p>
       </div>
@@ -144,7 +144,7 @@
       <div class="card">
         <h2>Next steps</h2>
         <ul class="muted check-list">
-          <li>An EKF that fuses the IMU and the per-track vision measurements, with zero-velocity updates. Then a go/no-go check against accuracy targets.</li>
+          <li>An EKF that fuses the IMU and the per-track vision measurements, with zero-velocity updates.</li>
           <li>A C++ core (OpenCV, Eigen) that runs on the phone. Only cursor events then cross the link. The raw stream needs about 150&nbsp;Mbit/s.</li>
           <li>Bluetooth HID, so the phone pairs as a normal mouse with no PC software. The S24 supports the HID device profile.</li>
         </ul>

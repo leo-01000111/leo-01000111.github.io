@@ -34,8 +34,8 @@
       "fr": "FauxMatlab : un atelier d'automatique en Python"
     },
     "description": {
-      "en": "A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 684 tests.",
-      "fr": "Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 684 tests."
+      "en": "A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 817 tests.",
+      "fr": "Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 817 tests."
     },
     "tags": [
       "Python",
@@ -56,8 +56,8 @@
       "fr": "MostMobileMouse : un téléphone comme souris de bureau"
     },
     "description": {
-      "en": "A phone lies face-down on the desk and works as a mouse. The rear camera tracks the ceiling, and the IMU measures the motion between frames. Work in progress.",
-      "fr": "Un téléphone posé face contre le bureau sert de souris. La caméra arrière suit le plafond, et la centrale inertielle mesure le mouvement entre deux images. Projet en cours."
+      "en": "A phone lies face-down on the desk and works as a mouse. The rear camera tracks the ceiling, and the IMU sets the scale and detects taps and lifts. Work in progress.",
+      "fr": "Un téléphone posé face contre le bureau sert de souris. La caméra arrière suit le plafond, et la centrale inertielle fixe l'échelle et détecte les tapes et les levées. Projet en cours."
     },
     "tags": [
       "Sensor Fusion",
@@ -183,13 +183,13 @@
       "fr": "Prédicteur de Course F1"
     },
     "description": {
-      "en": "XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data.",
-      "fr": "Ensemble XGBoost et PyTorch qui prédit les probabilités de podium en F1 à partir des qualifications, de la météo et des données historiques."
+      "en": "An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities.",
+      "fr": "Un modèle XGBoost prédit la position finale de chaque pilote à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium."
     },
     "tags": [
       "Machine Learning",
       "XGBoost",
-      "PyTorch",
+      "Python",
       "Streamlit"
     ]
   }

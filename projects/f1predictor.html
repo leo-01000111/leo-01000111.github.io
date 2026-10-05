@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>F1 Race Predictor - Leon Górecki</title>
-  <meta name="description" content="XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data." />
+  <meta name="description" content="An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities." />
   <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="F1 Race Predictor - Leon Górecki" />
-  <meta property="og:description" content="XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data." />
+  <meta property="og:description" content="An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/f1predictor.html" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/f1predictor.html" />
@@ -55,11 +55,11 @@
         <div>
           <p class="label" id="f1-kicker">Machine Learning &middot; Formula 1</p>
           <h1 id="proj-title">F1 Race Predictor</h1>
-          <p id="proj-desc" class="lede">XGBoost and PyTorch ensemble that predicts Formula 1 podium probabilities from qualifying, weather and historical race data.</p>
+          <p id="proj-desc" class="lede">An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities.</p>
           <ul class="hp-tags" aria-label="Stack" id="proj-tags">
             <li><span class="hp-tag">Machine Learning</span></li>
             <li><span class="hp-tag">XGBoost</span></li>
-            <li><span class="hp-tag">PyTorch</span></li>
+            <li><span class="hp-tag">Python</span></li>
             <li><span class="hp-tag">Streamlit</span></li>
           </ul>
           <div class="cta" style="margin-top:18px;">
@@ -78,7 +78,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="f1-ctx-title">What it does</h2>
-        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;">A machine-learning pipeline that predicts Formula 1 podium probabilities (P1, P2, P3) for upcoming races. It is trained on 2014–2024 data. Inputs are qualifying results, driver and team history, circuit characteristics and live weather. An XGBoost and PyTorch ensemble produces calibrated probabilities, shown in a Streamlit dashboard.</p>
+        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;">A machine-learning pipeline that predicts the result of an upcoming Formula 1 race once qualifying is over. It is trained on seasons from 2014 onwards. Inputs are qualifying and practice results, driver and team history, circuit characteristics and the race-day forecast. An XGBoost regressor predicts every driver's finishing position, and a Plackett-Luce simulation turns those positions into probabilities for a win, P2, P3, the podium, the top 6 and the top 10. A Streamlit dashboard shows them race by race.</p>
       </div>
     </section>
 
@@ -89,19 +89,19 @@
         <div class="step-list">
           <div class="step-list__row">
             <div class="step-list__num">01</div>
-            <div class="step-list__text" id="f1-pipe1"><strong>Data ingestion.</strong> Qualifying results (OpenF1), race results 2014–2024 (FastF1), circuit data and live weather (Open-Meteo).</div>
+            <div class="step-list__text" id="f1-pipe1"><strong>Data ingestion.</strong> Race, qualifying, practice, pit-stop and sprint data from 2014 (FastF1), live qualifying and practice (OpenF1), and weather (Open-Meteo).</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">02</div>
-            <div class="step-list__text" id="f1-pipe2"><strong>Features.</strong> Driver form, team performance trends, grid position and weather-adjusted pace.</div>
+            <div class="step-list__text" id="f1-pipe2"><strong>Features.</strong> 35 inputs: grid position and qualifying gaps, car and practice pace, driver form and Elo rating, team form, circuit history, reliability and weather. Each one uses only races before the one being predicted.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">03</div>
-            <div class="step-list__text" id="f1-pipe3"><strong>Ensemble.</strong> Three XGBoost binary classifiers, one per podium position, plus a PyTorch MLP with driver and team embeddings. A logistic regression stacks their outputs.</div>
+            <div class="step-list__text" id="f1-pipe3"><strong>Model.</strong> One XGBoost regressor predicts each driver's finishing position. Recent seasons get more weight in training.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">04</div>
-            <div class="step-list__text" id="f1-pipe4"><strong>Calibration.</strong> Isotonic regression makes the probabilities reliable for every podium position.</div>
+            <div class="step-list__text" id="f1-pipe4"><strong>Race simulation.</strong> A Plackett-Luce sampler draws 10,000 finishing orders from the predicted positions, which gives a probability for every driver and every position.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">05</div>
@@ -117,20 +117,20 @@
         <h2 id="f1-arch-title">Model architecture</h2>
         <div class="data-grid">
           <div class="data-grid__item">
-            <div class="data-grid__label" id="f1-ac1-label">XGBoost layer</div>
-            <div class="data-grid__value" id="f1-ac1-value">Three binary classifiers (P1, P2, P3), each trained separately on the engineered features</div>
+            <div class="data-grid__label" id="f1-ac1-label">Regressor</div>
+            <div class="data-grid__value" id="f1-ac1-value">XGBoost with an absolute-error objective, predicting finishing position (a DNF counts as last place plus one)</div>
           </div>
           <div class="data-grid__item">
-            <div class="data-grid__label" id="f1-ac2-label">PyTorch layer</div>
-            <div class="data-grid__value" id="f1-ac2-value">MLP with learned driver and constructor embeddings, which capture team and driver identity</div>
+            <div class="data-grid__label" id="f1-ac2-label">Sample weights</div>
+            <div class="data-grid__value" id="f1-ac2-value">Recency weights from 0.65 for the oldest season to 1.35 for the newest</div>
           </div>
           <div class="data-grid__item">
-            <div class="data-grid__label" id="f1-ac3-label">Stacking</div>
-            <div class="data-grid__value" id="f1-ac3-value">Logistic regression combines the XGBoost and PyTorch outputs</div>
+            <div class="data-grid__label" id="f1-ac3-label">Probabilities</div>
+            <div class="data-grid__value" id="f1-ac3-value">Plackett-Luce sampling (Gumbel-max, 10,000 draws). Each driver's row and each position's column sum to 1</div>
           </div>
           <div class="data-grid__item">
-            <div class="data-grid__label" id="f1-ac4-label">Calibration</div>
-            <div class="data-grid__value" id="f1-ac4-value">Isotonic regression calibrates the final probabilities</div>
+            <div class="data-grid__label" id="f1-ac4-label">Archived</div>
+            <div class="data-grid__value" id="f1-ac4-value">An earlier stack of three XGBoost classifiers and a PyTorch MLP, combined by logistic regression, was tried and archived</div>
           </div>
         </div>
       </div>
@@ -141,9 +141,9 @@
       <div class="card">
         <h2 id="f1-data-title">Data sources</h2>
         <ul class="data-list">
-          <li><span class="dl-src">FastF1</span><span class="dl-desc" id="f1-ds1">Historical race results, lap times and telemetry (2014–2024 seasons)</span></li>
-          <li><span class="dl-src">OpenF1</span><span class="dl-desc" id="f1-ds2">Live qualifying data for upcoming races</span></li>
-          <li><span class="dl-src">Open-Meteo</span><span class="dl-desc" id="f1-ds3">Circuit weather: temperature, rain probability, wind speed</span></li>
+          <li><span class="dl-src">FastF1</span><span class="dl-desc" id="f1-ds1">Race, qualifying, practice, pit-stop and sprint data from the 2014 season on</span></li>
+          <li><span class="dl-src">OpenF1</span><span class="dl-desc" id="f1-ds2">Live qualifying and practice data on race weekends</span></li>
+          <li><span class="dl-src">Open-Meteo</span><span class="dl-desc" id="f1-ds3">Circuit weather: temperature, rain, wind and humidity, archived and race-day forecast</span></li>
         </ul>
       </div>
     </section>
@@ -152,13 +152,13 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="f1-eval-title">Evaluation</h2>
-        <p class="muted" id="f1-eval-text" style="margin:0 0 12px;line-height:1.65;">Leave-one-season-out cross-validation, plus a 2023–2024 holdout set that was not used in training. Metrics: Brier score, log loss, ROC-AUC, winner accuracy and podium overlap.</p>
+        <p class="muted" id="f1-eval-text" style="margin:0 0 12px;line-height:1.65;">Leave-one-season-out cross-validation, plus a holdout on the two most recent seasons, measured before the production model is retrained on almost all the data. After each real race the prediction is compared with the result. Metrics: winner accuracy, podium accuracy, P1 Brier score, Spearman correlation, mean position error and expected calibration error.</p>
         <div class="badge-row">
-          <span class="badge">Brier score</span>
-          <span class="badge">Log loss</span>
-          <span class="badge">ROC-AUC</span>
           <span class="badge">Winner accuracy</span>
-          <span class="badge">Podium overlap</span>
+          <span class="badge">Podium accuracy</span>
+          <span class="badge">Brier score</span>
+          <span class="badge">Spearman</span>
+          <span class="badge">Calibration error</span>
         </div>
       </div>
     </section>

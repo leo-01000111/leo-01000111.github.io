@@ -80,7 +80,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="lg-ctx-title">Présentation</h2>
-        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW est un solveur 2D de Navier-Stokes incompressible écrit en C++20. Il utilise la méthode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille décalée. Il est validé sur le cas de la cavité entraînée de Ghia et al. (1982), pour Re = 100 et Re = 1000. Il produit les résidus par itération, les profils de vitesse sur les axes médians, des instantanés VTK et les erreurs L2/L∞.</p>
+        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW est un solveur 2D de Navier-Stokes incompressible écrit en C++20. Il utilise la méthode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille colocalisée, avec une interpolation de Rhie-Chow aux faces. Il est validé sur le cas de la cavité entraînée de Ghia et al. (1982) à Re = 100. Il produit les résidus par itération, les profils de vitesse sur les axes médians, des instantanés VTK et les erreurs L2/L∞, et une interface SFML affiche les résidus et l'écoulement pendant le calcul. Un solveur sur maillage non structuré et un modèle de turbulence Spalart-Allmaras sont en cours.</p>
       </div>
     </section>
 
@@ -121,7 +121,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="lg-val-title">Validation : cavité entraînée de Ghia et al.</h2>
-        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">La référence est Ghia, Ghia &amp; Shin (1982), le cas de référence standard pour l'écoulement incompressible 2D en cavité entraînée. Les deux cas, Re = 100 et Re = 1000, passent les seuils d'erreur L2 et L∞ automatisés.</p>
+        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">La référence est Ghia, Ghia &amp; Shin (1982), le cas de référence standard pour l'écoulement incompressible 2D en cavité entraînée. Le cas Re = 100 est vérifié automatiquement : les erreurs L2 des profils de u et v sur les axes médians doivent rester sous des seuils fixés. Les erreurs L∞ sont aussi calculées et affichées.</p>
         <div class="table-wrap"><table class="results-table">
           <thead>
             <tr>
@@ -138,15 +138,9 @@
               <td>Ghia et al. 1982</td>
               <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass1">OK</span></span></td>
             </tr>
-            <tr>
-              <td id="lg-vc2-case">Cavité entraînée</td>
-              <td>1000</td>
-              <td>Ghia et al. 1982</td>
-              <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass2">OK</span></span></td>
-            </tr>
           </tbody>
         </table></div>
-        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">La vérification est automatique. Le solveur renvoie un code non nul si une métrique dépasse la tolérance, donc la CI peut l'utiliser directement.</p>
+        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">L'exécutable de validation renvoie le code 2 si une erreur dépasse son seuil, donc la CI peut l'utiliser directement. La même vérification tourne aussi comme test CTest.</p>
       </div>
     </section>
 
@@ -155,7 +149,7 @@
       <div class="card">
         <h2 id="lg-phase-title">Implémentation</h2>
         <div class="step-list" id="lg-phase-list">
-          <div class="step-list__row"><span class="step-list__num">01</span><span class="step-list__text" id="lg-p1">Grille décalée avec pression colloquée, qui évite le découplage pression-vitesse</span></div>
+          <div class="step-list__row"><span class="step-list__num">01</span><span class="step-list__text" id="lg-p1">Grille colocalisée avec interpolation de Rhie-Chow aux faces, qui évite le découplage pression-vitesse</span></div>
           <div class="step-list__row"><span class="step-list__num">02</span><span class="step-list__text" id="lg-p2">Boucle de correction de pression SIMPLE, nombre de passes configurable</span></div>
           <div class="step-list__row"><span class="step-list__num">03</span><span class="step-list__text" id="lg-p3">Stencils cohérents : un seul schéma d'interpolation partout</span></div>
           <div class="step-list__row"><span class="step-list__num">04</span><span class="step-list__text" id="lg-p4">Validation automatisée avec codes de sortie réussite/échec</span></div>
@@ -168,7 +162,7 @@
       <h2 class="label see-also__title">See also</h2>
       <!-- see-also:start -->
 <div class="hp-card-list">
-<a class="hp-card" href="/fr/projects/fauxmatlab.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>02</span></div><div class="hp-card__body"><h3 class="hp-card__title">FauxMatlab : un atelier d'automatique en Python</h3><p class="hp-card__summary">Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 684 tests.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">PySide6</span></li><li><span class="hp-tag">Control Systems</span></li><li><span class="hp-tag">SciPy</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card" href="/fr/projects/fauxmatlab.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>02</span></div><div class="hp-card__body"><h3 class="hp-card__title">FauxMatlab : un atelier d'automatique en Python</h3><p class="hp-card__summary">Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 817 tests.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">PySide6</span></li><li><span class="hp-tag">Control Systems</span></li><li><span class="hp-tag">SciPy</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
 <a class="hp-card hp-card--hold" href="/fr/projects/miltombot.html"><div class="hp-card__index" aria-hidden="true"><em>OPS</em><span>01</span></div><div class="hp-card__body"><div class="hp-card__kicker"><span>2026</span><span>Miltom</span></div><h3 class="hp-card__title">MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale</h3><p class="hp-card__summary">En production chez MILTOM. Il lit toutes les heures le bulletin polonais des marchés publics, classe les appels d'offres pertinents avec un classifieur et les présente à l'équipe commerciale dans une application web. Leurs réponses entraînent le modèle suivant.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">FastAPI</span></li><li><span class="hp-tag">PostgreSQL</span></li><li><span class="hp-tag">scikit-learn</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
 </div>
 <!-- see-also:end -->
