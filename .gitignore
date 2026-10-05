@@ -1,3 +1,6 @@
 # Thesis source archive — not for public hosting
 pracaINZ_nodata.pdf
 pracaINZ_nodata.zip
+
+# CV build dependencies
+node_modules/

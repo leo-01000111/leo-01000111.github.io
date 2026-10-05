@@ -1,0 +1,11 @@
+{
+  "name": "cv",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}

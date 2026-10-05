@@ -1,5 +1,6 @@
 // Renders the CV HTML sources to PDF.
 // Usage (from repo root): node design/cv/build.mjs
+// First-time setup (in design/cv): npm install && npx playwright install chromium
 import { chromium } from "playwright";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
