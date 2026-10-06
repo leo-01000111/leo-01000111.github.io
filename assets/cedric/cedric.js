@@ -8,6 +8,8 @@
             label:  accessible name for the poke button
             interactive: false → no poke button (use when Cedric sits inside another control)
             draw:   false → appear fully drawn instead of hatching in
+            onPoke: () => true to take over a poke (no default hop/line)
+            sleepy: false → never dozes off when nobody moves the mouse
    The returned object's destroy() removes Cedric and stops his loop and listeners. */
 (function () {
   const NS = 'http://www.w3.org/2000/svg';
@@ -178,6 +180,7 @@
     let pokes = 0;
     if (opts.interactive !== false) btn.addEventListener('click', () => {
       wake();
+      if (opts.onPoke && opts.onPoke() === true) return;   // caller handled this poke
       flick();
       if (lines.poke.length) say(lines.poke[pokes++ % lines.poke.length]);
     });
@@ -197,7 +200,7 @@
     function activity() {
       wake();
       clearTimeout(idleTimer);
-      idleTimer = setTimeout(sleep, SLEEP_AFTER_MS);
+      if (opts.sleepy !== false) idleTimer = setTimeout(sleep, SLEEP_AFTER_MS);
     }
     let mouse = null;
     let lastMove = 0;

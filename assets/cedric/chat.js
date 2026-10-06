@@ -57,9 +57,45 @@
     const lines = Object.assign({}, FALLBACK_LINES, all && all[lang]);
     lines.chat = Object.assign({}, FALLBACK_LINES.chat, lines.chat);
 
-    // ---- home-page Cedric ----------------------------------------------------
+    // ---- home-page Cédric ----------------------------------------------------
+    // Once Blue has been found, his pokes here are special: the 4th hints, the 5th
+    // invites you on a trip to the ocean behind the page (ocean.js, loaded on demand).
     const home = document.querySelector("[data-cedric-home]");
-    if (home) Cedric.mount({ design, target: home, fixed: false, lines, label: UI.poke });
+    let homeC = null, bluePokes = 0, invite = null;
+    const blueHome = lines.blue_home || ["blub."];
+    const loadOcean = () => window.CedricOcean ? Promise.resolve() : new Promise((ok, fail) => {
+      const sc = document.createElement("script");
+      sc.src = BASE + "ocean.js";
+      sc.onload = ok;
+      sc.onerror = fail;
+      document.head.appendChild(sc);
+    });
+    function onHomePoke() {
+      if (document.documentElement.dataset.cedric !== "blue") return false;   // normal coral pokes
+      homeC.flick();
+      if (invite) return true;
+      bluePokes++;
+      if (bluePokes % 5 !== 0) { homeC.say(blueHome[(bluePokes - 1) % 5 % blueHome.length]); return true; }
+      loadOcean().catch(() => {});
+      homeC.root.classList.add("is-inviting");
+      invite = h("button", "ctrip", lines.trip || "Take a trip with me?");
+      invite.type = "button";
+      homeC.root.appendChild(invite);
+      invite.addEventListener("click", () => {
+        loadOcean().then(() => {
+          if (wrap.dataset.state !== "closed") shut();
+          invite.remove();
+          invite = null;
+          homeC.root.classList.remove("is-inviting");
+          window.CedricOcean.open({
+            home: homeC, lang, ocean: all && all.ocean, back: lines.back || "← Back to homepage",
+            onClosed: () => { bluePokes = 0; homeC.root.querySelector(".cedric__btn").focus(); },
+          });
+        });
+      });
+      return true;
+    }
+    if (home) homeC = Cedric.mount({ design, target: home, fixed: false, lines, label: UI.poke, onPoke: onHomePoke });
 
     // ---- launcher + panel ----------------------------------------------------
     const wrap = h("div", "cchat");

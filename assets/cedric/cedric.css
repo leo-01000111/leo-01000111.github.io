@@ -351,3 +351,110 @@ path.cedric__eye{ animation: none; }   /* the line eye blinks in JS (see updateE
   .cpeek .cedric{ animation: none; transform: translateY(6px); }
 }
 @media print{ .cchat, .home-cedric, .cpeek, .cswim{ display: none !important; } }
+
+/* ── Ocean (secret: Blue Cédric's 5th poke on the home page, see ocean.js) ── */
+.cocean{
+  position: fixed; inset: 0; z-index: 300; overflow: hidden;
+  --oc-top: #d6ecee; --oc-deep: #9fcdd4; --oc-ray: rgba(255,255,255,.35);
+  --oc-sand: #c49a5a; --oc-sanddark: #a27a40; --oc-dune: #d8bc88; --oc-shell: #f4e2c4; --oc-rock: #7d8580; --oc-rockdark: #565d58; --oc-weed: #2f8f5b; --oc-weed2: #55ad6f; --oc-coral1: #ff6f9c; --oc-coral2: #9b59d0; --oc-coral3: #d9479a; --oc-rim: #ffd3e2; --oc-bubble: rgba(255,255,255,.85);
+  background: var(--oc-deep);
+}
+html[data-theme="dark"] .cocean{
+  --oc-top: #12304a; --oc-deep: #06131e; --oc-ray: rgba(150,200,255,.07);
+  --oc-sand: #8a7046; --oc-sanddark: #6a5434; --oc-dune: #5b4a31; --oc-shell: #cbb592; --oc-rock: #56606a; --oc-rockdark: #3b424a; --oc-weed: #3fbf7f; --oc-weed2: #2c9461; --oc-coral1: #ff7fae; --oc-coral2: #b37cff; --oc-coral3: #ff5fb0; --oc-rim: #ffc2dc; --oc-bubble: rgba(160,210,255,.55);
+}
+@media (prefers-color-scheme: dark){
+  html:not([data-theme="light"]) .cocean{
+    --oc-top: #12304a; --oc-deep: #06131e; --oc-ray: rgba(150,200,255,.07);
+    --oc-sand: #8a7046; --oc-sanddark: #6a5434; --oc-dune: #5b4a31; --oc-shell: #cbb592; --oc-rock: #56606a; --oc-rockdark: #3b424a; --oc-weed: #3fbf7f; --oc-weed2: #2c9461; --oc-coral1: #ff7fae; --oc-coral2: #b37cff; --oc-coral3: #ff5fb0; --oc-rim: #ffc2dc; --oc-bubble: rgba(160,210,255,.55);
+  }
+}
+.cocean__art{ position: absolute; inset: 0; width: 100%; height: 100%; }
+.cocean__w0{ stop-color: var(--oc-top); }
+.cocean__w1{ stop-color: var(--oc-deep); }
+.cocean__art path{ fill: none; stroke-linecap: round; }
+.cocean__art ellipse, .cocean__art circle{ fill: none; }
+.cocean__sand{ stroke: var(--oc-sand); }
+.cocean__sanddark, .cocean__pebble{ stroke: var(--oc-sanddark); }
+.cocean__duneline{ stroke: var(--oc-dune); }
+.cocean__shell{ stroke: var(--oc-shell); }
+.cocean__rock{ stroke: var(--oc-rock); }
+.cocean__rockdark{ stroke: var(--oc-rockdark); }
+.cocean__weedline, .cocean__bladder{ stroke: var(--oc-weed); }
+.cocean__weedline2{ stroke: var(--oc-weed2); }
+.cocean__coral1{ stroke: var(--oc-coral1); }
+.cocean__coral2{ stroke: var(--oc-coral2); }
+.cocean__coral3{ stroke: var(--oc-coral3); }
+.cocean__rim{ stroke: var(--oc-rim); }
+.cocean__ray{ fill: var(--oc-ray); animation: cocean-ray 9s ease-in-out infinite; }
+@keyframes cocean-ray{ 0%,100%{ opacity: .5; } 50%{ opacity: 1; } }
+.cocean__sway{ --amp: 4deg; transform-box: view-box; animation: cocean-sway 6s ease-in-out infinite alternate; }
+@keyframes cocean-sway{ from{ transform: rotate(calc(var(--amp) * -1)); } to{ transform: rotate(var(--amp)); } }
+.cocean__bubble{ fill: none; stroke: var(--oc-bubble); stroke-width: 3; animation: cocean-rise 8s linear infinite; }
+@keyframes cocean-rise{
+  0%  { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translate(10px, -330px); }
+  90% { opacity: .8; }
+  100%{ transform: translate(-6px, -680px); opacity: 0; }
+}
+.cocean__back{
+  position: absolute; top: 18px; left: 18px; z-index: 2; cursor: pointer;
+  padding: 9px 14px; border: 0;
+  font: 700 12px var(--font-mono, monospace); letter-spacing: .06em; text-transform: uppercase;
+  background: #fff; color: #121314;
+  box-shadow: inset 0 0 0 var(--stroke-bold, 2px) #121314, var(--shadow-lift, 4px 4px 0 #121314);
+}
+.cocean__back:hover{ transform: translate(-1px, -1px); }
+.cocean__back:focus-visible{ outline: 3px solid var(--focus, #1f4fd1); outline-offset: 3px; }
+
+/* Swimmers inside the ocean: the wrapper is moved by ocean.js; the drawing (svg) turns
+   and leans, so speech bubbles stay upright and readable. */
+.cfish-wrap{ position: absolute; left: 0; top: 0; will-change: transform; }
+.cfish-wrap .cedric{ --cedric-size: 100%; }
+.cfish-wrap svg{ transform-origin: 50% 50%; }
+.cfish-wrap .cedric__bubble{ right: auto; left: 50%; transform: translateX(-50%) translateY(4px); }
+.cfish-wrap .cedric.is-talking .cedric__bubble{ transform: translateX(-50%); }
+.cfish-wrap .cedric__bubble::after{ display: none; }
+.cswim--trip{ z-index: 301; }
+
+/* The friends: coral gradient bodies, each with his own eye colour (beats blue mode). */
+html .cocean .cedric.cfish--coral{ --cedric-ink: #ef5a2f; --cedric-g1: #ef5a2f; --cedric-g2: #f2709b; }
+html .cocean .cedric.cfish--blue-eye{ --cedric-eye: #1f4fd1; }
+html .cocean .cedric.cfish--green-eye{ --cedric-eye: #0d6e37; }
+html .cocean .cedric.cfish--yellow-eye{ --cedric-eye: #c99700; }
+html[data-theme="dark"] .cocean .cedric.cfish--coral{ --cedric-ink: #ff7a59; --cedric-g1: #ff7048; --cedric-g2: #ffa3c2; }
+html[data-theme="dark"] .cocean .cedric.cfish--blue-eye{ --cedric-eye: #86a8ff; }
+html[data-theme="dark"] .cocean .cedric.cfish--green-eye{ --cedric-eye: #45c97a; }
+html[data-theme="dark"] .cocean .cedric.cfish--yellow-eye{ --cedric-eye: #f5c518; }
+@media (prefers-color-scheme: dark){
+  html:not([data-theme="light"]) .cocean .cedric.cfish--coral{ --cedric-ink: #ff7a59; --cedric-g1: #ff7048; --cedric-g2: #ffa3c2; }
+  html:not([data-theme="light"]) .cocean .cedric.cfish--blue-eye{ --cedric-eye: #86a8ff; }
+  html:not([data-theme="light"]) .cocean .cedric.cfish--green-eye{ --cedric-eye: #45c97a; }
+  html:not([data-theme="light"]) .cocean .cedric.cfish--yellow-eye{ --cedric-eye: #f5c518; }
+}
+
+/* Home page: after his 5th poke, Blue slides down and offers a trip (a real button). */
+.home-cedric .cedric{ transition: transform .5s cubic-bezier(.3,.7,.2,1); }
+.home-cedric .cedric.is-inviting{ transform: translateY(26px); }
+.home-cedric .cedric.is-inviting .cedric__bubble{ display: none; }
+.ctrip{
+  position: absolute; bottom: calc(100% + 14px); right: 30%; z-index: 2;
+  padding: 8px 12px; border: 0; cursor: pointer; white-space: nowrap;
+  font: 700 12px var(--font-mono, monospace); letter-spacing: .04em;
+  background: var(--signal, #f5c518); color: var(--on-signal, #121314);
+  box-shadow: inset 0 0 0 var(--stroke-bold, 2px) #121314, var(--shadow-lift, 4px 4px 0 #121314);
+  animation: ctrip-in .4s cubic-bezier(.3,1.4,.5,1) both;
+}
+.ctrip::after{
+  content: ""; position: absolute; right: 18px; top: 100%;
+  border: 8px solid transparent; border-top-color: #121314; border-bottom: 0;
+}
+.ctrip:hover{ transform: translate(-1px, -1px); }
+.ctrip:focus-visible{ outline: 3px solid var(--focus, #1f4fd1); outline-offset: 3px; }
+@keyframes ctrip-in{ from{ opacity: 0; transform: translateY(8px) scale(.9); } to{ opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce){
+  .cocean__ray, .cocean__sway, .cocean__bubble, .ctrip{ animation: none; }
+}
+@media print{ .cocean, .ctrip{ display: none !important; } }

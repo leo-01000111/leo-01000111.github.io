@@ -1,5 +1,5 @@
 {
-  "_help": "Everything Cedric says on the site. poke = said in order when poked, then loops. chat.replies = what he answers in the chat (in order, then loops); each one comes with the message form. chat.after_sent = answers once the visitor already sent Leon a message. Edit freely, keep the quotes and commas valid.",
+  "_help": "Everything Cedric says on the site. poke = said in order when poked, then loops. chat.replies = what he answers in the chat (in order, then loops); each one comes with the message form. chat.after_sent = answers once the visitor already sent Leon a message. Edit freely, keep the quotes and commas valid. blue_home = what Blue Cédric says when poked on the home page (4th line hints at the secret; the 5th poke shows the 'trip' button). ocean = the secret ocean: all French, whatever the site language.",
   "en": {
     "greeting": "hi, I'm Cédric",
     "wake": "!",
@@ -22,7 +22,15 @@
         "I already passed it on. Now I'm back to being a shrimp."
       ],
       "sent": "Done! Leon has your message and will get back to you."
-    }
+    },
+    "blue_home": [
+      "you found me!",
+      "I'm the original, you know.",
+      "blub.",
+      "…poke me once more"
+    ],
+    "trip": "Take a trip with me?",
+    "back": "← Back to homepage"
   },
   "fr": {
     "greeting": "salut, moi c'est Cédric",
@@ -46,6 +54,42 @@
         "C'est transmis. Je redeviens une simple crevette."
       ],
       "sent": "C'est envoyé ! Leon vous répondra bientôt."
+    },
+    "blue_home": [
+      "tu m'as trouvé !",
+      "c'est moi, l'original.",
+      "blub.",
+      "…encore une fois ?"
+    ],
+    "trip": "Tu viens faire un tour ?",
+    "back": "← Retour à l'accueil"
+  },
+  "ocean": {
+    "blue": [
+      "Voilà mes copains !",
+      "Ici, je suis chez moi.",
+      "Ne dis pas à Leon que je suis parti.",
+      "blub."
+    ],
+    "friends": {
+      "Basile": [
+        "Salut ! Moi, c'est Basile.",
+        "Je compte les bulles. J'en suis à 412.",
+        "413.",
+        "Cédric, c'est mon cousin."
+      ],
+      "Octave": [
+        "Octave, enchanté.",
+        "Ici, rien ne presse.",
+        "Je faisais la sieste dans les algues.",
+        "Le sable, c'est la plage du fond."
+      ],
+      "Firmin": [
+        "Moi, c'est Firmin !",
+        "On fait la course ? Non ? D'accord.",
+        "J'ai perdu une antenne en 2019. Elle a repoussé.",
+        "Bienvenue au fond !"
+      ]
     }
   }
 }
