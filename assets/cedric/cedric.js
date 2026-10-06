@@ -203,13 +203,10 @@
     on('pointermove', e => { mouse = [e.clientX, e.clientY]; lastMove = performance.now(); activity(); });
     on('keydown', activity);
 
-    // Scroll: lean against the motion, then spring back.
-    let lastY = scrollY, leanTarget = 0, leanNow = 0, leanVel = 0;
-    on('scroll', () => {
-      leanTarget = clamp(leanTarget - (scrollY - lastY) * 0.35, -14, 14);
-      lastY = scrollY;
-      activity();
-    });
+    // Scroll: he leans gently against the motion (see the frame loop). The event only
+    // counts as activity; the lean is computed per frame from a smoothed scroll speed.
+    let lastY = scrollY, scrollVel = 0, leanNow = 0;
+    on('scroll', activity);
 
     // ---- frame loop: antenna aiming + scroll lean ------------------------------
     let antNow = 0, eyeU = 0, eyeOpen = 1, saccadeAt = 0, saccadeU = null;
@@ -289,10 +286,15 @@
       antNow += (antTarget - antNow) * 0.12;
       aim.setAttribute('transform', `rotate(${antNow.toFixed(2)} ${px} ${py})`);
 
-      leanVel = (leanVel + (leanTarget - leanNow) * 0.12) * 0.78;
-      leanNow += leanVel;
-      leanTarget *= 0.88;
-      lean.style.transform = Math.abs(leanNow) < 0.01 ? '' : `rotate(${leanNow.toFixed(2)}deg)`;
+      // Scroll lean. Speed is low-pass filtered so a notched mouse wheel's separate jolts
+      // blend into one smooth motion: it picks up fairly quickly and lets go slowly
+      // (~1.5 s to straighten). The lean then eases toward that, with no spring/overshoot.
+      const dy = scrollY - lastY;
+      lastY = scrollY;
+      scrollVel += (dy - scrollVel) * (Math.abs(dy) > Math.abs(scrollVel) ? 0.1 : 0.04);
+      const leanTarget = clamp(-scrollVel * 0.3, -6, 6);
+      leanNow += (leanTarget - leanNow) * 0.07;
+      lean.style.transform = Math.abs(leanNow) < 0.02 ? '' : `rotate(${leanNow.toFixed(2)}deg)`;
     }
     requestAnimationFrame(frame);
 

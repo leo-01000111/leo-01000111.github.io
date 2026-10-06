@@ -1,17 +1,17 @@
 {
   "_help": "Everything Cedric says on the site. poke = said in order when poked, then loops. chat.replies = what he answers in the chat (in order, then loops); each one comes with the message form. chat.after_sent = answers once the visitor already sent Leon a message. Edit freely, keep the quotes and commas valid.",
   "en": {
-    "greeting": "hi, I'm Cedric",
+    "greeting": "hi, I'm Cédric",
     "wake": "!",
     "poke": [
-      "hi, I'm Cedric",
+      "hi, I'm Cédric",
       "drawn in class. shh.",
       "section A–A: shrimp",
       "blub.",
       "*swims nervously*"
     ],
     "chat": {
-      "hello": "hi! I'm Cedric. Say something.",
+      "hello": "hi! I'm Cédric. Say something.",
       "replies": [
         "Oh no, I wish I could talk with you, but I'm really just a shrimp. Send Leon a message instead. I'm sure he'll get back to you!",
         "Still just a shrimp, sorry. Leon is much better at words. Leave him a message below.",
@@ -25,17 +25,17 @@
     }
   },
   "fr": {
-    "greeting": "salut, moi c'est Cedric",
+    "greeting": "salut, moi c'est Cédric",
     "wake": "!",
     "poke": [
-      "salut, moi c'est Cedric",
+      "salut, moi c'est Cédric",
       "dessiné en cours. chut.",
       "coupe A–A : crevette",
       "blub.",
       "*nage nerveusement*"
     ],
     "chat": {
-      "hello": "salut ! moi c'est Cedric. Dites quelque chose.",
+      "hello": "salut ! moi c'est Cédric. Dites quelque chose.",
       "replies": [
         "Oh non, j'aimerais bien discuter avec vous, mais je ne suis qu'une crevette. Envoyez plutôt un message à Leon, il vous répondra !",
         "Toujours une crevette, désolé. Leon parle bien mieux que moi. Laissez-lui un message ci-dessous.",

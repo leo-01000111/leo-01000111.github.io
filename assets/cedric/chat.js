@@ -13,25 +13,25 @@
 
   const UI = {
     en: {
-      launcher: "Talk to Cedric", title: "Cedric", close: "Close chat",
-      placeholder: "Say something to Cedric…", send: "Send", typing: "Cedric is typing",
+      launcher: "Talk to Cédric", title: "Cédric", close: "Close chat",
+      placeholder: "Say something to Cédric…", send: "Send", typing: "Cédric is typing",
       name: "Name", email: "Email", message: "Message", submit: "Send to Leon", sending: "Sending…",
-      fail: "That didn't go through. You can email Leon directly: ", subject: "Cedric chat: message from ",
-      poke: "Cedric the shrimp. Poke him.", peek: "Blue Cedric is hiding here. Click him!",
+      fail: "That didn't go through. You can email Leon directly: ", subject: "Cédric chat: message from ",
+      poke: "Cédric the shrimp. Poke him.", peek: "Blue Cédric is hiding here. Click him!",
     },
     fr: {
-      launcher: "Parler à Cedric", title: "Cedric", close: "Fermer le chat",
-      placeholder: "Dites quelque chose à Cedric…", send: "Envoyer", typing: "Cedric écrit",
+      launcher: "Parler à Cédric", title: "Cédric", close: "Fermer le chat",
+      placeholder: "Dites quelque chose à Cédric…", send: "Envoyer", typing: "Cédric écrit",
       name: "Nom", email: "E-mail", message: "Message", submit: "Envoyer à Leon", sending: "Envoi…",
-      fail: "L'envoi a échoué. Vous pouvez écrire à Leon directement : ", subject: "Chat Cedric : message de ",
-      poke: "Cedric la crevette. Touchez-le.", peek: "Cedric bleu se cache ici. Cliquez dessus !",
+      fail: "L'envoi a échoué. Vous pouvez écrire à Leon directement : ", subject: "Chat Cédric : message de ",
+      poke: "Cédric la crevette. Touchez-le.", peek: "Cédric bleu se cache ici. Cliquez dessus !",
     },
   }[lang];
 
   const FALLBACK_LINES = {
-    greeting: "hi, I'm Cedric", wake: "!", poke: ["hi, I'm Cedric", "blub."],
+    greeting: "hi, I'm Cédric", wake: "!", poke: ["hi, I'm Cédric", "blub."],
     chat: {
-      hello: "hi! I'm Cedric.",
+      hello: "hi! I'm Cédric.",
       replies: ["Oh no, I wish I could talk with you, but I'm really just a shrimp. Send Leon a message instead!"],
       after_sent: ["Leon has your message. I'm still just a shrimp, though."],
       sent: "Done! Leon has your message.",
@@ -194,7 +194,7 @@
         const data = new FormData(f);
         data.append("_subject", UI.subject + (name.value || "?"));
         data.append("page", location.href);
-        data.append("via", "Cedric chat (" + lang + ")");
+        data.append("via", "Cédric chat (" + lang + ")");
         btn.disabled = true;
         btn.textContent = UI.sending;
         status.textContent = "";
