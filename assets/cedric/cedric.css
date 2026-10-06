@@ -115,8 +115,7 @@ html .cedric.cedric--coral{
 /* Idle: blink */
 .cedric__eye{ animation: cedric-blink 5s infinite; }
 @keyframes cedric-blink{ 0%,92%,100%{ transform: none; } 95%{ transform: scaleY(.1); } }
-path.cedric__eye{ animation-name: cedric-blink-dash; }
-@keyframes cedric-blink-dash{ 0%,93%,100%{ transform: none; } 95.5%{ transform: scaleX(.05); } }
+path.cedric__eye{ animation: none; }   /* the line eye blinks in JS (see updateEye) */
 
 /* Sleep */
 .cedric.is-asleep .cedric__bob{ animation-duration: 8s; }

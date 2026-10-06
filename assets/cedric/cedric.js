@@ -54,12 +54,14 @@
       eyeLine = el('g', { class: 'cedric__eyeline' });
       eyeLine.style.setProperty('--s', sv);
       const host = el('path', { class: 'cedric__host', d: `M${p[0]} ${p[1]}L${q[0]} ${q[1]}`, 'stroke-width': E.w });
-      const mover = el('g');
-      eye = el('path', { class: 'cedric__eye', d: `M${-E.len / 2} 0L${E.len / 2} 0`, 'stroke-width': E.w });
-      mover.appendChild(eye);
-      eyeLine.append(host, mover);
+      // The eye is a plain line like every other stroke: its end points are recomputed
+      // each frame (no transforms on it), so it renders just as crisply as the hatching.
+      const at = k => [E.host.p[0] + E.dir[0] * k, E.host.p[1] + E.dir[1] * k];
+      const [a0, a1] = [at(E.u0 - E.len / 2), at(E.u0 + E.len / 2)];
+      eye = el('path', { class: 'cedric__eye', d: `M${a0[0]} ${a0[1]}L${a1[0]} ${a1[1]}`, 'stroke-width': E.w });
+      eyeLine.append(host, eye);
       svg.insertBefore(eyeLine, aim);
-      eyeLine.host = host; eyeLine.mover = mover;
+      eyeLine.host = host;
     } else if (design.eye) {
       const { c, r, hl } = design.eye;
       eye = el('g', { class: 'cedric__eye cedric__eye--dot' });
@@ -126,7 +128,8 @@
         { duration: 240, delay: 200 + p.dataset.k * step, easing: 'cubic-bezier(.3,.6,.3,1)', fill: 'backwards' }));
       if (eyeLine) eyeLine.host.animate([{ opacity: 0 }, { opacity: 1 }],
         { duration: 240, delay: 200 + paths.length * step * 0.15, fill: 'backwards' });
-      if (eye) eye.animate(
+      if (eyeLine) eyePopAt = performance.now() + 300 + paths.length * step;
+      else if (eye) eye.animate(
         [{ transform: 'scale(0)' }, { transform: 'scale(1.25)', offset: .7 }, { transform: 'scale(1)' }],
         { duration: 380, delay: 300 + paths.length * step, easing: 'ease-out', fill: 'backwards' });
     }
@@ -159,9 +162,9 @@
     }
 
     function blink() {
-      if (eye && !still()) eye.animate(
-        [{ transform: 'none' }, { transform: eyeLine ? 'scaleX(.05)' : 'scaleY(.1)', offset: .5 }, { transform: 'none' }],
-        { duration: 180 });
+      if (still() || !eye) return;
+      if (eyeLine) { blinkAt = performance.now(); return; }
+      eye.animate([{ transform: 'none' }, { transform: 'scaleY(.1)', offset: .5 }, { transform: 'none' }], { duration: 180 });
     }
 
     function sleep() { root.classList.add('is-asleep'); }
@@ -210,6 +213,7 @@
 
     // ---- frame loop: antenna aiming + scroll lean ------------------------------
     let antNow = 0, eyeU = 0, eyeOpen = 1, saccadeAt = 0, saccadeU = null;
+    let eyePopAt = 0, blinkAt = -1e9, nextBlink = performance.now() + rand(2500, 5000);
     function updateEye(asleep, instant) {
       const E = design.eye, now = performance.now();
       let target = E.u0;
@@ -239,9 +243,23 @@
         eyeU += (target - eyeU) * (asleep ? 0.05 : 0.2);
         eyeOpen += ((asleep ? 0 : 1) - eyeOpen) * 0.08;
       }
-      const u = eyeU, x = E.host.p[0] + E.dir[0] * u, y = E.host.p[1] + E.dir[1] * u;
-      eyeLine.mover.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${E.angle.toFixed(2)})`);
-      eye.style.opacity = eyeOpen.toFixed(3);
+      // Dash length factor: pops in after the draw-in, squeezes to a dot when blinking.
+      let k = 1;
+      if (!instant) {
+        if (now > nextBlink) { blinkAt = now; nextBlink = now + rand(3500, 6500); }
+        const pb = (now - blinkAt) / 180;
+        if (pb >= 0 && pb < 1) k = 1 - 0.95 * Math.sin(Math.PI * pb);
+        const pp = (now - eyePopAt) / 380;
+        if (pp < 0) k = 0;
+        else if (pp < 1) k *= pp < .7 ? 1.25 * (pp / .7) : 1.25 - 0.25 * ((pp - .7) / .3);
+      }
+      const u = eyeU, h = E.len / 2 * k;
+      const x0 = E.host.p[0] + E.dir[0] * (u - h), y0 = E.host.p[1] + E.dir[1] * (u - h);
+      const x1 = E.host.p[0] + E.dir[0] * (u + h), y1 = E.host.p[1] + E.dir[1] * (u + h);
+      eye.setAttribute('d', `M${x0.toFixed(2)} ${y0.toFixed(2)}L${x1.toFixed(2)} ${y1.toFixed(2)}`);
+      // Only make it translucent while actually fading (a constant 0.999 costs sharpness).
+      const op = k === 0 ? 0 : eyeOpen;
+      eye.style.opacity = op > 0.995 ? '' : op.toFixed(3);
       // Host line: solid up to the eye, gap, solid after. Round caps eat w/2 of each side.
       const g = (E.len + 2 * E.w + 2 * E.clear) * eyeOpen;
       const a = u - g / 2;
