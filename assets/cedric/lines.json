@@ -1,0 +1,51 @@
+{
+  "_help": "Everything Cedric says on the site. poke = said in order when poked, then loops. chat.replies = what he answers in the chat (in order, then loops); each one comes with the message form. chat.after_sent = answers once the visitor already sent Leon a message. Edit freely, keep the quotes and commas valid.",
+  "en": {
+    "greeting": "hi, I'm Cedric",
+    "wake": "!",
+    "poke": [
+      "hi, I'm Cedric",
+      "drawn in class. shh.",
+      "section A–A: shrimp",
+      "blub.",
+      "*swims nervously*"
+    ],
+    "chat": {
+      "hello": "hi! I'm Cedric. Say something.",
+      "replies": [
+        "Oh no, I wish I could talk with you, but I'm really just a shrimp. Send Leon a message instead. I'm sure he'll get back to you!",
+        "Still just a shrimp, sorry. Leon is much better at words. Leave him a message below.",
+        "*blub* ...that means \"please write to Leon\" in shrimp."
+      ],
+      "after_sent": [
+        "Leon has your message. I'm still just a shrimp, though.",
+        "I already passed it on. Now I'm back to being a shrimp."
+      ],
+      "sent": "Done! Leon has your message and will get back to you."
+    }
+  },
+  "fr": {
+    "greeting": "salut, moi c'est Cedric",
+    "wake": "!",
+    "poke": [
+      "salut, moi c'est Cedric",
+      "dessiné en cours. chut.",
+      "coupe A–A : crevette",
+      "blub.",
+      "*nage nerveusement*"
+    ],
+    "chat": {
+      "hello": "salut ! moi c'est Cedric. Dites quelque chose.",
+      "replies": [
+        "Oh non, j'aimerais bien discuter avec vous, mais je ne suis qu'une crevette. Envoyez plutôt un message à Leon, il vous répondra !",
+        "Toujours une crevette, désolé. Leon parle bien mieux que moi. Laissez-lui un message ci-dessous.",
+        "*blub* ...ça veut dire « écrivez à Leon » en crevette."
+      ],
+      "after_sent": [
+        "Leon a bien reçu votre message. Moi, je reste une crevette.",
+        "C'est transmis. Je redeviens une simple crevette."
+      ],
+      "sent": "C'est envoyé ! Leon vous répondra bientôt."
+    }
+  }
+}

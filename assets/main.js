@@ -66,18 +66,22 @@
     else host.appendChild(badge);
   }
 
-  function _initBackToTop() {
-    const btn = document.createElement("button");
-    btn.id = "back-to-top";
-    btn.setAttribute("aria-label", "Back to top");
-    btn.textContent = "\u2191";
-    document.body.appendChild(btn);
-    window.addEventListener("scroll", function () {
-      btn.classList.toggle("visible", window.scrollY > 400);
-    }, { passive: true });
-    btn.addEventListener("click", function () {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+  // Cedric the shrimp: "talk to Cedric" launcher in the corner (it replaced the back-to-top
+  // button) and the home-page Cedric. Stylesheet first, then scripts in order.
+  function _initCedric() {
+    const base = _siteRoot() + "assets/cedric/";
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = base + "cedric.css";
+    css.onload = css.onerror = function () {
+      ["design.js", "cedric.js", "chat.js"].forEach(function (f) {
+        const s = document.createElement("script");
+        s.src = base + f;
+        s.async = false;
+        document.head.appendChild(s);
+      });
+    };
+    document.head.appendChild(css);
   }
 
   const lang = _getLang();
@@ -91,5 +95,5 @@
     a.setAttribute("href", lang === "fr" ? (_siteRoot() + "fr/projects/") : (_siteRoot() + "projects/"));
   });
   _initAiBadge(lang);
-  _initBackToTop();
+  _initCedric();
 })();

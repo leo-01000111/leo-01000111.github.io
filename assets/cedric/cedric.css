@@ -1,0 +1,354 @@
+/* Cedric on leongorecki.eu. Engine styles (shared with cedric-lab) + site placement + chat.
+
+   ── PALETTE ──
+   Coral Cedric (everyday): light = coral + black eye; dark = coral→pink gradient + blue eye.
+   Blue Cedric (the original): hides on one project page a day; once found he takes over
+   until the tab closes or midnight (html[data-cedric="blue"]). The white launcher square
+   ("paper") always uses the light values. Gradient runs nose (g1) → tail tip (g2). */
+:root{
+  --cc-coral-ink: #f2643f; --cc-coral-g1: #f2643f; --cc-coral-g2: #f2643f; --cc-coral-eye: #121314;
+  --cc-blue-ink: #1f4fd1; --cc-blue-eye: #b0102a;
+}
+:root[data-theme="dark"]{
+  --cc-coral-ink: #ff7a59; --cc-coral-g1: #ff7048; --cc-coral-g2: #ffa3c2; --cc-coral-eye: #86a8ff;
+  --cc-blue-ink: #86a8ff; --cc-blue-eye: #ff7a88;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --cc-coral-ink: #ff7a59; --cc-coral-g1: #ff7048; --cc-coral-g2: #ffa3c2; --cc-coral-eye: #86a8ff;
+    --cc-blue-ink: #86a8ff; --cc-blue-eye: #ff7a88;
+  }
+}
+.cchat__launcher, .cswim--paper{
+  --cc-coral-ink: #f2643f; --cc-coral-g1: #f2643f; --cc-coral-g2: #f2643f; --cc-coral-eye: #121314;
+  --cc-blue-ink: #1f4fd1; --cc-blue-eye: #b0102a;
+}
+.cedric, .cchat{
+  --cedric-ink: var(--cc-coral-ink); --cedric-g1: var(--cc-coral-g1); --cedric-g2: var(--cc-coral-g2); --cedric-eye: var(--cc-coral-eye);
+}
+.cedric--blue, html[data-cedric="blue"] .cedric, html[data-cedric="blue"] .cchat{
+  --cedric-ink: var(--cc-blue-ink); --cedric-g1: var(--cc-blue-ink); --cedric-g2: var(--cc-blue-ink); --cedric-eye: var(--cc-blue-eye);
+}
+/* The coral Cedric leaving the square stays coral even after the page turns blue. */
+html .cedric.cedric--coral{
+  --cedric-ink: var(--cc-coral-ink); --cedric-g1: var(--cc-coral-g1); --cedric-g2: var(--cc-coral-g2); --cedric-eye: var(--cc-coral-eye);
+}
+
+/* Cedric the shrimp (v2) — see cedric.js */
+.cedric{
+  --cedric-size: 120px;
+  position: relative;
+  width: var(--cedric-size);
+  color: var(--cedric-ink, var(--edge, #1f4fd1));
+  -webkit-tap-highlight-color: transparent;
+}
+/* Optional gradient: each hatch line mixes from --cedric-g1 (nose) to --cedric-g2 (tail tip). */
+.cedric[data-gradient] path:not(.cedric__eye){
+  stroke: color-mix(in oklch, var(--cedric-g1) calc((1 - var(--s, 0)) * 100%), var(--cedric-g2));
+}
+/* Yellow Cedric: the site's signal yellow. The eye stays red either way. */
+.cedric[data-ink="yellow"]{ color: var(--cedric-ink-yellow, var(--signal, #f5c518)); }
+.cedric--fixed{ position: fixed; right: 16px; bottom: 16px; z-index: 60; }
+.cedric[hidden]{ display: none; }
+
+.cedric__btn{
+  appearance: none; background: none; border: 0; padding: 0; margin: 0;
+  display: block; width: 100%; cursor: pointer; color: inherit;
+}
+.cedric__btn:focus-visible{ outline: 2px solid currentColor; outline-offset: 6px; }
+.cedric svg{ display: block; width: 100%; height: auto; overflow: visible; }
+.cedric path{ fill: none; stroke: currentColor; stroke-linecap: round; stroke-dasharray: 1 2; }
+.cedric__blush path{ stroke: var(--cedric-blush, #e8899b); }
+.cedric__eye{ fill: currentColor; transform-box: fill-box; transform-origin: center; }
+.cedric path.cedric__eye{ stroke: var(--cedric-eye, var(--hold-ink, #b0102a)); stroke-dasharray: none; }
+.cedric path.cedric__host{ stroke-dasharray: none; }
+.cedric__eyeline{
+  transform-box: fill-box; transform-origin: center;
+  animation: cedric-sway 2.6s ease-in-out infinite;
+  animation-delay: calc(var(--s) * 1.3s - 3s);
+}
+.cedric__eyeline path{ transform-box: fill-box; transform-origin: center; }
+.cedric__glint{ fill: var(--surface, #fff); }
+
+/* Idle: float */
+.cedric__bob{ animation: cedric-bob 4.2s ease-in-out infinite; }
+@keyframes cedric-bob{
+  0%,100%{ transform: translateY(0) rotate(-1.5deg); }
+  50%    { transform: translateY(-5%) rotate(1.5deg); }
+}
+
+/* Idle: a slow swim wave runs head → tail through the shell */
+.cedric__body path{
+  transform-box: fill-box; transform-origin: center;
+  animation: cedric-sway 2.6s ease-in-out infinite;
+  animation-delay: calc(var(--s) * 1.3s - 3s);
+}
+@keyframes cedric-sway{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-7px); } }
+
+/* Idle: antennae wiggle around their base (origin set inline) */
+.cedric__ant path{
+  transform-box: view-box;
+  animation: cedric-wiggle 1.5s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -.45s);
+}
+@keyframes cedric-wiggle{ from{ transform: rotate(-4deg); } to{ transform: rotate(5deg); } }
+.cedric__btn:hover .cedric__ant path{ animation-duration: .3s; }
+
+/* Idle: legs paddle front-to-back in a wave, like real swimmerets */
+.cedric__legs path{
+  transform-box: view-box;
+  animation: cedric-paddle 1.1s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -.12s);
+}
+@keyframes cedric-paddle{ 0%,100%{ transform: rotate(-14deg); } 50%{ transform: rotate(12deg); } }
+.cedric__btn:hover .cedric__legs path{ animation-duration: .45s; }
+
+/* Idle: tail fan flutter */
+.cedric__fan{ transform-box: view-box; }
+.cedric__fan path{
+  transform-box: view-box;
+  animation: cedric-fan 2.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -.15s);
+}
+@keyframes cedric-fan{ 0%,100%{ transform: rotate(-5deg); } 50%{ transform: rotate(5deg); } }
+
+/* Idle: blink */
+.cedric__eye{ animation: cedric-blink 5s infinite; }
+@keyframes cedric-blink{ 0%,92%,100%{ transform: none; } 95%{ transform: scaleY(.1); } }
+path.cedric__eye{ animation-name: cedric-blink-dash; }
+@keyframes cedric-blink-dash{ 0%,93%,100%{ transform: none; } 95.5%{ transform: scaleX(.05); } }
+
+/* Sleep */
+.cedric.is-asleep .cedric__bob{ animation-duration: 8s; }
+.cedric.is-asleep .cedric__ant path,
+.cedric.is-asleep .cedric__legs path,
+.cedric.is-asleep .cedric__fan path,
+.cedric.is-asleep .cedric__body path{ animation-play-state: paused; }
+.cedric.is-asleep .cedric__eye--dot{ animation: none; transform: scaleY(.12); }
+.cedric.is-asleep .cedric__eyeline{ animation-play-state: paused; }
+.cedric__zzz{
+  position: absolute; right: 30%; bottom: 80%;
+  font: 600 13px/1 var(--font-mono, ui-monospace, monospace);
+  color: var(--ink-muted, #4b4f55);
+  pointer-events: none; opacity: 0; transition: opacity .6s;
+}
+.cedric.is-asleep .cedric__zzz{ opacity: 1; }
+.cedric__zzz span{ position: absolute; right: 0; bottom: 0; opacity: 0; }
+.cedric.is-asleep .cedric__zzz span{ animation: cedric-z 3s ease-out infinite; }
+.cedric__zzz span:nth-child(2){ animation-delay: 1s !important; font-size: 1.2em; }
+.cedric__zzz span:nth-child(3){ animation-delay: 2s !important; font-size: 1.45em; }
+@keyframes cedric-z{
+  0%  { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: 1; }
+  100%{ opacity: 0; transform: translate(18px, -34px); }
+}
+
+/* Speech: a drawing callout, text on a leader line */
+.cedric__bubble{
+  position: absolute; right: 45%; bottom: calc(100% + 14px);
+  width: max-content; max-width: 220px;
+  padding: 0 2px 3px;
+  font: 500 12px/1.35 var(--font-mono, ui-monospace, monospace);
+  color: var(--ink, #121314);
+  border-bottom: 1.5px solid currentColor;
+  pointer-events: none;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity .18s, transform .18s;
+}
+.cedric__bubble::after{
+  content: ""; position: absolute; right: -9px; bottom: -17px;
+  width: 1.5px; height: 20px; background: currentColor;
+  transform: rotate(-35deg); transform-origin: top;
+}
+.cedric.is-talking .cedric__bubble{ opacity: 1; transform: none; }
+
+/* Dismiss */
+.cedric__close{
+  position: absolute; top: -10px; left: -10px;
+  width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--surface, #f5f5f2); color: var(--ink-muted, #4b4f55);
+  box-shadow: inset 0 0 0 1px currentColor;
+  font: 14px/22px var(--font-mono, ui-monospace, monospace); cursor: pointer;
+  opacity: 0; transition: opacity .15s;
+}
+.cedric:hover .cedric__close,
+.cedric:focus-within .cedric__close{ opacity: 1; }
+
+@media (max-width: 640px){
+  .cedric--fixed{ --cedric-size: 80px; right: 12px; bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .cedric:not([data-motion="always"]) *,
+  .cedric:not([data-motion="always"]) *::before,
+  .cedric:not([data-motion="always"]) *::after{ animation: none !important; transition: none !important; }
+}
+
+.cedric path:not(.cedric__eye){
+  stroke: color-mix(in oklch, var(--cedric-g1) calc((1 - var(--s, 0)) * 100%), var(--cedric-g2));
+}
+
+/* ── Home page: Cedric under "Currently improving" ── */
+.home-cedric{ display: flex; justify-content: center; margin-top: calc(var(--space-5, 32px) + 48px); }   /* room for his speech bubble */
+.home-cedric .cedric{ --cedric-size: min(100%, 340px); }
+
+/* ── "Talk to Cedric" launcher: a white square, 1/3 of the Quick specs plate ── */
+.cchat{ font-family: var(--font-sans, system-ui, sans-serif); }
+.cchat__launcher{
+  position: fixed; right: 24px; bottom: 28px; z-index: 200;
+  width: 125px; height: 125px; padding: 0; border: 0; cursor: pointer;
+  background: #fff; color: #121314;
+  box-shadow: inset 0 0 0 var(--stroke-bold, 2px) #121314, var(--shadow-lift, 4px 4px 0 #121314);
+  display: grid; grid-template-rows: 1fr auto; overflow: hidden;
+  transition: transform .15s ease-out, box-shadow .15s ease-out;
+}
+.cchat__launcher:hover{ transform: translate(-2px, -2px); }
+.cchat__launcher:active{ transform: translate(2px, 2px); box-shadow: inset 0 0 0 var(--stroke-bold, 2px) #121314; }
+.cchat__launcher:focus-visible{ outline: 3px solid var(--focus, #1f4fd1); outline-offset: 3px; }
+.cchat__face{ display: grid; place-items: center; overflow: hidden; padding: 14px 10px 0; }
+.cchat__face .cedric{ --cedric-size: 100%; }
+.cchat__face .cedric__zzz, .cchat__face .cedric__bubble{ display: none; }
+.cchat__label{
+  font: 700 9.5px/1 var(--font-mono, ui-monospace, monospace); letter-spacing: .08em; text-transform: uppercase;
+  padding: 6px 4px 9px; text-align: center;
+}
+.cchat[data-state="open"] .cchat__launcher,
+.cchat[data-state="talking"] .cchat__launcher{ display: none; }
+
+/* ── Chat panel ── */
+.cchat__panel{
+  position: fixed; right: 24px; bottom: 28px; z-index: 201;
+  width: min(390px, calc(100vw - 32px));
+  min-height: min(540px, calc(100dvh - 56px)); max-height: calc(100dvh - 56px);
+  display: flex; flex-direction: column;
+  background: var(--surface); color: var(--ink);
+  box-shadow: inset 0 0 0 var(--stroke-bold, 2px) var(--ink), var(--shadow-lift, 4px 4px 0 #121314);
+  transform-origin: 100% 100%; animation: cchat-pop .22s ease-out;
+}
+.cchat__panel[hidden]{ display: none; }
+@keyframes cchat-pop{ from{ transform: scale(.32); opacity: 0; } to{ transform: none; opacity: 1; } }
+.cchat__head{
+  display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 14px;
+  border-bottom: var(--stroke-hair, 1px) solid var(--rule);
+}
+.cchat__title{ font: 700 12px var(--font-mono, monospace); letter-spacing: .08em; text-transform: uppercase; }
+.cchat__ref{ font: 500 11px var(--font-mono, monospace); color: var(--ink-muted); margin-left: auto; }
+.cchat__close{
+  width: 30px; height: 30px; border: 0; padding: 0; cursor: pointer; font-size: 20px; line-height: 1;
+  background: none; color: var(--ink-muted); box-shadow: inset 0 0 0 1px var(--rule);
+}
+.cchat__close:hover{ color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+
+/* Big Cedric on open; shrinks to a strip once the conversation starts. */
+.cchat__hero{
+  flex: 1 0 auto; height: 380px; min-height: 0; display: grid; place-items: center; padding: 34px 12px 8px;
+  transition: height .45s cubic-bezier(.3,.7,.2,1), padding .45s;
+}
+.cchat__hero .cedric{ --cedric-size: min(300px, 82%); transition: width .45s cubic-bezier(.3,.7,.2,1); }
+.cchat__hero .cedric__bubble{ font-size: 13px; right: 18%; max-width: min(200px, 70vw); }
+.cchat__log{
+  flex: 0 1 auto; min-height: 0; overflow-y: auto; margin: 0; padding: 0 14px; list-style: none;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.cchat[data-state="talking"] .cchat__hero{ flex: 0 0 auto; height: 84px; padding: 18px 12px 4px; border-bottom: var(--stroke-hair, 1px) solid var(--rule); }
+.cchat[data-state="talking"] .cchat__hero .cedric{ --cedric-size: 96px; }
+.cchat[data-state="talking"] .cchat__hero .cedric__bubble{ display: none; }
+.cchat[data-state="talking"] .cchat__log{ flex: 1 1 auto; padding: 14px; }
+
+.cchat__msg{ max-width: 85%; font-size: 14px; line-height: 1.45; }
+.cchat__msg p{ margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.cchat__msg--you{
+  align-self: flex-end; padding: 8px 11px;
+  background: var(--plate, #121314); color: var(--on-plate, #f5c518);
+}
+.cchat__msg--cedric{
+  align-self: flex-start; padding: 9px 11px; background: var(--ground);
+  box-shadow: inset 3px 0 0 var(--cedric-ink);
+}
+.cchat__msg.is-typing{ display: flex; gap: 5px; padding: 12px 14px; }
+.cchat__msg.is-typing span{
+  width: 14px; height: 4px; border-radius: 2px; background: var(--cedric-ink);
+  animation: cchat-dash 1s ease-in-out infinite;
+}
+.cchat__msg.is-typing span:nth-child(2){ animation-delay: .15s; }
+.cchat__msg.is-typing span:nth-child(3){ animation-delay: .3s; }
+@keyframes cchat-dash{ 0%,100%{ opacity: .25; transform: none; } 50%{ opacity: 1; transform: translateY(-3px); } }
+
+/* Message-to-Leon form inside Cedric's reply */
+.cchat__form{ display: grid; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: var(--stroke-hair, 1px) dashed var(--rule); }
+.cchat__field{ display: grid; gap: 3px; }
+.cchat__field span{ font: 600 10px var(--font-mono, monospace); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+.cchat__field input, .cchat__field textarea{
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--surface);
+  border: 0; box-shadow: inset 0 0 0 1px var(--ink-muted); padding: 7px 8px; resize: vertical;
+}
+.cchat__field input:focus, .cchat__field textarea:focus{ outline: none; box-shadow: inset 0 0 0 2px var(--cedric-ink); }
+.cchat__trap{ position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cchat__submit{
+  justify-self: start; border: 0; cursor: pointer; padding: 8px 12px;
+  font: 700 12px var(--font-mono, monospace); letter-spacing: .06em; text-transform: uppercase;
+  background: var(--signal, #f5c518); color: var(--on-signal, #121314);
+}
+.cchat__submit:disabled{ opacity: .6; cursor: progress; }
+.cchat__status{ margin: 0; font-size: 13px; color: var(--hold-ink, #b0102a); }
+.cchat__status:empty{ display: none; }
+.cchat__sent{ margin: 10px 0 0; font-weight: 600; }
+
+/* Input row */
+.cchat__input{ display: flex; gap: 8px; align-items: flex-end; padding: 10px; border-top: var(--stroke-hair, 1px) solid var(--rule); }
+.cchat__input textarea{
+  flex: 1; min-height: 40px; max-height: 110px; resize: none; font: inherit; font-size: 14px; line-height: 1.4;
+  padding: 9px 10px; color: var(--ink); background: var(--ground); border: 0; box-shadow: inset 0 0 0 1px var(--ink-muted);
+}
+.cchat__input textarea:focus{ outline: none; box-shadow: inset 0 0 0 2px var(--cedric-ink); }
+.cchat__send{
+  height: 40px; padding: 0 14px; border: 0; cursor: pointer;
+  font: 700 12px var(--font-mono, monospace); letter-spacing: .06em; text-transform: uppercase;
+  background: var(--ink); color: var(--surface);
+}
+
+/* ── Blue Cedric peeking over the top edge of a card, near one corner ── */
+.cpeek{
+  position: absolute; bottom: 100%; z-index: 5; width: 150px; height: 58px;
+  padding: 0; border: 0; background: none; cursor: pointer; overflow: hidden;
+}
+.cpeek--left{ left: 10px; }
+.cpeek--right{ right: 10px; }
+.cpeek__m{ position: absolute; inset: 0; }
+.cpeek--left .cpeek__m{ transform: scaleX(-1); }
+.cpeek:focus-visible{ outline: 2px solid var(--focus, #1f4fd1); outline-offset: 2px; }
+.cpeek .cedric{
+  --cedric-size: 150px; position: absolute; left: 0; top: 0;
+  animation: cpeek-bob 8s ease-in-out infinite;
+}
+@keyframes cpeek-bob{
+  0%      { transform: translateY(105%); }
+  10%, 46%{ transform: translateY(6px); }
+  54%     { transform: translateY(34px); }
+  62%, 88%{ transform: translateY(6px); }
+  97%,100%{ transform: translateY(105%); }
+}
+.cpeek:hover .cedric{ animation-play-state: paused; }
+
+/* ── Swimmers: Blue into the square (under it), Coral out of it (over it) ── */
+.cswim{ position: fixed; left: 0; top: 0; pointer-events: none; transform-origin: 50% 36%; will-change: transform; }
+.cswim--blue{ z-index: 199; }
+.cswim--coral{ z-index: 202; }
+.cswim .cedric{ --cedric-size: 100%; }
+.cswim .cedric__bubble, .cswim .cedric__zzz{ display: none; }
+.cedric.is-swimming .cedric__body path{ animation-duration: .8s; }
+.cedric.is-swimming .cedric__eyeline{ animation-duration: .8s; }
+.cedric.is-swimming .cedric__ant path{ animation-duration: .35s; }
+
+@media (max-width: 560px){
+  .cpeek{ width: 112px; height: 44px; }
+  .cpeek .cedric{ --cedric-size: 112px; }
+  .cchat__launcher{ width: 88px; height: 88px; right: 14px; bottom: 16px; }
+  .cchat__label{ font-size: 8px; padding-bottom: 7px; }
+  .cchat__panel{ right: 8px; left: 8px; bottom: 8px; width: auto; min-height: min(500px, calc(100dvh - 16px)); max-height: calc(100dvh - 16px); }
+  .cchat__hero{ height: 300px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .cchat__panel, .cchat__hero, .cchat__hero .cedric, .cchat__log, .cchat__msg.is-typing span{ animation: none; transition: none; }
+  .cpeek .cedric{ animation: none; transform: translateY(6px); }
+}
+@media print{ .cchat, .home-cedric, .cpeek, .cswim{ display: none !important; } }
