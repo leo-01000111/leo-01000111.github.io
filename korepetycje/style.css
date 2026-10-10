@@ -361,7 +361,9 @@ body.lang-en [data-pl]{ display:none; }
   background:transparent;
   text-decoration:none;
   transition:background 0.15s, border-color 0.15s;
-  white-space:nowrap;
+  white-space:normal;
+  max-width:100%;
+  overflow-wrap:anywhere;
 }
 .topic-btn:hover{
   background:var(--accent-pale);
@@ -376,6 +378,120 @@ body.lang-en [data-pl]{ display:none; }
 }
 .topic-chip.prio-1 .topic-btn:hover{
   background:rgba(255,255,255,0.85);
+}
+
+/* ── Materials: search, level filter, grouped cards ── */
+.mat-controls{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px 14px;
+  margin:0 0 16px;
+}
+.mat-controls[hidden]{ display:none; }
+.mat-search{ flex:1 1 240px; min-width:0; }
+.mat-search-input{ width:100%; }
+.mat-levels{ display:flex; flex-wrap:wrap; gap:6px; }
+.mat-lvl-btn{
+  padding:6px 12px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:transparent;
+  color:var(--accent);
+  font-family:var(--font-mono);
+  font-size:0.74rem;
+  font-weight:600;
+  letter-spacing:0.04em;
+  cursor:pointer;
+  transition:background 0.15s, color 0.15s, border-color 0.15s;
+}
+.mat-lvl-btn:hover{ background:var(--accent-pale); border-color:var(--accent); }
+.mat-lvl-btn.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+.mat-noresults{
+  flex-basis:100%;
+  margin:0;
+  font-size:0.86rem;
+  color:var(--muted);
+}
+.mat-noresults[hidden]{ display:none; }
+
+.subject-panel[hidden],
+.subject-panel [hidden]{ display:none !important; }
+
+.mat-block{ padding-bottom:8px; }
+.mat-block + .mat-block{ border-top:1px solid var(--line-faint); }
+.mat-h{
+  margin:16px 20px 0;
+  font-family:var(--font-mono);
+  font-size:0.70rem;
+  font-weight:600;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.mat-block .topic-grid{ padding:12px 20px 8px; }
+.subject-panel .topic-grid{ grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
+.subject-panel .mat-start-grid{ grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); }
+.mat-start-grid .topic-chip.prio-1{ grid-column:auto; }
+.mat-empty{
+  margin:0;
+  padding:20px;
+  font-size:0.86rem;
+  color:var(--muted);
+}
+
+/* subject tag: only shown while searching */
+.mat-subj{
+  display:none;
+  font-family:var(--font-mono);
+  font-size:0.62rem;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--faint);
+}
+.mat-searching .mat-subj{ display:block; }
+.mat-searching .subject-tabs{ display:none; }
+.mat-searching .subject-panel{
+  max-height:none !important;
+  opacity:1 !important;
+  margin-bottom:12px;
+  border-radius:var(--radius);
+}
+.mat-searching .mat-h{ display:none; }
+
+.mat-lv{ display:flex; flex-wrap:wrap; gap:4px; }
+.mat-lv span{
+  padding:0 5px;
+  border:1px solid var(--line-faint);
+  border-radius:4px;
+  font-family:var(--font-mono);
+  font-size:0.60rem;
+  line-height:1.5;
+  color:var(--faint);
+}
+.topic-chip.prio-1 .mat-lv span{ border-color:rgba(255,255,255,0.55); color:rgba(255,255,255,0.9); }
+.topic-chip.prio-1 .mat-subj{ color:rgba(255,255,255,0.8); }
+
+.mat-group{ margin-top:4px; }
+.mat-type{
+  display:block;
+  font-family:var(--font-mono);
+  font-size:0.62rem;
+  font-weight:600;
+  letter-spacing:0.10em;
+  text-transform:uppercase;
+  color:var(--faint);
+}
+.topic-chip.prio-1 .mat-type{ color:rgba(255,255,255,0.85); }
+.mat-group .topic-btn-row{ margin-top:3px; }
+.mat-paid{
+  margin-left:4px;
+  padding-left:5px;
+  border-left:1px solid var(--line);
+  font-weight:400;
+  font-size:0.60rem;
+  color:var(--muted);
 }
 
 /* ── Contact section ── */
@@ -674,6 +790,12 @@ body.lang-en [data-pl]{ display:none; }
   .subject-btn:last-of-type{ border-radius:0; border-bottom:none; }
   .subject-panel{ border-radius:0 0 var(--radius) var(--radius); }
   .topic-grid{ grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); padding:14px; }
+  .subject-panel .topic-grid,
+  .subject-panel .mat-start-grid{ grid-template-columns:1fr; }
+  .mat-block .topic-grid{ padding:12px 14px 8px; }
+  .mat-h{ margin:14px 14px 0; }
+  .mat-controls{ flex-direction:column; align-items:stretch; }
+  .mat-search{ flex:0 0 auto; }
   .k-submit{ width:100%; text-align:center; }
   .k-footer .tb-cell{ min-width:100px; padding:8px 12px; }
   .opinion-grid{ grid-template-columns:1fr; }

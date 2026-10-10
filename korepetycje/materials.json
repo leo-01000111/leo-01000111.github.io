@@ -1,0 +1,1352 @@
+{
+  "subjects": [
+    {
+      "id": "fizyka",
+      "title_pl": "Fizyka",
+      "title_en": "Physics",
+      "sections": [
+        {
+          "kind": "start",
+          "title_pl": "Karty maturalne",
+          "title_en": "Exam reference sheets",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Wzory i stałe (CKE) →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/wybrane_wzory_stale_fizykochemiczne_EM2023.pdf",
+              "type": "referencja",
+              "label_en": "Formulas & constants (CKE) →"
+            },
+            {
+              "label": "Informator fizyka (CKE) →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_fizyka.pdf",
+              "type": "referencja",
+              "label_en": "Physics syllabus (CKE) →"
+            },
+            {
+              "label": "Tablice (Arkusze.pl) →",
+              "url": "https://arkusze.pl/tablice-fizyczne-chemiczne-i-biologiczne/",
+              "type": "referencja",
+              "label_en": "Tables (Arkusze.pl) →"
+            }
+          ]
+        },
+        {
+          "kind": "start",
+          "title_pl": "Zadania maturalne",
+          "title_en": "Exam practice",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Arkusze.pl →",
+              "url": "https://arkusze.pl/fizyka-matura-poziom-rozszerzony/",
+              "type": "egzaminy"
+            },
+            {
+              "label": "CKE arkusze →",
+              "url": "https://cke.gov.pl/egzamin-maturalny/egzamin-maturalny-w-formule-2023/arkusze/",
+              "type": "egzaminy",
+              "label_en": "CKE exam papers →"
+            },
+            {
+              "label": "Wyszukiwarka zadań →",
+              "url": "https://olimpiadafizyczna.pl/wyszukiwarka-zadan-maturalnych-z-fizyki/",
+              "type": "zadania",
+              "label_en": "Task search →"
+            },
+            {
+              "label": "Dla Maturzysty →",
+              "url": "https://zadania.dlamaturzysty.info/s/4981/80948-fizyka.htm",
+              "type": "zadania"
+            },
+            {
+              "label": "Zbiór zadań CKE (2015) →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Materialy/Zbiory_zadan/Matura_Zbi%C3%B3r_zada%C5%84_Fizyka.pdf",
+              "type": "zadania",
+              "label_en": "CKE task book (2015) →"
+            }
+          ]
+        },
+        {
+          "kind": "start",
+          "title_pl": "Cały kurs",
+          "title_en": "Full course",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/",
+              "type": "teoria"
+            },
+            {
+              "label": "Zadania wg tematu →",
+              "url": "https://fizykamatura.pl/zadania",
+              "type": "zadania",
+              "label_en": "Tasks by topic →"
+            },
+            {
+              "label": "Fizykamax →",
+              "url": "https://www.e-fizyka.pl/",
+              "type": "wideo"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Kinematyka i dynamika",
+          "title_en": "Kinematics & Dynamics",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura: kinematyka →",
+              "url": "https://fizykamatura.pl/dzialy/kinematyka",
+              "type": "teoria",
+              "label_en": "Fizyka Matura: kinematics →"
+            },
+            {
+              "label": "Fizyka Matura: dynamika →",
+              "url": "https://fizykamatura.pl/dzialy/dynamika",
+              "type": "teoria",
+              "label_en": "Fizyka Matura: dynamics →"
+            },
+            {
+              "label": "Fizyka Matura: pęd →",
+              "url": "https://fizykamatura.pl/dzialy/ped-i-zdarzenia",
+              "type": "teoria",
+              "label_en": "Fizyka Matura: momentum →"
+            },
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,2,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka (kinem.) →",
+              "url": "https://www.medianauka.pl/kinematyka",
+              "type": "teoria",
+              "label_en": "Medianauka (kinematics) →"
+            },
+            {
+              "label": "Medianauka (dyn.) →",
+              "url": "https://www.medianauka.pl/dynamika",
+              "type": "teoria",
+              "label_en": "Medianauka (dynamics) →"
+            },
+            {
+              "label": "Fizyka Matura: kinematyka →",
+              "url": "https://fizykamatura.pl/zadania/kinematyka",
+              "type": "zadania",
+              "label_en": "Fizyka Matura: kinematics →"
+            },
+            {
+              "label": "Fizyka Matura: dynamika →",
+              "url": "https://fizykamatura.pl/zadania/dynamika",
+              "type": "zadania",
+              "label_en": "Fizyka Matura: dynamics →"
+            },
+            {
+              "label": "PhET: rzut →",
+              "url": "https://phet.colorado.edu/pl/simulations/projectile-motion",
+              "type": "symulacja",
+              "label_en": "PhET: projectile →"
+            },
+            {
+              "label": "PhET: siły →",
+              "url": "https://phet.colorado.edu/pl/simulations/forces-and-motion-basics",
+              "type": "symulacja",
+              "label_en": "PhET: forces →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Hydrostatyka",
+          "title_en": "Hydrostatics",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,14,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/mechanika-plynow",
+              "type": "teoria"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Termodynamika",
+          "title_en": "Thermodynamics",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/termodynamika",
+              "type": "teoria"
+            },
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,15,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/termodynamika",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/termodynamika",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: gazy →",
+              "url": "https://phet.colorado.edu/pl/simulations/gas-properties",
+              "type": "symulacja",
+              "label_en": "PhET: gases →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Grawitacja i astronomia",
+          "title_en": "Gravitation & Astronomy",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/grawitacja-i-astronomia",
+              "type": "teoria"
+            },
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,11,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/grawitacja",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/grawitacja-i-astronomia",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: orbity →",
+              "url": "https://phet.colorado.edu/pl/simulations/gravity-and-orbits",
+              "type": "symulacja",
+              "label_en": "PhET: orbits →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Elektrostatyka",
+          "title_en": "Electrostatics",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/elektrostatyka",
+              "type": "teoria"
+            },
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,17,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/elektromagnetyzm",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/elektrostatyka",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: ładunki →",
+              "url": "https://phet.colorado.edu/pl/simulations/charges-and-fields",
+              "type": "symulacja",
+              "label_en": "PhET: charges →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Prąd elektryczny",
+          "title_en": "Electric Current",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/prad-elektryczny",
+              "type": "teoria"
+            },
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,19,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/elektromagnetyzm",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/prad-elektryczny",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: obwody →",
+              "url": "https://phet.colorado.edu/pl/simulations/circuit-construction-kit-dc",
+              "type": "symulacja",
+              "label_en": "PhET: circuits →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Magnetyzm i indukcja",
+          "title_en": "Magnetism & Induction",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/magnetyzm",
+              "type": "teoria"
+            },
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,17,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/elektromagnetyzm",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/magnetyzm-i-indukcja",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: Faraday →",
+              "url": "https://phet.colorado.edu/pl/simulations/faradays-law",
+              "type": "symulacja"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Drgania i fale",
+          "title_en": "Oscillations & Waves",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/drgania-i-fale",
+              "type": "teoria"
+            },
+            {
+              "label": "Jamnik →",
+              "url": "https://fizyka.org/?teoria,25,0",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/drgania-fale",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/ruch-drgajacy-i-fale",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: sprężyny →",
+              "url": "https://phet.colorado.edu/pl/simulations/masses-and-springs",
+              "type": "symulacja",
+              "label_en": "PhET: springs →"
+            },
+            {
+              "label": "PhET: fala na strunie →",
+              "url": "https://phet.colorado.edu/pl/simulations/wave-on-a-string",
+              "type": "symulacja",
+              "label_en": "PhET: wave on a string →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Optyka",
+          "title_en": "Optics",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/optyka",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/optyka",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/fale-elektromagnetyczne-i-optyka",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: optyka →",
+              "url": "https://phet.colorado.edu/pl/simulations/geometric-optics",
+              "type": "symulacja",
+              "label_en": "PhET: optics →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Fizyka atomowa i jądrowa",
+          "title_en": "Atomic & Nuclear Physics",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura: atomowa →",
+              "url": "https://fizykamatura.pl/dzialy/fizyka-atomowa",
+              "type": "teoria",
+              "label_en": "Fizyka Matura: atomic →"
+            },
+            {
+              "label": "Fizyka Matura: jądrowa →",
+              "url": "https://fizykamatura.pl/dzialy/fizyka-jadrowa",
+              "type": "teoria",
+              "label_en": "Fizyka Matura: nuclear →"
+            },
+            {
+              "label": "Medianauka →",
+              "url": "https://www.medianauka.pl/fizyka-kwantowa",
+              "type": "teoria"
+            },
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/zadania/fizyka-atomowa-i-jadrowa",
+              "type": "zadania"
+            },
+            {
+              "label": "PhET: atom →",
+              "url": "https://phet.colorado.edu/pl/simulations/build-an-atom",
+              "type": "symulacja"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Fizyka relatywistyczna i kwantowa",
+          "title_en": "Relativistic & Quantum Physics",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Fizyka Matura →",
+              "url": "https://fizykamatura.pl/dzialy/elementy-fizyki-relatywistycznej",
+              "type": "teoria"
+            },
+            {
+              "label": "Medianauka (względność) →",
+              "url": "https://www.medianauka.pl/teoria-wzglednosci",
+              "type": "teoria",
+              "label_en": "Medianauka (relativity) →"
+            },
+            {
+              "label": "Medianauka (kwanty) →",
+              "url": "https://www.medianauka.pl/fizyka-kwantowa",
+              "type": "teoria",
+              "label_en": "Medianauka (quantum) →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Olimpiady",
+          "title_en": "Olympiads",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "KGOF →",
+              "url": "https://kgof.edu.pl",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "tools",
+          "title_pl": "Symulacje i pytania",
+          "title_en": "Simulations & Q&A",
+          "levels": [
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "PhET →",
+              "url": "https://phet.colorado.edu/pl/",
+              "type": "symulacja"
+            },
+            {
+              "label": "Zapytaj fizyka (UW) →",
+              "url": "https://zapytajfizyka.fuw.edu.pl/",
+              "type": "referencja"
+            },
+            {
+              "label": "GeoGebra →",
+              "url": "https://www.geogebra.org/?lang=pl",
+              "type": "narzedzie"
+            }
+          ]
+        },
+        {
+          "kind": "uni",
+          "title_pl": "Fizyka ogólna",
+          "title_en": "General physics",
+          "levels": [
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "OpenStax PL →",
+              "url": "https://openstax.pl/podreczniki",
+              "type": "teoria"
+            },
+            {
+              "label": "MIT 8.01SC →",
+              "url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/",
+              "type": "kurs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "matematyka",
+      "title_pl": "Matematyka",
+      "title_en": "Mathematics",
+      "sections": [
+        {
+          "kind": "start",
+          "title_pl": "Karty maturalne",
+          "title_en": "Exam reference sheets",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Wzory matematyczne (CKE) →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/wybrane_wzory_matematyczne_EM2023.pdf",
+              "type": "referencja",
+              "label_en": "Math formulas (CKE) →"
+            },
+            {
+              "label": "Informator PP (CKE) →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_matematyka_pp.pdf",
+              "type": "referencja",
+              "label_en": "Syllabus PP (CKE) →"
+            },
+            {
+              "label": "Informator PR (CKE) →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_matematyka_pr.pdf",
+              "type": "referencja",
+              "label_en": "Syllabus PR (CKE) →"
+            }
+          ]
+        },
+        {
+          "kind": "start",
+          "title_pl": "Zadania maturalne",
+          "title_en": "Exam practice",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Arkusze.pl PP →",
+              "url": "https://arkusze.pl/matematyka-matura-poziom-podstawowy/",
+              "type": "egzaminy"
+            },
+            {
+              "label": "Arkusze.pl PR →",
+              "url": "https://arkusze.pl/matematyka-matura-poziom-rozszerzony/",
+              "type": "egzaminy"
+            },
+            {
+              "label": "CKE arkusze →",
+              "url": "https://cke.gov.pl/egzamin-maturalny/egzamin-maturalny-w-formule-2023/arkusze/",
+              "type": "egzaminy",
+              "label_en": "CKE exam papers →"
+            },
+            {
+              "label": "Matematyka Szkolna →",
+              "url": "https://matematykaszkolna.pl/strona/3548.html",
+              "type": "zadania"
+            },
+            {
+              "label": "Zadania.info →",
+              "url": "https://zadania.info",
+              "type": "zadania"
+            },
+            {
+              "label": "Zbiór CKE PP →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/materialy_dodatkowe/matematyka/Matematyka%20%E2%80%93%20zbior%20zadan%20na%20poziomie%20podstawowym.pdf",
+              "type": "zadania",
+              "label_en": "CKE task book PP →"
+            },
+            {
+              "label": "Zbiór CKE PR →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/materialy_dodatkowe/matematyka/Matematyka%20-%20zbior%20zadan%20na%20poziomie%20rozszerzonym.pdf",
+              "type": "zadania",
+              "label_en": "CKE task book PR →"
+            }
+          ]
+        },
+        {
+          "kind": "start",
+          "title_pl": "Wideo i kursy",
+          "title_en": "Video & courses",
+          "levels": [
+            "PP",
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "Pi-stacja →",
+              "url": "https://pistacja.tv/podstawa-programowa/matematyka",
+              "type": "wideo"
+            },
+            {
+              "label": "Powtarzamy →",
+              "url": "https://powtarzamy.pistacja.tv/",
+              "type": "kurs"
+            },
+            {
+              "label": "Szalone Liczby →",
+              "url": "https://szaloneliczby.pl/matura/",
+              "type": "kurs",
+              "partly_paid": true
+            },
+            {
+              "label": "eTrapez →",
+              "url": "https://online.etrapez.pl/lekcje-darmowe/",
+              "type": "wideo",
+              "partly_paid": true
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Liczby i wyrażenia algebraiczne",
+          "title_en": "Numbers & Algebraic Expressions",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/liczby-rzeczywiste",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna →",
+              "url": "https://matematykaszkolna.pl/strona/3407.html",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Równania i nierówności",
+          "title_en": "Equations & Inequalities",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/rownania-i-nierownosci",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna (kwadratowa) →",
+              "url": "https://matematykaszkolna.pl/strona/3413.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (quadratic) →"
+            },
+            {
+              "label": "Matematyka Szkolna (wielomiany) →",
+              "url": "https://matematykaszkolna.pl/strona/3414.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (polynomials) →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Funkcje",
+          "title_en": "Functions",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/funkcje",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna →",
+              "url": "https://matematykaszkolna.pl/strona/3411.html",
+              "type": "zadania"
+            },
+            {
+              "label": "Desmos →",
+              "url": "https://www.desmos.com/calculator",
+              "type": "narzedzie"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Funkcje wymierne, wykładnicze, logarytmiczne",
+          "title_en": "Rational, Exponential & Logarithmic Functions",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks (wykł.) →",
+              "url": "https://www.matemaks.pl/funkcja-wykladnicza",
+              "type": "teoria",
+              "label_en": "Matemaks (exp.) →"
+            },
+            {
+              "label": "Matemaks (log.) →",
+              "url": "https://www.matemaks.pl/logarytmy",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna (wymierna) →",
+              "url": "https://matematykaszkolna.pl/strona/3415.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (rational) →"
+            },
+            {
+              "label": "Matematyka Szkolna (log.) →",
+              "url": "https://matematykaszkolna.pl/strona/3417.html",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Trygonometria",
+          "title_en": "Trigonometry",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/trygonometria",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna →",
+              "url": "https://matematykaszkolna.pl/strona/3421.html",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Ciągi liczbowe",
+          "title_en": "Sequences",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/ciagi",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna →",
+              "url": "https://matematykaszkolna.pl/strona/3418.html",
+              "type": "zadania"
+            },
+            {
+              "label": "Zadania.info: indukcja →",
+              "url": "https://zadania.info/d90",
+              "type": "zadania",
+              "label_en": "Zadania.info: induction →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Granice i pochodne",
+          "title_en": "Limits & Derivatives",
+          "levels": [
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/pochodne",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna (granice) →",
+              "url": "https://matematykaszkolna.pl/strona/3419.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (limits) →"
+            },
+            {
+              "label": "Matematyka Szkolna (pochodne) →",
+              "url": "https://matematykaszkolna.pl/strona/3420.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (derivatives) →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Całkowanie",
+          "title_en": "Integration",
+          "levels": [
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/calki",
+              "type": "teoria"
+            },
+            {
+              "label": "Paul's Notes →",
+              "url": "https://tutorial.math.lamar.edu",
+              "type": "teoria"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Geometria płaska i analityczna",
+          "title_en": "Plane & Analytic Geometry",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/geometria-analityczna",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna (płaska) →",
+              "url": "https://matematykaszkolna.pl/strona/3422.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (plane) →"
+            },
+            {
+              "label": "Matematyka Szkolna (analityczna) →",
+              "url": "https://matematykaszkolna.pl/strona/3423.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (analytic) →"
+            },
+            {
+              "label": "GeoGebra →",
+              "url": "https://www.geogebra.org/?lang=pl",
+              "type": "narzedzie"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Stereometria",
+          "title_en": "Solid Geometry",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/geometria-przestrzenna",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna →",
+              "url": "https://matematykaszkolna.pl/strona/3424.html",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Kombinatoryka i rachunek prawdopodobieństwa",
+          "title_en": "Combinatorics & Probability",
+          "levels": [
+            "PP",
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "Matemaks →",
+              "url": "https://www.matemaks.pl/kombinatoryka",
+              "type": "teoria"
+            },
+            {
+              "label": "Matematyka Szkolna (kombinatoryka) →",
+              "url": "https://matematykaszkolna.pl/strona/3425.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (combinatorics) →"
+            },
+            {
+              "label": "Matematyka Szkolna (prawdopodobieństwo) →",
+              "url": "https://matematykaszkolna.pl/strona/3426.html",
+              "type": "zadania",
+              "label_en": "Matematyka Szkolna (probability) →"
+            },
+            {
+              "label": "Zadania.info: dwumian Newtona →",
+              "url": "https://zadania.info/d782",
+              "type": "zadania",
+              "label_en": "Zadania.info: binomial theorem →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Olimpiada Matematyczna",
+          "title_en": "Mathematical Olympiad",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "OM →",
+              "url": "https://om.sem.edu.pl",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "tools",
+          "title_pl": "Rachunki i wykresy",
+          "title_en": "Calculators & Graphing",
+          "levels": [
+            "PP",
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "GeoGebra →",
+              "url": "https://www.geogebra.org/?lang=pl",
+              "type": "narzedzie"
+            },
+            {
+              "label": "Desmos →",
+              "url": "https://www.desmos.com/calculator",
+              "type": "narzedzie"
+            },
+            {
+              "label": "WolframAlpha →",
+              "url": "https://www.wolframalpha.com",
+              "type": "narzedzie",
+              "partly_paid": true
+            }
+          ]
+        },
+        {
+          "kind": "uni",
+          "title_pl": "Analiza",
+          "title_en": "Calculus",
+          "levels": [
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "MIT 18.01SC →",
+              "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/",
+              "type": "kurs"
+            },
+            {
+              "label": "Paul's Notes →",
+              "url": "https://tutorial.math.lamar.edu",
+              "type": "teoria"
+            },
+            {
+              "label": "OpenStax Calculus →",
+              "url": "https://openstax.org/details/books/calculus-volume-1",
+              "type": "teoria"
+            },
+            {
+              "label": "Wazniak (MIMUW) →",
+              "url": "https://wazniak.mimuw.edu.pl",
+              "type": "kurs"
+            }
+          ]
+        },
+        {
+          "kind": "uni",
+          "title_pl": "Algebra liniowa",
+          "title_en": "Linear Algebra",
+          "levels": [
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "MIT 18.06 →",
+              "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/",
+              "type": "kurs"
+            },
+            {
+              "label": "3Blue1Brown →",
+              "url": "https://www.3blue1brown.com",
+              "type": "wideo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "informatyka",
+      "title_pl": "Informatyka",
+      "title_en": "IT",
+      "sections": [
+        {
+          "kind": "start",
+          "title_pl": "C++ od zera",
+          "title_en": "C++ from scratch",
+          "levels": [
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "LearnCpp →",
+              "url": "https://www.learncpp.com",
+              "type": "teoria"
+            },
+            {
+              "label": "Pasja Informatyki →",
+              "url": "https://pasja-informatyki.pl",
+              "type": "kurs"
+            },
+            {
+              "label": "OnlineGDB →",
+              "url": "https://www.onlinegdb.com",
+              "type": "narzedzie"
+            }
+          ]
+        },
+        {
+          "kind": "start",
+          "title_pl": "Matura (skrót)",
+          "title_en": "Matura (short)",
+          "levels": [
+            "PR"
+          ],
+          "links": [
+            {
+              "label": "CKE arkusze →",
+              "url": "https://cke.gov.pl/egzamin-maturalny/egzamin-maturalny-w-formule-2023/arkusze/",
+              "type": "egzaminy",
+              "label_en": "CKE exam papers →"
+            },
+            {
+              "label": "CKE informator →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_informatyka.pdf",
+              "type": "referencja",
+              "label_en": "CKE syllabus →"
+            },
+            {
+              "label": "Zbiór zadań CKE →",
+              "url": "https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Materialy/Zbiory_zadan/Matura_Zbi%C3%B3r_zada%C5%84_Informatyka.pdf",
+              "type": "zadania",
+              "label_en": "CKE task book →"
+            },
+            {
+              "label": "Arkusze.pl →",
+              "url": "https://arkusze.pl/informatyka-matura-poziom-rozszerzony/",
+              "type": "egzaminy"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "C++",
+          "title_en": "C++",
+          "levels": [
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "LearnCpp →",
+              "url": "https://www.learncpp.com",
+              "type": "teoria"
+            },
+            {
+              "label": "cppreference →",
+              "url": "https://en.cppreference.com/w/cpp",
+              "type": "referencja"
+            },
+            {
+              "label": "Pasja Informatyki →",
+              "url": "https://pasja-informatyki.pl",
+              "type": "kurs"
+            },
+            {
+              "label": "OnlineGDB →",
+              "url": "https://www.onlinegdb.com",
+              "type": "narzedzie"
+            },
+            {
+              "label": "Compiler Explorer →",
+              "url": "https://godbolt.org",
+              "type": "narzedzie"
+            },
+            {
+              "label": "Exercism C++ →",
+              "url": "https://exercism.org/tracks/cpp",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Algorytmy i struktury danych",
+          "title_en": "Algorithms & Data Structures",
+          "levels": [
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "cp-algorithms →",
+              "url": "https://cp-algorithms.com",
+              "type": "teoria"
+            },
+            {
+              "label": "VisuAlgo: sortowanie →",
+              "url": "https://visualgo.net/en/sorting",
+              "type": "symulacja",
+              "label_en": "VisuAlgo: sorting →"
+            },
+            {
+              "label": "VisuAlgo: grafy →",
+              "url": "https://visualgo.net/en/dfsbfs",
+              "type": "symulacja",
+              "label_en": "VisuAlgo: graphs →"
+            },
+            {
+              "label": "USFCA →",
+              "url": "https://www.cs.usfca.edu/~galles/visualization/Algorithms.html",
+              "type": "symulacja"
+            },
+            {
+              "label": "Python Tutor (też C++) →",
+              "url": "https://pythontutor.com",
+              "type": "symulacja",
+              "label_en": "Python Tutor (also C++) →"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Zadania i konkursy",
+          "title_en": "Practice & Contests",
+          "levels": [
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "CSES →",
+              "url": "https://cses.fi/problemset/",
+              "type": "zadania"
+            },
+            {
+              "label": "Szkopuł →",
+              "url": "https://szkopul.edu.pl",
+              "type": "zadania"
+            },
+            {
+              "label": "Olimpiada Informatyczna →",
+              "url": "https://oi.edu.pl",
+              "type": "zadania",
+              "label_en": "Olympiad in Informatics →"
+            },
+            {
+              "label": "Codeforces →",
+              "url": "https://codeforces.com",
+              "type": "zadania"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Metody numeryczne",
+          "title_en": "Numerical Methods",
+          "levels": [
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "Python Numerical Methods →",
+              "url": "https://pythonnumericalmethods.studentorg.berkeley.edu",
+              "type": "teoria"
+            },
+            {
+              "label": "Numerical Recipes →",
+              "url": "https://numerical.recipes",
+              "type": "referencja"
+            },
+            {
+              "label": "MIT 18.330 →",
+              "url": "https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2004/",
+              "type": "kurs"
+            },
+            {
+              "label": "CCFD PW →",
+              "url": "https://ccfd.github.io/courses/metnum_lab1.html",
+              "type": "kurs"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Bazy danych (SQL)",
+          "title_en": "Databases (SQL)",
+          "levels": [
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "SQLBolt →",
+              "url": "https://sqlbolt.com",
+              "type": "zadania"
+            },
+            {
+              "label": "SQLZoo →",
+              "url": "https://www.sqlzoo.net/",
+              "type": "zadania"
+            },
+            {
+              "label": "W3Schools →",
+              "url": "https://www.w3schools.com/sql/",
+              "type": "teoria"
+            }
+          ]
+        },
+        {
+          "kind": "topic",
+          "title_pl": "Python",
+          "title_en": "Python",
+          "levels": [
+            "PR",
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "Docs →",
+              "url": "https://docs.python.org/3/tutorial/",
+              "type": "teoria"
+            },
+            {
+              "label": "futurecoder →",
+              "url": "https://futurecoder.io",
+              "type": "kurs"
+            }
+          ]
+        },
+        {
+          "kind": "uni",
+          "title_pl": "Kursy uniwersyteckie",
+          "title_en": "University courses",
+          "levels": [
+            "Studia"
+          ],
+          "links": [
+            {
+              "label": "CS50 →",
+              "url": "https://cs50.harvard.edu/x/",
+              "type": "kurs"
+            },
+            {
+              "label": "MIT 6.0001 →",
+              "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+              "type": "kurs"
+            },
+            {
+              "label": "MIT 6.006 →",
+              "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/",
+              "type": "kurs"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -109,6 +109,19 @@
       <span data-pl>Materiały</span>
       <span data-en>Lesson Material</span>
     </h2>
+    <div class="mat-controls" id="matControls" hidden>
+      <div class="mat-search">
+        <input type="search" id="matSearch" class="k-input mat-search-input" autocomplete="off" spellcheck="false"
+               placeholder="Szukaj tematu… / Search a topic…" aria-label="Szukaj tematu / Search a topic"/>
+      </div>
+      <div class="mat-levels" role="group" aria-label="Poziom / Level">
+        <button type="button" class="mat-lvl-btn active" data-level="all" aria-pressed="true"><span data-pl>Wszystkie</span><span data-en>All</span></button>
+        <button type="button" class="mat-lvl-btn" data-level="PP" aria-pressed="false">PP</button>
+        <button type="button" class="mat-lvl-btn" data-level="PR" aria-pressed="false">PR</button>
+        <button type="button" class="mat-lvl-btn" data-level="Studia" aria-pressed="false">Studia</button>
+      </div>
+      <p class="mat-noresults" id="matNoResults" hidden><span data-pl>Nic nie znaleziono.</span><span data-en>No results.</span></p>
+    </div>
     <div class="subject-tabs" role="tablist">
       <button class="subject-btn" data-subject="fizyka" role="tab" aria-expanded="false" aria-controls="panel-fizyka">
         <span data-pl>Fizyka</span><span data-en>Physics</span>
@@ -121,297 +134,747 @@
       </button>
     </div>
 
-    <div class="subject-panel" id="panel-fizyka" role="tabpanel">
-      <div class="topic-grid">
-
-        <div class="topic-chip prio-1">
-          <span class="tn" data-pl>Karty Maturalne</span>
-          <span class="tn" data-en>Exam Reference Sheets</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/wybrane_wzory_stale_fizykochemiczne_EM2023.pdf" target="_blank" rel="noopener">Wzory i stałe (CKE) →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip prio-2">
-          <span class="tn" data-pl>Zadania Maturalne</span>
-          <span class="tn" data-en>Exam Practice</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://arkusze.pl/fizyka-matura-poziom-rozszerzony/" target="_blank" rel="noopener">Arkusze.pl →</a>
-            <a class="topic-btn" href="https://www.filoma.org/fizyka/" target="_blank" rel="noopener">Filoma →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Mechanika</span>
-          <span class="tn" data-en>Mechanics</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,2,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/mechanika" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Hydrostatyka</span>
-          <span class="tn" data-en>Hydrostatics</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,14,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/mechanika-plynow" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Termodynamika</span>
-          <span class="tn" data-en>Thermodynamics</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,15,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/termodynamika" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Grawitacja i Astronomia</span>
-          <span class="tn" data-en>Gravitation &amp; Astronomy</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,11,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/grawitacja" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Elektrostatyka i magnetyzm</span>
-          <span class="tn" data-en>Electrostatics &amp; Magnetism</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,17,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/elektromagnetyzm" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Prąd stały i zmienny</span>
-          <span class="tn" data-en>DC &amp; AC Current</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,19,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/elektromagnetyzm" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Optyka</span>
-          <span class="tn" data-en>Optics</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,28,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/optyka" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Drgania i fale</span>
-          <span class="tn" data-en>Oscillations &amp; Waves</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,25,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/drgania-fale" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Fizyka atomowa i jądrowa</span>
-          <span class="tn" data-en>Atomic &amp; Nuclear Physics</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,32,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/fizyka-kwantowa" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Fizyka relatywistyczna i kwantowa</span>
-          <span class="tn" data-en>Relativistic &amp; Quantum Physics</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://fizyka.org/?teoria,33,0" target="_blank" rel="noopener">Jamnik →</a>
-            <a class="topic-btn" href="https://www.medianauka.pl/teoria-wzglednosci" target="_blank" rel="noopener">Medianauka →</a>
-          </div>
-        </div>
-
+    <!-- MATERIALS:START -->
+<div class="subject-panel" id="panel-fizyka" role="tabpanel" data-subject="fizyka">
+  <div class="mat-block mat-start">
+    <h3 class="mat-h"><span data-pl>Zacznij tutaj</span><span data-en>Start here</span></h3>
+    <div class="topic-grid mat-start-grid">
+      <div class="topic-chip prio-1" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Karty maturalne</span><span class="tn" data-en>Exam reference sheets</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Referencja</span><span data-en>Reference</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/wybrane_wzory_stale_fizykochemiczne_EM2023.pdf" target="_blank" rel="noopener"><span data-pl>Wzory i stałe (CKE) →</span><span data-en>Formulas &amp; constants (CKE) →</span></a>
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_fizyka.pdf" target="_blank" rel="noopener"><span data-pl>Informator fizyka (CKE) →</span><span data-en>Physics syllabus (CKE) →</span></a>
+          <a class="topic-btn" href="https://arkusze.pl/tablice-fizyczne-chemiczne-i-biologiczne/" target="_blank" rel="noopener"><span data-pl>Tablice (Arkusze.pl) →</span><span data-en>Tables (Arkusze.pl) →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip prio-2" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Zadania maturalne</span><span class="tn" data-en>Exam practice</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://olimpiadafizyczna.pl/wyszukiwarka-zadan-maturalnych-z-fizyki/" target="_blank" rel="noopener"><span data-pl>Wyszukiwarka zadań →</span><span data-en>Task search →</span></a>
+          <a class="topic-btn" href="https://zadania.dlamaturzysty.info/s/4981/80948-fizyka.htm" target="_blank" rel="noopener">Dla Maturzysty →</a>
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Materialy/Zbiory_zadan/Matura_Zbi%C3%B3r_zada%C5%84_Fizyka.pdf" target="_blank" rel="noopener"><span data-pl>Zbiór zadań CKE (2015) →</span><span data-en>CKE task book (2015) →</span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Egzaminy</span><span data-en>Exams</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://arkusze.pl/fizyka-matura-poziom-rozszerzony/" target="_blank" rel="noopener">Arkusze.pl →</a>
+          <a class="topic-btn" href="https://cke.gov.pl/egzamin-maturalny/egzamin-maturalny-w-formule-2023/arkusze/" target="_blank" rel="noopener"><span data-pl>CKE arkusze →</span><span data-en>CKE exam papers →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip prio-2" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Cały kurs</span><span class="tn" data-en>Full course</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania" target="_blank" rel="noopener"><span data-pl>Zadania wg tematu →</span><span data-en>Tasks by topic →</span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Wideo</span><span data-en>Video</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.e-fizyka.pl/" target="_blank" rel="noopener">Fizykamax →</a>
+        </div></div>
       </div>
     </div>
-
-    <div class="subject-panel" id="panel-matematyka" role="tabpanel">
-      <div class="topic-grid">
-
-        <div class="topic-chip prio-1">
-          <span class="tn" data-pl>Karty Maturalne</span>
-          <span class="tn" data-en>Exam Reference Sheets</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/wybrane_wzory_matematyka_EM2023.pdf" target="_blank" rel="noopener">Wzory matematyczne (CKE) →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip prio-2">
-          <span class="tn" data-pl>Zadania Maturalne</span>
-          <span class="tn" data-en>Exam Practice</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://arkusze.pl/matematyka-matura-poziom-rozszerzony/" target="_blank" rel="noopener">Arkusze.pl →</a>
-            <a class="topic-btn" href="https://filoma.pl/" target="_blank" rel="noopener">Filoma →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Liczby i wyrażenia algebraiczne</span>
-          <span class="tn" data-en>Numbers &amp; Algebraic Expressions</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/liczby-rzeczywiste" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Równania i nierówności</span>
-          <span class="tn" data-en>Equations &amp; Inequalities</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/rownania-i-nierownosci" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Funkcje</span>
-          <span class="tn" data-en>Functions</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/funkcje" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Funkcje wymierne, wykładnicze, logarytmiczne</span>
-          <span class="tn" data-en>Rational, Exponential &amp; Logarithmic Functions</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/funkcja-wykladnicza" target="_blank" rel="noopener">Matemaks (wykł.) →</a>
-            <a class="topic-btn" href="https://www.matemaks.pl/logarytmy" target="_blank" rel="noopener">Matemaks (log.) →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Trygonometria</span>
-          <span class="tn" data-en>Trigonometry</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/trygonometria" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Ciągi liczbowe</span>
-          <span class="tn" data-en>Sequences</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/ciagi" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Granice i pochodne</span>
-          <span class="tn" data-en>Limits &amp; Derivatives</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/pochodne" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Całkowanie</span>
-          <span class="tn" data-en>Integration</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/calki" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Geometria płaska i analityczna</span>
-          <span class="tn" data-en>Plane &amp; Analytic Geometry</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/geometria-analityczna" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Stereometria</span>
-          <span class="tn" data-en>Solid Geometry</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/geometria-przestrzenna" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Kombinatoryka i rachunek prawdopodobieństwa</span>
-          <span class="tn" data-en>Combinatorics &amp; Probability</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.matemaks.pl/kombinatoryka" target="_blank" rel="noopener">Matemaks →</a>
-          </div>
-        </div>
-
+  </div>
+  <div class="mat-block mat-topic">
+    <h3 class="mat-h"><span data-pl>Tematy</span><span data-en>Topics</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Kinematyka i dynamika</span><span class="tn" data-en>Kinematics &amp; Dynamics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/kinematyka" target="_blank" rel="noopener"><span data-pl>Fizyka Matura: kinematyka →</span><span data-en>Fizyka Matura: kinematics →</span></a>
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/dynamika" target="_blank" rel="noopener"><span data-pl>Fizyka Matura: dynamika →</span><span data-en>Fizyka Matura: dynamics →</span></a>
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/ped-i-zdarzenia" target="_blank" rel="noopener"><span data-pl>Fizyka Matura: pęd →</span><span data-en>Fizyka Matura: momentum →</span></a>
+          <a class="topic-btn" href="https://fizyka.org/?teoria,2,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/kinematyka" target="_blank" rel="noopener"><span data-pl>Medianauka (kinem.) →</span><span data-en>Medianauka (kinematics) →</span></a>
+          <a class="topic-btn" href="https://www.medianauka.pl/dynamika" target="_blank" rel="noopener"><span data-pl>Medianauka (dyn.) →</span><span data-en>Medianauka (dynamics) →</span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/kinematyka" target="_blank" rel="noopener"><span data-pl>Fizyka Matura: kinematyka →</span><span data-en>Fizyka Matura: kinematics →</span></a>
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/dynamika" target="_blank" rel="noopener"><span data-pl>Fizyka Matura: dynamika →</span><span data-en>Fizyka Matura: dynamics →</span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/projectile-motion" target="_blank" rel="noopener"><span data-pl>PhET: rzut →</span><span data-en>PhET: projectile →</span></a>
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/forces-and-motion-basics" target="_blank" rel="noopener"><span data-pl>PhET: siły →</span><span data-en>PhET: forces →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Hydrostatyka</span><span class="tn" data-en>Hydrostatics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizyka.org/?teoria,14,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/mechanika-plynow" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Termodynamika</span><span class="tn" data-en>Thermodynamics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/termodynamika" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://fizyka.org/?teoria,15,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/termodynamika" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/termodynamika" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/gas-properties" target="_blank" rel="noopener"><span data-pl>PhET: gazy →</span><span data-en>PhET: gases →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Grawitacja i astronomia</span><span class="tn" data-en>Gravitation &amp; Astronomy</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/grawitacja-i-astronomia" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://fizyka.org/?teoria,11,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/grawitacja" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/grawitacja-i-astronomia" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/gravity-and-orbits" target="_blank" rel="noopener"><span data-pl>PhET: orbity →</span><span data-en>PhET: orbits →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Elektrostatyka</span><span class="tn" data-en>Electrostatics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/elektrostatyka" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://fizyka.org/?teoria,17,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/elektromagnetyzm" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/elektrostatyka" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/charges-and-fields" target="_blank" rel="noopener"><span data-pl>PhET: ładunki →</span><span data-en>PhET: charges →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Prąd elektryczny</span><span class="tn" data-en>Electric Current</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/prad-elektryczny" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://fizyka.org/?teoria,19,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/elektromagnetyzm" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/prad-elektryczny" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/circuit-construction-kit-dc" target="_blank" rel="noopener"><span data-pl>PhET: obwody →</span><span data-en>PhET: circuits →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Magnetyzm i indukcja</span><span class="tn" data-en>Magnetism &amp; Induction</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/magnetyzm" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://fizyka.org/?teoria,17,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/elektromagnetyzm" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/magnetyzm-i-indukcja" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/faradays-law" target="_blank" rel="noopener">PhET: Faraday →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Drgania i fale</span><span class="tn" data-en>Oscillations &amp; Waves</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/drgania-i-fale" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://fizyka.org/?teoria,25,0" target="_blank" rel="noopener">Jamnik →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/drgania-fale" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/ruch-drgajacy-i-fale" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/masses-and-springs" target="_blank" rel="noopener"><span data-pl>PhET: sprężyny →</span><span data-en>PhET: springs →</span></a>
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/wave-on-a-string" target="_blank" rel="noopener"><span data-pl>PhET: fala na strunie →</span><span data-en>PhET: wave on a string →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Optyka</span><span class="tn" data-en>Optics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/optyka" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/optyka" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/fale-elektromagnetyczne-i-optyka" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/geometric-optics" target="_blank" rel="noopener"><span data-pl>PhET: optyka →</span><span data-en>PhET: optics →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Fizyka atomowa i jądrowa</span><span class="tn" data-en>Atomic &amp; Nuclear Physics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/fizyka-atomowa" target="_blank" rel="noopener"><span data-pl>Fizyka Matura: atomowa →</span><span data-en>Fizyka Matura: atomic →</span></a>
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/fizyka-jadrowa" target="_blank" rel="noopener"><span data-pl>Fizyka Matura: jądrowa →</span><span data-en>Fizyka Matura: nuclear →</span></a>
+          <a class="topic-btn" href="https://www.medianauka.pl/fizyka-kwantowa" target="_blank" rel="noopener">Medianauka →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/zadania/fizyka-atomowa-i-jadrowa" target="_blank" rel="noopener">Fizyka Matura →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/simulations/build-an-atom" target="_blank" rel="noopener">PhET: atom →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Fizyka relatywistyczna i kwantowa</span><span class="tn" data-en>Relativistic &amp; Quantum Physics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://fizykamatura.pl/dzialy/elementy-fizyki-relatywistycznej" target="_blank" rel="noopener">Fizyka Matura →</a>
+          <a class="topic-btn" href="https://www.medianauka.pl/teoria-wzglednosci" target="_blank" rel="noopener"><span data-pl>Medianauka (względność) →</span><span data-en>Medianauka (relativity) →</span></a>
+          <a class="topic-btn" href="https://www.medianauka.pl/fizyka-kwantowa" target="_blank" rel="noopener"><span data-pl>Medianauka (kwanty) →</span><span data-en>Medianauka (quantum) →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Olimpiady</span><span class="tn" data-en>Olympiads</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://kgof.edu.pl" target="_blank" rel="noopener">KGOF →</a>
+        </div></div>
       </div>
     </div>
-
-    <div class="subject-panel" id="panel-informatyka" role="tabpanel">
-      <div class="topic-grid">
-
-        <div class="topic-chip prio-1">
-          <span class="tn" data-pl>Karty Maturalne</span>
-          <span class="tn" data-en>Exam Reference</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/INFORMATOR_EM2023_INFORMATYKA.pdf" target="_blank" rel="noopener">Informator CKE (pseudokod) →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip prio-2">
-          <span class="tn" data-pl>Zadania Maturalne</span>
-          <span class="tn" data-en>Exam Practice</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://arkusze.pl/informatyka-matura-poziom-rozszerzony/" target="_blank" rel="noopener">Arkusze.pl →</a>
-            <a class="topic-btn" href="https://www.cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Materialy/Zbiory_zadan/Matura_Zbi%C3%B3r_zada%C5%84_Informatyka.pdf" target="_blank" rel="noopener">Zbiór zadań CKE →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Algorytmy i struktury danych</span>
-          <span class="tn" data-en>Algorithms &amp; Data Structures</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">Wizualizacje →</a>
-            <a class="topic-btn" href="https://informatykaplus.edu.pl" target="_blank" rel="noopener">Informatyka+ →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Python</span>
-          <span class="tn" data-en>Python</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">Docs →</a>
-            <a class="topic-btn" href="https://python.pl" target="_blank" rel="noopener">python.pl →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>C++</span>
-          <span class="tn" data-en>C++</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://en.cppreference.com/w/cpp" target="_blank" rel="noopener">cppreference →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Metody numeryczne</span>
-          <span class="tn" data-en>Numerical Methods</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2004/" target="_blank" rel="noopener">MIT OCW →</a>
-            <a class="topic-btn" href="https://ccfd.github.io/courses/metnum_lab1.html" target="_blank" rel="noopener">CCFD PW →</a>
-          </div>
-        </div>
-
-        <div class="topic-chip">
-          <span class="tn" data-pl>Bazy danych (SQL)</span>
-          <span class="tn" data-en>Databases (SQL)</span>
-          <div class="topic-btn-row">
-            <a class="topic-btn" href="https://www.sqlzoo.net/" target="_blank" rel="noopener">SQLZoo →</a>
-            <a class="topic-btn" href="https://www.w3schools.com/sql/" target="_blank" rel="noopener">W3Schools →</a>
-          </div>
-        </div>
-
+  </div>
+  <div class="mat-block mat-tools">
+    <h3 class="mat-h"><span data-pl>Narzędzia</span><span data-en>Tools</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="PR Studia">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Symulacje i pytania</span><span class="tn" data-en>Simulations &amp; Q&amp;A</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://phet.colorado.edu/pl/" target="_blank" rel="noopener">PhET →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Narzędzie</span><span data-en>Tool</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.geogebra.org/?lang=pl" target="_blank" rel="noopener">GeoGebra →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Referencja</span><span data-en>Reference</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://zapytajfizyka.fuw.edu.pl/" target="_blank" rel="noopener">Zapytaj fizyka (UW) →</a>
+        </div></div>
       </div>
     </div>
+  </div>
+  <div class="mat-block mat-uni">
+    <h3 class="mat-h"><span data-pl>Na studia</span><span data-en>University</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="Studia">
+        <div class="mat-subj"><span data-pl>Fizyka</span><span data-en>Physics</span></div>
+        <span class="tn" data-pl>Fizyka ogólna</span><span class="tn" data-en>General physics</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://openstax.pl/podreczniki" target="_blank" rel="noopener">OpenStax PL →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/" target="_blank" rel="noopener">MIT 8.01SC →</a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <p class="mat-empty" hidden><span data-pl>Brak materiałów dla tego poziomu.</span><span data-en>No material for this level.</span></p>
+</div>
+
+<div class="subject-panel" id="panel-matematyka" role="tabpanel" data-subject="matematyka">
+  <div class="mat-block mat-start">
+    <h3 class="mat-h"><span data-pl>Zacznij tutaj</span><span data-en>Start here</span></h3>
+    <div class="topic-grid mat-start-grid">
+      <div class="topic-chip prio-1" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Karty maturalne</span><span class="tn" data-en>Exam reference sheets</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Referencja</span><span data-en>Reference</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/wybrane_wzory_matematyczne_EM2023.pdf" target="_blank" rel="noopener"><span data-pl>Wzory matematyczne (CKE) →</span><span data-en>Math formulas (CKE) →</span></a>
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_matematyka_pp.pdf" target="_blank" rel="noopener"><span data-pl>Informator PP (CKE) →</span><span data-en>Syllabus PP (CKE) →</span></a>
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_matematyka_pr.pdf" target="_blank" rel="noopener"><span data-pl>Informator PR (CKE) →</span><span data-en>Syllabus PR (CKE) →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip prio-2" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Zadania maturalne</span><span class="tn" data-en>Exam practice</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3548.html" target="_blank" rel="noopener">Matematyka Szkolna →</a>
+          <a class="topic-btn" href="https://zadania.info" target="_blank" rel="noopener">Zadania.info →</a>
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/materialy_dodatkowe/matematyka/Matematyka%20%E2%80%93%20zbior%20zadan%20na%20poziomie%20podstawowym.pdf" target="_blank" rel="noopener"><span data-pl>Zbiór CKE PP →</span><span data-en>CKE task book PP →</span></a>
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/materialy_dodatkowe/matematyka/Matematyka%20-%20zbior%20zadan%20na%20poziomie%20rozszerzonym.pdf" target="_blank" rel="noopener"><span data-pl>Zbiór CKE PR →</span><span data-en>CKE task book PR →</span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Egzaminy</span><span data-en>Exams</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://arkusze.pl/matematyka-matura-poziom-podstawowy/" target="_blank" rel="noopener">Arkusze.pl PP →</a>
+          <a class="topic-btn" href="https://arkusze.pl/matematyka-matura-poziom-rozszerzony/" target="_blank" rel="noopener">Arkusze.pl PR →</a>
+          <a class="topic-btn" href="https://cke.gov.pl/egzamin-maturalny/egzamin-maturalny-w-formule-2023/arkusze/" target="_blank" rel="noopener"><span data-pl>CKE arkusze →</span><span data-en>CKE exam papers →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip prio-2" data-levels="PP PR Studia">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Wideo i kursy</span><span class="tn" data-en>Video &amp; courses</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Wideo</span><span data-en>Video</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://pistacja.tv/podstawa-programowa/matematyka" target="_blank" rel="noopener">Pi-stacja →</a>
+          <a class="topic-btn" href="https://online.etrapez.pl/lekcje-darmowe/" target="_blank" rel="noopener">eTrapez → <span class="mat-paid"><span data-pl>częściowo płatne</span><span data-en>partly paid</span></span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://powtarzamy.pistacja.tv/" target="_blank" rel="noopener">Powtarzamy →</a>
+          <a class="topic-btn" href="https://szaloneliczby.pl/matura/" target="_blank" rel="noopener">Szalone Liczby → <span class="mat-paid"><span data-pl>częściowo płatne</span><span data-en>partly paid</span></span></a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <div class="mat-block mat-topic">
+    <h3 class="mat-h"><span data-pl>Tematy</span><span data-en>Topics</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Liczby i wyrażenia algebraiczne</span><span class="tn" data-en>Numbers &amp; Algebraic Expressions</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/liczby-rzeczywiste" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3407.html" target="_blank" rel="noopener">Matematyka Szkolna →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Równania i nierówności</span><span class="tn" data-en>Equations &amp; Inequalities</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/rownania-i-nierownosci" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3413.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (kwadratowa) →</span><span data-en>Matematyka Szkolna (quadratic) →</span></a>
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3414.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (wielomiany) →</span><span data-en>Matematyka Szkolna (polynomials) →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Funkcje</span><span class="tn" data-en>Functions</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/funkcje" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3411.html" target="_blank" rel="noopener">Matematyka Szkolna →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Narzędzie</span><span data-en>Tool</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Desmos →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Funkcje wymierne, wykładnicze, logarytmiczne</span><span class="tn" data-en>Rational, Exponential &amp; Logarithmic Functions</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/funkcja-wykladnicza" target="_blank" rel="noopener"><span data-pl>Matemaks (wykł.) →</span><span data-en>Matemaks (exp.) →</span></a>
+          <a class="topic-btn" href="https://www.matemaks.pl/logarytmy" target="_blank" rel="noopener">Matemaks (log.) →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3415.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (wymierna) →</span><span data-en>Matematyka Szkolna (rational) →</span></a>
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3417.html" target="_blank" rel="noopener">Matematyka Szkolna (log.) →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Trygonometria</span><span class="tn" data-en>Trigonometry</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/trygonometria" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3421.html" target="_blank" rel="noopener">Matematyka Szkolna →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Ciągi liczbowe</span><span class="tn" data-en>Sequences</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/ciagi" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3418.html" target="_blank" rel="noopener">Matematyka Szkolna →</a>
+          <a class="topic-btn" href="https://zadania.info/d90" target="_blank" rel="noopener"><span data-pl>Zadania.info: indukcja →</span><span data-en>Zadania.info: induction →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR Studia">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Granice i pochodne</span><span class="tn" data-en>Limits &amp; Derivatives</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/pochodne" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3419.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (granice) →</span><span data-en>Matematyka Szkolna (limits) →</span></a>
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3420.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (pochodne) →</span><span data-en>Matematyka Szkolna (derivatives) →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="Studia">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Całkowanie</span><span class="tn" data-en>Integration</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/calki" target="_blank" rel="noopener">Matemaks →</a>
+          <a class="topic-btn" href="https://tutorial.math.lamar.edu" target="_blank" rel="noopener">Paul&#x27;s Notes →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Geometria płaska i analityczna</span><span class="tn" data-en>Plane &amp; Analytic Geometry</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/geometria-analityczna" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3422.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (płaska) →</span><span data-en>Matematyka Szkolna (plane) →</span></a>
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3423.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (analityczna) →</span><span data-en>Matematyka Szkolna (analytic) →</span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Narzędzie</span><span data-en>Tool</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.geogebra.org/?lang=pl" target="_blank" rel="noopener">GeoGebra →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Stereometria</span><span class="tn" data-en>Solid Geometry</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/geometria-przestrzenna" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3424.html" target="_blank" rel="noopener">Matematyka Szkolna →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PP PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Kombinatoryka i rachunek prawdopodobieństwa</span><span class="tn" data-en>Combinatorics &amp; Probability</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.matemaks.pl/kombinatoryka" target="_blank" rel="noopener">Matemaks →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3425.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (kombinatoryka) →</span><span data-en>Matematyka Szkolna (combinatorics) →</span></a>
+          <a class="topic-btn" href="https://matematykaszkolna.pl/strona/3426.html" target="_blank" rel="noopener"><span data-pl>Matematyka Szkolna (prawdopodobieństwo) →</span><span data-en>Matematyka Szkolna (probability) →</span></a>
+          <a class="topic-btn" href="https://zadania.info/d782" target="_blank" rel="noopener"><span data-pl>Zadania.info: dwumian Newtona →</span><span data-en>Zadania.info: binomial theorem →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Olimpiada Matematyczna</span><span class="tn" data-en>Mathematical Olympiad</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://om.sem.edu.pl" target="_blank" rel="noopener">OM →</a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <div class="mat-block mat-tools">
+    <h3 class="mat-h"><span data-pl>Narzędzia</span><span data-en>Tools</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="PP PR Studia">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Rachunki i wykresy</span><span class="tn" data-en>Calculators &amp; Graphing</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PP</span><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Narzędzie</span><span data-en>Tool</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.geogebra.org/?lang=pl" target="_blank" rel="noopener">GeoGebra →</a>
+          <a class="topic-btn" href="https://www.desmos.com/calculator" target="_blank" rel="noopener">Desmos →</a>
+          <a class="topic-btn" href="https://www.wolframalpha.com" target="_blank" rel="noopener">WolframAlpha → <span class="mat-paid"><span data-pl>częściowo płatne</span><span data-en>partly paid</span></span></a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <div class="mat-block mat-uni">
+    <h3 class="mat-h"><span data-pl>Na studia</span><span data-en>University</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="Studia">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Analiza</span><span class="tn" data-en>Calculus</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://tutorial.math.lamar.edu" target="_blank" rel="noopener">Paul&#x27;s Notes →</a>
+          <a class="topic-btn" href="https://openstax.org/details/books/calculus-volume-1" target="_blank" rel="noopener">OpenStax Calculus →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/" target="_blank" rel="noopener">MIT 18.01SC →</a>
+          <a class="topic-btn" href="https://wazniak.mimuw.edu.pl" target="_blank" rel="noopener">Wazniak (MIMUW) →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="Studia">
+        <div class="mat-subj"><span data-pl>Matematyka</span><span data-en>Mathematics</span></div>
+        <span class="tn" data-pl>Algebra liniowa</span><span class="tn" data-en>Linear Algebra</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Wideo</span><span data-en>Video</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.3blue1brown.com" target="_blank" rel="noopener">3Blue1Brown →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/" target="_blank" rel="noopener">MIT 18.06 →</a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <p class="mat-empty" hidden><span data-pl>Brak materiałów dla tego poziomu.</span><span data-en>No material for this level.</span></p>
+</div>
+
+<div class="subject-panel" id="panel-informatyka" role="tabpanel" data-subject="informatyka">
+  <div class="mat-block mat-start">
+    <h3 class="mat-h"><span data-pl>Zacznij tutaj</span><span data-en>Start here</span></h3>
+    <div class="topic-grid mat-start-grid">
+      <div class="topic-chip prio-1" data-levels="Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>C++ od zera</span><span class="tn" data-en>C++ from scratch</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.learncpp.com" target="_blank" rel="noopener">LearnCpp →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://pasja-informatyki.pl" target="_blank" rel="noopener">Pasja Informatyki →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Narzędzie</span><span data-en>Tool</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.onlinegdb.com" target="_blank" rel="noopener">OnlineGDB →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip prio-2" data-levels="PR">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>Matura (skrót)</span><span class="tn" data-en>Matura (short)</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2015/Materialy/Zbiory_zadan/Matura_Zbi%C3%B3r_zada%C5%84_Informatyka.pdf" target="_blank" rel="noopener"><span data-pl>Zbiór zadań CKE →</span><span data-en>CKE task book →</span></a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Egzaminy</span><span data-en>Exams</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cke.gov.pl/egzamin-maturalny/egzamin-maturalny-w-formule-2023/arkusze/" target="_blank" rel="noopener"><span data-pl>CKE arkusze →</span><span data-en>CKE exam papers →</span></a>
+          <a class="topic-btn" href="https://arkusze.pl/informatyka-matura-poziom-rozszerzony/" target="_blank" rel="noopener">Arkusze.pl →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Referencja</span><span data-en>Reference</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cke.gov.pl/images/_EGZAMIN_MATURALNY_OD_2023/Informatory/2024/Informator_EM2024_informatyka.pdf" target="_blank" rel="noopener"><span data-pl>CKE informator →</span><span data-en>CKE syllabus →</span></a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <div class="mat-block mat-topic">
+    <h3 class="mat-h"><span data-pl>Tematy</span><span data-en>Topics</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="PR Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>C++</span><span class="tn" data-en>C++</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.learncpp.com" target="_blank" rel="noopener">LearnCpp →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://exercism.org/tracks/cpp" target="_blank" rel="noopener">Exercism C++ →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://pasja-informatyki.pl" target="_blank" rel="noopener">Pasja Informatyki →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Narzędzie</span><span data-en>Tool</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.onlinegdb.com" target="_blank" rel="noopener">OnlineGDB →</a>
+          <a class="topic-btn" href="https://godbolt.org" target="_blank" rel="noopener">Compiler Explorer →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Referencja</span><span data-en>Reference</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://en.cppreference.com/w/cpp" target="_blank" rel="noopener">cppreference →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>Algorytmy i struktury danych</span><span class="tn" data-en>Algorithms &amp; Data Structures</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cp-algorithms.com" target="_blank" rel="noopener">cp-algorithms →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Symulacja</span><span data-en>Simulation</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://visualgo.net/en/sorting" target="_blank" rel="noopener"><span data-pl>VisuAlgo: sortowanie →</span><span data-en>VisuAlgo: sorting →</span></a>
+          <a class="topic-btn" href="https://visualgo.net/en/dfsbfs" target="_blank" rel="noopener"><span data-pl>VisuAlgo: grafy →</span><span data-en>VisuAlgo: graphs →</span></a>
+          <a class="topic-btn" href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">USFCA →</a>
+          <a class="topic-btn" href="https://pythontutor.com" target="_blank" rel="noopener"><span data-pl>Python Tutor (też C++) →</span><span data-en>Python Tutor (also C++) →</span></a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>Zadania i konkursy</span><span class="tn" data-en>Practice &amp; Contests</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cses.fi/problemset/" target="_blank" rel="noopener">CSES →</a>
+          <a class="topic-btn" href="https://szkopul.edu.pl" target="_blank" rel="noopener">Szkopuł →</a>
+          <a class="topic-btn" href="https://oi.edu.pl" target="_blank" rel="noopener"><span data-pl>Olimpiada Informatyczna →</span><span data-en>Olympiad in Informatics →</span></a>
+          <a class="topic-btn" href="https://codeforces.com" target="_blank" rel="noopener">Codeforces →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>Metody numeryczne</span><span class="tn" data-en>Numerical Methods</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://pythonnumericalmethods.studentorg.berkeley.edu" target="_blank" rel="noopener">Python Numerical Methods →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://ocw.mit.edu/courses/18-330-introduction-to-numerical-analysis-spring-2004/" target="_blank" rel="noopener">MIT 18.330 →</a>
+          <a class="topic-btn" href="https://ccfd.github.io/courses/metnum_lab1.html" target="_blank" rel="noopener">CCFD PW →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Referencja</span><span data-en>Reference</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://numerical.recipes" target="_blank" rel="noopener">Numerical Recipes →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>Bazy danych (SQL)</span><span class="tn" data-en>Databases (SQL)</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://www.w3schools.com/sql/" target="_blank" rel="noopener">W3Schools →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Zadania</span><span data-en>Tasks</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://sqlbolt.com" target="_blank" rel="noopener">SQLBolt →</a>
+          <a class="topic-btn" href="https://www.sqlzoo.net/" target="_blank" rel="noopener">SQLZoo →</a>
+        </div></div>
+      </div>
+      <div class="topic-chip" data-levels="PR Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>Python</span><span class="tn" data-en>Python</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>PR</span><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Teoria</span><span data-en>Theory</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">Docs →</a>
+        </div></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://futurecoder.io" target="_blank" rel="noopener">futurecoder →</a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <div class="mat-block mat-uni">
+    <h3 class="mat-h"><span data-pl>Na studia</span><span data-en>University</span></h3>
+    <div class="topic-grid">
+      <div class="topic-chip" data-levels="Studia">
+        <div class="mat-subj"><span data-pl>Informatyka</span><span data-en>IT</span></div>
+        <span class="tn" data-pl>Kursy uniwersyteckie</span><span class="tn" data-en>University courses</span>
+        <div class="mat-lv" aria-label="Poziom / Level"><span>Studia</span></div>
+        <div class="mat-group"><span class="mat-type"><span data-pl>Kurs</span><span data-en>Course</span></span>
+        <div class="topic-btn-row">
+          <a class="topic-btn" href="https://cs50.harvard.edu/x/" target="_blank" rel="noopener">CS50 →</a>
+          <a class="topic-btn" href="https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/" target="_blank" rel="noopener">MIT 6.0001 →</a>
+          <a class="topic-btn" href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/" target="_blank" rel="noopener">MIT 6.006 →</a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <p class="mat-empty" hidden><span data-pl>Brak materiałów dla tego poziomu.</span><span data-en>No material for this level.</span></p>
+</div>
+<!-- MATERIALS:END -->
   </section>
 
   <!-- Contact -->
@@ -613,6 +1076,93 @@
       }
     });
   });
+})();
+
+/* Materials: search + level filter (progressive enhancement; the HTML works without it) */
+(function(){
+  var ctrl = document.getElementById('matControls');
+  if(!ctrl) return;
+  var sec = ctrl.parentNode;
+  var input = document.getElementById('matSearch');
+  var noRes = document.getElementById('matNoResults');
+  var lvlBtns = ctrl.querySelectorAll('.mat-lvl-btn');
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.subject-panel'));
+  var level = 'all';
+  var searching = false;
+
+  /* lowercase, strip diacritics, map ł -> l so "lodz" finds "Łódź", "pęd" ~ "ped" */
+  function norm(s){
+    return s.toLowerCase().replace(/\u0142/g, 'l').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  /* searchable text per card: titles (both languages), subject, type labels, link labels */
+  panels.forEach(function(p){
+    p.querySelectorAll('.topic-chip').forEach(function(c){
+      var parts = [];
+      c.querySelectorAll('.tn, .mat-subj, .mat-type, .topic-btn').forEach(function(el){
+        var clone = el.cloneNode(true);
+        var paid = clone.querySelector('.mat-paid');
+        if(paid) paid.parentNode.removeChild(paid);
+        parts.push(clone.textContent);
+      });
+      c._t = norm(parts.join(' ').replace(/\s+/g, ' '));
+      c._lv = (c.getAttribute('data-levels') || '').split(' ');
+    });
+  });
+
+  /* keep the open tab's height in step with filtered content */
+  function refresh(){
+    if(searching) return;
+    var b = document.querySelector('.subject-btn.active');
+    if(!b) return;
+    var p = document.getElementById('panel-' + b.getAttribute('data-subject'));
+    if(p) p.style.maxHeight = p.scrollHeight + 'px';
+  }
+
+  function apply(){
+    var q = norm(input.value).trim().split(/\s+/).filter(Boolean);
+    searching = q.length > 0;
+    sec.classList.toggle('mat-searching', searching);
+    var total = 0;
+    panels.forEach(function(p){
+      var vis = 0;
+      p.querySelectorAll('.topic-chip').forEach(function(c){
+        var ok = (level === 'all' || c._lv.indexOf(level) > -1) &&
+                 q.every(function(t){ return c._t.indexOf(t) > -1; });
+        c.hidden = !ok;
+        if(ok) vis++;
+      });
+      p.querySelectorAll('.mat-block').forEach(function(b){
+        b.hidden = !b.querySelector('.topic-chip:not([hidden])');
+      });
+      var empty = p.querySelector('.mat-empty');
+      if(empty) empty.hidden = vis > 0 || searching;
+      p.hidden = searching && vis === 0;
+      total += vis;
+    });
+    noRes.hidden = !(searching && total === 0);
+    refresh();
+  }
+
+  input.addEventListener('input', apply);
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ input.value = ''; apply(); }
+  });
+  lvlBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      level = b.getAttribute('data-level');
+      lvlBtns.forEach(function(x){
+        var on = x === b;
+        x.classList.toggle('active', on);
+        x.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      apply();
+    });
+  });
+  document.getElementById('langToggle').addEventListener('click', function(){ setTimeout(refresh, 0); });
+  window.addEventListener('resize', refresh);
+
+  ctrl.hidden = false;
 })();
 
 /* Form: auto-subject + fetch submit */

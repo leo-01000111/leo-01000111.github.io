@@ -1,0 +1,29 @@
+name: Check Materials Links
+
+on:
+  schedule:
+    # Mondays at 05:30 UTC
+    - cron: '30 5 * * 1'
+  workflow_dispatch:
+    # Also allows a manual trigger from the Actions tab
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write   # open / update / close the "Materiały: broken links" issue
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check links in korepetycje/materials.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/check_materials_links.py
