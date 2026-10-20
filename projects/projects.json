@@ -25,17 +25,17 @@
   },
   {
     "id": 8,
-    "slug": "fauxmatlab",
-    "short": "FauxMatlab",
+    "slug": "evans",
+    "short": "Evans",
     "featuredOrder": 2,
     "code": "GNC",
     "title": {
-      "en": "FauxMatlab: a control-systems workbench in Python",
-      "fr": "FauxMatlab : un atelier d'automatique en Python"
+      "en": "Evans: a control-systems workbench in Python",
+      "fr": "Evans : un atelier d'automatique en Python"
     },
     "description": {
-      "en": "A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 817 tests.",
-      "fr": "Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 817 tests."
+      "en": "A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 1236 tests.",
+      "fr": "Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 1236 tests."
     },
     "tags": [
       "Python",

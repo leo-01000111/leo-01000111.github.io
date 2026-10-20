@@ -134,15 +134,15 @@ def render_card(p, index, lang, tone=None):
 # navfusion had none, so two related picks (thesis GNC work, the control
 # workbench) were chosen for it.
 SEE_ALSO = {
-    "aicalc": ["fauxmatlab", "kaggle"],
+    "aicalc": ["evans", "kaggle"],
     "f1predictor": ["aicalc", "kaggle"],
-    "fauxmatlab": ["lgflow", "project1"],
+    "evans": ["lgflow", "project1"],
     "kaggle": ["aicalc", "f1predictor"],
-    "lgflow": ["fauxmatlab", "miltombot"],
-    "miltombot": ["fauxmatlab", "lgflow"],
+    "lgflow": ["evans", "miltombot"],
+    "miltombot": ["evans", "lgflow"],
     "mostmobilemouse": ["navfusion", "project1"],
-    "navfusion": ["project1", "fauxmatlab"],
-    "project1": ["navfusion", "fauxmatlab"],
+    "navfusion": ["project1", "evans"],
+    "project1": ["navfusion", "evans"],
 }
 
 
