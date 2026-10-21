@@ -1,5 +1,5 @@
 {
-  "_help": "Everything Cedric says on the site. poke = said in order when poked, then loops. chat.replies = what he answers in the chat (in order, then loops); each one comes with the message form. chat.after_sent = answers once the visitor already sent Leon a message. Edit freely, keep the quotes and commas valid. blue_home = what Blue Cédric says when poked on the home page (4th line hints at the secret; the 5th poke shows the 'trip' button). ocean = the secret ocean: all French, whatever the site language.",
+  "_help": "Everything Cedric says on the site. poke = said in order when poked, then loops. chat.replies = his FIRST answer in the chat (he is asleep; it comes with the message form). After that an in-browser LLM (brain.js) answers. chat.waking = status while the model loads (a percent is appended). chat.no_brain = said when the device cannot run the model (a form comes with it). chat.error = said when the model fails mid-answer. chat.after_sent = fallback when the visitor already sent Leon a message. Edit freely, keep the quotes and commas valid. blue_home = what Blue Cédric says when poked on the home page (4th line hints at the secret; the 5th poke shows the 'trip' button). ocean = the secret ocean: all French, whatever the site language. chat.awake = said when the model has finished loading (after the visitor presses Wake up). chat.nudge = said if the visitor writes before the Wake up button is ready.",
   "en": {
     "greeting": "hi, I'm Cédric",
     "wake": "!",
@@ -13,15 +13,17 @@
     "chat": {
       "hello": "hi! I'm Cédric. Say something.",
       "replies": [
-        "Oh no, I wish I could talk with you, but I'm really just a shrimp. Send Leon a message instead. I'm sure he'll get back to you!",
-        "Still just a shrimp, sorry. Leon is much better at words. Leave him a message below.",
-        "*blub* ...that means \"please write to Leon\" in shrimp."
+        "I was sleeping… but you can send a message to Leon and he'll get back to you. I'll probably wake up if you keep talking, though."
       ],
       "after_sent": [
-        "Leon has your message. I'm still just a shrimp, though.",
-        "I already passed it on. Now I'm back to being a shrimp."
+        "Leon has your message. Keep talking, I'm waking up."
       ],
-      "sent": "Done! Leon has your message and will get back to you."
+      "sent": "Done! Leon has your message and will get back to you.",
+      "waking": "waking up…",
+      "no_brain": "zzz… I can't wake up on this device. The form above reaches Leon.",
+      "error": "zzz… I dozed off mid-sentence. Try again, or use the form to reach Leon.",
+      "awake": "*yawn* ok, I'm awake. Ask me anything about Leon.",
+      "nudge": "zzz… press the Wake up button below."
     },
     "blue_home": [
       "you found me!",
@@ -45,15 +47,17 @@
     "chat": {
       "hello": "salut ! moi c'est Cédric. Dites quelque chose.",
       "replies": [
-        "Oh non, j'aimerais bien discuter avec vous, mais je ne suis qu'une crevette. Envoyez plutôt un message à Leon, il vous répondra !",
-        "Toujours une crevette, désolé. Leon parle bien mieux que moi. Laissez-lui un message ci-dessous.",
-        "*blub* ...ça veut dire « écrivez à Leon » en crevette."
+        "Je dormais… mais vous pouvez envoyer un message à Leon, il vous répondra. Si vous continuez à me parler, je vais sûrement me réveiller."
       ],
       "after_sent": [
-        "Leon a bien reçu votre message. Moi, je reste une crevette.",
-        "C'est transmis. Je redeviens une simple crevette."
+        "Leon a bien reçu votre message. Continuez à me parler, je me réveille."
       ],
-      "sent": "C'est envoyé ! Leon vous répondra bientôt."
+      "sent": "C'est envoyé ! Leon vous répondra bientôt.",
+      "waking": "je me réveille…",
+      "no_brain": "zzz… je n'arrive pas à me réveiller sur cet appareil. Le formulaire ci-dessus joint Leon.",
+      "error": "zzz… je me suis rendormi en pleine phrase. Réessayez, ou écrivez à Leon avec le formulaire.",
+      "awake": "*bâille* ça y est, je suis réveillé. Demandez-moi ce que vous voulez sur Leon.",
+      "nudge": "zzz… appuyez sur le bouton « Réveiller » ci-dessous."
     },
     "blue_home": [
       "tu m'as trouvé !",

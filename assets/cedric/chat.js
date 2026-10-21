@@ -1,6 +1,7 @@
 /* Cedric on the site: the home-page Cedric ([data-cedric-home]) and the "talk to Cedric"
    launcher in the bottom-right corner, which opens a chat panel. Cedric can't really chat:
-   every reply hands the visitor a form that sends Leon a message through Formspree.
+   his first reply hands the visitor a form that sends Leon a message through Formspree; after
+   that a small LLM running in the browser (brain.js, loaded on demand) answers.
    Loaded by main.js after design.js + cedric.js. Text lives in lines.json next to this file. */
 (function () {
   const FORM_ENDPOINT = "https://formspree.io/f/xoejjdqw";   // Cedric chat form (separate from tutoring)
@@ -18,6 +19,9 @@
       name: "Name", email: "Email", message: "Message", submit: "Send to Leon", sending: "Sending…",
       fail: "That didn't go through. You can email Leon directly: ", subject: "Cédric chat: message from ",
       poke: "Cédric the shrimp. Poke him.", peek: "Blue Cédric is hiding here. Click him!",
+      cv: "CV (PDF)",
+      wake: "Wake up", mb: "MB", cancel: "Cancel", wakeFail: "Couldn't wake him up on this device.",
+      note: ["Cédric is a small AI running on your device. He can be wrong. ", "Leon's CV", " is the source of truth."],
     },
     fr: {
       launcher: "Parler à Cédric", title: "Cédric", close: "Fermer le chat",
@@ -25,6 +29,9 @@
       name: "Nom", email: "E-mail", message: "Message", submit: "Envoyer à Leon", sending: "Envoi…",
       fail: "L'envoi a échoué. Vous pouvez écrire à Leon directement : ", subject: "Chat Cédric : message de ",
       poke: "Cédric la crevette. Touchez-le.", peek: "Cédric bleu se cache ici. Cliquez dessus !",
+      cv: "CV (PDF)",
+      wake: "Réveiller", mb: "Mo", cancel: "Annuler", wakeFail: "Impossible de le réveiller sur cet appareil.",
+      note: ["Cédric est une petite IA qui tourne sur votre appareil. Il peut se tromper : ", "le CV de Leon", " fait foi."],
     },
   }[lang];
 
@@ -32,8 +39,13 @@
     greeting: "hi, I'm Cédric", wake: "!", poke: ["hi, I'm Cédric", "blub."],
     chat: {
       hello: "hi! I'm Cédric.",
-      replies: ["Oh no, I wish I could talk with you, but I'm really just a shrimp. Send Leon a message instead!"],
-      after_sent: ["Leon has your message. I'm still just a shrimp, though."],
+      replies: ["I was sleeping… but you can send a message to Leon and he'll get back to you. I'll probably wake up if you keep talking, though."],
+      after_sent: ["Leon has your message. Keep talking, I'm waking up."],
+      waking: "waking up…",
+      awake: "*yawn* ok, I'm awake. Ask me anything about Leon.",
+      nudge: "zzz… press the Wake up button below.",
+      no_brain: "zzz… I can't wake up on this device. The form above reaches Leon.",
+      error: "zzz… I dozed off mid-sentence. Try again, or use the form to reach Leon.",
       sent: "Done! Leon has your message.",
     },
   };
@@ -129,7 +141,14 @@
     const sendBtn = h("button", "cchat__send", UI.send);
     sendBtn.type = "submit";
     input.append(ta, sendBtn);
-    panel.append(head, hero, log, input);
+    const note = h("p", "cchat__note");   // permanent small print once the Wake up button shows
+    note.hidden = true;
+    const cvLink = h("a", null, UI.note[1]);
+    cvLink.href = ROOT + (lang === "fr" ? "cv-fr.pdf" : "cv.pdf");
+    cvLink.target = "_blank";
+    cvLink.rel = "noopener";
+    note.append(UI.note[0], cvLink, UI.note[2]);
+    panel.append(head, hero, log, note, input);
     wrap.append(launcher, panel);
     document.body.appendChild(wrap);
 
@@ -186,27 +205,168 @@
       ta.value = "";
       ta.style.height = "auto";
       history.push(text);
+      turns.push({ role: "user", content: text });
       wrap.dataset.state = "talking";
       addMsg("you", text);
       reply();
     });
 
-    function reply() {
-      busy = true;
+    // The brain: an LLM in a worker (brain.js). Nothing LLM-related loads before the first reply.
+    // Everything the model says is rendered with textContent only, and its action tokens
+    // can only show the form or build links from the fixed whitelist (see renderActions).
+    // Flow: first reply -> offerWake() swaps the text box for a "Wake up (~N MB)" button ->
+    // click = progress bar + Cancel -> at 100% the text box comes back and the LLM answers.
+    const turns = [];   // {role, content} for the model
+    let brain = null, awake = false, brainDead = !navigator.gpu, offered = false, runId = 0;
+    const bar = h("div", "cchat__wakebar");   // takes the place of the text box while waking
+    const loadBrain = () => brain ? Promise.resolve(brain) : import(BASE + "brain.js").then(m => (brain = m));
+    const show = el => { const other = el === input ? bar : input; if (other.isConnected) other.replaceWith(el); };
+
+    async function offerWake() {
+      if (brainDead || offered) return;
+      offered = true;
+      let info = null;
+      try { info = await (await loadBrain()).prepare(); } catch (e) { console.warn("Cédric: brain unavailable", e); }
+      if (!info) { brainDead = true; return; }   // no WebGPU / no model: the text box stays, replies are sleepy
+      note.hidden = false;
+      showOffer(info);
+    }
+
+    function showOffer(info) {
+      const label = UI.wake + (info.mb ? " (≈" + info.mb + " " + UI.mb + ")" : "");
+      const b = h("button", "cchat__wakebtn", label);
+      b.type = "button";
+      b.addEventListener("click", () => wake(info));
+      bar.replaceChildren(b);
+      show(bar);
+      if (!panel.hidden) b.focus();
+    }
+
+    function wake(info) {
+      const id = ++runId;
+      const track = h("div", "cchat__progress"), fill = h("span", "cchat__fill"), txt = h("span", "cchat__ptext", lines.chat.waking);
+      track.setAttribute("role", "progressbar");
+      track.setAttribute("aria-label", lines.chat.waking);
+      track.setAttribute("aria-valuemin", "0");
+      track.setAttribute("aria-valuemax", "100");
+      track.setAttribute("aria-valuenow", "0");
+      track.append(fill, txt);
+      const cancel = h("button", "cchat__cancel", UI.cancel);
+      cancel.type = "button";
+      bar.replaceChildren(track, cancel);
+      cancel.focus();
+      const set = f => {
+        const p = Math.min(100, Math.max(0, Math.floor(f * 100)));
+        fill.style.width = p + "%";
+        track.setAttribute("aria-valuenow", p);
+        txt.textContent = lines.chat.waking + " " + p + "%";
+      };
+      cancel.addEventListener("click", () => { runId++; brain.cancel(); showOffer(info); });   // stops the download
+      loadBrain().then(b => b.start({ root: ROOT, lang, onProgress: set })).then(() => {
+        if (id !== runId) return;
+        awake = true;
+        show(input);
+        if (!panel.hidden) ta.focus();
+        addMsg("cedric", lines.chat.awake);
+        if (big) big.flick();
+      }).catch(e => {
+        if (id !== runId || (e && e.cancelled)) return;
+        brainDead = true;
+        console.warn("Cédric: could not wake up", e);
+        const err = h("p", "cchat__wakeerr", UI.wakeFail);
+        err.setAttribute("role", "status");
+        bar.replaceChildren(err);
+        setTimeout(() => show(input), 3500);
+      });
+    }
+
+    function typingBubble() {
       const typing = addMsg("cedric");
       typing.classList.add("is-typing");
       typing.setAttribute("aria-label", UI.typing);
-      typing.innerHTML = "<span></span><span></span><span></span>";
-      setTimeout(() => {
-        typing.remove();
-        const C = lines.chat;
-        const text = sent ? C.after_sent[afterN++ % C.after_sent.length] : C.replies[replyN++ % C.replies.length];
-        const li = addMsg("cedric", text);
-        if (!sent) li.appendChild(makeForm());
-        if (big) big.flick();
-        busy = false;
-        scrollDown();
-      }, 900 + Math.random() * 700);
+      for (let i = 0; i < 3; i++) typing.appendChild(document.createElement("span"));
+      return typing;
+    }
+    function done() { if (big) big.flick(); busy = false; scrollDown(); }
+
+    function reply() {
+      busy = true;
+      const typing = typingBubble();
+      const delay = 900 + Math.random() * 700;
+      if (history.length === 1) {   // first message: he's asleep. Form now, model loads meanwhile.
+        setTimeout(() => {
+          typing.remove();
+          const C = lines.chat;
+          const text = sent ? C.after_sent[afterN++ % C.after_sent.length] : C.replies[replyN++ % C.replies.length];
+          const li = addMsg("cedric", text);
+          if (!sent) li.appendChild(makeForm());
+          turns.push({ role: "assistant", content: text });
+          done();
+          offerWake();
+        }, delay);
+      } else if (awake) {
+        think(typing);
+      } else {   // no model on this device / failed (sleepy line + form), or the Wake up button is still being prepared
+        setTimeout(() => fallback(typing, brainDead ? "no_brain" : "nudge"), delay);
+      }
+    }
+
+    // Sleepy fallback (no WebGPU / load failed). Makes sure a form is there.
+    function fallback(typing, key) {
+      typing.remove();
+      const li = addMsg("cedric", lines.chat[key || "no_brain"]);
+      if (key !== "nudge" && !sent && !log.querySelector(".cchat__form")) li.appendChild(makeForm());
+      done();
+    }
+
+    async function think(typing) {
+      let li = null, p = null;
+      const bubble = () => { if (!li) { typing.remove(); li = addMsg("cedric", ""); p = li.firstChild; } };
+      try {
+        const out = await brain.ask(turns, raw => {
+          const r = brain.parse(raw, false);
+          if (!r.text) return;   // still only a half-written token
+          bubble();
+          p.textContent = r.text;
+          scrollDown();
+        });
+        const r = brain.parse(out, true);
+        if (!r.text && !r.actions.length) throw new Error("empty answer");
+        bubble();
+        if (r.text) p.textContent = r.text; else p.remove();
+        turns.push({ role: "assistant", content: out });
+        renderActions(li, r.actions);
+      } catch (e) {
+        console.warn("Cédric: no answer", e);
+        if (!li) return fallback(typing, "error");
+      }
+      done();
+    }
+
+    // Action tokens -> UI. The model never supplies a URL: links are built here from the
+    // projects.json slugs (brain.projectShort knows them) and the two CV files. [[form]] only
+    // appends the existing form; filling or sending it stays with the visitor.
+    function renderActions(li, actions) {
+      const box = h("div", "cchat__actions");
+      const link = (href, label, blank) => {
+        const a = h("a", "cchat__btn", label);
+        a.href = href;
+        if (blank) { a.target = "_blank"; a.rel = "noopener"; }
+        box.appendChild(a);
+      };
+      let wantForm = false;
+      for (const a of actions) {
+        if (a.kind === "form") wantForm = true;
+        else if (a.kind === "project") {
+          const short = brain.projectShort(a.arg);
+          if (short) link(ROOT + (lang === "fr" ? "fr/projects/" : "projects/") + encodeURIComponent(a.arg) + ".html", short);
+        } else if (a.kind === "cv" && (a.arg === "" || a.arg === "en" || a.arg === "fr")) {
+          const l = a.arg || lang;
+          link(ROOT + (l === "fr" ? "cv-fr.pdf" : "cv.pdf"), UI.cv + (a.arg ? " · " + a.arg.toUpperCase() : ""), true);
+        }
+      }
+      if (box.children.length) li.appendChild(box);
+      if (wantForm && !sent) li.appendChild(makeForm());
     }
 
     // The message form. Only the newest one stays; name/email carry over.
