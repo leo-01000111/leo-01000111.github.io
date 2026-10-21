@@ -14,7 +14,7 @@
 
   const UI = {
     en: {
-      launcher: "Talk to Cédric", title: "Cédric", close: "Close chat",
+      launcher: "Talk to Cédric", title: "Cédric", close: "Close chat", pin: "Keep chat open",
       placeholder: "Say something to Cédric…", send: "Send", typing: "Cédric is typing",
       name: "Name", email: "Email", message: "Message", submit: "Send to Leon", sending: "Sending…",
       fail: "That didn't go through. You can email Leon directly: ", subject: "Cédric chat: message from ",
@@ -24,7 +24,7 @@
       note: ["Cédric is a small AI running on your device. He can be wrong. ", "Leon's CV", " is the source of truth."],
     },
     fr: {
-      launcher: "Parler à Cédric", title: "Cédric", close: "Fermer le chat",
+      launcher: "Parler à Cédric", title: "Cédric", close: "Fermer le chat", pin: "Garder le chat ouvert",
       placeholder: "Dites quelque chose à Cédric…", send: "Envoyer", typing: "Cédric écrit",
       name: "Nom", email: "E-mail", message: "Message", submit: "Envoyer à Leon", sending: "Envoi…",
       fail: "L'envoi a échoué. Vous pouvez écrire à Leon directement : ", subject: "Chat Cédric : message de ",
@@ -129,7 +129,21 @@
     const close = h("button", "cchat__close", "×");
     close.type = "button";
     close.setAttribute("aria-label", UI.close);
-    head.append(h("span", "cchat__title", UI.title), h("span", "cchat__ref", "LG-03"), close);
+    // Pin: when on, clicking outside the panel doesn't minimise it. Remembered in localStorage.
+    let pinned = false;
+    try { pinned = localStorage.getItem("cedric:pinned") === "1"; } catch (e) {}
+    const pin = h("button", "cchat__pin");
+    pin.type = "button";
+    pin.title = UI.pin;
+    pin.setAttribute("aria-label", UI.pin);
+    pin.setAttribute("aria-pressed", String(pinned));
+    pin.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 2h5M6.5 2v4L4.5 9h7l-2-3V2M8 9v5"/></svg>';
+    pin.addEventListener("click", () => {
+      pinned = !pinned;
+      pin.setAttribute("aria-pressed", String(pinned));
+      try { localStorage.setItem("cedric:pinned", pinned ? "1" : "0"); } catch (e) {}
+    });
+    head.append(h("span", "cchat__title", UI.title), h("span", "cchat__ref", "LG-03"), pin, close);
     const hero = h("div", "cchat__hero");
     const log = h("ol", "cchat__log");
     log.setAttribute("aria-live", "polite");
@@ -167,14 +181,20 @@
       }
       ta.focus();
     }
-    function shut() {
+    function shut(noFocus) {
       panel.hidden = true;
       wrap.dataset.state = "closed";
       launcher.setAttribute("aria-expanded", "false");
-      launcher.focus();
+      if (noFocus !== true) launcher.focus();
     }
     launcher.addEventListener("click", open);
-    close.addEventListener("click", shut);
+    close.addEventListener("click", () => shut());
+    // Click / tap outside the open panel minimises it (unless pinned). Not the secrets: Blue Cédric, swimmers, ocean.
+    document.addEventListener("pointerdown", e => {
+      if (pinned || wrap.dataset.state === "closed" || wrap.contains(e.target)) return;
+      if (e.target.closest && e.target.closest(".cpeek,.cswim,.cocean,.ctrip")) return;
+      shut(true);   // no focus theft: only × / Escape return focus to the launcher
+    });
     panel.addEventListener("keydown", e => { if (e.key === "Escape") shut(); });
 
     // ---- chatting ------------------------------------------------------------
@@ -206,6 +226,7 @@
       ta.style.height = "auto";
       history.push(text);
       turns.push({ role: "user", content: text });
+      loadShorts();
       wrap.dataset.state = "talking";
       addMsg("you", text);
       reply();
@@ -366,18 +387,50 @@
         }
       }
       if (box.children.length) li.appendChild(box);
-      if (wantForm && !sent) li.appendChild(makeForm());
+      if (wantForm && !sent) li.appendChild(makeForm(history[history.length - 1]));
+    }
+
+    // Tidy the visitor's text for the form's message field (deterministic, no spelling fixes):
+    // capital letters, "I", proper nouns, a "?" after an unfinished question. The chat log is untouched.
+    let shorts = null;   // project short names, fetched once (first message)
+    function loadShorts() {
+      if (shorts) return;
+      shorts = [];
+      fetch(ROOT + "projects/projects.json").then(r => r.json())
+        .then(l => { shorts = l.map(p => p && p.short).filter(s => s && s.length >= 3); }).catch(() => {});
+    }
+    const QW = {
+      en: "who|what|when|where|why|how|is|are|do|does|did|can|could|would|will|should|which",
+      fr: "qui|que|quoi|quand|où|pourquoi|comment|est-ce|quel|quelle|quels|quelles|combien",
+    };
+    function tidy(raw) {
+      const names = ["Leon", "Cédric", "Górecki", "Centrale Nantes", ...(shorts || [])], canon = new Map();
+      names.forEach(n => canon.set(n.toLowerCase(), n));
+      canon.set("cedric", "Cédric"); canon.set("gorecki", "Górecki");
+      const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const proper = new RegExp("(?<![\\p{L}\\p{N}])(" + [...canon.keys()].sort((a, b) => b.length - a.length).map(esc).join("|") + ")(?![\\p{L}\\p{N}])", "giu");
+      const qre = new RegExp("^(?:(?:" + QW[lang] + ")(?![\\p{L}\\p{N}-])|[\\p{L}]+-(?:vous|tu|il|elle|on|ils|elles|je|nous)(?![\\p{L}\\p{N}]))", "iu");
+      return String(raw).split("\n").map(line => {
+        line = line.replace(/[ \t]+/g, " ").trim();
+        return line.split(/(?<=[.!?…])\s+/).map(sen => {
+          if (qre.test(sen) && !/[.!?…]$/.test(sen)) sen += (lang === "fr" ? "\u00a0?" : "?");
+          if (lang === "en") sen = sen.replace(/(?<![\p{L}\p{N}'’-])i(?=(?:['’](?:m|ve|ll|d))?(?![\p{L}\p{N}]))/gu, "I");
+          sen = sen.replace(proper, m => canon.get(m.toLowerCase()) || m);
+          return sen.replace(/^(\P{L}*)(\p{L})/u, (m, a, b) => a + b.toUpperCase());
+        }).join(" ");
+      }).join("\n").trim();
     }
 
     // The message form. Only the newest one stays; name/email carry over.
-    function makeForm() {
+    // `text` = what to prefill (default: everything the visitor typed so far).
+    function makeForm(text) {
       log.querySelectorAll(".cchat__form").forEach(f => f.remove());
       const f = h("form", "cchat__form");
       f.noValidate = false;
       const field = (label, el) => { const l = h("label", "cchat__field"); l.append(h("span", null, label), el); return l; };
       const name = h("input"); name.name = "name"; name.required = true; name.autocomplete = "name"; name.value = keep.name;
       const email = h("input"); email.name = "email"; email.type = "email"; email.required = true; email.autocomplete = "email"; email.value = keep.email;
-      const msg = h("textarea"); msg.name = "message"; msg.required = true; msg.rows = 3; msg.value = history.join("\n\n");
+      const msg = h("textarea"); msg.name = "message"; msg.required = true; msg.rows = 3; msg.value = tidy(text != null ? text : history.join("\n\n"));
       name.oninput = () => { keep.name = name.value; };
       email.oninput = () => { keep.email = email.value; };
       const trap = h("input"); trap.name = "_gotcha"; trap.tabIndex = -1; trap.autocomplete = "off"; trap.className = "cchat__trap";

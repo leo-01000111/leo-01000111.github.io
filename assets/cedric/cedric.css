@@ -236,6 +236,16 @@ path.cedric__eye{ animation: none; }   /* the line eye blinks in JS (see updateE
   background: none; color: var(--ink-muted); box-shadow: inset 0 0 0 1px var(--rule);
 }
 .cchat__close:hover{ color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.cchat__pin{
+  width: 30px; height: 30px; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center;
+  background: none; color: var(--ink-muted); box-shadow: inset 0 0 0 1px var(--rule);
+}
+.cchat__pin svg{ transform: rotate(35deg); transition: transform .2s; }
+.cchat__pin:hover{ color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.cchat__pin[aria-pressed="true"]{ color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.cchat__pin[aria-pressed="true"] svg{ transform: none; fill: currentColor; fill-opacity: .25; }
+.cchat__pin:focus-visible, .cchat__close:focus-visible{ outline: 3px solid var(--focus, #1f4fd1); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce){ .cchat__pin svg{ transition: none; } }
 
 /* Big Cedric on open; shrinks to a strip once the conversation starts. */
 .cchat__hero{
