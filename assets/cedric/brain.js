@@ -197,18 +197,27 @@ let engine = null, worker = null, startP = null, picked = null, cur = null;
 //   "Loading model from cache[i/N]: …"   shards -> GPU memory
 //   "Loading GPU shader modules[i/N]: …" shader / pipeline compilation
 //   ("Start to fetch params" and "Finish loading on …" are ignored; 100% is reported by start() itself)
-// Bands (%): with download 0-80 / 80-95 / 95-99, cached 0-70 / 70-99. Between events the number
-// creeps toward the band's ceiling (asymptotic), so it never looks stuck and never passes it.
+// Bands (%): with download 0-45 / 45-70 / 70-99, cached 0-30 / 30-99. On fast connections the download
+// is quick and the GPU side (weights into VRAM, shader compile) is slow, esp. on iGPUs. Between events
+// the number creeps toward the band's ceiling (asymptotic), so it never looks stuck and never passes it.
+// Phase durations are logged once at the end, to tune the bands.
 function makeProgress(cb) {
-  let shown = 0, ceil = 5, fetched = false, timer = 0;
+  let shown = 0, ceil = 5, fetched = false, timer = 0, phase = "", t0 = performance.now(), tPhase = t0;
+  const times = {};
   const emit = text => { try { cb && cb(shown / 100, text); } catch (e) {} };
+  const enter = name => {
+    if (name === phase) return;
+    const now = performance.now();
+    if (phase) times[phase] = Math.round((now - tPhase) / 1000);
+    phase = name; tPhase = now;
+  };
   return {
     event(r) {
       const t = r.text || "", p = Math.min(1, Math.max(0, r.progress || 0));
       let lo, hi;
-      if (/^Fetching param cache/.test(t)) { fetched = true; lo = 0; hi = 80; }
-      else if (/^Loading model from cache/.test(t)) { [lo, hi] = fetched ? [80, 95] : [0, 70]; }
-      else if (/^Loading GPU shader modules/.test(t)) { [lo, hi] = fetched ? [95, 99] : [70, 99]; }
+      if (/^Fetching param cache/.test(t)) { enter("download"); fetched = true; lo = 0; hi = 45; }
+      else if (/^Loading model from cache/.test(t)) { enter("gpu load"); [lo, hi] = fetched ? [45, 70] : [0, 30]; }
+      else if (/^Loading GPU shader modules/.test(t)) { enter("shaders"); [lo, hi] = fetched ? [70, 99] : [30, 99]; }
       else return;
       ceil = Math.max(ceil, hi);
       const v = Math.min(99, lo + (hi - lo) * p);
@@ -221,7 +230,13 @@ function makeProgress(cb) {
       }, 250);
     },
     stop() { clearInterval(timer); },
-    done() { clearInterval(timer); shown = 100; emit("done"); },
+    done() {
+      clearInterval(timer);
+      enter("end");
+      console.info("Cedric: load phases (s)", Object.entries(times).map(([k, v]) => k + " " + v).join(" | "),
+        "| total", Math.round((performance.now() - t0) / 1000));
+      shown = 100; emit("done");
+    },
   };
 }
 
