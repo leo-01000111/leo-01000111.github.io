@@ -163,11 +163,12 @@ def order_featured(projects, limit=3):
     return featured[:limit]
 
 
-def render_list(projects, lang, alternate_plain=False):
+def render_list(projects, lang, alternate_plain=False, lead_hold=False):
+    """lead_hold: the first card takes the hold tone (home page), not the flagship."""
     out = []
     for i, p in enumerate(projects, start=1):
         tone = None
-        if p.get("flagship"):
+        if (i == 1) if lead_hold else p.get("flagship"):
             tone = "hold"
         elif alternate_plain and (i % 2 == 0):
             tone = "plain"
@@ -267,8 +268,8 @@ def main():
     by_slug = {p["slug"]: p for p in projects}
     numeral_by_slug = {p["slug"]: i for i, p in enumerate(all_ordered, start=1)}
 
-    inject(ROOT / "index.html", render_list(featured, "en"))
-    inject(ROOT / "fr" / "index.html", render_list(featured, "fr"))
+    inject(ROOT / "index.html", render_list(featured, "en", lead_hold=True))
+    inject(ROOT / "fr" / "index.html", render_list(featured, "fr", lead_hold=True))
     inject(ROOT / "projects" / "index.html", render_list(all_ordered, "en", alternate_plain=True))
     inject(
         ROOT / "fr" / "projects" / "index.html",
