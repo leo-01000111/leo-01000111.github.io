@@ -12,8 +12,8 @@
       "fr": "MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale"
     },
     "description": {
-      "en": "In production at MILTOM. It reads Poland's public tender bulletin every hour, ranks matching tenders with a classifier, and shows them to the sales team in a web panel. Their answers train the next model.",
-      "fr": "En production chez MILTOM. Il lit toutes les heures le bulletin polonais des marchés publics, classe les appels d'offres pertinents avec un classifieur et les présente à l'équipe commerciale dans une application web. Leurs réponses entraînent le modèle suivant."
+      "en": "In production at MILTOM. Every hour it ranks new tenders for the sales team. Their answers train the next model.",
+      "fr": "En production chez MILTOM. Toutes les heures, il classe les nouveaux appels d'offres pour l'équipe commerciale. Leurs réponses entraînent le modèle suivant."
     },
     "tags": [
       "Python",
