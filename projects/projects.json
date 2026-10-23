@@ -3,7 +3,7 @@
     "id": 7,
     "slug": "miltombot",
     "short": "MILTOM-Bot",
-    "featuredOrder": 1,
+    "featuredOrder": 2,
     "code": "OPS",
     "meta": ["2026", "Miltom"],
     "flagship": true,
@@ -27,7 +27,8 @@
     "id": 8,
     "slug": "evans",
     "short": "Evans",
-    "featuredOrder": 2,
+    "href": "/evans/",
+    "featuredOrder": 1,
     "code": "GNC",
     "title": {
       "en": "Evans: a control-systems workbench in Python",

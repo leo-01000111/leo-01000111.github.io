@@ -87,6 +87,9 @@ def esc(s):
 
 
 def project_href(p, lang):
+    # A project with its own site (e.g. Evans at /evans/) links there directly.
+    if p.get("href"):
+        return p["href"]
     slug = p.get("slug") or f"project{p.get('id', '')}"
     base = "/fr/projects/" if lang == "fr" else "/projects/"
     return f"{base}{slug}.html"
@@ -154,19 +157,10 @@ def order_all(projects):
 
 
 def order_featured(projects, limit=3):
+    """Home page: featuredOrder alone decides the order (flagship keeps its tone)."""
     featured = [p for p in projects if p.get("featuredOrder") is not None]
     featured.sort(key=lambda p: p["featuredOrder"])
-    ordered = order_all(featured) if any(p.get("flagship") for p in featured) else featured
-    # Ensure flagship (if featured) leads, keep remaining featuredOrder order otherwise.
-    if not any(p.get("flagship") for p in featured):
-        ordered = featured
-    else:
-        flagship = [p for p in featured if p.get("flagship")]
-        rest = sorted(
-            [p for p in featured if not p.get("flagship")], key=lambda p: p["featuredOrder"]
-        )
-        ordered = flagship + rest
-    return ordered[:limit]
+    return featured[:limit]
 
 
 def render_list(projects, lang, alternate_plain=False):
@@ -297,6 +291,8 @@ def main():
     # "See also": full-width ProjectCards on each EN + FR detail page, using
     # the project's own numeral from the /projects/ ordering above.
     for slug, targets in SEE_ALSO.items():
+        if by_slug.get(slug, {}).get("href"):
+            continue  # page is a redirect stub to the project's own site
         for lang, base in [("en", "projects"), ("fr", "fr/projects")]:
             path = ROOT / base / f"{slug}.html"
             html = render_see_also(targets, lang, by_slug, numeral_by_slug)
