@@ -100,8 +100,8 @@
       "fr": "LG-FLOW : Solveur CFD 2D"
     },
     "description": {
-      "en": "2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.",
-      "fr": "Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al."
+      "en": "2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark and the analytical Poiseuille channel profile.",
+      "fr": "Solveur 2D de Navier-Stokes incompressible en C++20, par volumes finis avec couplage SIMPLE. Validé sur le cas de la cavité entraînée de Ghia et al. et sur le profil analytique de Poiseuille en canal."
     },
     "tags": [
       "C++",

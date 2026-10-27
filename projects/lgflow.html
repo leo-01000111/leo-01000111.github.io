@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>LG-FLOW: 2D CFD Solver - Leon Górecki</title>
-  <meta name="description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark." />
+  <meta name="description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark and the analytical Poiseuille channel profile." />
   <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="LG-FLOW: 2D CFD Solver - Leon Górecki" />
-  <meta property="og:description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark." />
+  <meta property="og:description" content="2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark and the analytical Poiseuille channel profile." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/lgflow.html" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/lgflow.html" />
@@ -55,7 +55,7 @@
         <div>
           <p class="label" id="lg-kicker">CFD · Simulation · C++</p>
           <h1 id="proj-title">LG-FLOW: 2D CFD Solver</h1>
-          <p id="proj-desc" class="lede">2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark.</p>
+          <p id="proj-desc" class="lede">2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark and the analytical Poiseuille channel profile.</p>
           <ul class="hp-tags" aria-label="Stack" id="proj-tags">
             <li><span class="hp-tag">C++</span></li>
             <li><span class="hp-tag">CFD</span></li>
@@ -88,7 +88,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="lg-ctx-title">What it is</h2>
-        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW is a 2D incompressible Navier-Stokes solver written in C++20. It uses the finite volume method (FVM) with SIMPLE pressure-velocity coupling on a collocated grid, with Rhie-Chow interpolation at the cell faces. It is validated against the Ghia et al. (1982) lid-driven cavity benchmark at Re = 100. It outputs per-iteration residuals, centreline velocity profiles, VTK snapshots and L2/L∞ error metrics, and an SFML GUI shows the residuals and the flow field while the solver runs. An unstructured-mesh solver and a Spalart-Allmaras turbulence model are in progress.</p>
+        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW is a 2D incompressible Navier-Stokes solver written in C++20. It uses the finite volume method (FVM) with SIMPLE pressure-velocity coupling on a collocated grid, with Rhie-Chow interpolation at the cell faces. It is validated against the Ghia et al. (1982) lid-driven cavity benchmark at Re = 100 and against the analytical Poiseuille profile in a plane channel, with a grid-refinement study that confirms second-order accuracy. It outputs per-iteration residuals, centreline velocity profiles, VTK snapshots and L2/L∞ error metrics, and an SFML GUI shows the residuals and the flow field while the solver runs. An unstructured-mesh solver and a Spalart-Allmaras turbulence model are in progress.</p>
       </div>
     </section>
 
@@ -103,11 +103,11 @@
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="lg-tc2-label">Method</div>
-            <div class="data-grid__value" id="lg-tc2-value">Finite Volume Method · SIMPLE pressure-velocity coupling</div>
+            <div class="data-grid__value" id="lg-tc2-value">Finite Volume Method · SIMPLE pressure-velocity coupling · Implicit viscous term</div>
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="lg-tc3-label">Libraries</div>
-            <div class="data-grid__value" id="lg-tc3-value">Eigen3 (linear algebra) · GoogleTest (unit testing)</div>
+            <div class="data-grid__value" id="lg-tc3-value">Eigen3 (linear algebra) · GoogleTest (unit testing) · SFML 3 (GUI)</div>
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="lg-tc4-label">Build</div>
@@ -119,7 +119,7 @@
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="lg-tc6-label">Output</div>
-            <div class="data-grid__value" id="lg-tc6-value">VTK snapshots · Centerline velocity profiles · L2/L∞ error metrics · CSV residuals</div>
+            <div class="data-grid__value" id="lg-tc6-value">VTK snapshots · Centerline velocity profiles · L2/L∞ error metrics · CSV residuals (velocity, relative continuity)</div>
           </div>
         </div>
       </div>
@@ -128,8 +128,8 @@
     <!-- Validation -->
     <section class="proj-section">
       <div class="card">
-        <h2 id="lg-val-title">Validation: Ghia et al. lid-driven cavity</h2>
-        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">The reference is Ghia, Ghia &amp; Shin (1982), the standard benchmark for 2D incompressible lid-driven cavity flow. The Re = 100 case is checked automatically: the L2 errors of the u and v centreline profiles must stay under fixed thresholds. L∞ errors are computed and reported as well.</p>
+        <h2 id="lg-val-title">Validation</h2>
+        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">The reference is Ghia, Ghia &amp; Shin (1982), the standard benchmark for 2D incompressible lid-driven cavity flow. The Re = 100 case is checked automatically: the L2 errors of the u and v centreline profiles must stay under fixed thresholds. L∞ errors are computed and reported as well. On a 32 × 32 grid the L2 errors are 0.043 (u) and 0.022 (v). The second case is a uniform inflow between two walls at Re<sub>H</sub> = 100, which develops into the analytical Poiseuille profile (White 2006). It is solved on four successively refined grids (8 to 64 cells across the channel). The error of the developed profile falls at an observed order of 1.92 to 1.96, matching the second-order scheme, and reaches 0.02 % of the peak velocity on the finest grid.</p>
         <div class="table-wrap"><table class="results-table">
           <thead>
             <tr>
@@ -146,9 +146,15 @@
               <td>Ghia et al. 1982</td>
               <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass1">PASS</span></span></td>
             </tr>
+            <tr>
+              <td id="lg-vc2-case">Plane channel (Poiseuille)</td>
+              <td>100</td>
+              <td>Analytical, White 2006</td>
+              <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass2">PASS</span></span></td>
+            </tr>
           </tbody>
         </table></div>
-        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">The validation executable exits with code 2 if an error is over its threshold, so CI can use it directly. The same check runs as a CTest.</p>
+        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">The cavity validation executable exits with code 2 if an error is over its threshold, so CI can use it directly. Both cases run as CTests, next to 249 unit tests.</p>
       </div>
     </section>
 
@@ -159,7 +165,7 @@
         <div class="step-list" id="lg-phase-list">
           <div class="step-list__row"><span class="step-list__num">01</span><span class="step-list__text" id="lg-p1">Collocated grid with Rhie-Chow face interpolation, which avoids pressure-velocity decoupling</span></div>
           <div class="step-list__row"><span class="step-list__num">02</span><span class="step-list__text" id="lg-p2">SIMPLE pressure-correction loop with a configurable number of passes</span></div>
-          <div class="step-list__row"><span class="step-list__num">03</span><span class="step-list__text" id="lg-p3">Consistent stencils: one interpolation scheme everywhere</span></div>
+          <div class="step-list__row"><span class="step-list__num">03</span><span class="step-list__text" id="lg-p3">Boundary conditions enter as boundary-face fluxes, never by overwriting boundary cells</span></div>
           <div class="step-list__row"><span class="step-list__num">04</span><span class="step-list__text" id="lg-p4">Automated validation with pass/fail exit codes</span></div>
           <div class="step-list__row"><span class="step-list__num">05</span><span class="step-list__text" id="lg-p5">VTK export for post-processing in ParaView</span></div>
         </div>
