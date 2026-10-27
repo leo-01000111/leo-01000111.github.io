@@ -1,5 +1,28 @@
 [
   {
+    "id": 8,
+    "slug": "evans",
+    "short": "Evans",
+    "href": "/evans/",
+    "featuredOrder": 1,
+    "code": "GNC",
+    "title": {
+      "en": "Evans: a control-systems workbench in Python",
+      "fr": "Evans : un atelier d'automatique en Python"
+    },
+    "description": {
+      "en": "A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 1236 tests.",
+      "fr": "Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 1236 tests."
+    },
+    "tags": [
+      "Python",
+      "PySide6",
+      "Control Systems",
+      "SciPy",
+      "SymPy"
+    ]
+  },
+  {
     "id": 7,
     "slug": "miltombot",
     "short": "MILTOM-Bot",
@@ -21,29 +44,6 @@
       "PostgreSQL",
       "scikit-learn",
       "Docker"
-    ]
-  },
-  {
-    "id": 8,
-    "slug": "evans",
-    "short": "Evans",
-    "href": "/evans/",
-    "featuredOrder": 1,
-    "code": "GNC",
-    "title": {
-      "en": "Evans: a control-systems workbench in Python",
-      "fr": "Evans : un atelier d'automatique en Python"
-    },
-    "description": {
-      "en": "A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 1236 tests.",
-      "fr": "Un logiciel de bureau pour l'automatique classique et la représentation d'état. Il réunit des tracés d'analyse, un simulateur de schémas-blocs et une console de commandes façon MATLAB. Python et PySide6, 1236 tests."
-    },
-    "tags": [
-      "Python",
-      "PySide6",
-      "Control Systems",
-      "SciPy",
-      "SymPy"
     ]
   },
   {
@@ -70,27 +70,6 @@
     ]
   },
   {
-    "id": 5,
-    "slug": "navfusion",
-    "short": "navfusion",
-    "code": "GNC",
-    "title": {
-      "en": "navfusion",
-      "fr": "navfusion"
-    },
-    "description": {
-      "en": "An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.",
-      "fr": "Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées."
-    },
-    "tags": [
-      "Sensor Fusion",
-      "EKF",
-      "Robotics",
-      "GNSS",
-      "Real-time"
-    ]
-  },
-  {
     "id": 1,
     "slug": "project1",
     "short": "BEng thesis",
@@ -109,47 +88,6 @@
       "Reinforcement Learning",
       "Robust MPC",
       "Python"
-    ]
-  },
-  {
-    "id": 2,
-    "slug": "kaggle",
-    "short": "Kaggle",
-    "featuredOrder": 4,
-    "code": "ML",
-    "title": {
-      "en": "Kaggle Competitions",
-      "fr": "Compétitions Kaggle"
-    },
-    "description": {
-      "en": "Live leaderboard rankings across ML competitions, auto-updated daily via GitHub Actions.",
-      "fr": "Classements en direct sur des compétitions ML, mis à jour quotidiennement via GitHub Actions."
-    },
-    "tags": [
-      "Machine Learning",
-      "Python",
-      "Data Science",
-      "Competition"
-    ]
-  },
-  {
-    "id": 6,
-    "slug": "aicalc",
-    "short": "AICalc",
-    "featuredOrder": 5,
-    "code": "ML",
-    "title": {
-      "en": "AICalc",
-      "fr": "AICalc"
-    },
-    "description": {
-      "en": "A calculator where the Compute button is a neural network. A GRU seq2seq model and a Transformer predict the answer character by character.",
-      "fr": "Une calculatrice dont le bouton Calculer est un réseau de neurones. Un modèle seq2seq GRU et un Transformer prédisent la réponse caractère par caractère."
-    },
-    "tags": [
-      "Python",
-      "Transformers",
-      "Deep Learning"
     ]
   },
   {
@@ -192,6 +130,68 @@
       "XGBoost",
       "Python",
       "Streamlit"
+    ]
+  },
+  {
+    "id": 5,
+    "slug": "navfusion",
+    "short": "navfusion",
+    "code": "GNC",
+    "title": {
+      "en": "navfusion",
+      "fr": "navfusion"
+    },
+    "description": {
+      "en": "An event-driven error-state EKF that fuses IMU and GNSS. It keeps pose estimates stable when measurements are late, missing or noisy.",
+      "fr": "Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées."
+    },
+    "tags": [
+      "Sensor Fusion",
+      "EKF",
+      "Robotics",
+      "GNSS",
+      "Real-time"
+    ]
+  },
+  {
+    "id": 6,
+    "slug": "aicalc",
+    "short": "AICalc",
+    "featuredOrder": 5,
+    "code": "ML",
+    "title": {
+      "en": "AICalc",
+      "fr": "AICalc"
+    },
+    "description": {
+      "en": "A calculator where the Compute button is a neural network. A GRU seq2seq model and a Transformer predict the answer character by character.",
+      "fr": "Une calculatrice dont le bouton Calculer est un réseau de neurones. Un modèle seq2seq GRU et un Transformer prédisent la réponse caractère par caractère."
+    },
+    "tags": [
+      "Python",
+      "Transformers",
+      "Deep Learning"
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "kaggle",
+    "short": "Kaggle",
+    "featuredOrder": 4,
+    "code": "ML",
+    "title": {
+      "en": "Kaggle Competitions",
+      "fr": "Compétitions Kaggle"
+    },
+    "description": {
+      "en": "Live leaderboard rankings across ML competitions, auto-updated daily via GitHub Actions.",
+      "fr": "Classements en direct sur des compétitions ML, mis à jour quotidiennement via GitHub Actions."
+    },
+    "tags": [
+      "Machine Learning",
+      "Python",
+      "Data Science",
+      "Competition"
     ]
   }
 ]

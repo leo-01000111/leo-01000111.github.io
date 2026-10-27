@@ -150,10 +150,8 @@ SEE_ALSO = {
 
 
 def order_all(projects):
-    """Flagship first, then the rest in projects.json order."""
-    flagship = [p for p in projects if p.get("flagship")]
-    rest = [p for p in projects if not p.get("flagship")]
-    return flagship + rest
+    """projects.json order alone decides the /projects/ order."""
+    return list(projects)
 
 
 def order_featured(projects, limit=3):
