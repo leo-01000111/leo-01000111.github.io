@@ -1,0 +1,54 @@
+name: Update F1 Predictions
+
+# Copies site/f1-predictions.json from the F1-Predictor repo, where the
+# race-weekend workflow writes it after qualifying and after each race.
+# The project page (projects/f1predictor.html) reads the copy on load.
+
+on:
+  schedule:
+    # Hourly Saturday to Monday (UTC), 20 min after the F1-Predictor tick
+    - cron: '43 * * * 6,0,1'
+    # Daily otherwise
+    - cron: '43 5 * * 2-5'
+  workflow_dispatch:
+    # Also allows a manual trigger from the Actions tab
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to push the updated JSON
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download predictions
+        run: |
+          curl -fsSL --retry 3 \
+            https://raw.githubusercontent.com/leo-01000111/F1-Predictor/main/site/f1-predictions.json \
+            -o /tmp/f1-predictions.json
+
+      - name: Validate before replacing
+        run: |
+          python3 - <<'EOF'
+          import json
+          d = json.load(open("/tmp/f1-predictions.json", encoding="utf-8"))
+          assert isinstance(d.get("season"), int), "missing season"
+          assert d.get("next", {}).get("status") in ("predicted", "awaiting_qualifying", "season_over"), "bad next.status"
+          assert isinstance(d.get("record"), list), "missing record"
+          print("valid:", d["next"]["status"], len(d["record"]), "races in record")
+          EOF
+          cp /tmp/f1-predictions.json projects/f1-predictions.json
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add projects/f1-predictions.json
+          if git diff --staged --quiet; then
+            echo "No changes."
+          else
+            git commit -m "chore: update F1 predictions [skip ci]"
+            git push
+          fi

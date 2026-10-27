@@ -462,6 +462,31 @@ h1{
 .live-dot{ display:inline-block; width:7px; height:7px; background:var(--lamp-go); margin-right:5px; vertical-align:middle; }
 .kaggle-updated{ font-size:0.82rem; color:var(--ink-muted); font-family: var(--font-mono); }
 
+/* === F1 LIVE PREDICTIONS (projects/f1predictor.html) === */
+.f1-live__kicker{ display:flex; align-items:center; margin:0 0 var(--space-2); }
+.f1-live__meta{ margin:0; font-family: var(--font-mono); font-size:0.82rem; color: var(--ink-muted); }
+.f1-live__lede{ margin: var(--space-2) 0 var(--space-3); line-height:1.6; }
+.f1-live__lede .badge{ display:inline-block; }
+.f1-live__h3{ margin: var(--space-5) 0 var(--space-2); font-family: var(--font-display); font-size:1.05rem; font-weight:700; color: var(--ink); }
+.results-table.f1-table{ min-width:0; }
+.f1-table td:first-child, .f1-table th:first-child{ width:2.5em; }
+.f1-team{ color: var(--ink-muted); font-size:0.78rem; }
+.f1-win{ display:flex; align-items:center; gap: var(--space-2); }
+.f1-bar{ display:inline-block; width:72px; height:6px; background: var(--rule); flex-shrink:0; }
+.f1-bar > span{ display:block; height:100%; background: var(--signal); }
+.f1-podium{ color: var(--ink); font-weight:700; }
+.f1-toggle{ margin-top: var(--space-2); }
+.badge.f1-hit{ box-shadow: inset 0 0 0 var(--stroke-hair) var(--lamp-go); color: var(--lamp-go); }
+.badge.f1-miss{ box-shadow: inset 0 0 0 var(--stroke-hair) var(--ink-muted); color: var(--ink-muted); }
+.f1-record{ display:flex; flex-wrap:wrap; gap: var(--space-2); margin: var(--space-2) 0; padding:0; list-style:none; }
+.f1-record li{ display:flex; flex-direction:column; align-items:center; min-width:52px; padding: 6px var(--space-2); font-family: var(--font-mono); font-size:0.8rem; box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule); color: var(--ink-muted); }
+.f1-record li.f1-hit{ box-shadow: inset 0 0 0 var(--stroke-bold) var(--lamp-go); color: var(--ink); }
+.f1-record__r{ font-size:0.68rem; letter-spacing:0.08em; }
+@media (max-width: 560px){
+  .f1-bar{ width:40px; }
+  .f1-team{ display:none; }
+}
+
 /* ── See-also strip ── */
 #see-also{ margin-top: var(--space-3); }
 #see-also h2{ margin:0 0 var(--space-3); }

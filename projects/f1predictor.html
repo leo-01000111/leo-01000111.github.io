@@ -83,6 +83,21 @@
       </figure>
     </section>
 
+    <!-- Live predictions (rendered by inline JS from /projects/f1-predictions.json) -->
+    <section class="proj-section" aria-labelledby="f1-live-title">
+      <div class="card f1-live">
+        <p class="label f1-live__kicker"><span class="live-dot"></span><span id="f1-live-kicker">Live predictions</span></p>
+        <h2 id="f1-live-title">Next race</h2>
+        <div id="f1-live">
+          <div class="skel-body" aria-hidden="true">
+            <div class="skel" style="height:18px;width:55%;"></div>
+            <div class="skel" style="height:13px;width:80%;margin-top:6px;"></div>
+            <div class="skel" style="height:120px;width:100%;margin-top:14px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Context -->
     <section class="proj-section">
       <div class="card">
@@ -191,7 +206,232 @@
     </div>
   </footer>
 
-<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script>
+  // === F1 live predictions renderer ===
+  // Data: /projects/f1-predictions.json, copied from the F1-Predictor repo by
+  // .github/workflows/update-f1.yml (written there by scripts/export_site_json.py).
+  (function() {
+    var DATA_URL = "/projects/f1-predictions.json?t=" + Date.now();
+    var SHOW_ROWS = 10;
+
+    var copy = {
+      en: {
+        kicker: "Live predictions",
+        nextRace: "Next race",
+        round: function(r) { return "Round " + r; },
+        awaiting: function(t) { return "The prediction is published after qualifying (" + t + ")."; },
+        seasonOver: "The season is over. Predictions resume after qualifying for the next season's first race.",
+        published: function(t) { return "Published after qualifying, " + t + "."; },
+        wet: "Wet race forecast",
+        thPos: "#", thDriver: "Driver", thGrid: "Grid", thWin: "Win", thPodium: "Podium", thTop10: "Top 10", thFinish: "Finished",
+        showAll: function(n) { return "Show all " + n + " drivers"; },
+        showLess: "Show top " + SHOW_ROWS,
+        lastTitle: function(name) { return "Last predicted race: " + name; },
+        podiumPred: "Predicted podium", podiumAct: "Actual podium",
+        winnerHit: "Winner called", winnerMiss: "Winner missed",
+        overlap: function(n) { return n + " of 3 podium drivers"; },
+        dnf: "DNF",
+        recordTitle: "Season record",
+        recordNote: "Races predicted live, before the start. Each one is compared with the result once it is published.",
+        recordSummary: function(s) { return s.winners + " of " + s.races + " winners called · " + s.podium_overlap_avg + " of 3 podium drivers on average"; },
+        recordHit: "winner called", recordMiss: "winner missed",
+        modelTitle: "Model",
+        mWinner: "Winner accuracy", mPodium: "Podium accuracy", mSpearman: "Spearman", mTrained: "Last retrained",
+        mHoldout: function(n, y) { return "Holdout: " + n + " races, " + y.join("-") + ", not seen in training."; },
+        how: "Runs on GitHub Actions: the model predicts each race once qualifying ends, then records the result and retrains after the race. No server.",
+        updated: "Updated",
+        error: "Could not load the live predictions."
+      },
+      fr: {
+        kicker: "Prédictions en direct",
+        nextRace: "Prochaine course",
+        round: function(r) { return "Manche " + r; },
+        awaiting: function(t) { return "La prédiction est publiée après les qualifications (" + t + ")."; },
+        seasonOver: "La saison est terminée. Les prédictions reprennent après les qualifications de la première course de la saison suivante.",
+        published: function(t) { return "Publiée après les qualifications, " + t + "."; },
+        wet: "Course sous la pluie annoncée",
+        thPos: "#", thDriver: "Pilote", thGrid: "Grille", thWin: "Victoire", thPodium: "Podium", thTop10: "Top 10", thFinish: "Arrivée",
+        showAll: function(n) { return "Afficher les " + n + " pilotes"; },
+        showLess: "Afficher le top " + SHOW_ROWS,
+        lastTitle: function(name) { return "Dernière course prédite : " + name; },
+        podiumPred: "Podium prédit", podiumAct: "Podium réel",
+        winnerHit: "Vainqueur trouvé", winnerMiss: "Vainqueur manqué",
+        overlap: function(n) { return n + " pilotes du podium sur 3"; },
+        dnf: "Abandon",
+        recordTitle: "Bilan de la saison",
+        recordNote: "Courses prédites en direct, avant le départ. Chacune est comparée au résultat dès sa publication.",
+        recordSummary: function(s) { return s.winners + " vainqueurs trouvés sur " + s.races + " · " + String(s.podium_overlap_avg).replace(".", ",") + " pilotes du podium sur 3 en moyenne"; },
+        recordHit: "vainqueur trouvé", recordMiss: "vainqueur manqué",
+        modelTitle: "Modèle",
+        mWinner: "Précision vainqueur", mPodium: "Précision podium", mSpearman: "Spearman", mTrained: "Dernier entraînement",
+        mHoldout: function(n, y) { return "Jeu de test : " + n + " courses, " + y.join("-") + ", jamais vues à l'entraînement."; },
+        how: "Tourne sur GitHub Actions : le modèle prédit chaque course à la fin des qualifications, puis enregistre le résultat et se réentraîne après la course. Aucun serveur.",
+        updated: "Mis à jour",
+        error: "Impossible de charger les prédictions en direct."
+      }
+    };
+
+    function getLang() {
+      var q = new URLSearchParams(window.location.search).get("lang") || "";
+      if (q.toLowerCase() === "fr") return "fr";
+      return (document.documentElement.getAttribute("lang") || "en").toLowerCase().startsWith("fr") ? "fr" : "en";
+    }
+
+    function escHtml(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    function fmtTime(iso, lang) {
+      if (!iso) return "–";
+      try {
+        var d = new Date(iso);
+        return d.toLocaleDateString(lang, {weekday:"short", day:"numeric", month:"short"})
+          + " " + d.toLocaleTimeString(lang, {hour:"2-digit", minute:"2-digit"});
+      } catch (e) { return iso.slice(0, 16).replace("T", " "); }
+    }
+
+    function pct(p, lang) {
+      if (p == null) return "–";
+      var v = p * 100;
+      var s = v >= 99.95 ? "100" : v < 0.05 ? "0" : v.toFixed(v < 10 ? 1 : 0);
+      return (lang === "fr" ? s.replace(".", ",") : s) + "%";
+    }
+
+    function bar(p) {
+      var w = Math.max(0, Math.min(100, (p || 0) * 100));
+      return '<span class="f1-bar" aria-hidden="true"><span style="width:' + w.toFixed(1) + '%"></span></span>';
+    }
+
+    function driversTable(drivers, c, lang, withFinish) {
+      var h = '<div class="table-wrap"><table class="results-table f1-table"><thead><tr>';
+      h += '<th scope="col">' + c.thPos + '</th><th scope="col">' + c.thDriver + '</th><th scope="col">' + c.thGrid + '</th>';
+      h += '<th scope="col">' + c.thWin + '</th><th scope="col">' + c.thPodium + '</th>';
+      h += withFinish ? '<th scope="col">' + c.thFinish + '</th>' : '<th scope="col">' + c.thTop10 + '</th>';
+      h += '</tr></thead><tbody>';
+      drivers.forEach(function(d, i) {
+        var hidden = i >= SHOW_ROWS ? ' class="f1-extra" hidden' : '';
+        h += '<tr' + hidden + '><td>' + (i + 1) + '</td>';
+        h += '<td><strong>' + escHtml(d.driver) + '</strong> <span class="f1-team">' + escHtml(d.team) + '</span></td>';
+        h += '<td>' + (d.grid != null ? escHtml(d.grid) : "–") + '</td>';
+        h += '<td class="f1-win">' + bar(d.p_win) + '<span>' + pct(d.p_win, lang) + '</span></td>';
+        h += '<td>' + pct(d.p_podium, lang) + '</td>';
+        if (withFinish) {
+          var f = d.finish;
+          var cls = f != null && f <= 3 ? ' class="f1-podium"' : '';
+          h += '<td' + cls + '>' + (f != null ? "P" + escHtml(f) : c.dnf) + '</td>';
+        } else {
+          h += '<td>' + pct(d.p_top10, lang) + '</td>';
+        }
+        h += '</tr>';
+      });
+      h += '</tbody></table></div>';
+      if (drivers.length > SHOW_ROWS) {
+        h += '<button class="hp-btn hp-btn--ghost f1-toggle" type="button" aria-expanded="false" data-more="' +
+          escHtml(c.showAll(drivers.length)) + '" data-less="' + escHtml(c.showLess) + '">' + escHtml(c.showAll(drivers.length)) + '</button>';
+      }
+      return h;
+    }
+
+    function render(data, lang) {
+      var c = copy[lang] || copy.en;
+      var root = document.getElementById("f1-live");
+      var title = document.getElementById("f1-live-title");
+      if (!root) return;
+      var n = data.next || {};
+      var h = "";
+
+      // Next race
+      if (n.status === "season_over") {
+        title.textContent = c.nextRace;
+        h += '<p class="muted f1-live__lede">' + c.seasonOver + '</p>';
+      } else {
+        title.textContent = n.name || c.nextRace;
+        h += '<p class="f1-live__meta">' + c.round(escHtml(n.round)) + (n.location ? " · " + escHtml(n.location) : "") +
+          " · " + escHtml(fmtTime(n.race_utc, lang)) + '</p>';
+        if (n.status === "predicted") {
+          h += '<p class="muted f1-live__lede">' + c.published(escHtml(fmtTime(n.generated_at ? n.generated_at + (/[zZ]|[+-]\d\d:?\d\d$/.test(n.generated_at) ? "" : "Z") : null, lang)));
+          if (n.is_wet_forecast) h += ' <span class="badge badge--flag">' + c.wet + '</span>';
+          h += '</p>';
+          h += driversTable(n.drivers || [], c, lang, false);
+        } else {
+          h += '<p class="muted f1-live__lede">' + c.awaiting(escHtml(fmtTime(n.quali_utc, lang))) + '</p>';
+        }
+      }
+
+      // Last race
+      var l = data.last;
+      if (l) {
+        h += '<h3 class="f1-live__h3">' + escHtml(c.lastTitle(l.name)) + '</h3>';
+        h += '<div class="kaggle-meta-row">';
+        h += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.podiumPred + '</span><span class="kaggle-stat-value">' + escHtml((l.podium_predicted || []).join(" · ")) + '</span></div>';
+        h += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.podiumAct + '</span><span class="kaggle-stat-value">' + escHtml((l.podium_actual || []).join(" · ")) + '</span></div>';
+        h += '</div><div class="badge-row" style="margin:0 0 12px;">';
+        h += '<span class="badge ' + (l.winner_hit ? 'f1-hit' : 'f1-miss') + '">' + (l.winner_hit ? c.winnerHit : c.winnerMiss) + '</span>';
+        if (l.podium_overlap != null) h += '<span class="badge">' + c.overlap(escHtml(l.podium_overlap)) + '</span>';
+        h += '</div>';
+        h += driversTable(l.drivers || [], c, lang, true);
+      }
+
+      // Season record
+      var rec = data.record || [];
+      if (rec.length) {
+        h += '<h3 class="f1-live__h3">' + c.recordTitle + ' ' + escHtml(data.season) + '</h3>';
+        h += '<p class="small">' + c.recordNote + '</p>';
+        h += '<ul class="f1-record">';
+        rec.forEach(function(r) {
+          h += '<li class="' + (r.winner_hit ? 'f1-hit' : 'f1-miss') + '" title="' + escHtml(r.name) + ': ' +
+            escHtml(r.winner_predicted) + ' → ' + escHtml(r.winner_actual) + '">' +
+            '<span class="f1-record__r">R' + escHtml(r.round) + '</span>' +
+            '<span>' + escHtml(r.winner_predicted) + '</span>' +
+            '<span class="sr-only">' + (r.winner_hit ? c.recordHit : c.recordMiss) + '</span></li>';
+        });
+        h += '</ul>';
+        if (data.record_summary && data.record_summary.races) h += '<p class="kaggle-bar-label">' + c.recordSummary(data.record_summary) + '</p>';
+      }
+
+      // Model
+      var m = data.model || {};
+      h += '<h3 class="f1-live__h3">' + c.modelTitle + '</h3>';
+      h += '<div class="kaggle-meta-row">';
+      h += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.mWinner + '</span><span class="kaggle-stat-value">' + pct(m.winner_accuracy, lang) + '</span></div>';
+      h += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.mPodium + '</span><span class="kaggle-stat-value">' + pct(m.podium_accuracy, lang) + '</span></div>';
+      h += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.mSpearman + '</span><span class="kaggle-stat-value">' + (m.spearman != null ? (lang === "fr" ? m.spearman.toFixed(2).replace(".", ",") : m.spearman.toFixed(2)) : "–") + '</span></div>';
+      h += '<div class="kaggle-stat"><span class="kaggle-stat-label">' + c.mTrained + '</span><span class="kaggle-stat-value">' + escHtml(m.trained_at ? new Date(m.trained_at).toLocaleDateString(lang, {day:"numeric", month:"short", year:"numeric"}) : "–") + '</span></div>';
+      h += '</div>';
+      if (m.holdout_races) h += '<p class="small">' + c.mHoldout(escHtml(m.holdout_races), m.holdout_years || []) + '</p>';
+
+      h += '<div class="kaggle-footer"><span class="small" style="max-width:52ch;">' + c.how + '</span>';
+      h += '<span class="kaggle-updated"><span class="live-dot"></span>' + c.updated + ': ' + escHtml(fmtTime(data.updated_at, lang)) + '</span></div>';
+
+      root.innerHTML = h;
+
+      root.querySelectorAll(".f1-toggle").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          var open = btn.getAttribute("aria-expanded") === "true";
+          btn.previousElementSibling.querySelectorAll(".f1-extra").forEach(function(tr) { tr.hidden = open; });
+          btn.setAttribute("aria-expanded", open ? "false" : "true");
+          btn.textContent = open ? btn.getAttribute("data-more") : btn.getAttribute("data-less");
+        });
+      });
+    }
+
+    var lang = getLang();
+    var kicker = document.getElementById("f1-live-kicker");
+    if (kicker) kicker.textContent = (copy[lang] || copy.en).kicker;
+
+    fetch(DATA_URL)
+      .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(data) { render(data, lang); })
+      .catch(function() {
+        var root = document.getElementById("f1-live");
+        if (root) root.innerHTML = '<p class="small">' + (copy[lang] || copy.en).error + '</p>';
+      });
+  })();
+  </script>
+
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 (function(){var l=location;if(l.hostname==="localhost"||l.hostname==="127.0.0.1")return;
 var u="https://stats.leongorecki.eu/e",o={p:l.pathname,r:document.referrer,h:l.hostname};if(/(?:^|; )lg_me=1/.test(document.cookie))o.m=1;var b=JSON.stringify(o);

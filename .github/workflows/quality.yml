@@ -6,11 +6,13 @@ on:
     paths-ignore:
       - 'assets/contributions.json'
       - 'projects/kaggle-scores.json'
+      - 'projects/f1-predictions.json'
   pull_request:
     branches: [main]
     paths-ignore:
       - 'assets/contributions.json'
       - 'projects/kaggle-scores.json'
+      - 'projects/f1-predictions.json'
   workflow_dispatch:
     # Also allows a manual trigger from the Actions tab
 
