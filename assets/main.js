@@ -61,9 +61,10 @@
         '<path d="M6 0.5L7.35 4.65L11.5 6L7.35 7.35L6 11.5L4.65 7.35L0.5 6L4.65 4.65Z"/>' +
       "</svg>" +
       "Traduit par IA";
-    const langDiv = host.querySelector('.hp-lang[aria-label="Language"]');
+    // Language switch, not the theme toggle (its aria-label is localised: "Language" / "Langue")
+    const langDiv = host.querySelector(".hp-lang:not([data-theme-toggle])");
     if (langDiv) langDiv.parentNode.insertBefore(badge, langDiv);
-    else host.appendChild(badge);
+    else (host.querySelector(".header-tools") || host).appendChild(badge);
   }
 
   // Cedric the shrimp: "talk to Cedric" launcher in the corner (it replaced the back-to-top
