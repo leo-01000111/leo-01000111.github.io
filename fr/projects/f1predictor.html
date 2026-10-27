@@ -118,7 +118,7 @@
           </div>
           <div class="step-list__row">
             <div class="step-list__num">02</div>
-            <div class="step-list__text" id="f1-pipe2"><strong>Caractéristiques.</strong> 35 entrées : position sur la grille et écarts en qualification, rythme de la voiture et des essais, forme et classement Elo des pilotes, forme des écuries, historique du circuit, fiabilité et météo. Chacune n'utilise que les courses antérieures à celle qu'on prédit.</div>
+            <div class="step-list__text" id="f1-pipe2"><strong>Caractéristiques.</strong> 34 entrées : position sur la grille et écarts en qualification, rythme de la voiture et des essais, forme et classement Elo des pilotes, forme des écuries, historique du circuit, fiabilité et météo. Chacune n'utilise que les courses antérieures à celle qu'on prédit.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">03</div>
@@ -340,7 +340,8 @@
       return h;
     }
 
-    // Season record: one column per round, newest first; CSS shows as many as fit
+    // Season record: one column per round, newest first in the DOM; the grid runs
+    // right to left, so the newest is on the right and the oldest that fit on the left
     function seasonStrip(rec, c) {
       var h = '<ol class="f1-strip">';
       rec.slice().reverse().forEach(function(r) {

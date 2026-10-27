@@ -117,7 +117,7 @@
           </div>
           <div class="step-list__row">
             <div class="step-list__num">02</div>
-            <div class="step-list__text" id="f1-pipe2"><strong>Features.</strong> 35 inputs: grid position and qualifying gaps, car and practice pace, driver form and Elo rating, team form, circuit history, reliability and weather. Each one uses only races before the one being predicted.</div>
+            <div class="step-list__text" id="f1-pipe2"><strong>Features.</strong> 34 inputs: grid position and qualifying gaps, car and practice pace, driver form and Elo rating, team form, circuit history, reliability and weather. Each one uses only races before the one being predicted.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">03</div>
@@ -339,7 +339,8 @@
       return h;
     }
 
-    // Season record: one column per round, newest first; CSS shows as many as fit
+    // Season record: one column per round, newest first in the DOM; the grid runs
+    // right to left, so the newest is on the right and the oldest that fit on the left
     function seasonStrip(rec, c) {
       var h = '<ol class="f1-strip">';
       rec.slice().reverse().forEach(function(r) {
