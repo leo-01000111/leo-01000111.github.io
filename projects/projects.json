@@ -2,6 +2,7 @@
   {
     "id": 8,
     "slug": "evans",
+    "flagship": true,
     "short": "Evans",
     "href": "/evans/",
     "featuredOrder": 1,
@@ -29,7 +30,6 @@
     "featuredOrder": 2,
     "code": "OPS",
     "meta": ["2026", "Miltom"],
-    "flagship": true,
     "title": {
       "en": "MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team",
       "fr": "MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale"
