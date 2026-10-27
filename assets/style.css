@@ -445,12 +445,6 @@ h1{
 
 @media (max-width:640px){
   .header-inner{ gap: var(--space-2); }
-  /* Project card: stack thumbnail + title, hide description */
-  .proj-media{ flex-direction:column; gap:8px; }
-  .proj-thumb{ width:100%; height:auto; aspect-ratio:16/9; }
-  .proj-media p{ display:none; }
-  .proj-top{ flex-direction:column; gap:6px; }
-  .proj-top > .pill{ align-self:flex-start; }
 }
 
 /* === KAGGLE BOARD === */

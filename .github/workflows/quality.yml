@@ -1,0 +1,105 @@
+name: Quality checks
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'assets/contributions.json'
+      - 'projects/kaggle-scores.json'
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - 'assets/contributions.json'
+      - 'projects/kaggle-scores.json'
+  workflow_dispatch:
+    # Also allows a manual trigger from the Actions tab
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+# Tooling is pinned in package.json / package-lock.json (private, CI-only;
+# GitHub Pages ignores it). Excluded everywhere: node_modules/, design/,
+# projects/_template.html, scripts/ (og-card.html is a render helper).
+#
+# .htmlvalidate.json turns off rules that are deliberate house style here:
+#   void-style, doctype-style, attribute-boolean-style  - "<meta />", "<!DOCTYPE>" etc.
+#   no-inline-style     - small inline style="" attributes are used on purpose
+#   no-utf8-bom         - some files carry a BOM
+#   long-title          - descriptive SEO titles
+#   no-autoplay         - muted looping demo videos
+#   aria-label-misuse   - aria-label on lists/sections used as labels
+#   no-implicit-button-type - buttons are outside <form>s, default type is harmless
+
+jobs:
+  html-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install tooling
+        run: npm ci --no-audit --no-fund
+
+      - name: Validate HTML
+        run: |
+          find . -name '*.html' \
+            -not -path './node_modules/*' -not -path './design/*' \
+            -not -path './scripts/*' -not -name '_template.html' \
+            -print0 | xargs -0 npx html-validate
+
+  internal-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install tooling
+        run: npm ci --no-audit --no-fund
+
+      - name: Serve site locally
+        run: |
+          npx http-server . -p 8089 -s -c-1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:8089/ >/dev/null && break; sleep 1; done
+
+      - name: Check internal links (external URLs skipped; see check-materials-links.yml)
+        run: |
+          URLS=$(find . -name '*.html' \
+            -not -path './node_modules/*' -not -path './design/*' \
+            -not -path './scripts/*' -not -name '_template.html' \
+            | sed 's|^\./|http://localhost:8089/|' | tr '\n' ' ')
+          npx linkinator $URLS --recurse --skip '^(?!http://localhost)' --skip '/evans/'
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install tooling
+        run: npm ci --no-audit --no-fund
+
+      - name: Run Lighthouse CI
+        # Report links (temporary-public-storage) are printed in this log.
+        run: npx lhci autorun --config=lighthouserc.json

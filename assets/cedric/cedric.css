@@ -200,6 +200,8 @@ path.cedric__eye{ animation: none; }   /* the line eye blinks in JS (see updateE
   display: grid; grid-template-rows: 1fr auto; overflow: hidden;
   transition: transform .15s ease-out, box-shadow .15s ease-out;
 }
+/* Keep the footer clear of the fixed launcher at full scroll: height + bottom offset + gap */
+.site-footer, body > .site-footer{ padding-bottom: calc(125px + 28px + 16px); }
 .cchat__launcher:hover{ transform: translate(-2px, -2px); }
 .cchat__launcher:active{ transform: translate(2px, 2px); box-shadow: inset 0 0 0 var(--stroke-bold, 2px) #121314; }
 .cchat__launcher:focus-visible{ outline: 3px solid var(--focus, #1f4fd1); outline-offset: 3px; }
@@ -383,6 +385,7 @@ path.cedric__eye{ animation: none; }   /* the line eye blinks in JS (see updateE
   .cpeek{ width: 112px; height: 44px; }
   .cpeek .cedric{ --cedric-size: 112px; }
   .cchat__launcher{ width: 88px; height: 88px; right: 14px; bottom: 16px; }
+  .site-footer, body > .site-footer{ padding-bottom: calc(88px + 16px + 12px); }
   .cchat__label{ font-size: 8px; padding-bottom: 7px; }
   .cchat__panel{ right: 8px; left: 8px; bottom: 8px; width: auto; min-height: min(500px, calc(100dvh - 16px)); max-height: calc(100dvh - 16px); }
   .cchat__hero{ height: 300px; }

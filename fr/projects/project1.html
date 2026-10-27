@@ -44,7 +44,7 @@
       </nav>
       <div class="header-tools">
         <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
-        <div class="hp-lang" role="group" aria-label="Language">
+        <div class="hp-lang" role="group" aria-label="Langue">
           <a data-lang="en" href="/projects/project1.html" hreflang="en" lang="en">EN</a>
           <a data-lang="fr" aria-current="page" href="/fr/projects/project1.html" hreflang="fr" lang="fr">FR</a>
         </div>
@@ -72,8 +72,8 @@
           <p class="small" id="p1-source" style="margin-top: 14px; color: var(--ink-muted);">Mémoire de licence, Université de Technologie de Varsovie, novembre 2025. Directeur : Prof. Marcin Żugaj, DSc, Ing.</p>
         </div>
         <figure class="proj-hero__figure">
-          <img id="proj-thumb" class="theme-day" src="/assets/thumbs/robotDiagramReal-1200.webp" width="1200" height="846" alt="Project thumbnail" loading="lazy" />
-          <img class="theme-night" src="/assets/thumbs/robotDiagramReal-1200-night.webp" width="1200" height="846" alt="Project thumbnail" loading="lazy" />
+          <img id="proj-thumb" class="theme-day" src="/assets/thumbs/robotDiagramReal-1200.webp" width="1200" height="846" alt="Miniature du projet" loading="lazy" />
+          <img class="theme-night" src="/assets/thumbs/robotDiagramReal-1200-night.webp" width="1200" height="846" alt="Miniature du projet" loading="lazy" />
         </figure>
       </div>
     </section>
@@ -120,7 +120,7 @@
             <div class="gif-label gif-label-rmpc">RMPC</div>
             <video src="/assets/gifs/rmpc_deny.mp4"
                    autoplay loop muted playsinline
-                   aria-label="RMPC controller navigating environment 044 under GNSS denial"
+                   aria-label="Contrôleur RMPC naviguant dans l'environnement 044 sans GNSS"
                    style="width:100%; display:block;">
             </video>
           </div>
@@ -128,7 +128,7 @@
             <div class="gif-label gif-label-ppo">PPO</div>
             <video src="/assets/gifs/ppo_deny.mp4"
                    autoplay loop muted playsinline
-                   aria-label="PPO controller navigating environment 044 under GNSS denial"
+                   aria-label="Contrôleur PPO naviguant dans l'environnement 044 sans GNSS"
                    style="width:100%; display:block;">
             </video>
           </div>
@@ -179,14 +179,14 @@
           <!-- Chart 1: Success Rate -->
           <div class="chart-wrap">
             <p class="chart-title" id="p1-chart1-title">Taux de succès</p>
-            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Success rate comparison: RMPC vs PPO under nominal and GNSS-denied conditions">
+            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Comparaison du taux de succès : RMPC vs PPO, conditions nominales et sans GNSS">
               <line x1="148" y1="6" x2="148" y2="122" stroke="var(--rule)" stroke-width="1"/>
               <line x1="248" y1="6" x2="248" y2="122" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3,3"/>
               <line x1="348" y1="6" x2="348" y2="122" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3,3"/>
               <line x1="448" y1="6" x2="448" y2="122" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3,3"/>
               <line x1="548" y1="6" x2="548" y2="122" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3,3"/>
               <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="var(--ink-muted)" letter-spacing="0.08em">NOMINAL</text>
-              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="var(--ink-muted)" letter-spacing="0.08em">GNSS-DENIED</text>
+              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="var(--ink-muted)" letter-spacing="0.08em">SANS GNSS</text>
               <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="var(--ink)" fill-opacity="0.9">RMPC</text>
               <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="var(--ink)" fill-opacity="0.9">PPO</text>
               <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="var(--ink)" fill-opacity="0.6">RMPC</text>
@@ -215,13 +215,13 @@
           <!-- Chart 2: Mean Cross-Track Error -->
           <div class="chart-wrap">
             <p class="chart-title" id="p1-chart2-title">Erreur transversale (plus bas = mieux)</p>
-            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Mean cross-track error comparison: RMPC vs PPO">
+            <svg viewBox="0 0 580 148" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" role="img" aria-label="Comparaison de l'erreur transversale moyenne : RMPC vs PPO">
               <line x1="148" y1="6" x2="148" y2="122" stroke="var(--rule)" stroke-width="1"/>
               <line x1="281" y1="6" x2="281" y2="122" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3,3"/>
               <line x1="415" y1="6" x2="415" y2="122" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3,3"/>
               <line x1="548" y1="6" x2="548" y2="122" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3,3"/>
               <text x="150" y="14" font-family="ui-sans-serif,sans-serif" font-size="9" fill="var(--ink-muted)" letter-spacing="0.08em">NOMINAL</text>
-              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="var(--ink-muted)" letter-spacing="0.08em">GNSS-DENIED</text>
+              <text x="150" y="76" font-family="ui-sans-serif,sans-serif" font-size="9" fill="var(--ink-muted)" letter-spacing="0.08em">SANS GNSS</text>
               <text x="144" y="29" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="var(--ink)" fill-opacity="0.9">RMPC</text>
               <text x="144" y="51" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="var(--ink)" fill-opacity="0.9">PPO</text>
               <text x="144" y="91" text-anchor="end" font-family="ui-sans-serif,sans-serif" font-size="11" fill="var(--ink)" fill-opacity="0.6">RMPC</text>
@@ -250,7 +250,7 @@
         <div class="chart-legend">
           <div class="legend-item"><span class="legend-dot" style="background:var(--ink);"></span>RMPC</div>
           <div class="legend-item"><span class="legend-dot" style="background:var(--signal);box-shadow:inset 0 0 0 1px var(--ink);"></span>PPO</div>
-          <div class="legend-item" style="margin-left:auto;"><span>Full opacity = nominal &nbsp;·&nbsp; Faded = GNSS-denied</span></div>
+          <div class="legend-item" style="margin-left:auto;"><span>Opacité pleine = nominal &nbsp;·&nbsp; Atténué = sans GNSS</span></div>
         </div>
       </div>
 
@@ -398,7 +398,7 @@
 
     </section>
 
-    <nav class="see-also" id="see-also" aria-label="See also">
+    <nav class="see-also" id="see-also" aria-label="Voir aussi">
       <h2 class="label see-also__title">See also</h2>
       <!-- see-also:start -->
 <div class="hp-card-list">

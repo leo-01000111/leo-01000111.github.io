@@ -652,6 +652,7 @@ body.lang-en [data-pl]{ display:none; }
 }
 .k-footer .tb-val{
   color:var(--muted);
+  overflow-wrap:anywhere;
 }
 .k-footer .tb-val a{
   color:var(--accent);
@@ -798,5 +799,6 @@ body.lang-en [data-pl]{ display:none; }
   .mat-search{ flex:0 0 auto; }
   .k-submit{ width:100%; text-align:center; }
   .k-footer .tb-cell{ min-width:100px; padding:8px 12px; }
+  .k-footer .tb-cell:nth-child(4){ flex-basis:100%; border-right:none; }   /* contact: full row so the email fits */
   .opinion-grid{ grid-template-columns:1fr; }
 }

@@ -4,3 +4,6 @@ pracaINZ_nodata.zip
 
 # CV build dependencies
 node_modules/
+
+# Lighthouse CI output
+.lighthouseci/

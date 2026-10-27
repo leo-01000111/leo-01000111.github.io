@@ -1,0 +1,15 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "void-style": "off",
+    "doctype-style": "off",
+    "attribute-boolean-style": "off",
+    "no-inline-style": "off",
+    "no-utf8-bom": "off",
+    "long-title": "off",
+    "no-autoplay": "off",
+    "aria-label-misuse": "off",
+    "no-implicit-button-type": "off",
+    "form-dup-name": ["error", { "shared": ["radio", "checkbox", "button", "reset", "submit"] }]
+  }
+}

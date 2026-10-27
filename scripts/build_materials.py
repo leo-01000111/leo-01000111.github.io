@@ -30,6 +30,7 @@ the display order inside each block.
 
 Run with no arguments: `python3 scripts/build_materials.py`. Idempotent.
 """
+import datetime
 import json
 import re
 from html import escape
@@ -188,6 +189,11 @@ def main():
     pattern = re.compile(re.escape(START) + r".*?" + re.escape(END), re.DOTALL)
     replacement = f"{START}\n{html}\n{END}"
     new_text = pattern.sub(lambda _: replacement, text, count=1)
+    # Stamp today's date into the footer Rev cell.
+    new_text = re.sub(
+        r'(<span class="tb-key">Rev</span><span class="tb-val">)[^<]*(</span>)',
+        lambda m: m.group(1) + datetime.date.today().isoformat() + m.group(2),
+        new_text, count=1)
     if new_text != text:
         if crlf:
             new_text = new_text.replace(LF, CRLF)

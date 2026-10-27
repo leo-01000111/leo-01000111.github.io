@@ -1,0 +1,11 @@
+{
+  "name": "leo-01000111.github.io",
+  "private": true,
+  "description": "Static site served by GitHub Pages. This file only pins CI tooling; there is no build step.",
+  "devDependencies": {
+    "@lhci/cli": "0.15.1",
+    "html-validate": "10.5.0",
+    "http-server": "14.1.1",
+    "linkinator": "6.1.4"
+  }
+}
