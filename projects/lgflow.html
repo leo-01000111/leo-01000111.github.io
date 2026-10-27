@@ -88,7 +88,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="lg-ctx-title">What it is</h2>
-        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW is a 2D incompressible Navier-Stokes solver written in C++20. It uses the finite volume method (FVM) with SIMPLE pressure-velocity coupling on a collocated grid, with Rhie-Chow interpolation at the cell faces. It is validated against the Ghia et al. (1982) lid-driven cavity benchmark at Re = 100 and against the analytical Poiseuille profile in a plane channel, with a grid-refinement study that confirms second-order accuracy. It outputs per-iteration residuals, centreline velocity profiles, VTK snapshots and L2/L∞ error metrics, and an SFML GUI shows the residuals and the flow field while the solver runs. An unstructured-mesh solver and a Spalart-Allmaras turbulence model are in progress.</p>
+        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW is a 2D incompressible Navier-Stokes solver written in C++20. It uses the finite volume method (FVM) with SIMPLE pressure-velocity coupling on a collocated grid, with Rhie-Chow interpolation at the cell faces. It is validated against the Ghia et al. (1982) lid-driven cavity benchmark at Re = 100 and Re = 1000, and against the analytical Poiseuille profile in a plane channel, with a grid-refinement study that confirms second-order accuracy. It outputs per-iteration residuals, centreline velocity profiles, VTK snapshots and L2/L∞ error metrics, and an SFML GUI shows the residuals and the flow field while the solver runs. An unstructured-mesh solver and a Spalart-Allmaras turbulence model are in progress.</p>
       </div>
     </section>
 
@@ -129,7 +129,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="lg-val-title">Validation</h2>
-        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">The reference is Ghia, Ghia &amp; Shin (1982), the standard benchmark for 2D incompressible lid-driven cavity flow. The Re = 100 case is checked automatically: the L2 errors of the u and v centreline profiles must stay under fixed thresholds. L∞ errors are computed and reported as well. On a 32 × 32 grid the L2 errors are 0.043 (u) and 0.022 (v). The second case is a uniform inflow between two walls at Re<sub>H</sub> = 100, which develops into the analytical Poiseuille profile (White 2006). It is solved on four successively refined grids (8 to 64 cells across the channel). The error of the developed profile falls at an observed order of 1.92 to 1.96, matching the second-order scheme, and reaches 0.02 % of the peak velocity on the finest grid.</p>
+        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">The reference is Ghia, Ghia &amp; Shin (1982), the standard benchmark for 2D incompressible lid-driven cavity flow. The Re = 100 case is checked automatically: the L2 errors of the u and v centreline profiles must stay under fixed thresholds. L∞ errors are computed and reported as well. On a 32 × 32 grid the L2 errors are 0.043 (u) and 0.022 (v). At Re = 1000 (64 × 64) the L2 errors are 0.10 (u) and 0.12 (v). At that Reynolds number the first-order upwind convection scheme limits the accuracy, and the error falls only by about 1.7 per grid doubling. The channel case is a uniform inflow between two walls at Re<sub>H</sub> = 100, which develops into the analytical Poiseuille profile (White 2006). It is solved on four successively refined grids (8 to 64 cells across the channel). The error of the developed profile falls at an observed order of 1.92 to 1.96, matching the second-order scheme, and reaches 0.02 % of the peak velocity on the finest grid.</p>
         <div class="table-wrap"><table class="results-table">
           <thead>
             <tr>
@@ -147,6 +147,12 @@
               <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass1">PASS</span></span></td>
             </tr>
             <tr>
+              <td id="lg-vc3-case">Lid-driven cavity</td>
+              <td>1000</td>
+              <td>Ghia et al. 1982</td>
+              <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass3">PASS</span></span></td>
+            </tr>
+            <tr>
               <td id="lg-vc2-case">Plane channel (Poiseuille)</td>
               <td>100</td>
               <td>Analytical, White 2006</td>
@@ -154,7 +160,7 @@
             </tr>
           </tbody>
         </table></div>
-        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">The cavity validation executable exits with code 2 if an error is over its threshold, so CI can use it directly. Both cases run as CTests, next to 249 unit tests.</p>
+        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">The cavity validation executable exits with code 2 if an error is over its threshold, so CI can use it directly. All three cases run as CTests, next to 248 unit tests.</p>
       </div>
     </section>
 

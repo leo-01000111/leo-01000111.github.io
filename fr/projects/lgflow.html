@@ -89,7 +89,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="lg-ctx-title">Présentation</h2>
-        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW est un solveur 2D de Navier-Stokes incompressible écrit en C++20. Il utilise la méthode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille colocalisée, avec une interpolation de Rhie-Chow aux faces. Il est validé sur le cas de la cavité entraînée de Ghia et al. (1982) à Re = 100 et sur le profil analytique de Poiseuille en canal plan, avec une étude de raffinement de maillage qui confirme la précision d'ordre 2. Il produit les résidus par itération, les profils de vitesse sur les axes médians, des instantanés VTK et les erreurs L2/L∞, et une interface SFML affiche les résidus et l'écoulement pendant le calcul. Un solveur sur maillage non structuré et un modèle de turbulence Spalart-Allmaras sont en cours.</p>
+        <p class="muted" id="lg-ctx-text" style="line-height:1.7;margin:0;">LG-FLOW est un solveur 2D de Navier-Stokes incompressible écrit en C++20. Il utilise la méthode des volumes finis (FVM) avec couplage pression-vitesse SIMPLE sur une grille colocalisée, avec une interpolation de Rhie-Chow aux faces. Il est validé sur le cas de la cavité entraînée de Ghia et al. (1982) à Re = 100 et Re = 1000, et sur le profil analytique de Poiseuille en canal plan, avec une étude de raffinement de maillage qui confirme la précision d'ordre 2. Il produit les résidus par itération, les profils de vitesse sur les axes médians, des instantanés VTK et les erreurs L2/L∞, et une interface SFML affiche les résidus et l'écoulement pendant le calcul. Un solveur sur maillage non structuré et un modèle de turbulence Spalart-Allmaras sont en cours.</p>
       </div>
     </section>
 
@@ -130,7 +130,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="lg-val-title">Validation</h2>
-        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">La référence est Ghia, Ghia &amp; Shin (1982), le cas de référence standard pour l'écoulement incompressible 2D en cavité entraînée. Le cas Re = 100 est vérifié automatiquement : les erreurs L2 des profils de u et v sur les axes médians doivent rester sous des seuils fixés. Les erreurs L∞ sont aussi calculées et affichées. Sur une grille 32 × 32, les erreurs L2 sont de 0,043 (u) et 0,022 (v). Le second cas est un écoulement uniforme entrant entre deux parois à Re<sub>H</sub> = 100, qui se développe vers le profil analytique de Poiseuille (White 2006). Il est résolu sur quatre grilles raffinées successivement (8 à 64 mailles dans la largeur du canal). L'erreur du profil développé décroît avec un ordre observé de 1,92 à 1,96, conforme au schéma d'ordre 2, et atteint 0,02 % de la vitesse maximale sur la grille la plus fine.</p>
+        <p class="muted" id="lg-val-desc" style="margin:0 0 14px;line-height:1.65;">La référence est Ghia, Ghia &amp; Shin (1982), le cas de référence standard pour l'écoulement incompressible 2D en cavité entraînée. Le cas Re = 100 est vérifié automatiquement : les erreurs L2 des profils de u et v sur les axes médians doivent rester sous des seuils fixés. Les erreurs L∞ sont aussi calculées et affichées. Sur une grille 32 × 32, les erreurs L2 sont de 0,043 (u) et 0,022 (v). À Re = 1000 (64 × 64), les erreurs L2 sont de 0,10 (u) et 0,12 (v). À ce nombre de Reynolds, le schéma de convection upwind d'ordre 1 limite la précision, et l'erreur ne diminue que d'un facteur 1,7 environ quand la grille est raffinée d'un facteur 2. Le cas du canal est un écoulement uniforme entrant entre deux parois à Re<sub>H</sub> = 100, qui se développe vers le profil analytique de Poiseuille (White 2006). Il est résolu sur quatre grilles raffinées successivement (8 à 64 mailles dans la largeur du canal). L'erreur du profil développé décroît avec un ordre observé de 1,92 à 1,96, conforme au schéma d'ordre 2, et atteint 0,02 % de la vitesse maximale sur la grille la plus fine.</p>
         <div class="table-wrap"><table class="results-table">
           <thead>
             <tr>
@@ -148,6 +148,12 @@
               <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass1">OK</span></span></td>
             </tr>
             <tr>
+              <td id="lg-vc3-case">Cavité entraînée</td>
+              <td>1000</td>
+              <td>Ghia et al. 1982</td>
+              <td><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span id="lg-pass3">OK</span></span></td>
+            </tr>
+            <tr>
               <td id="lg-vc2-case">Canal plan (Poiseuille)</td>
               <td>100</td>
               <td>Analytique, White 2006</td>
@@ -155,7 +161,7 @@
             </tr>
           </tbody>
         </table></div>
-        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">L'exécutable de validation de la cavité renvoie le code 2 si une erreur dépasse son seuil, donc la CI peut l'utiliser directement. Les deux cas tournent comme tests CTest, à côté de 249 tests unitaires.</p>
+        <p class="small" style="margin:12px 0 0;color:var(--ink-muted);" id="lg-val-note">L'exécutable de validation de la cavité renvoie le code 2 si une erreur dépasse son seuil, donc la CI peut l'utiliser directement. Les trois cas tournent comme tests CTest, à côté de 248 tests unitaires.</p>
       </div>
     </section>
 
