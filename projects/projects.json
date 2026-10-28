@@ -122,8 +122,8 @@
       "fr": "Prédicteur de Course F1"
     },
     "description": {
-      "en": "An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities.",
-      "fr": "Un modèle XGBoost prédit la position finale de chaque pilote à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium."
+      "en": "An XGBoost ranking model orders the drivers from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities.",
+      "fr": "Un modèle de classement XGBoost ordonne les pilotes à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium."
     },
     "tags": [
       "Machine Learning",

@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>Prédicteur de Course F1 - Leon Górecki</title>
-  <meta name="description" content="Un modèle XGBoost prédit la position finale de chaque pilote à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium." />
+  <meta name="description" content="Un modèle de classement XGBoost ordonne les pilotes à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium." />
   <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Prédicteur de Course F1 - Leon Górecki" />
-  <meta property="og:description" content="Un modèle XGBoost prédit la position finale de chaque pilote à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium." />
+  <meta property="og:description" content="Un modèle de classement XGBoost ordonne les pilotes à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium." />
   <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/f1predictor.html" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary" />
@@ -56,7 +56,7 @@
         <div>
           <p class="label" id="f1-kicker">Machine Learning · Formule 1</p>
           <h1 id="proj-title">Prédicteur de Course F1</h1>
-          <p id="proj-desc" class="lede">Un modèle XGBoost prédit la position finale de chaque pilote à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium.</p>
+          <p id="proj-desc" class="lede">Un modèle de classement XGBoost ordonne les pilotes à partir des qualifications, des essais libres, de la météo et de l'historique. Une simulation de Plackett-Luce en tire les probabilités de victoire et de podium.</p>
           <ul class="hp-tags" aria-label="Stack" id="proj-tags">
             <li><span class="hp-tag">Machine Learning</span></li>
             <li><span class="hp-tag">XGBoost</span></li>
@@ -103,7 +103,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="f1-ctx-title">Ce que ça fait</h2>
-        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;">Un pipeline d'apprentissage automatique qui prédit le résultat d'une course de Formule 1 une fois les qualifications terminées. Il est entraîné sur les saisons depuis 2014. Les entrées sont les qualifications et les essais libres, l'historique des pilotes et des écuries, les caractéristiques des circuits et la prévision météo du jour de course. Un régresseur XGBoost prédit la position finale de chaque pilote, et une simulation de Plackett-Luce en tire les probabilités de victoire, de P2, de P3, de podium, de top 6 et de top 10. GitHub Actions le lance à chaque week-end de course et publie les résultats sur cette page.</p>
+        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;">Un pipeline d'apprentissage automatique qui prédit le résultat d'une course de Formule 1 une fois les qualifications terminées. Il est entraîné sur les saisons depuis 2014. Les entrées sont les qualifications et les essais libres, l'historique des pilotes et des écuries, les caractéristiques des circuits et la prévision météo du jour de course. Un modèle de classement XGBoost ordonne les pilotes, et une simulation de Plackett-Luce en tire les probabilités de victoire, de P2, de P3, de podium, de top 6 et de top 10. GitHub Actions le lance à chaque week-end de course et publie les résultats sur cette page.</p>
       </div>
     </section>
 
@@ -118,15 +118,15 @@
           </div>
           <div class="step-list__row">
             <div class="step-list__num">02</div>
-            <div class="step-list__text" id="f1-pipe2"><strong>Caractéristiques.</strong> 34 entrées : position sur la grille et écarts en qualification, rythme de la voiture et des essais, forme et classement Elo des pilotes, forme des écuries, historique du circuit, fiabilité et météo. Chacune n'utilise que les courses antérieures à celle qu'on prédit.</div>
+            <div class="step-list__text" id="f1-pipe2"><strong>Caractéristiques.</strong> 33 entrées : position sur la grille et écarts en qualification, rythme de la voiture et des essais, forme et classement Elo des pilotes, forme des écuries, historique du circuit, fiabilité et météo. Chacune n'utilise que les courses antérieures à celle qu'on prédit.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">03</div>
-            <div class="step-list__text" id="f1-pipe3"><strong>Modèle.</strong> Un seul régresseur XGBoost prédit la position finale de chaque pilote. Les saisons récentes pèsent plus à l'entraînement.</div>
+            <div class="step-list__text" id="f1-pipe3"><strong>Modèle.</strong> Un modèle de classement XGBoost apprend directement l'ordre d'arrivée de chaque course. Les saisons récentes pèsent plus à l'entraînement.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">04</div>
-            <div class="step-list__text" id="f1-pipe4"><strong>Simulation de course.</strong> Un échantillonneur de Plackett-Luce tire 10 000 ordres d'arrivée à partir des positions prédites, ce qui donne une probabilité pour chaque pilote et chaque position.</div>
+            <div class="step-list__text" id="f1-pipe4"><strong>Simulation de course.</strong> Un échantillonneur de Plackett-Luce tire 10 000 ordres d'arrivée à partir des scores du modèle, ce qui donne une probabilité pour chaque pilote et chaque position.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">05</div>
@@ -142,8 +142,8 @@
         <h2 id="f1-arch-title">Architecture du modèle</h2>
         <div class="data-grid">
           <div class="data-grid__item">
-            <div class="data-grid__label" id="f1-ac1-label">Régresseur</div>
-            <div class="data-grid__value" id="f1-ac1-value">XGBoost avec une erreur absolue comme objectif, qui prédit la position finale (un abandon compte comme dernière place plus un)</div>
+            <div class="data-grid__label" id="f1-ac1-label">Classement</div>
+            <div class="data-grid__value" id="f1-ac1-value">XGBoost en classement (objectif NDCG), un groupe par course. Sur 191 courses prédites saison par saison (2018-2026), il bat la grille de départ en perte logarithmique</div>
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac2-label">Pondération</div>
@@ -151,11 +151,11 @@
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac3-label">Probabilités</div>
-            <div class="data-grid__value" id="f1-ac3-value">Échantillonnage de Plackett-Luce (Gumbel-max, 10 000 tirages). Chaque ligne pilote et chaque colonne position somment à 1</div>
+            <div class="data-grid__value" id="f1-ac3-value">Échantillonnage de Plackett-Luce (Gumbel-max, 10 000 tirages), avec une température ajustée sur une saison absente de l'entraînement. Chaque ligne pilote et chaque colonne position somment à 1</div>
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac4-label">Archivé</div>
-            <div class="data-grid__value" id="f1-ac4-value">Un empilement antérieur de trois classifieurs XGBoost et d'un MLP PyTorch, combinés par régression logistique, a été essayé puis archivé</div>
+            <div class="data-grid__value" id="f1-ac4-value">Des modèles antérieurs, un régresseur sur la position finale et un empilement de trois classifieurs XGBoost et d'un MLP PyTorch, ont été essayés puis archivés</div>
           </div>
         </div>
       </div>

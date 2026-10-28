@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="site-root" content="/" />
   <title>F1 Race Predictor - Leon Górecki</title>
-  <meta name="description" content="An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities." />
+  <meta name="description" content="An XGBoost ranking model orders the drivers from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities." />
   <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="F1 Race Predictor - Leon Górecki" />
-  <meta property="og:description" content="An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities." />
+  <meta property="og:description" content="An XGBoost ranking model orders the drivers from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities." />
   <meta property="og:url" content="https://www.leongorecki.eu/projects/f1predictor.html" />
   <meta name="twitter:card" content="summary" />
   <link rel="canonical" href="https://www.leongorecki.eu/projects/f1predictor.html" />
@@ -55,7 +55,7 @@
         <div>
           <p class="label" id="f1-kicker">Machine Learning &middot; Formula 1</p>
           <h1 id="proj-title">F1 Race Predictor</h1>
-          <p id="proj-desc" class="lede">An XGBoost model predicts each driver's finishing position from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities.</p>
+          <p id="proj-desc" class="lede">An XGBoost ranking model orders the drivers from qualifying, practice, weather and race history. A Plackett-Luce simulation turns the predictions into win and podium probabilities.</p>
           <ul class="hp-tags" aria-label="Stack" id="proj-tags">
             <li><span class="hp-tag">Machine Learning</span></li>
             <li><span class="hp-tag">XGBoost</span></li>
@@ -102,7 +102,7 @@
     <section class="proj-section">
       <div class="card">
         <h2 id="f1-ctx-title">What it does</h2>
-        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;">A machine-learning pipeline that predicts the result of an upcoming Formula 1 race once qualifying is over. It is trained on seasons from 2014 onwards. Inputs are qualifying and practice results, driver and team history, circuit characteristics and the race-day forecast. An XGBoost regressor predicts every driver's finishing position, and a Plackett-Luce simulation turns those positions into probabilities for a win, P2, P3, the podium, the top 6 and the top 10. GitHub Actions runs it every race weekend and publishes the results on this page.</p>
+        <p class="muted" id="f1-ctx-text" style="line-height:1.7;margin:0;">A machine-learning pipeline that predicts the result of an upcoming Formula 1 race once qualifying is over. It is trained on seasons from 2014 onwards. Inputs are qualifying and practice results, driver and team history, circuit characteristics and the race-day forecast. An XGBoost ranking model orders the drivers, and a Plackett-Luce simulation turns its scores into probabilities for a win, P2, P3, the podium, the top 6 and the top 10. GitHub Actions runs it every race weekend and publishes the results on this page.</p>
       </div>
     </section>
 
@@ -117,15 +117,15 @@
           </div>
           <div class="step-list__row">
             <div class="step-list__num">02</div>
-            <div class="step-list__text" id="f1-pipe2"><strong>Features.</strong> 34 inputs: grid position and qualifying gaps, car and practice pace, driver form and Elo rating, team form, circuit history, reliability and weather. Each one uses only races before the one being predicted.</div>
+            <div class="step-list__text" id="f1-pipe2"><strong>Features.</strong> 33 inputs: grid position and qualifying gaps, car and practice pace, driver form and Elo rating, team form, circuit history, reliability and weather. Each one uses only races before the one being predicted.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">03</div>
-            <div class="step-list__text" id="f1-pipe3"><strong>Model.</strong> One XGBoost regressor predicts each driver's finishing position. Recent seasons get more weight in training.</div>
+            <div class="step-list__text" id="f1-pipe3"><strong>Model.</strong> An XGBoost ranking model learns the finishing order of each race directly. Recent seasons get more weight in training.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">04</div>
-            <div class="step-list__text" id="f1-pipe4"><strong>Race simulation.</strong> A Plackett-Luce sampler draws 10,000 finishing orders from the predicted positions, which gives a probability for every driver and every position.</div>
+            <div class="step-list__text" id="f1-pipe4"><strong>Race simulation.</strong> A Plackett-Luce sampler draws 10,000 finishing orders from the model's scores, which gives a probability for every driver and every position.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">05</div>
@@ -141,8 +141,8 @@
         <h2 id="f1-arch-title">Model architecture</h2>
         <div class="data-grid">
           <div class="data-grid__item">
-            <div class="data-grid__label" id="f1-ac1-label">Regressor</div>
-            <div class="data-grid__value" id="f1-ac1-value">XGBoost with an absolute-error objective, predicting finishing position (a DNF counts as last place plus one)</div>
+            <div class="data-grid__label" id="f1-ac1-label">Ranker</div>
+            <div class="data-grid__value" id="f1-ac1-value">XGBoost ranker (NDCG objective), one group per race. Over 191 races predicted season by season (2018-2026) it beats the starting grid on log loss</div>
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac2-label">Sample weights</div>
@@ -150,11 +150,11 @@
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac3-label">Probabilities</div>
-            <div class="data-grid__value" id="f1-ac3-value">Plackett-Luce sampling (Gumbel-max, 10,000 draws). Each driver's row and each position's column sum to 1</div>
+            <div class="data-grid__value" id="f1-ac3-value">Plackett-Luce sampling (Gumbel-max, 10,000 draws), with its temperature fitted on a season the model did not train on. Each driver's row and each position's column sum to 1</div>
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac4-label">Archived</div>
-            <div class="data-grid__value" id="f1-ac4-value">An earlier stack of three XGBoost classifiers and a PyTorch MLP, combined by logistic regression, was tried and archived</div>
+            <div class="data-grid__value" id="f1-ac4-value">Earlier models, a finishing-position regressor and a stack of three XGBoost classifiers plus a PyTorch MLP, were tried and archived</div>
           </div>
         </div>
       </div>
