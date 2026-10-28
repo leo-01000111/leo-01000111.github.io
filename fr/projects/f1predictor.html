@@ -109,11 +109,11 @@
           </div>
           <div class="step-list__row">
             <div class="step-list__num">02</div>
-            <div class="step-list__text" id="f1-pipe2"><strong>Caractéristiques.</strong> 33 entrées : position sur la grille et écarts en qualification, rythme de la voiture et des essais, forme et classement Elo des pilotes, forme des écuries, historique du circuit, fiabilité et météo. Chacune n'utilise que les courses antérieures à celle qu'on prédit.</div>
+            <div class="step-list__text" id="f1-pipe2"><strong>Caractéristiques.</strong> 35 entrées : position sur la grille et écarts en qualification, rythme de la voiture, rythme en longs relais aux essais du vendredi, forme et classement Elo des pilotes, forme des écuries, historique du circuit, fiabilité et météo. Chacune n'utilise que les courses antérieures à celle qu'on prédit.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">03</div>
-            <div class="step-list__text" id="f1-pipe3"><strong>Modèle.</strong> Deux parties. Un modèle de classement (XGBoost) apprend l'ordre des voitures qui voient l'arrivée, et un modèle logistique donne à chaque voiture sa probabilité de finir la course. Les saisons récentes pèsent plus à l'entraînement.</div>
+            <div class="step-list__text" id="f1-pipe3"><strong>Modèle.</strong> Deux parties. Un modèle de classement (cinq classeurs XGBoost moyennés) apprend l'ordre des voitures qui voient l'arrivée, et un modèle logistique donne à chaque voiture sa probabilité de finir la course. Les saisons récentes pèsent plus à l'entraînement.</div>
           </div>
           <div class="step-list__row">
             <div class="step-list__num">04</div>
@@ -134,7 +134,7 @@
         <div class="data-grid">
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac1-label">Modèle en deux étapes</div>
-            <div class="data-grid__value" id="f1-ac1-value">XGBoost en classement (objectif NDCG) entraîné sur les voitures à l'arrivée, plus un modèle logistique de la probabilité de finir. Sur 191 courses prédites saison par saison (2018-2026), il bat la grille de départ en perte logarithmique</div>
+            <div class="data-grid__value" id="f1-ac1-value">Cinq classeurs XGBoost (objectif NDCG, réglages choisis sur 2018-2022) entraînés sur les voitures à l'arrivée, plus un modèle logistique de la probabilité de finir. Sur 191 courses prédites saison par saison (2018-2026), il bat la grille de départ en perte logarithmique</div>
           </div>
           <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac2-label">Pondération</div>
@@ -225,11 +225,12 @@
         dnf: "DNF",
         season: function(y) { return "Season " + y; },
         winners: "winners called", podiumAvg: "podium drivers per race",
+        replayNote: function(n, total) { return (n === total ? "All " + n + " races" : n + " of " + total + " races") + " predicted after the fact with the current model, from pre-race data only. Races after that are live predictions."; },
         legendPred: "on the predicted podium", legendHit: "winner called",
         predicted: "Predicted",
         looksAt: "What the model looks at",
         groups: { qualifying: "Qualifying", car: "Car & team", driver: "Driver form", championship: "Championship",
-                  circuit: "Circuit history", reliability: "Reliability", weather: "Weather", sprint: "Sprint" },
+                  circuit: "Circuit history", reliability: "Reliability", weather: "Weather", sprint: "Sprint", practice: "Practice long runs" },
         testSet: function(n, y) { return "Test set · " + n + " races · " + y.join("–"); },
         mWinner: "winner", mPodium: "podium drivers",
         updated: "Updated",
@@ -250,11 +251,12 @@
         dnf: "Abandon",
         season: function(y) { return "Saison " + y; },
         winners: "vainqueurs trouvés", podiumAvg: "pilotes du podium par course",
+        replayNote: function(n, total) { return (n === total ? "Les " + n + " courses" : n + " courses sur " + total) + " ont été prédites après coup avec le modèle actuel, à partir des seules données d'avant-course. Les courses suivantes sont des prédictions en direct."; },
         legendPred: "sur le podium prédit", legendHit: "vainqueur trouvé",
         predicted: "Prédit",
         looksAt: "Ce que regarde le modèle",
         groups: { qualifying: "Qualifications", car: "Voiture et équipe", driver: "Forme du pilote", championship: "Championnat",
-                  circuit: "Historique du circuit", reliability: "Fiabilité", weather: "Météo", sprint: "Sprint" },
+                  circuit: "Historique du circuit", reliability: "Fiabilité", weather: "Météo", sprint: "Sprint", practice: "Longs relais aux essais" },
         testSet: function(n, y) { return "Jeu de test · " + n + " courses · " + y.join("–"); },
         mWinner: "vainqueur", mPodium: "pilotes du podium",
         updated: "Mis à jour",
@@ -433,6 +435,7 @@
         h += '<div class="f1-stats">' +
           bigStat(escHtml(s.winners) + '<small>/' + escHtml(s.races) + '</small>', c.winners) +
           bigStat(num(s.podium_overlap_avg || 0, 1, lang) + '<small>/3</small>', c.podiumAvg) + '</div>';
+        if (s.replayed) h += '<p class="f1-live__meta">' + escHtml(c.replayNote(s.replayed, s.races)) + '</p>';
         h += seasonStrip(rec, c);
       }
 
