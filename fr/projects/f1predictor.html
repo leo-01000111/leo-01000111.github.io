@@ -74,15 +74,6 @@
         </figure>
       </div>
     </section>
-    <section class="proj-section" aria-label="Vidéo de présentation du projet">
-      <figure class="shot">
-        <video autoplay loop muted playsinline controls width="1920" height="1080"
-               poster="/assets/video/f1predictor.webp" aria-label="F1 Race Predictor: présentation en 20 secondes. Sortie réelle du modèle pour le Grand Prix de Chine 2026 : probabilités de victoire et de podium face au résultat réel.">
-          <source src="/assets/video/f1predictor.mp4" type="video/mp4" />
-        </video>
-        <figcaption class="label">VIDÉO : présentation en 20 secondes. Sortie réelle du modèle pour le Grand Prix de Chine 2026 : probabilités de victoire et de podium face au résultat réel.</figcaption>
-      </figure>
-    </section>
 
     <!-- Live predictions (rendered by inline JS from /projects/f1-predictions.json) -->
     <section class="proj-section" aria-labelledby="f1-live-title">
@@ -242,6 +233,9 @@
         testSet: function(n, y) { return "Test set · " + n + " races · " + y.join("–"); },
         mWinner: "winner", mPodium: "podium drivers",
         updated: "Updated",
+        titleOdds: "Championship odds",
+        titleAfter: function(r, n) { return "After round " + r + " · " + n + (n === 1 ? " race" : " races") + " left · 20,000 simulated seasons"; },
+        drivers: "Drivers", teams: "Constructors", pts: "Pts", champ: "Title", top3: "Top 3",
         error: "Could not load the live predictions."
       },
       fr: {
@@ -264,6 +258,9 @@
         testSet: function(n, y) { return "Jeu de test · " + n + " courses · " + y.join("–"); },
         mWinner: "vainqueur", mPodium: "pilotes du podium",
         updated: "Mis à jour",
+        titleOdds: "Probabilités du titre",
+        titleAfter: function(r, n) { return "Après la manche " + r + " · " + n + (n === 1 ? " course restante" : " courses restantes") + " · 20 000 saisons simulées"; },
+        drivers: "Pilotes", teams: "Constructeurs", pts: "Pts", champ: "Titre", top3: "Top 3",
         error: "Impossible de charger les prédictions en direct."
       }
     };
@@ -379,6 +376,23 @@
       return h + '</ul>';
     }
 
+    // Championship odds: drivers and constructors, from scripts/title_odds.py
+    function titleOdds(t, c, lang) {
+      function table(rows, label, withTop3) {
+        var h = '<table class="f1-grid__t"><thead><tr><th scope="col">#</th><th scope="col">' + label + '</th>' +
+          '<th scope="col">' + c.pts + '</th><th scope="col">' + c.champ + '</th>' + (withTop3 ? '<th scope="col">' + c.top3 + '</th>' : '') + '</tr></thead><tbody>';
+        rows.forEach(function(r, i) {
+          var name = r.driver || r.team;
+          h += '<tr><td>' + (i + 1) + '</td><td><span class="f1-dot" style="--team:' + teamColor(r.team) + '"></span>' + escHtml(name) + '</td>' +
+            '<td>' + escHtml(Math.round(r.points)) + '</td>' +
+            '<td><span class="f1-meter" aria-hidden="true"><span style="width:' + ((r.p_champion || 0) * 100).toFixed(1) + '%"></span></span>' + pct(r.p_champion, lang) + '</td>' +
+            (withTop3 ? '<td>' + pct(r.p_top3, lang) + '</td>' : '') + '</tr>';
+        });
+        return h + '</tbody></table>';
+      }
+      return '<div class="f1-title">' + table(t.drivers || [], c.drivers, true) + table(t.teams || [], c.teams, false) + '</div>';
+    }
+
     function render(data, lang) {
       var c = copy[lang] || copy.en;
       var root = document.getElementById("f1-live");
@@ -401,6 +415,14 @@
           h += '<div class="f1-wait"><span class="f1-stat__l">' + c.awaiting + '</span>' +
             '<span class="f1-wait__t">' + escHtml(fmtTime(n.quali_utc, lang)) + '</span></div>';
         }
+      }
+
+      // Championship odds
+      var t = data.title;
+      if (t && t.drivers && t.drivers.length) {
+        h += '<h3 class="f1-live__h3">' + c.titleOdds + '</h3>';
+        h += '<p class="f1-live__meta">' + escHtml(c.titleAfter(t.after_round, t.races_left)) + '</p>';
+        h += titleOdds(t, c, lang);
       }
 
       // Season record

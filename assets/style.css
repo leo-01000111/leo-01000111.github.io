@@ -503,6 +503,8 @@ h1{
 .f1-dot{ display:inline-block; width:8px; height:8px; margin-right: var(--space-2); background: var(--team); vertical-align:middle; }
 .f1-meter{ display:inline-block; width:64px; height:6px; margin-right: var(--space-2); background: var(--rule); vertical-align:middle; }
 .f1-meter > span{ display:block; height:100%; background: var(--signal); }
+.f1-title{ display:grid; grid-template-columns: 1fr; gap: var(--space-2) var(--space-6); margin-bottom: var(--space-4); }
+@media (min-width: 720px){ .f1-title{ grid-template-columns: 3fr 2fr; align-items:start; } }
 
 /* Season strip: one column per round. Single grid row with hidden overflow,
    so only as many rounds as fit the width are shown. The DOM is newest first
