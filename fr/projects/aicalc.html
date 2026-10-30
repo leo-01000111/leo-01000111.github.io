@@ -28,6 +28,51 @@
 <link rel="stylesheet" href="/assets/components.css" />
 <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
+<style>
+/* AICalc live demo. Page-local on purpose (asset CSS/JS is cached for a year). */
+.aic-demo .aic-intro{ line-height:1.7; margin:0; }
+.aic-demo .aic-form{ display:flex; flex-wrap:wrap; gap:var(--space-3); align-items:flex-end; margin-top:var(--space-4); }
+.aic-demo .aic-field{ display:flex; flex-direction:column; gap:6px; flex:1 1 180px; min-width:0; }
+.aic-demo .aic-field input{ box-sizing:border-box; width:100%; min-height:48px; padding:0 var(--space-3); border:0; border-radius:0; background:var(--ground); color:var(--ink); font-family:var(--font-mono); font-size:1.1rem; box-shadow:inset 0 0 0 var(--stroke-bold) var(--ink-muted); }
+.aic-demo .aic-field input:hover{ box-shadow:inset 0 0 0 var(--stroke-bold) var(--ink); }
+.aic-demo .aic-field input:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; box-shadow:inset 0 0 0 var(--stroke-bold) var(--ink); }
+.aic-demo .aic-field input[aria-invalid="true"]{ box-shadow:inset 0 0 0 var(--stroke-bold) var(--hold-ink); }
+.aic-demo .aic-btns{ display:flex; flex-wrap:wrap; gap:var(--space-2); }
+.aic-demo .aic-hint{ margin:var(--space-2) 0 0; font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-muted); }
+.aic-demo .aic-err{ margin:var(--space-2) 0 0; min-height:1.2em; font-family:var(--font-mono); font-size:0.82rem; color:var(--hold-ink); }
+.aic-demo .aic-status{ margin:var(--space-2) 0 0; font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-muted); }
+.aic-demo .aic-case{ margin:var(--space-4) 0 0; font-family:var(--font-mono); font-size:0.9rem; color:var(--ink); }
+.aic-demo .aic-case .badge{ margin-left:var(--space-2); }
+.aic-demo .aic-panels{ display:grid; grid-template-columns:1fr; gap:var(--space-3); margin-top:var(--space-3); }
+@media (min-width: 760px){ .aic-demo .aic-panels{ grid-template-columns:1fr 1fr; } }
+.aic-demo .aic-panel{ min-width:0; box-shadow:inset 0 0 0 var(--stroke-bold) var(--ink); background:var(--surface); padding:var(--space-3) var(--space-4); }
+.aic-demo .aic-panel h3{ margin:0; font-family:var(--font-display); font-size:1.05rem; font-weight:700; color:var(--ink); }
+.aic-demo .aic-panel__meta{ margin:2px 0 var(--space-3); font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-muted); }
+.aic-demo .aic-row{ display:flex; flex-wrap:wrap; gap:6px; min-height:58px; }
+.aic-demo .aic-step{ opacity:0; transition:opacity .12s linear; }
+.aic-demo .aic-step.on{ opacity:1; }
+.aic-demo .aic-ch{ display:flex; flex-direction:column; align-items:center; min-width:34px; padding:4px 6px; box-shadow:inset 0 0 0 var(--stroke-hair) var(--ink-muted); }
+.aic-demo .aic-ch b{ font-family:var(--font-mono); font-size:1.4rem; font-weight:600; line-height:1.3; color:var(--ink); }
+.aic-demo .aic-ch i{ font-family:var(--font-mono); font-style:normal; font-size:0.66rem; color:var(--ink-muted); }
+.aic-demo .aic-ch--end b{ font-size:0.8rem; line-height:2.2; letter-spacing:0.08em; color:var(--ink-muted); }
+.aic-demo .aic-ch--lo{ box-shadow:inset 0 0 0 var(--stroke-hair) var(--hold-ink); }
+.aic-demo .aic-ch--lo i{ color:var(--hold-ink); }
+.aic-demo .aic-verdict{ margin:var(--space-3) 0 0; font-family:var(--font-mono); font-size:0.82rem; color:var(--ink); }
+.aic-demo .aic-verdict .ok{ color:var(--lamp-go); font-weight:700; }
+.aic-demo .aic-verdict .bad{ color:var(--hold-ink); font-weight:700; }
+.aic-demo .aic-h4{ margin:var(--space-4) 0 var(--space-2); font-family:var(--font-mono); font-size:0.72rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-muted); }
+.aic-demo .aic-hm-wrap{ overflow-x:auto; }
+.aic-demo .aic-hm{ border-collapse:separate; border-spacing:2px; table-layout:fixed; width:100%; max-width:380px; font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-muted); }
+.aic-demo .aic-hm th{ font-weight:400; padding:0; height:20px; text-align:center; white-space:nowrap; overflow:hidden; }
+.aic-demo .aic-hm th[scope="row"]{ width:34px; text-align:right; padding-right:4px; color:var(--ink); }
+.aic-demo .aic-hm td{ position:relative; height:24px; padding:0; background:var(--ground); }
+.aic-demo .aic-hm td::before{ content:""; position:absolute; inset:0; background:var(--edge); opacity:var(--a,0); }
+.aic-demo .aic-note{ margin:var(--space-2) 0 0; font-size:0.78rem; line-height:1.5; color:var(--ink-muted); }
+.aic-demo .aic-stats{ margin:var(--space-4) 0 0; font-size:0.85rem; line-height:1.6; color:var(--ink-muted); }
+.aic-demo .aic-fallback{ margin:var(--space-3) 0 0; font-size:0.9rem; color:var(--hold-ink); }
+@media (max-width: 480px){ .aic-demo .aic-hm th[scope="col"]{ font-size:0.58rem; letter-spacing:-0.04em; } .aic-demo .aic-hm thead th:first-child, .aic-demo .aic-hm th[scope="row"]{ width:24px !important; } }
+@media (prefers-reduced-motion: reduce){ .aic-demo .aic-step{ transition:none; } }
+</style>
 </head>
 <body data-project-id="6" data-project-slug="aicalc">
 <a class="skip-link" href="#main">Aller au contenu principal</a>
@@ -71,6 +116,31 @@
           <img id="proj-thumb" class="theme-day" src="/assets/thumbs/aicalc-day.svg" alt="Miniature du projet AICalc" loading="lazy" width="240" height="135" />
           <img class="theme-night" src="/assets/thumbs/aicalc-night.svg" alt="Miniature du projet AICalc" loading="lazy" width="240" height="135" />
         </figure>
+      </div>
+    </section>
+
+    <section class="proj-section aic-demo" id="aic-demo" aria-labelledby="aic-title" hidden>
+      <div class="card">
+        <h2 id="aic-title">Essayez</h2>
+        <p class="muted aic-intro">Tapez une addition ou une soustraction, ou tirez-en une au hasard. Les deux modèles tournent dans votre navigateur avec les vrais poids entraînés. Rien n'est envoyé à un serveur.<span id="aic-size"></span></p>
+        <form class="aic-form" id="aic-form" novalidate autocomplete="off">
+          <div class="aic-field">
+            <label class="label" for="aic-expr">Expression</label>
+            <input id="aic-expr" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="12" value="88-93" aria-describedby="aic-hint aic-err" />
+          </div>
+          <div class="aic-btns">
+            <button type="submit" class="hp-btn hp-btn--primary" id="aic-go">Calculer</button>
+            <button type="button" class="hp-btn hp-btn--ghost" id="aic-rand">Au hasard (jamais vu)</button>
+            <button type="button" class="hp-btn hp-btn--ghost" id="aic-seen">Au hasard (déjà vu)</button>
+          </div>
+        </form>
+        <p class="aic-hint" id="aic-hint">a+b ou a-b, avec a et b entre 0 et 127. « Jamais vu » tire un exemple absent de l'entraînement.</p>
+        <p class="aic-err" id="aic-err" role="alert"></p>
+        <p class="aic-status" id="aic-status" aria-live="polite"></p>
+        <div id="aic-out"></div>
+        <p class="sr-only" id="aic-live" aria-live="polite"></p>
+        <p class="aic-stats" id="aic-stats"></p>
+        <p class="f1-live__foot">Tourne dans votre navigateur &middot; ONNX Runtime Web (WASM) &middot; aucun serveur</p>
       </div>
     </section>
 
@@ -182,6 +252,398 @@
     </div>
   </footer>
 
+<script>
+/* AICalc live demo: runs the real trained models with ONNX Runtime Web (WASM). Inline on purpose. */
+(function () {
+  var sec = document.getElementById("aic-demo");
+  if (!sec) return;
+  var lang = (document.documentElement.lang || "en").slice(0, 2) === "fr" ? "fr" : "en";
+
+  var ORT_VER = "1.23.2";
+  var ORT_DIST = "https://cdn.jsdelivr.net/npm/onnxruntime-web@" + ORT_VER + "/dist/";
+  var ORT_RUNTIME_BYTES = 11905541 + 49926 + 20321; // wasm + loader + glue, from the jsDelivr listing
+  var BASE = "/assets/aicalc/";
+  var V = "1"; // bump when the models are re-exported
+  var STEP_MS = 120;
+
+  var TXT = {
+    en: {
+      errFormat: "Use the form a+b or a-b, for example 88-93.",
+      errRange: "Both numbers must be between 0 and 127.",
+      loading: function (done, total) { return "Loading models: " + done + " of " + total + "..."; },
+      loadingRt: "Loading the runtime...",
+      failed: "The demo could not load. The rest of the page still works.",
+      size: function (m, r) { return " Models load on first use: " + m + " MB, plus a runtime of about " + r + " MB."; },
+      train: "Training example",
+      val: "Held out (validation)",
+      test: "Held out (test)",
+      trainNote: "The models saw this one while training.",
+      heldNote: "The models never saw this one.",
+      s2s: "Seq2seq + attention",
+      tr: "Transformer",
+      params: function (p) { return fmtInt(p) + " parameters"; },
+      acc: function (v, t) { return "val " + fmtPct(v) + "\u00a0% · test " + fmtPct(t) + "\u00a0%"; },
+      correct: "Correct", wrong: "Wrong",
+      truth: "true answer", ms: "ms",
+      end: "end",
+      attn: "Attention",
+      attnNote: "Each row is one output character. Brighter cells mean the decoder looked more at that input token. \"pad\" is the zero padding the model was trained with (batches of 9 tokens).",
+      stats: function (a, b) { return "Over all 32,768 possible inputs, the seq2seq model gets " + fmtInt(a) + " wrong and the Transformer " + fmtInt(b) + "."; },
+      said: function (name, ans, ok) { return name + ": " + ans + ", " + (ok ? "correct" : "wrong") + ". "; },
+      expr: function (a, op, b, t) { return a + " " + (op === "-" ? "−" : "+") + " " + b + " mod 128 = " + t; }
+    },
+    fr: {
+      errFormat: "Utilisez la forme a+b ou a-b, par exemple 88-93.",
+      errRange: "Les deux nombres doivent être compris entre 0 et 127.",
+      loading: function (done, total) { return "Chargement des modèles : " + done + " sur " + total + "..."; },
+      loadingRt: "Chargement du moteur d'exécution...",
+      failed: "La démo n'a pas pu se charger. Le reste de la page fonctionne.",
+      size: function (m, r) { return " Les modèles se chargent à la première utilisation : " + m + " Mo, plus un moteur d'exécution d'environ " + r + " Mo."; },
+      train: "Exemple d'entraînement",
+      val: "Exclu de l'entraînement (validation)",
+      test: "Exclu de l'entraînement (test)",
+      trainNote: "Les modèles ont vu cet exemple pendant l'entraînement.",
+      heldNote: "Les modèles n'ont jamais vu cet exemple.",
+      s2s: "Seq2seq + attention",
+      tr: "Transformer",
+      params: function (p) { return fmtInt(p) + " paramètres"; },
+      acc: function (v, t) { return "val " + fmtPct(v) + "\u00a0% · test " + fmtPct(t) + "\u00a0%"; },
+      correct: "Correct", wrong: "Faux",
+      truth: "réponse exacte", ms: "ms",
+      end: "fin",
+      attn: "Attention",
+      attnNote: "Chaque ligne est un caractère de sortie. Une case plus claire signifie que le décodeur a plus regardé ce jeton d'entrée. « pad » est le remplissage de zéros utilisé à l'entraînement (lots de 9 jetons).",
+      stats: function (a, b) { return "Sur les 32 768 entrées possibles, le modèle seq2seq se trompe " + fmtInt(a) + " fois et le Transformer " + fmtInt(b) + " fois."; },
+      said: function (name, ans, ok) { return name + " : " + ans + ", " + (ok ? "correct" : "faux") + ". "; },
+      expr: function (a, op, b, t) { return a + " " + (op === "-" ? "−" : "+") + " " + b + " mod 128 = " + t; }
+    }
+  };
+  var T = TXT[lang];
+
+  function fmtInt(n) { return Number(n).toLocaleString(lang === "fr" ? "fr-FR" : "en-US"); }
+  function fmtPct(v) { return Number(v).toFixed(2).replace(".", lang === "fr" ? "," : "."); }
+  function fmtMB(bytes) { return (bytes / 1e6).toFixed(1).replace(".", lang === "fr" ? "," : "."); }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+  var form = document.getElementById("aic-form");
+  var input = document.getElementById("aic-expr");
+  var errEl = document.getElementById("aic-err");
+  var statusEl = document.getElementById("aic-status");
+  var sizeEl = document.getElementById("aic-size");
+  var outEl = document.getElementById("aic-out");
+  var liveEl = document.getElementById("aic-live");
+  var btnGo = document.getElementById("aic-go");
+  var btnHeld = document.getElementById("aic-rand");
+  var btnSeen = document.getElementById("aic-seen");
+  if (!form || !input || !outEl) return;
+
+  var meta = null, split = null, wrong = null, sess = null;
+  var metaP = null, loadP = null, timers = [], runId = 0;
+
+  function url(f) { return BASE + f + "?v=" + V; }
+
+  function fetchMeta() {
+    if (!metaP) {
+      metaP = fetch(url("meta.json")).then(function (r) {
+        if (!r.ok) throw new Error("meta " + r.status);
+        return r.json();
+      }).then(function (m) {
+        meta = m;
+        var total = 0, k;
+        for (k in m.onnx_bytes) { if (m.onnx_bytes.hasOwnProperty(k)) total += m.onnx_bytes[k]; }
+        if (sizeEl) sizeEl.textContent = T.size(fmtMB(total), fmtMB(ORT_RUNTIME_BYTES));
+        renderStats();
+        return m;
+      });
+      metaP["catch"](function () { metaP = null; });
+    }
+    return metaP;
+  }
+
+  function fetchBin(f) {
+    return fetch(url(f)).then(function (r) {
+      if (!r.ok) throw new Error(f + " " + r.status);
+      return r.arrayBuffer();
+    }).then(function (b) { return new Uint8Array(b); });
+  }
+
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = src;
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = function () { reject(new Error("script")); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function setBusy(b) {
+    // Buttons stay enabled: a click during loading is queued behind the load promise.
+    sec.setAttribute("aria-busy", b ? "true" : "false");
+  }
+
+  function ensureLoaded() {
+    if (loadP) return loadP;
+    setBusy(true);
+    statusEl.textContent = T.loadingRt;
+    loadP = fetchMeta().then(function (m) {
+      return Promise.all([
+        loadScript(ORT_DIST + "ort.wasm.min.js"),
+        fetchBin("split.bin").then(function (b) { split = b; }),
+        fetchBin("wrong.bin").then(function (b) { wrong = b; })
+      ]).then(function () {
+        if (!window.ort) throw new Error("ort");
+        window.ort.env.wasm.wasmPaths = ORT_DIST;
+        window.ort.env.wasm.numThreads = 1;
+        var names = ["seq2seq_encoder", "seq2seq_decoder_step", "transformer_encoder", "transformer_decoder"];
+        var done = 0;
+        statusEl.textContent = T.loading(0, 4);
+        return Promise.all(names.map(function (n) {
+          return window.ort.InferenceSession.create(url(n + ".onnx"), { executionProviders: ["wasm"], graphOptimizationLevel: "all" })
+            .then(function (s) { done++; statusEl.textContent = T.loading(done, 4); return s; });
+        }));
+      });
+    }).then(function (s) {
+      sess = { se: s[0], sd: s[1], te: s[2], td: s[3] };
+      statusEl.textContent = "";
+      setBusy(false);
+      renderStats();
+    })["catch"](function (e) {
+      loadP = null;
+      setBusy(false);
+      statusEl.textContent = "";
+      showFallback();
+      if (window.console) console.warn("AICalc demo:", e);
+      throw e;
+    });
+    return loadP;
+  }
+
+  function showFallback() {
+    var p = document.getElementById("aic-fallback");
+    if (!p) {
+      p = document.createElement("p");
+      p.id = "aic-fallback";
+      p.className = "aic-fallback";
+      p.setAttribute("role", "status");
+      statusEl.parentNode.insertBefore(p, statusEl.nextSibling);
+    }
+    p.textContent = T.failed;
+  }
+
+  function renderStats() {
+    var el = document.getElementById("aic-stats");
+    if (el && meta) el.textContent = T.stats(meta.models.seq2seq.wrong_total, meta.models.transformer.wrong_total);
+  }
+
+  // ---- input handling ----
+  function parse(raw) {
+    var s = String(raw).replace(/[\s ]/g, "").replace(/[−–—]/g, "-");
+    var m = /^(\d{1,4})([+\-])(\d{1,4})$/.exec(s);
+    if (!m) return { err: T.errFormat };
+    if ((m[1].length > 1 && m[1].charAt(0) === "0") || (m[3].length > 1 && m[3].charAt(0) === "0")) return { err: T.errFormat };
+    var a = parseInt(m[1], 10), b = parseInt(m[3], 10);
+    if (a > 127 || b > 127) return { err: T.errRange };
+    return { a: a, b: b, op: m[2], s: a + m[2] + b };
+  }
+  function truthOf(a, op, b) { return (((op === "+" ? a + b : a - b) % 128) + 128) % 128; }
+  function splitOf(a, op, b) {
+    var i = a * 256 + b * 2 + (op === "-" ? 1 : 0);
+    return (split[i >> 2] >> ((i & 3) * 2)) & 3;
+  }
+  function tokens(s) {
+    var t = [meta.start_idx], i;
+    for (i = 0; i < s.length; i++) t.push(meta.vocab.indexOf(s.charAt(i)));
+    t.push(meta.end_idx);
+    return t;
+  }
+
+  // ---- inference (same greedy loop as the PyTorch inference methods) ----
+  function i64(arr, shape) {
+    return new window.ort.Tensor("int64", BigInt64Array.from(arr, function (x) { return BigInt(x); }), shape);
+  }
+  function pick(logits) {
+    var k = 0, i, mx = logits[0], sum = 0;
+    for (i = 1; i < logits.length; i++) { if (logits[i] > mx) { mx = logits[i]; k = i; } }
+    for (i = 0; i < logits.length; i++) sum += Math.exp(logits[i] - mx);
+    return { k: k, p: 1 / sum };
+  }
+  function runSeq2seq(toks) {
+    var t0 = performance.now(), steps = [], H, h, y = meta.start_idx;
+    return sess.se.run({ src: i64(toks, [1, toks.length]) }).then(function (o) {
+      H = o.H; h = o.h0;
+      function next(n) {
+        if (n >= meta.max_len) return;
+        return sess.sd.run({ y_prev: i64([y], [1]), h_prev: h, H: H }).then(function (r) {
+          var c = pick(r.logits.data);
+          steps.push({ tok: c.k, p: c.p, alpha: Array.prototype.slice.call(r.alpha.data) });
+          h = r.h_new; y = c.k;
+          if (c.k !== meta.end_idx) return next(n + 1);
+        });
+      }
+      return next(0);
+    }).then(function () { return { steps: steps, ms: performance.now() - t0 }; });
+  }
+  function runTransformer(toks) {
+    var t0 = performance.now(), steps = [], mem, tgt = [meta.start_idx];
+    return sess.te.run({ src: i64(toks, [1, toks.length]) }).then(function (o) {
+      mem = o.memory;
+      function next(n) {
+        if (n >= meta.max_len) return;
+        return sess.td.run({ tgt: i64(tgt, [1, tgt.length]), memory: mem }).then(function (r) {
+          var c = pick(r.logits.data);
+          steps.push({ tok: c.k, p: c.p });
+          tgt.push(c.k);
+          if (c.k !== meta.end_idx) return next(n + 1);
+        });
+      }
+      return next(0);
+    }).then(function () { return { steps: steps, ms: performance.now() - t0 }; });
+  }
+  function answerOf(res) {
+    var s = "", i;
+    for (i = 0; i < res.steps.length; i++) {
+      if (res.steps[i].tok === meta.end_idx) break;
+      s += meta.vocab[res.steps[i].tok];
+    }
+    return s;
+  }
+
+  // ---- rendering ----
+  function chHtml(st, i) {
+    var isEnd = st.tok === meta.end_idx;
+    var cls = "aic-step aic-ch" + (isEnd ? " aic-ch--end" : "") + (st.p < 0.8 ? " aic-ch--lo" : "");
+    var label = isEnd ? T.end : esc(meta.vocab[st.tok]);
+    return '<span class="' + cls + '" data-step="' + i + '"><b>' + label + '</b><i>' + (st.p * 100).toFixed(st.p > 0.995 ? 0 : 1) + '%</i></span>';
+  }
+  function heatHtml(res, toks) {
+    var S = toks.length, pad = (res.steps[0].alpha.length > S), i, j, h = '';
+    h += '<div class="aic-hm-wrap"><table class="aic-hm"><caption class="sr-only">' + esc(T.attn) + '</caption><thead><tr><th style="width:34px"></th>';
+    for (j = 0; j < S; j++) {
+      var tk = j === 0 ? "&lt;s&gt;" : (j === S - 1 ? "&lt;/s&gt;" : esc(meta.vocab[toks[j]]));
+      h += '<th scope="col">' + tk + '</th>';
+    }
+    if (pad) h += '<th scope="col">pad</th>';
+    h += '</tr></thead><tbody>';
+    for (i = 0; i < res.steps.length; i++) {
+      var st = res.steps[i], rl = st.tok === meta.end_idx ? T.end : esc(meta.vocab[st.tok]), padSum = 0;
+      h += '<tr class="aic-step" data-step="' + i + '"><th scope="row">' + rl + '</th>';
+      for (j = 0; j < S; j++) h += '<td style="--a:' + st.alpha[j].toFixed(3) + '" title="' + st.alpha[j].toFixed(2) + '"></td>';
+      if (pad) {
+        for (j = S; j < st.alpha.length; j++) padSum += st.alpha[j];
+        h += '<td style="--a:' + padSum.toFixed(3) + '" title="' + padSum.toFixed(2) + '"></td>';
+      }
+      h += '</tr>';
+    }
+    return h + '</tbody></table></div>';
+  }
+  function panelHtml(name, m, res, truth, toks, withHeat) {
+    var ans = answerOf(res), ok = ans === String(truth), n = res.steps.length, i, h = '';
+    h += '<div class="aic-panel"><h3>' + esc(name) + '</h3>';
+    h += '<p class="aic-panel__meta">' + esc(T.params(m.params)) + ' · ' + esc(T.acc(m.accuracy.val.accuracy_pct, m.accuracy.test.accuracy_pct)) + '</p>';
+    h += '<div class="aic-row" role="presentation">';
+    for (i = 0; i < n; i++) h += chHtml(res.steps[i], i);
+    h += '</div>';
+    h += '<p class="aic-verdict aic-step" data-step="' + n + '"><span class="' + (ok ? 'ok' : 'bad') + '">' + (ok ? "✓ " + T.correct : "✗ " + T.wrong) + '</span> · ' + esc(T.truth) + ' ' + truth + ' · ' + res.ms.toFixed(res.ms < 10 ? 1 : 0) + ' ' + T.ms + '</p>';
+    if (withHeat) {
+      h += '<p class="aic-h4">' + esc(T.attn) + '</p>' + heatHtml(res, toks) + '<p class="aic-note">' + esc(T.attnNote) + '</p>';
+    }
+    return h + '</div>';
+  }
+
+  function reveal(root, maxStep) {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var i;
+    for (i = 0; i < timers.length; i++) clearTimeout(timers[i]);
+    timers = [];
+    function show(n) {
+      var els = root.querySelectorAll('[data-step="' + n + '"]'), j;
+      for (j = 0; j < els.length; j++) els[j].classList.add("on");
+    }
+    for (i = 0; i <= maxStep; i++) {
+      if (reduce) show(i);
+      else (function (n) { timers.push(setTimeout(function () { show(n); }, n * STEP_MS)); })(i);
+    }
+  }
+
+  function compute(p) {
+    var id = ++runId;
+    return ensureLoaded().then(function () {
+      var toks = tokens(p.s), truth = truthOf(p.a, p.op, p.b), sp = splitOf(p.a, p.op, p.b);
+      return runSeq2seq(toks).then(function (r1) {
+        return runTransformer(toks).then(function (r2) { return [r1, r2, toks, truth, sp]; });
+      });
+    }).then(function (r) {
+      if (id !== runId) return;
+      var r1 = r[0], r2 = r[1], toks = r[2], truth = r[3], sp = r[4];
+      var held = sp !== 0;
+      var h = '<p class="aic-case">' + esc(T.expr(p.a, p.op, p.b, truth)) + '<span class="badge">' + esc(sp === 0 ? T.train : (sp === 1 ? T.val : T.test)) + '</span></p>';
+      h += '<p class="aic-hint">' + esc(held ? T.heldNote : T.trainNote) + '</p>';
+      h += '<div class="aic-panels">' + panelHtml(T.s2s, meta.models.seq2seq, r1, truth, toks, true) + panelHtml(T.tr, meta.models.transformer, r2, truth, toks, false) + '</div>';
+      outEl.innerHTML = h;
+      var n = Math.max(r1.steps.length, r2.steps.length);
+      reveal(outEl, n);
+      var a1 = answerOf(r1), a2 = answerOf(r2);
+      var said = T.said(T.s2s, a1, a1 === String(truth)) + T.said(T.tr, a2, a2 === String(truth));
+      var wait = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : (n + 1) * STEP_MS;
+      setTimeout(function () { if (id === runId) liveEl.textContent = said; }, wait);
+    })["catch"](function () { /* fallback message already shown */ });
+  }
+
+  function submit() {
+    var p = parse(input.value);
+    if (p.err) {
+      errEl.textContent = p.err;
+      input.setAttribute("aria-invalid", "true");
+      return;
+    }
+    errEl.textContent = "";
+    input.removeAttribute("aria-invalid");
+    input.value = p.s;
+    liveEl.textContent = "";
+    compute(p);
+  }
+
+  function random(heldOut) {
+    ensureLoaded().then(function () {
+      var i, sp, tries = 0;
+      do {
+        i = Math.floor(Math.random() * 32768);
+        sp = (split[i >> 2] >> ((i & 3) * 2)) & 3;
+        tries++;
+      } while ((heldOut ? sp === 0 : sp !== 0) && tries < 1000);
+      input.value = (i >> 8) + ((i & 1) ? "-" : "+") + ((i >> 1) & 127);
+      submit();
+    })["catch"](function () {});
+  }
+
+  form.addEventListener("submit", function (e) { e.preventDefault(); submit(); });
+  btnHeld.addEventListener("click", function () { random(true); });
+  btnSeen.addEventListener("click", function () { random(false); });
+  input.addEventListener("input", function () {
+    errEl.textContent = "";
+    input.removeAttribute("aria-invalid");
+  });
+
+  // Lazy load: the small meta file when the section nears the viewport,
+  // the models and the runtime on first interaction.
+  var started = false;
+  function warm() { if (started) return; started = true; ensureLoaded()["catch"](function () {}); }
+  sec.addEventListener("focusin", warm);
+  sec.addEventListener("pointerdown", warm);
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      if (es[0] && es[0].isIntersecting) { io.disconnect(); fetchMeta()["catch"](function () {}); }
+    }, { rootMargin: "300px" });
+    io.observe(sec);
+  } else {
+    fetchMeta()["catch"](function () {});
+  }
+
+  sec.hidden = false;
+})();
+</script>
 <script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 (function(){var l=location;if(l.hostname==="localhost"||l.hostname==="127.0.0.1")return;

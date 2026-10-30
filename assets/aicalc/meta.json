@@ -1,0 +1,115 @@
+{
+ "seq2seq_pad_to": 9,
+ "vocab": [
+  "<START>",
+  "<END>",
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "+",
+  "-"
+ ],
+ "start_idx": 0,
+ "end_idx": 1,
+ "max_len": 10,
+ "opset": 17,
+ "onnx_bytes": {
+  "seq2seq_encoder.onnx": 2512169,
+  "seq2seq_decoder_step.onnx": 2322142,
+  "transformer_encoder.onnx": 1663340,
+  "transformer_decoder.onnx": 2216604
+ },
+ "models": {
+  "seq2seq": {
+   "checkpoint": "models/seq2seq/2026-06-16_17-48-06",
+   "config": {
+    "embed_size": 64,
+    "hidden_size": 256,
+    "num_layers": 1,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "num_epochs": 300,
+    "end_loss_weight": 2.0,
+    "grad_clip": 1.0,
+    "weight_decay": 0.0001,
+    "seed": 42,
+    "model_type": "seq2seq"
+   },
+   "params": 1206286,
+   "accuracy": {
+    "train": {
+     "n": 22937,
+     "accuracy_pct": 93.49,
+     "wrong": 1494
+    },
+    "val": {
+     "n": 4915,
+     "accuracy_pct": 92.66,
+     "wrong": 361
+    },
+    "test": {
+     "n": 4916,
+     "accuracy_pct": 91.86,
+     "wrong": 400
+    }
+   },
+   "wrong_total": 2255
+  },
+  "transformer": {
+   "checkpoint": "models/transformer/2026-06-16_14-53-38",
+   "config": {
+    "d_model": 128,
+    "nhead": 4,
+    "num_encoder_layers": 2,
+    "num_decoder_layers": 2,
+    "dim_feedforward": 512,
+    "dropout": 0.0,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "num_epochs": 500,
+    "end_loss_weight": 2.0,
+    "grad_clip": 1.0,
+    "weight_decay": 0.001,
+    "seed": 42,
+    "model_type": "transformer"
+   },
+   "params": 931598,
+   "accuracy": {
+    "train": {
+     "n": 22937,
+     "accuracy_pct": 98.89,
+     "wrong": 254
+    },
+    "val": {
+     "n": 4915,
+     "accuracy_pct": 96.66,
+     "wrong": 164
+    },
+    "test": {
+     "n": 4916,
+     "accuracy_pct": 96.01,
+     "wrong": 196
+    }
+   },
+   "wrong_total": 614
+  }
+ },
+ "split_bin": {
+  "file": "split.bin",
+  "entries": 32768,
+  "bytes": 8192,
+  "layout": "index = a*256 + b*2 + (op==\"-\"); 2 bits per entry, 4 per byte; entry i is in byte i>>2 at bit offset (i&3)*2; 0=train 1=val 2=test"
+ },
+ "wrong_bin": {
+  "file": "wrong.bin",
+  "bytes": 8192,
+  "layout": "two 4096-byte halves: first seq2seq, second transformer. Same entry index as split.bin. Within a half: bit i = (byte[i>>3] >> (i&7)) & 1; 1 = greedy output differs from the true result"
+ }
+}
