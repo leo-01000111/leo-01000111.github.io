@@ -46,11 +46,11 @@
       ageYes: "I am 18 or older", ageNo: "No, go back",
       close: "Close",
       dlgTitle: function(name) { return "Current race: " + name; },
-      dlgIntro: "For each driver on the model's predicted podium: the lowest decimal odds at which a bet still has a positive expected value, with at least the edge you set. Compare them with the odds you are offered: only odds at or above the minimum qualify.",
-      liveEdgeHelp: "How many points the model's probability must beat the probability implied by the odds (1 / odds). 0 pts means any positive expected value.",
+      dlgIntro: "Lowest odds with a positive expected value for the model's predicted podium.",
+      liveEdgeHelp: "Model probability minus 1 / odds.",
       minOdds: "Min. odds", kalshiNow: "Kalshi", modelP: "Model", driver: "Driver",
       noOdds: "none", clears: "Kalshi's price clears the minimum",
-      started: "The race has started: the prices are from before lights out, and pre-race odds are no longer on offer.",
+      started: "Race started: prices are from before lights out.",
       noPrices: "No Kalshi prices for this race yet."
     },
     fr: {
@@ -91,11 +91,11 @@
       ageYes: "J'ai 18 ans ou plus", ageNo: "Non, revenir",
       close: "Fermer",
       dlgTitle: function(name) { return "Course en cours : " + name; },
-      dlgIntro: "Pour chaque pilote du podium prédit par le modèle : la plus petite cote décimale à laquelle un pari garde une espérance positive, avec au moins l'avantage choisi. Comparez-la aux cotes proposées : seules les cotes égales ou supérieures au minimum conviennent.",
-      liveEdgeHelp: "De combien de points la probabilité du modèle doit dépasser la probabilité implicite de la cote (1 / cote). 0 pt : toute espérance positive.",
+      dlgIntro: "Plus petites cotes à espérance positive pour le podium prédit par le modèle.",
+      liveEdgeHelp: "Probabilité du modèle moins 1 / cote.",
       minOdds: "Cote min.", kalshiNow: "Kalshi", modelP: "Modèle", driver: "Pilote",
       noOdds: "aucune", clears: "le prix Kalshi dépasse le minimum",
-      started: "La course a commencé : les prix datent d'avant le départ, et les cotes d'avant-course ne sont plus proposées.",
+      started: "Course commencée : prix d'avant le départ.",
       noPrices: "Pas encore de prix Kalshi pour cette course."
     }
   };
@@ -378,7 +378,7 @@
         ' <output data-dlg-edge-out>' + val + ' pts</output></label>' +
         '<input type="range" id="f1-mk-dlg-edge" data-dlg-edge min="0" max="20" step="1" value="' + val + '" aria-describedby="f1-mk-dlg-edge-help" />' +
         '<p class="f1-mk-help" id="f1-mk-dlg-edge-help">' + c.liveEdgeHelp + '</p></div>' +
-        '<div data-dlg-tables>' + tables() + '</div>' + warning(c) + '</div>';
+        '<div data-dlg-tables>' + tables() + '</div></div>';
     }
     function show() {
       if (dlg.open) return;
