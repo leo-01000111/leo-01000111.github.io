@@ -10,16 +10,18 @@
   var copy = {
     en: {
       title: "Model vs market",
-      intro: "Could you have beaten the betting market with this model? The calculator replays the season against Kalshi, a US prediction exchange, and puts €10 on every driver the model rates higher than the price.",
+      intro: "Could you have beaten the betting market with this model? The calculator replays the season against Kalshi, a US prediction exchange, and puts €10 on every front-runner the model rates higher than the price.",
       market: "Market", win: "Winner", podium: "Podium",
       when: "Odds taken", whenPred: "After qualifying", whenStart: "At lights out",
+      top: "Drivers considered", top1: "Favourite", top3: "Top 3", top6: "Top 6",
+      topHelp: "The model is built to find the podium: its numbers for the front of the grid are meaningful, the rest of the field's are not. Only the model's top drivers in each race are ever bet on.",
       margin: "Bookmaker margin",
       marginHelp: "Kalshi's prices already add up to 10-15% more than 100% across the field. A bookmaker takes its own cut on top: the price you pay is the Kalshi price plus this margin. 0% is Kalshi's mid price with no fees.",
       edge: "Minimum edge",
-      edgeHelp: "Bet only when the model's probability beats the price you pay by at least this much. 10% means a 33% chance against a 30% price.",
+      edgeHelp: "Bet only when the model's probability beats the price you pay by at least this many percentage points. 5 pts means a 35% chance against a 30% price.",
       profit: "profit", roi: "return on stake", bets: "bets won",
       strategies: "Strategies", strategy: "Strategy", nBets: "Bets", won: "Won", pl: "Profit", roiShort: "Return",
-      sValue: "Value bets (model above the price)", sModel: "Model's favourite every race", sMarket: "Market favourite every race",
+      sValue: "Model above the price", sModel: "Model's favourite every race", sMarket: "Market favourite every race",
       chart: "Cumulative profit by round",
       score: "Who forecast better",
       scoreText: function(m, k, b, n) { return "Log loss, lower is better: model " + m + ", market " + k + ". The model was closer in " + b + " of " + n + " races."; },
@@ -40,16 +42,18 @@
     },
     fr: {
       title: "Modèle contre marché",
-      intro: "Aurait-on pu battre le marché des paris avec ce modèle ? Le calculateur rejoue la saison face à Kalshi, une bourse de prédiction américaine, et mise 10 € sur chaque pilote que le modèle juge plus probable que son prix.",
+      intro: "Aurait-on pu battre le marché des paris avec ce modèle ? Le calculateur rejoue la saison face à Kalshi, une bourse de prédiction américaine, et mise 10 € sur chaque pilote de tête que le modèle juge plus probable que son prix.",
       market: "Marché", win: "Vainqueur", podium: "Podium",
       when: "Cotes prises", whenPred: "Après les qualifications", whenStart: "Au départ",
+      top: "Pilotes retenus", top1: "Favori", top3: "Top 3", top6: "Top 6",
+      topHelp: "Le modèle est conçu pour trouver le podium : ses chiffres pour l'avant de la grille ont du sens, ceux du reste du plateau non. Seuls les premiers pilotes du modèle sont joués à chaque course.",
       margin: "Marge du bookmaker",
       marginHelp: "Les prix de Kalshi dépassent déjà 100 % de 10 à 15 % sur l'ensemble du plateau. Un bookmaker prend sa propre marge en plus : le prix payé est celui de Kalshi plus cette marge. 0 % correspond au prix médian de Kalshi, sans frais.",
       edge: "Avantage minimum",
-      edgeHelp: "Ne miser que si la probabilité du modèle dépasse le prix payé d'au moins cette proportion. 10 % : 33 % de chances contre un prix de 30 %.",
+      edgeHelp: "Ne miser que si la probabilité du modèle dépasse le prix payé d'au moins ce nombre de points. 5 pts : 35 % de chances contre un prix de 30 %.",
       profit: "gain", roi: "rendement de la mise", bets: "paris gagnés",
       strategies: "Stratégies", strategy: "Stratégie", nBets: "Paris", won: "Gagnés", pl: "Gain", roiShort: "Rendement",
-      sValue: "Paris de valeur (modèle au-dessus du prix)", sModel: "Favori du modèle à chaque course", sMarket: "Favori du marché à chaque course",
+      sValue: "Modèle au-dessus du prix", sModel: "Favori du modèle à chaque course", sMarket: "Favori du marché à chaque course",
       chart: "Gain cumulé par manche",
       score: "Qui a le mieux prédit",
       scoreText: function(m, k, b, n) { return "Perte logarithmique, plus bas = mieux : modèle " + m + ", marché " + k + ". Le modèle a été plus proche dans " + b + " courses sur " + n + "."; },
@@ -130,7 +134,11 @@
       };
     }
     return {
-      value: simulate(races, s, function(ds) { return ds.filter(function(d) { return prob(d, s) >= cost(d, s) * (1 + s.edge); }); }),
+      // Only the model's top s.top drivers: its probabilities further back are not meaningful
+      value: simulate(races, s, function(ds) {
+        return ds.slice().sort(function(a, b) { return prob(b, s) - prob(a, s); }).slice(0, s.top)
+          .filter(function(d) { return prob(d, s) - cost(d, s) >= s.edge; });
+      }),
       model: simulate(races, s, top(function(d) { return prob(d, s); })),
       market: simulate(races, s, top(function(d) { return d[s.market][s.when]; }))
     };
@@ -234,25 +242,26 @@
   }
 
   function controls(c, s) {
-    function group(key, label, opts) {
-      var h = '<div class="f1-mk-ctl"><span class="f1-stat__l" id="f1-mk-' + key + '">' + label + '</span><div class="hp-lang" role="group" aria-labelledby="f1-mk-' + key + '">';
+    function group(key, label, opts, help) {
+      var h = '<div class="f1-mk-ctl' + (help ? ' f1-mk-ctl--wide' : '') + '"><span class="f1-stat__l" id="f1-mk-' + key + '">' + label + '</span><div class="hp-lang" role="group" aria-labelledby="f1-mk-' + key + '">';
       opts.forEach(function(o) {
         h += '<button type="button" data-mk-' + key + '="' + o[0] + '" aria-pressed="' + (String(s[key]) === String(o[0])) + '">' + o[1] + '</button>';
       });
-      return h + '</div></div>';
+      return h + '</div>' + (help ? '<p class="f1-mk-help">' + help + '</p>' : '') + '</div>';
     }
     function slider(key, label, help, max, step) {
       var val = Math.round(s[key] * 100);
       return '<div class="f1-mk-ctl f1-mk-ctl--range"><label class="f1-stat__l" for="f1-mk-' + key + '">' + label +
-        ' <output data-mk-out-' + key + '>' + val + '%</output></label>' +
+        ' <output data-mk-out-' + key + '>' + val + UNITS[key] + '</output></label>' +
         '<input type="range" id="f1-mk-' + key + '" data-mk-range="' + key + '" min="0" max="' + max + '" step="' + step + '" value="' + val + '" aria-describedby="f1-mk-' + key + '-help" />' +
         '<p class="f1-mk-help" id="f1-mk-' + key + '-help">' + help + '</p></div>';
     }
     return '<div class="f1-mk-ctls">' +
       group("market", c.market, [["win", c.win], ["podium", c.podium]]) +
       group("when", c.when, [[0, c.whenPred], [1, c.whenStart]]) +
+      group("top", c.top, [[1, c.top1], [3, c.top3], [6, c.top6]], c.topHelp) +
       slider("margin", c.margin, c.marginHelp, 30, 1) +
-      slider("edge", c.edge, c.edgeHelp, 100, 5) + '</div>';
+      slider("edge", c.edge, c.edgeHelp, 20, 1) + '</div>';
   }
 
   function warning(c) {
@@ -270,7 +279,9 @@
   var c = copy[lang] || copy.en;
   var title = document.getElementById("f1-market-title");
   if (title) title.textContent = c.title;
-  var s = { market: "win", when: 0, margin: 0.05, edge: 0.1 };
+  // edge is in probability points (0.05 = 5 pts), margin a fraction of the price
+  var s = { market: "win", when: 0, top: 6, margin: 0.05, edge: 0.05 };
+  var UNITS = { margin: "%", edge: " pts" };
 
   fetch(DATA_URL)
     .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -278,10 +289,11 @@
       if (!data.market || !data.market.length) { root.closest("section").hidden = true; return; }
       root.innerHTML = '<p class="f1-mk-intro">' + c.intro + '</p>' + warning(c) + controls(c, s) + '<div data-mk-out></div>';
       root.addEventListener("click", function(e) {
-        var b = e.target.closest("button[data-mk-market], button[data-mk-when]");
+        var b = e.target.closest("button[data-mk-market], button[data-mk-when], button[data-mk-top]");
         if (!b) return;
-        var key = b.hasAttribute("data-mk-market") ? "market" : "when";
-        s[key] = key === "when" ? Number(b.getAttribute("data-mk-when")) : b.getAttribute("data-mk-market");
+        var key = b.hasAttribute("data-mk-market") ? "market" : b.hasAttribute("data-mk-when") ? "when" : "top";
+        var val = b.getAttribute("data-mk-" + key);
+        s[key] = key === "market" ? val : Number(val);
         b.parentNode.querySelectorAll("button").forEach(function(x) { x.setAttribute("aria-pressed", String(x === b)); });
         render(root, data, lang, s);
       });
@@ -289,7 +301,7 @@
         var key = e.target.getAttribute("data-mk-range");
         if (!key) return;
         s[key] = Number(e.target.value) / 100;
-        root.querySelector("[data-mk-out-" + key + "]").textContent = e.target.value + "%";
+        root.querySelector("[data-mk-out-" + key + "]").textContent = e.target.value + UNITS[key];
         render(root, data, lang, s);
       });
       render(root, data, lang, s);
