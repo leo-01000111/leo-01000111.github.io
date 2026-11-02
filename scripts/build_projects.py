@@ -179,13 +179,18 @@ SEE_ALSO_END = "<!-- see-also:end -->"
 
 
 def inject(path: Path, html: str, start=START, end=END):
-    text = path.read_text(encoding="utf-8")
+    # newline="" keeps the file's bytes outside the markers as they are: text
+    # mode turned a stray "\r" after the analytics <script> into an extra blank line
+    with open(path, encoding="utf-8", newline="") as f:
+        text = f.read()
     if start not in text or end not in text:
         raise SystemExit(f"{path}: missing {start}/{end} markers")
+    nl = "\r\n" if "\r\n" in text else "\n"
     pattern = re.compile(re.escape(start) + r".*?" + re.escape(end), re.DOTALL)
-    replacement = f"{start}\n{html}\n{end}"
+    replacement = f"{start}{nl}{html}{nl}{end}".replace("\r\n", "\n").replace("\n", nl)
     new_text = pattern.sub(lambda _: replacement, text, count=1)
-    path.write_text(new_text, encoding="utf-8")
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        f.write(new_text)
     print(f"wrote {path.relative_to(ROOT)}")
 
 

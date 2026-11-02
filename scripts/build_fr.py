@@ -17,8 +17,14 @@ including their ProjectCard "See also" markup. Always run this BEFORE
 scripts/build_projects.py, never after — running it after would blow away
 build_projects.py's French "See also" cards with English ones copied from
 the EN source page.
+
+Since then the French pages have been edited by hand (translations, extra
+copy) beyond what the decks below hold, so regenerating them would revert
+that work. Existing pages are therefore left alone: pass the slugs to
+rebuild with --force (e.g. `python scripts/build_fr.py --force f1predictor`)
+and review the diff. For a small change, edit the French page directly.
 """
-import re, os
+import re, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "projects")
@@ -291,12 +297,17 @@ def generic(html, slug, title_fr, desc_fr):
     return html
 
 
+FORCE = set(sys.argv[2:]) if sys.argv[1:2] == ["--force"] else set()
+
 for slug, mapping in PAGES.items():
+    out = os.path.join(OUT, slug + ".html")
+    if os.path.exists(out) and slug not in FORCE:
+        print("kept", os.path.relpath(out, ROOT), "(hand-maintained; --force", slug, "to rebuild)")
+        continue
     src = os.path.join(SRC, slug + ".html")
     html = open(src, encoding="utf-8-sig").read()
     title_fr, desc_fr = JSON_FR[slug]
     html = generic(html, slug, title_fr, desc_fr)
     html = set_by_id(html, mapping)
-    out = os.path.join(OUT, slug + ".html")
     open(out, "w", encoding="utf-8", newline="").write(html)
     print("wrote", os.path.relpath(out, ROOT))
