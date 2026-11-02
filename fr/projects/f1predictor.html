@@ -158,6 +158,10 @@
             <div class="data-grid__value" id="f1-ac3-value">Courses simulées avec abandons et ordre de Plackett-Luce (Gumbel-max, 10 000 tirages), avec une température ajustée sur une saison absente de l'entraînement. Chaque ligne pilote et chaque colonne position somment à 1</div>
           </div>
           <div class="data-grid__item">
+            <div class="data-grid__label" id="f1-ac5-label">Cotes du titre</div>
+            <div class="data-grid__value" id="f1-ac5-value">20 000 saisons simulées. Le rythme de chaque voiture et de chaque pilote vient d'un filtre de Kalman appliqué à toutes les qualifications et courses disputées jusqu'ici, tiré avec son incertitude et libre de dériver d'une course à l'autre. Les abandons viennent d'un modèle de fin de course qui n'a pas besoin des qualifications. Sur 32 points de contrôle passés (2018-2025), il a donné plus de probabilité au futur champion qu'une référence fondée sur les seuls points</div>
+          </div>
+          <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac4-label">Archivé</div>
             <div class="data-grid__value" id="f1-ac4-value">Des modèles antérieurs, un régresseur sur la position finale, un classement seul et un empilement de trois classifieurs XGBoost et d'un MLP PyTorch, ont été essayés puis archivés</div>
           </div>

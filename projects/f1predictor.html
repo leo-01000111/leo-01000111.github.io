@@ -157,6 +157,10 @@
             <div class="data-grid__value" id="f1-ac3-value">Simulated races with retirements and a Plackett-Luce order (Gumbel-max, 10,000 draws), with the temperature fitted on a season the model did not train on. Each driver's row and each position's column sum to 1</div>
           </div>
           <div class="data-grid__item">
+            <div class="data-grid__label" id="f1-ac5-label">Title odds</div>
+            <div class="data-grid__value" id="f1-ac5-value">20,000 simulated seasons. Each car's and each driver's pace comes from a Kalman filter run over every qualifying session and race so far, drawn with its uncertainty and left to drift race by race. Retirements come from a finishing model that does not need qualifying. At 32 past checkpoints (2018-2025) it gave the eventual champion more probability than a points-only baseline</div>
+          </div>
+          <div class="data-grid__item">
             <div class="data-grid__label" id="f1-ac4-label">Archived</div>
             <div class="data-grid__value" id="f1-ac4-value">Earlier models, a finishing-position regressor, a single ranker and a stack of three XGBoost classifiers plus a PyTorch MLP, were tried and archived</div>
           </div>
