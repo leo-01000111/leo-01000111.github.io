@@ -348,6 +348,12 @@ path.cedric__eye{ animation: none; }   /* the line eye blinks in JS (see updateE
   background: var(--ink); color: var(--surface);
 }
 
+/* ── All-projects page: dot on the card whose page hides Blue today ── */
+.cdot{
+  position: absolute; top: 12px; right: 12px; z-index: 2; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--cc-blue-ink); pointer-events: none;
+}
+
 /* ── Blue Cedric peeking over the top edge of a card, near one corner ── */
 .cpeek{
   position: absolute; bottom: 100%; z-index: 5; width: 150px; height: 58px;

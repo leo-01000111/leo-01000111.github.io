@@ -479,16 +479,26 @@
     const blue = on => { if (on) document.documentElement.dataset.cedric = "blue"; else delete document.documentElement.dataset.cedric; };
     blue(isFound());
 
-    let peek = null;
-    function unpeek() { if (peek) { peek.cedric.destroy(); peek.box.remove(); peek = null; } }
+    let peek = null, dot = null;
+    function unpeek() {
+      if (peek) { peek.cedric.destroy(); peek.box.remove(); peek = null; }
+      if (dot) { dot.remove(); dot = null; }
+    }
 
     function placePeek() {
       if (isFound()) return;
-      const m = location.pathname.match(/\/projects\/([^/]+)\.html$/);
-      if (!m || m[1] === "index" || m[1].charAt(0) === "_") return;
+      const m = location.pathname.match(/\/projects\/([^/]*?)(?:\.html)?$/);
+      if (!m || m[1].charAt(0) === "_") return;
       fetch(ROOT + "projects/projects.json").then(r => r.json()).then(list => {
-        const day = today(), slugs = list.map(p => p.slug).filter(Boolean).sort();
-        if (slugs[hash(day) % slugs.length] !== m[1]) return;
+        const day = today(), slugs = list.filter(p => !p.href).map(p => p.slug).filter(Boolean).sort();   // href = own site (Evans): no peek there
+        const slug = slugs[hash(day) % slugs.length];
+        // All-projects page: a small blue dot on today's card, as a hint.
+        if (m[1] === "" || m[1] === "index") {
+          const card = [...document.querySelectorAll("a.hp-card")].find(a => a.pathname.endsWith("/projects/" + slug + ".html"));
+          if (card) { dot = h("span", "cdot"); dot.setAttribute("aria-hidden", "true"); card.appendChild(dot); }
+          return;
+        }
+        if (slug !== m[1]) return;
         // Only the big section cards: there's a gap above them to peek over.
         let cards = [...document.querySelectorAll(".card")].filter(c => c.offsetWidth >= 300 && !c.parentElement.closest(".card"));
         if (!cards.length) cards = [...document.querySelectorAll(".hp-card")];
