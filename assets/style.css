@@ -560,6 +560,48 @@ h1{
 .f1-mk-line--value{ stroke: var(--edge); stroke-width:2.5; }
 .f1-mk-line--model{ stroke: var(--ink); stroke-width:1.5; stroke-dasharray:5 4; }
 .f1-mk-line--market{ stroke: var(--ink-muted); stroke-width:1.5; stroke-dasharray:1 4; }
+
+/* Current race: button above the disclaimer, 18+ check and calculator in a centred window
+   (same frame as Cedric's chat panel) */
+.f1-mk-live{ display:flex; flex-direction:column; align-items:center; gap: var(--space-2); margin: var(--space-4) auto 0; }
+.f1-mk-live__btn{
+  border:0; cursor:pointer; padding:10px 16px;
+  font: 700 12px var(--font-mono); letter-spacing:.06em; text-transform:uppercase;
+  background: var(--signal); color: var(--on-signal);
+  box-shadow: inset 0 0 0 var(--stroke-bold) var(--plate), var(--shadow-lift);
+  transition: transform .15s ease-out, box-shadow .15s ease-out;
+}
+.f1-mk-live__btn:active{ transform: translate(2px, 2px); box-shadow: inset 0 0 0 var(--stroke-bold) var(--plate); }
+.f1-mk-live__btn:focus-visible, .f1-mk-dlg__no:focus-visible, .f1-mk-dlg__x:focus-visible{ outline: 3px solid var(--focus, #1f4fd1); outline-offset: 2px; }
+.f1-mk-dlg{
+  width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 56px); padding:0; border:0;
+  background: var(--surface); color: var(--ink);
+  box-shadow: inset 0 0 0 var(--stroke-bold) var(--ink), var(--shadow-lift);
+}
+.f1-mk-dlg[open]{ animation: f1-mk-pop .18s ease-out; }
+@keyframes f1-mk-pop{ from{ transform: scale(.94); opacity:0; } to{ transform:none; opacity:1; } }
+.f1-mk-dlg::backdrop{ background: rgba(18, 19, 20, .55); }
+body:has(.f1-mk-dlg[open]) .cchat__launcher{ visibility: hidden; }   /* Cedric waits behind the window */
+.f1-mk-dlg__in{ padding: var(--space-4); text-align:left; line-height:1.55; }
+.f1-mk-dlg__in > p{ margin: 0 0 var(--space-3); font-size:0.9rem; }
+.f1-mk-dlg__head{ display:flex; align-items:flex-start; justify-content:space-between; gap: var(--space-3); margin-bottom: var(--space-3); }
+.f1-mk-dlg__head h2{ margin:0; font-size:1.15rem; }
+.f1-mk-dlg__x{ flex:0 0 auto; width:30px; height:30px; border:0; padding:0; cursor:pointer; font-size:20px; line-height:1;
+  background:none; color: var(--ink-muted); box-shadow: inset 0 0 0 1px var(--rule); }
+.f1-mk-dlg__x:hover{ color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.f1-mk-dlg__acts{ display:flex; flex-wrap:wrap; align-items:center; gap: var(--space-3); margin-top: var(--space-4); }
+.f1-mk-dlg__no{ border:0; background:none; padding:8px 4px; cursor:pointer; font: 600 0.85rem var(--font-sans); color: var(--ink-muted); text-decoration: underline; }
+.f1-mk-dlg__note{ padding: var(--space-2) var(--space-3); box-shadow: inset var(--stroke-sign) 0 0 var(--hold); font-size:0.82rem !important; }
+.f1-mk-dlg .f1-mk-ctl--range{ margin: var(--space-3) 0; }
+.f1-mk-dlg .f1-mk-warn{ max-width:none; margin-top: var(--space-4); }
+.f1-mk-live__t{ width:100%; margin-top: var(--space-3); }
+.f1-mk-live__t caption{ text-align:left; padding-bottom: var(--space-1); font-family: var(--font-mono); font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color: var(--ink-muted); }
+.f1-mk-live__t td, .f1-mk-live__t th{ white-space:nowrap; }
+.f1-mk-live__t td:first-child{ font-weight:700; }
+.f1-mk-live__team{ font-weight:400; font-size:0.74rem; color: var(--ink-muted); }
+.f1-mk-live__min{ font-weight:700; }
+.f1-mk-live__t td.is-up{ color: var(--lamp-go); font-weight:700; }
+@media (max-width: 420px){ .f1-mk-live__team{ display:none; } }
 .f1-mk-bets{ max-width:560px; margin-top: var(--space-4); }
 .f1-mk-bets td:first-child{ width:auto; }
 

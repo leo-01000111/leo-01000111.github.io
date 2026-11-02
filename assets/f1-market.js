@@ -38,7 +38,20 @@
         ["UK: National Gambling Helpline", "0808 8020 133", "https://www.gamcare.org.uk"],
         ["Other countries", "findahelpline.com", "https://findahelpline.com/topics/gambling"]
       ],
-      error: "Could not load the market data."
+      error: "Could not load the market data.",
+      liveBtn: "Calculations for the current race",
+      liveMeta: function(name, t) { return name + (t ? " · Kalshi prices from " + t : ""); },
+      ageTitle: "Are you 18 or older?",
+      ageText: "The next window is about betting odds, and gambling is for adults only. This is a self-declaration: answer honestly.",
+      ageYes: "I am 18 or older", ageNo: "No, go back",
+      close: "Close",
+      dlgTitle: function(name) { return "Current race: " + name; },
+      dlgIntro: "For each driver on the model's predicted podium: the lowest decimal odds at which a bet still has a positive expected value, with at least the edge you set. Compare them with the odds you are offered: only odds at or above the minimum qualify.",
+      liveEdgeHelp: "How many points the model's probability must beat the probability implied by the odds (1 / odds). 0 pts means any positive expected value.",
+      minOdds: "Min. odds", kalshiNow: "Kalshi", modelP: "Model", driver: "Driver",
+      noOdds: "none", clears: "Kalshi's price clears the minimum",
+      started: "The race has started: the prices are from before lights out, and pre-race odds are no longer on offer.",
+      noPrices: "No Kalshi prices for this race yet."
     },
     fr: {
       title: "Modèle contre marché",
@@ -70,7 +83,20 @@
         ["Royaume-Uni : National Gambling Helpline", "0808 8020 133", "https://www.gamcare.org.uk"],
         ["Autres pays", "findahelpline.com", "https://findahelpline.com/topics/gambling"]
       ],
-      error: "Impossible de charger les données du marché."
+      error: "Impossible de charger les données du marché.",
+      liveBtn: "Calculs pour la course en cours",
+      liveMeta: function(name, t) { return name + (t ? " · prix Kalshi de " + t : ""); },
+      ageTitle: "Avez-vous 18 ans ou plus ?",
+      ageText: "La fenêtre suivante porte sur des cotes de paris, et les jeux d'argent sont interdits aux mineurs. Il s'agit d'une déclaration sur l'honneur : répondez honnêtement.",
+      ageYes: "J'ai 18 ans ou plus", ageNo: "Non, revenir",
+      close: "Fermer",
+      dlgTitle: function(name) { return "Course en cours : " + name; },
+      dlgIntro: "Pour chaque pilote du podium prédit par le modèle : la plus petite cote décimale à laquelle un pari garde une espérance positive, avec au moins l'avantage choisi. Comparez-la aux cotes proposées : seules les cotes égales ou supérieures au minimum conviennent.",
+      liveEdgeHelp: "De combien de points la probabilité du modèle doit dépasser la probabilité implicite de la cote (1 / cote). 0 pt : toute espérance positive.",
+      minOdds: "Cote min.", kalshiNow: "Kalshi", modelP: "Modèle", driver: "Pilote",
+      noOdds: "aucune", clears: "le prix Kalshi dépasse le minimum",
+      started: "La course a commencé : les prix datent d'avant le départ, et les cotes d'avant-course ne sont plus proposées.",
+      noPrices: "Pas encore de prix Kalshi pour cette course."
     }
   };
 
@@ -273,6 +299,115 @@
     return h + '</ul></aside>';
   }
 
+  // === Current race: an 18+ self-declaration, then the lowest odds worth taking ===
+  // Shown from the post-qualifying prediction until the race should be over. Prices
+  // are the latest Kalshi snapshot in next.live_market (ci_tick takes one every
+  // tick from qualifying to lights out).
+  var AGE_KEY = "lg_f1_age18";
+  var RACE_MS = 2.5 * 3600 * 1000;              // lights out to the flag, with margin
+
+  function liveRace(data) {
+    var n = data.next;
+    if (!n || n.status !== "predicted" || !n.drivers || !n.drivers.length) return null;
+    var start = Date.parse(n.race_utc || "");
+    return start && Date.now() > start + RACE_MS ? null : n;
+  }
+
+  function ageOk() { try { return localStorage.getItem(AGE_KEY) === "1"; } catch (e) { return false; } }
+  function setAgeOk() { try { localStorage.setItem(AGE_KEY, "1"); } catch (e) {} }
+
+  function when(iso, lang) {
+    var t = Date.parse(iso || "");
+    return t ? new Date(t).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB",
+                                          { weekday: "short", hour: "2-digit", minute: "2-digit" }) : "";
+  }
+
+  function liveBlock(n, c, lang) {
+    var lm = n.live_market;
+    return '<div class="f1-mk-live"><button type="button" class="f1-mk-live__btn" data-mk-live aria-haspopup="dialog">' +
+      c.liveBtn + '</button><p class="f1-mk-help">' + escHtml(c.liveMeta(n.name || "", lm ? when(lm.taken_utc, lang) : "")) + '</p></div>';
+  }
+
+  // Lowest decimal odds o with p - 1/o >= edge (edge in probability points, as in the calculator)
+  function minOdds(p, edge) { return p - edge > 0 ? 1 / (p - edge) : null; }
+
+  function liveTable(n, c, lang, edge, key, label) {
+    var prices = (n.live_market || {})[key] || {};
+    var h = '<table class="f1-grid__t f1-mk-live__t"><caption>' + label + '</caption><thead><tr>' +
+      '<th scope="col">' + c.driver + '</th><th scope="col">' + c.modelP + '</th><th scope="col">' + c.minOdds +
+      '</th><th scope="col">' + c.kalshiNow + '</th></tr></thead><tbody>';
+    n.drivers.slice(0, 3).forEach(function(d) {          // the podium shown in "Next race"
+      var p = key === "win" ? d.p_win : d.p_podium;
+      var mo = minOdds(p, edge), price = prices[d.driver], ko = price > 0 ? 1 / price : null;
+      var ok = mo != null && ko != null && ko >= mo;
+      h += '<tr><td>' + escHtml(d.driver) + ' <span class="f1-mk-live__team">' + escHtml(d.team || "") + '</span></td>' +
+        '<td>' + num(p * 100, 0, lang) + '%</td>' +
+        '<td class="f1-mk-live__min">' + (mo != null ? num(mo, 2, lang) : c.noOdds) + '</td>' +
+        '<td' + (ok ? ' class="is-up"' : '') + '>' + (ko == null ? "–" : num(ko, 2, lang) +
+          (ok ? ' <span aria-hidden="true">✓</span><span class="sr-only">' + c.clears + '</span>' : '')) + '</td></tr>';
+    });
+    return h + '</tbody></table>';
+  }
+
+  function liveDialog(n, c, lang) {
+    var edge = 0.05;
+    var dlg = document.createElement("dialog");
+    dlg.className = "f1-mk-dlg";
+    dlg.setAttribute("aria-labelledby", "f1-mk-dlg-title");
+    document.body.appendChild(dlg);
+
+    function head(title) {
+      return '<div class="f1-mk-dlg__head"><h2 id="f1-mk-dlg-title">' + escHtml(title) + '</h2>' +
+        '<button type="button" class="f1-mk-dlg__x" data-dlg="close" aria-label="' + c.close + '">×</button></div>';
+    }
+    function tables() {
+      return liveTable(n, c, lang, edge, "win", c.win) + liveTable(n, c, lang, edge, "podium", c.podium);
+    }
+    function ageView() {
+      dlg.innerHTML = '<div class="f1-mk-dlg__in">' + head(c.ageTitle) + '<p>' + c.ageText + '</p>' +
+        '<div class="f1-mk-dlg__acts"><button type="button" class="f1-mk-live__btn" data-dlg="yes">' + c.ageYes + '</button>' +
+        '<button type="button" class="f1-mk-dlg__no" data-dlg="no">' + c.ageNo + '</button></div></div>';
+    }
+    function calcView() {
+      var lm = n.live_market, start = Date.parse(n.race_utc || ""), val = Math.round(edge * 100);
+      dlg.innerHTML = '<div class="f1-mk-dlg__in">' + head(c.dlgTitle(n.name || "")) +
+        '<p class="f1-mk-help">' + escHtml(lm ? c.liveMeta(n.location || n.name || "", when(lm.taken_utc, lang)) : c.noPrices) + '</p>' +
+        (start && Date.now() > start ? '<p class="f1-mk-dlg__note">' + c.started + '</p>' : '') +
+        '<p>' + c.dlgIntro + '</p>' +
+        '<div class="f1-mk-ctl f1-mk-ctl--range"><label class="f1-stat__l" for="f1-mk-dlg-edge">' + c.edge +
+        ' <output data-dlg-edge-out>' + val + ' pts</output></label>' +
+        '<input type="range" id="f1-mk-dlg-edge" data-dlg-edge min="0" max="20" step="1" value="' + val + '" aria-describedby="f1-mk-dlg-edge-help" />' +
+        '<p class="f1-mk-help" id="f1-mk-dlg-edge-help">' + c.liveEdgeHelp + '</p></div>' +
+        '<div data-dlg-tables>' + tables() + '</div>' + warning(c) + '</div>';
+    }
+    function show() {
+      if (dlg.open) return;
+      if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+    }
+    function close() {
+      if (typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open");
+    }
+
+    dlg.addEventListener("click", function(e) {
+      if (e.target === dlg) { close(); return; }         // the backdrop: the inner box covers the rest
+      var b = e.target.closest("[data-dlg]");
+      if (!b) return;
+      var act = b.getAttribute("data-dlg");
+      if (act === "yes") { setAgeOk(); calcView(); dlg.querySelector("[data-dlg-edge]").focus(); }
+      else close();
+    });
+    dlg.addEventListener("input", function(e) {
+      if (!e.target.hasAttribute("data-dlg-edge")) return;
+      edge = Number(e.target.value) / 100;
+      dlg.querySelector("[data-dlg-edge-out]").textContent = e.target.value + " pts";
+      dlg.querySelector("[data-dlg-tables]").innerHTML = tables();
+    });
+    return function open() {
+      if (ageOk()) calcView(); else ageView();
+      show();
+    };
+  }
+
   var root = document.getElementById("f1-market");
   if (!root) return;
   var lang = getLang();
@@ -287,8 +422,12 @@
     .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function(data) {
       if (!data.market || !data.market.length) { root.closest("section").hidden = true; return; }
-      root.innerHTML = '<p class="f1-mk-intro">' + c.intro + '</p>' + warning(c) + controls(c, s) + '<div data-mk-out></div>';
+      var live = liveRace(data);
+      var openLive = live ? liveDialog(live, c, lang) : null;
+      root.innerHTML = '<p class="f1-mk-intro">' + c.intro + '</p>' + (live ? liveBlock(live, c, lang) : '') +
+        warning(c) + controls(c, s) + '<div data-mk-out></div>';
       root.addEventListener("click", function(e) {
+        if (openLive && e.target.closest("[data-mk-live]")) { openLive(); return; }
         var b = e.target.closest("button[data-mk-market], button[data-mk-when], button[data-mk-top]");
         if (!b) return;
         var key = b.hasAttribute("data-mk-market") ? "market" : b.hasAttribute("data-mk-when") ? "when" : "top";
