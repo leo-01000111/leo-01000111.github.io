@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="/assets/components.css" />
 <link rel="stylesheet" href="/assets/style.css" />
   <script defer src="/assets/main.js"></script>
+  <script defer src="/assets/f1-market.js"></script>
 </head>
 <body data-project-id="4" data-project-slug="f1predictor">
 <a class="skip-link" href="#main">Aller au contenu principal</a>
@@ -90,6 +91,18 @@
       </div>
     </section>
 
+    <!-- Model vs market betting calculator (rendered by /assets/f1-market.js from /projects/f1-predictions.json) -->
+    <section class="proj-section" aria-labelledby="f1-market-title">
+      <div class="card f1-live f1-mk">
+        <h2 id="f1-market-title">Model vs market</h2>
+        <div id="f1-market">
+          <div class="skel-body" aria-hidden="true">
+            <div class="skel" style="height:13px;width:80%;"></div>
+            <div class="skel" style="height:160px;width:100%;margin-top:14px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- Context -->
     <section class="proj-section">
       <div class="card">
@@ -225,7 +238,6 @@
         dnf: "DNF",
         season: function(y) { return "Season " + y; },
         winners: "winners called", podiumAvg: "podium drivers per race",
-        replayNote: function(n, total) { return (n === total ? "All " + n + " races" : n + " of " + total + " races") + " predicted after the fact with the current model, from pre-race data only. Races after that are live predictions."; },
         legendPred: "on the predicted podium", legendHit: "winner called",
         predicted: "Predicted",
         looksAt: "What the model looks at",
@@ -251,7 +263,6 @@
         dnf: "Abandon",
         season: function(y) { return "Saison " + y; },
         winners: "vainqueurs trouvés", podiumAvg: "pilotes du podium par course",
-        replayNote: function(n, total) { return (n === total ? "Les " + n + " courses" : n + " courses sur " + total) + " ont été prédites après coup avec le modèle actuel, à partir des seules données d'avant-course. Les courses suivantes sont des prédictions en direct."; },
         legendPred: "sur le podium prédit", legendHit: "vainqueur trouvé",
         predicted: "Prédit",
         looksAt: "Ce que regarde le modèle",
@@ -435,7 +446,6 @@
         h += '<div class="f1-stats">' +
           bigStat(escHtml(s.winners) + '<small>/' + escHtml(s.races) + '</small>', c.winners) +
           bigStat(num(s.podium_overlap_avg || 0, 1, lang) + '<small>/3</small>', c.podiumAvg) + '</div>';
-        if (s.replayed) h += '<p class="f1-live__meta">' + escHtml(c.replayNote(s.replayed, s.races)) + '</p>';
         h += seasonStrip(rec, c);
       }
 

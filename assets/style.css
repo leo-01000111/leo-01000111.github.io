@@ -529,6 +529,39 @@ h1{
 .f1-imp__b > span{ display:block; height:100%; background: var(--edge); }
 .f1-imp__v{ font-family: var(--font-mono); font-size:0.75rem; color: var(--ink-muted); text-align:right; }
 
+/* Model vs market (assets/f1-market.js) */
+.f1-mk-intro{ max-width:560px; margin: var(--space-3) auto 0; color: var(--ink-muted); line-height:1.6; }
+.f1-mk-warn{ max-width:560px; margin: var(--space-4) auto 0; padding: var(--space-3) var(--space-4); text-align:left; font-size:0.82rem; line-height:1.55; color: var(--ink); box-shadow: inset var(--stroke-sign) 0 0 var(--hold), inset 0 0 0 var(--stroke-hair) var(--rule); }
+.f1-mk-warn p{ margin:0 0 var(--space-2); }
+.f1-mk-warn ul{ margin:0; padding:0; list-style:none; font-family: var(--font-mono); font-size:0.74rem; }
+.f1-mk-warn li{ padding:2px 0; }
+.f1-mk-warn li span{ color: var(--ink-muted); }
+.f1-mk-ctls{ display:grid; grid-template-columns: 1fr; gap: var(--space-4); max-width:560px; margin: var(--space-5) auto var(--space-4); text-align:left; }
+@media (min-width: 640px){ .f1-mk-ctls{ grid-template-columns: 1fr 1fr; } }
+.f1-mk-ctl{ display:flex; flex-direction:column; gap: var(--space-2); align-items:flex-start; min-width:0; }
+.f1-mk-ctl .hp-lang button{ font-family: var(--font-mono); font-size:0.74rem; }
+.f1-mk-ctl output{ font-weight:700; color: var(--ink); }
+.f1-mk-ctl input[type="range"]{ width:100%; margin:0; accent-color: var(--ink); }
+.f1-mk-help{ margin:0; font-size:0.72rem; line-height:1.5; color: var(--ink-muted); }
+.f1-mk .f1-stat__v.is-up, .f1-mk td.is-up{ color: var(--lamp-go); }
+.f1-mk .f1-stat__v.is-down, .f1-mk td.is-down{ color: var(--hold-ink); }
+.f1-mk-table{ max-width:560px; margin: 0 auto; }
+.f1-mk-table td:first-child{ width:auto; color: var(--ink); font-family: var(--font-sans); }
+.f1-mk-table td:not(:first-child), .f1-mk-table th:not(:first-child), .f1-mk-bets td{ white-space:nowrap; }
+.f1-mk-key{ display:inline-block; width:14px; height:0; margin-right: var(--space-2); vertical-align:middle; border-top:3px solid var(--edge); }
+.f1-mk-key--model{ border-top:2px dashed var(--ink); }
+.f1-mk-key--market{ border-top:2px dotted var(--ink-muted); }
+.f1-mk-sub{ margin: var(--space-5) 0 var(--space-2); font-family: var(--font-mono); font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color: var(--ink-muted); }
+.f1-mk-chart{ display:block; width:100%; max-width:640px; height:auto; margin:0 auto; }
+.f1-mk-zero{ stroke: var(--rule); stroke-width:1; }
+.f1-mk-ax{ fill: var(--ink-muted); font-family: var(--font-mono); font-size:10px; }
+.f1-mk-line{ fill:none; stroke-linejoin:round; stroke-linecap:round; }
+.f1-mk-line--value{ stroke: var(--edge); stroke-width:2.5; }
+.f1-mk-line--model{ stroke: var(--ink); stroke-width:1.5; stroke-dasharray:5 4; }
+.f1-mk-line--market{ stroke: var(--ink-muted); stroke-width:1.5; stroke-dasharray:1 4; }
+.f1-mk-bets{ max-width:560px; margin-top: var(--space-4); }
+.f1-mk-bets td:first-child{ width:auto; }
+
 @media (max-width: 560px){
   .f1-podium{ gap: var(--space-1); }
   .f1-step__drv{ font-size:1.3rem; }
@@ -536,6 +569,10 @@ h1{
   .f1-stat__v{ font-size:1.8rem; }
   .f1-strip{ grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); }
   .f1-imp li{ grid-template-columns: 8em 1fr 3em; }
+  .f1-mk-table{ font-size:0.74rem; }
+  .f1-mk-table th, .f1-mk-table td{ padding:4px 4px; }
+  .f1-mk-table th:nth-child(3), .f1-mk-table td:nth-child(3){ display:none; }
+  .f1-mk-bets .f1-grid__t td{ padding:4px 4px; font-size:0.74rem; }
 }
 
 /* ── See-also strip ── */
