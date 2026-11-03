@@ -111,8 +111,9 @@ html.corridor .home-columns__major{
   opacity: calc(1 - var(--d, 0) * .25);
 }
 html.corridor .home-columns__major.is-parked{ pointer-events: none; }
-html.corridor .home-contrib,
-html.corridor .home-flip{ margin-top: var(--space-4); }
+html.corridor .home-contrib{ margin-top: var(--space-4); }
+/* The flip board says what the timeline already says; its room goes to Cedric. */
+html.corridor .home-flip{ display: none; }
 html.corridor .home-cedric{ margin-top: calc(var(--space-4) + 40px); }
 html.corridor .home-cedric .cedric{ --cedric-size: min(100%, 210px); }
 
