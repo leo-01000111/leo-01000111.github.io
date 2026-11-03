@@ -69,6 +69,20 @@ html.corridor .home-columns{
   opacity: var(--so, 1);
 }
 
+/* While a step plays (html.corridor-moving), every moving layer is drawn
+   once and only re-projected per frame. Without this, Chrome re-draws a
+   swinging door's whole layer every frame at a new scale, which on large
+   windows shows as clipped tiles and snapping text. At rest the hint is
+   dropped, so each layer is re-drawn sharp at its final size. */
+html.corridor-moving .home-hero__major,
+html.corridor-moving .home-hero__minor,
+html.corridor-moving .home-projects .hp-card,
+html.corridor-moving .home-projects__all,
+html.corridor-moving .home-columns__major,
+html.corridor-moving .home-hero,
+html.corridor-moving .home-projects,
+html.corridor-moving .home-columns{ will-change: transform; }
+
 /* ── 1–2. Hero: double doors ── */
 html.corridor .home-hero__row{ perspective: 1600px; }
 html.corridor .home-hero__major,

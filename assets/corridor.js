@@ -200,8 +200,10 @@
     var dist = Math.abs(i - S.lvl);
     cur = i;
     if (lvlTween) lvlTween.kill();
+    root.classList.add("corridor-moving"); // see corridor.css: layers raster once per step
     var vars = { lvl: i, duration: STEP_DUR + JUMP_DUR * Math.max(0, dist - 1), ease: STEP_EASE,
-                 onUpdate: render, onComplete: after || null };
+                 onUpdate: render,
+                 onComplete: function () { root.classList.remove("corridor-moving"); if (after) after(); } };
     if (i < 3) { // leaving the timeline: it rolls back to its top on the way
       gsap.killTweensOf(S, "p4");
       p4T = 0;
@@ -483,7 +485,7 @@
     ["is-live", "is-parked", "is-on", "is-pinned", "is-releasing", "is-sinking"].forEach(function (c) {
       document.querySelectorAll("." + c).forEach(function (el) { el.classList.remove(c); });
     });
-    root.classList.remove("corridor", "corridor-boot");
+    root.classList.remove("corridor", "corridor-boot", "corridor-moving");
     if ("scrollRestoration" in history) history.scrollRestoration = "auto";
     state = "free";
     var el = docked || deep ? E.contact : lvl > 2.5 ? E.bg : lvl > 1.5 ? E.cols : lvl > 0.5 ? E.projects : null;
