@@ -115,7 +115,7 @@ html.corridor .home-contrib{ margin-top: var(--space-4); }
 /* The flip board says what the timeline already says; its room goes to Cedric. */
 html.corridor .home-flip{ display: none; }
 html.corridor .home-cedric{ margin-top: calc(var(--space-4) + 40px); }
-html.corridor .home-cedric .cedric{ --cedric-size: min(100%, 210px); }
+html.corridor .home-cedric .cedric{ --cedric-size: min(100%, 245px); }
 
 /* Timeline: laid out at its zoomed width, scaled down when side by side. */
 html.corridor .home-columns__minor{ position: relative; }
