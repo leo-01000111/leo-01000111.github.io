@@ -1,0 +1,148 @@
+/* ══════════════════════════════════════════════════════════════════════
+   CORRIDOR MODE (home page, large desktop only) — a scroll-driven 3D layer
+   over the normal home page DOM. corridor.js adds html.corridor only when
+   the gate matches; every rule here is scoped under it, so the normal site
+   is untouched. To remove the feature: delete this file, corridor.js and
+   their two tags in index.html / fr/index.html.
+
+   corridor.js writes the progress variables on <main>:
+     --p1 hero -> projects, --p2 projects -> columns, --p3 skills door +
+     timeline zoom (all 0..1), --p4 timeline scroll (px). Sections get
+     --sy/--sz/--so/--fit (offset, depth, opacity, fit scale); doors get
+     --d (swing 0..1) and --o (opacity), always set explicitly by the JS.
+   ══════════════════════════════════════════════════════════════════════ */
+
+html.corridor{ scroll-behavior: auto; }
+
+/* Page frame: full-bleed stage, no footer, no markings. */
+html.corridor .wrap{ max-width: none; padding: 0; }
+html.corridor .home-marking,
+html.corridor .site-footer{ display: none; }
+
+/* Fixed flat nav, outside the 3D scene. */
+html.corridor .site-header{
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  padding: var(--space-3) calc((100% - min(100%, var(--content-max))) / 2 + var(--space-6));
+  background: var(--ground);
+  box-sizing: border-box;
+}
+
+/* The stage: sticky, one viewport tall, clipped. */
+html.corridor main{
+  position: sticky; top: 0;
+  height: 100vh;
+  overflow: clip;
+  perspective: 1600px;
+  perspective-origin: 50% 50%;
+}
+html.corridor .corridor-spacer{ pointer-events: none; }
+
+/* Every section is a layer of the stage, in the content column. */
+html.corridor main > section{
+  position: absolute;
+  top: 0;
+  left: var(--gx); right: var(--gx);
+  margin: 0;
+  pointer-events: none;
+  transform-origin: 50% 0;
+}
+html.corridor main > section.is-live{ pointer-events: auto; }
+
+/* Incoming sections come forward from depth: --z is 0 at rest. */
+html.corridor .home-hero,
+html.corridor .home-projects,
+html.corridor .home-columns{
+  transform: translate3d(0, var(--sy, 0px), calc(var(--sz, 0) * -1600px)) scale(var(--fit, 1));
+  opacity: var(--so, 1);
+}
+
+/* ── 1–2. Hero: double doors ── */
+html.corridor .home-hero__row{ perspective: 1600px; }
+html.corridor .home-hero__major,
+html.corridor .home-hero__minor{ opacity: var(--o, 1); }
+html.corridor .home-hero__major{
+  transform-origin: 0 50%;
+  transform: rotateY(calc(var(--d, 0) * 88deg));
+}
+html.corridor .home-hero__minor{
+  transform-origin: 100% 50%;
+  transform: rotateY(calc(var(--d, 0) * -88deg));
+}
+
+/* ── 3. Projects: denser cards so three fit one screen; staggered doors ── */
+html.corridor .home-projects,
+html.corridor .home-projects .hp-card-list{ perspective: 1600px; }
+html.corridor .home-projects .hp-card-list{ grid-template-rows: auto; gap: var(--space-3); }
+html.corridor .home-projects .hp-card{ min-height: 0; }
+html.corridor .home-projects .hp-card__body{ padding: var(--space-4) var(--space-5) var(--space-3); gap: var(--space-2); }
+html.corridor .home-projects .hp-card__title{ font-size: 22px; }
+html.corridor .home-projects .hp-card__summary{ font-size: 15px; line-height: 23px; }
+html.corridor .home-projects .hp-card__index span{ font-size: 128px; bottom: -20px; }
+html.corridor .home-projects__all{ margin-top: var(--space-3); }
+html.corridor .home-projects .hp-card,
+html.corridor .home-projects__all{
+  transform-origin: 0 50%;
+  transform: rotateY(calc(var(--d, 0) * 88deg));
+  opacity: var(--o, 1);
+}
+/* the hover lift would fight the door transform */
+html.corridor .home-projects a.hp-card:hover,
+html.corridor .home-projects a.hp-card:focus-visible{ transform: rotateY(calc(var(--d, 0) * 88deg)) translate(-2px, -2px); }
+
+/* ── 4–5. Columns: skills door + timeline zoom ── */
+html.corridor .home-columns{ perspective: 1600px; align-items: start; }
+html.corridor .home-columns__major{
+  transform-origin: 0 0;
+  transform:
+    translateX(calc(var(--d, 0) * var(--door-dx, -120px)))
+    scale(calc(var(--fitm, 1) * (1 - var(--d, 0) * .14)))
+    rotateY(calc(var(--d, 0) * 36deg));
+  opacity: calc(1 - var(--d, 0) * .25);
+}
+html.corridor .home-columns__major.is-parked{ pointer-events: none; }
+html.corridor .home-contrib,
+html.corridor .home-flip{ margin-top: var(--space-4); }
+html.corridor .home-cedric{ margin-top: calc(var(--space-4) + 40px); }
+html.corridor .home-cedric .cedric{ --cedric-size: min(100%, 210px); }
+
+/* Timeline: laid out at its zoomed width, scaled down when side by side. */
+html.corridor .home-columns__minor{ position: relative; }
+html.corridor .home-background{
+  width: var(--tl-w, 820px);
+  transform-origin: 0 0;
+  transform:
+    translate3d(calc(var(--tl-x, 0px) * var(--z3, 0)), calc(var(--tl-y, 0px) * var(--z3, 0) - var(--p4, 0) * 1px), 0)
+    scale(calc(var(--tl-s, 1) + (1 - var(--tl-s, 1)) * var(--z3, 0)));
+}
+html.corridor .home-background .home-tl-title{ font-size: 19px; }
+
+/* ── 5–7. Contact box: same width as the timeline, under it ── */
+html.corridor .home-contact{
+  left: var(--ct-x); right: auto;
+  width: var(--tl-w, 820px);
+  z-index: 5;
+  box-sizing: border-box;
+  padding: var(--space-4) var(--space-5);
+  background: var(--ground);
+  box-shadow: inset 0 0 0 var(--stroke-bold) var(--ink);
+  transform: translate3d(0, calc(var(--ct-y0, 0px) - var(--p4, 0) * 1px), 0);
+  visibility: hidden;
+}
+html.corridor .home-contact.is-on{ visibility: visible; }
+html.corridor .home-contact.is-pinned{ transform: translate3d(0, var(--ct-pin, 0px), 0); }
+html.corridor .home-contact.is-releasing{ transition: transform .45s cubic-bezier(.3,.7,.2,1); }
+html.corridor .home-contact.is-sinking{ transition: transform 1.3s cubic-bezier(.55,0,.85,.35); }
+/* Opaque apron below the box: covers the older entries once docked. */
+html.corridor .home-contact::after{
+  content: ""; position: absolute; left: 0; right: 0; top: 100%;
+  height: 100vh; background: var(--ground);
+}
+html.corridor .home-contact__major{ gap: var(--space-3); }
+html.corridor .home-contact__row{ grid-template-columns: 5fr 6fr; gap: var(--space-5); align-items: center; }
+html.corridor .home-contact__title{ font-size: 36px; line-height: 1.05; }
+html.corridor .home-contact__lede{ font-size: 15px; line-height: 22px; }
+html.corridor .home-contact .hp-btn{ min-height: 40px; }
+html.corridor .home-contact .hp-plate{ padding: var(--space-2) var(--space-3) var(--space-1); }
+html.corridor .home-contact .hp-plate__head{ padding-bottom: var(--space-1); }
+html.corridor .home-contact .hp-plate dt,
+html.corridor .home-contact .hp-plate dd{ padding: 3px 0; line-height: 18px; }
