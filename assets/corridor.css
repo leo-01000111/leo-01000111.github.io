@@ -23,13 +23,15 @@ html.corridor .site-footer{ display: none; }
 
 /* Nav and stage are laid out on a virtual screen (--stage-w x --stage-h,
    at least 1536x864) and scaled by --cs to fill the window, so a bigger
-   window gets bigger content rather than more empty space. */
+   window gets bigger content rather than more empty space. The scale is CSS
+   zoom, not a transform: text and 3D layers are drawn at the final screen
+   resolution instead of being stretched from the virtual size. */
 
 /* Fixed flat nav, outside the 3D scene. */
 html.corridor .site-header{
   position: fixed; top: 0; left: 0; z-index: 60;
   width: var(--stage-w);
-  transform: scale(var(--cs, 1)); transform-origin: 0 0;
+  zoom: var(--cs, 1);
   padding: var(--space-3) var(--gx);
   background: var(--ground);
   box-sizing: border-box;
@@ -42,7 +44,7 @@ html.corridor .hp-signarray a[href="#skills"]{ display: none; }
 html.corridor main{
   position: sticky; top: 0;
   width: var(--stage-w); height: var(--stage-h);
-  transform: scale(var(--cs, 1)); transform-origin: 0 0;
+  zoom: var(--cs, 1);
   overflow: clip;
   perspective: 1600px;
   perspective-origin: 50% 50%;
