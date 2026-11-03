@@ -20,7 +20,7 @@ html.corridor .home-marking,
 html.corridor .site-footer{ display: none; }
 
 /* Nav and stage are laid out on a virtual screen (--stage-w x --stage-h,
-   at least 1366x768) and scaled by --cs to fill the window, so a bigger
+   at least 1536x864) and scaled by --cs to fill the window, so a bigger
    window gets bigger content rather than more empty space. */
 
 /* Fixed flat nav, outside the 3D scene. */
@@ -32,6 +32,9 @@ html.corridor .site-header{
   background: var(--ground);
   box-sizing: border-box;
 }
+
+/* Skills and Contact land on the same level here: keep only Contact. */
+html.corridor .hp-signarray a[href="#skills"]{ display: none; }
 
 /* The stage: sticky, one screen tall, clipped. */
 html.corridor main{

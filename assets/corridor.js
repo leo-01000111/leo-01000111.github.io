@@ -22,7 +22,7 @@
   function inOutSine(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
 
   var TL_W = 820;     // timeline layout width = its zoomed size
-  var BASE_W = 1366, BASE_H = 768, MAX_SCALE = 2.2; // virtual screen; scaled up to the window
+  var BASE_W = 1536, BASE_H = 864, MAX_SCALE = 2.2; // virtual screen; scaled up to the window
   var M = 24;         // breathing room above / below a resting section
   var on = false, E = null, L = null, spacer = null;
   var touched = [];   // [element, property] pairs to clear on deactivate
