@@ -30,7 +30,6 @@
   var idleTimer = 0, lastWheel = 0;
   var state = "free"; // contact box: free | rewinding | docked | sinking
   var entered = false, graceTimer = 0, sinkTimer = 0, waitingSink = false, hoverArmed = true;
-  var push = 0, pushTarget = 0, pushRaf = 0; // extra timeline drop when the box froze below the dock line
   var lock = false, quietTimer = 0, acc = 0, accTimer = 0; // guided level steps
 
   function setv(el, k, v) {
@@ -152,7 +151,7 @@
     var S = L.S;
     var p1 = seg(y, S.a1, S.b1), p2 = seg(y, S.a2, S.b2), p3 = seg(y, S.a3, S.b3);
     var p4 = clamp(y - S.s3, 0, L.len4);
-    setv(E.main, "--p4", String(p4 - push));
+    setv(E.main, "--p4", String(p4));
 
     // Hero: doors swing in, fade late.
     var d1 = inOutCubic(p1), o1 = 1 - smooth(seg(p1, 0.55, 1));
@@ -239,37 +238,20 @@
     if (state !== "free") return;
     var y = window.scrollY;
     var top = L.ctY0 - clamp(y - L.S.s3, 0, L.len4);
-    // The box freezes where it is and the timeline runs back beneath it. It
-    // only moves if it is partly off screen or the timeline can't reach it.
-    var boxTop = Math.max(Math.min(top, L.vh - L.ctH - M), L.dockLine - L.len4);
-    // Box lower than the 3rd entry can ever reach: the timeline drops past its top.
-    var drop = Math.max(0, boxTop - L.dockLine);
-    L.dockY = L.S.s3 + Math.max(0, L.dockLine - boxTop);
+    // The box freezes where it is and the timeline runs back beneath it. The
+    // timeline never goes past its own top: if the 3rd entry can't come down
+    // to the box, the box closes the gap itself.
+    var boxTop = clamp(Math.min(top, L.vh - L.ctH - M), L.dockLine - L.len4, L.dockLine);
+    L.dockY = L.S.s3 + (L.dockLine - boxTop);
     state = "rewinding";
     entered = E.contact.matches(":hover");
     pin(top);
     render(true);
     var dist = y - L.dockY;
     glide(L.dockY, clamp(1200 + Math.abs(dist) * 2.4, 1400, 4200), inOutSine,
-      function (e) {
-        push = pushTarget = drop * e;
-        if (boxTop !== top) setv(E.contact, "--ct-pin", lerp(top, boxTop, e) + "px");
-      },
+      boxTop === top ? null : function (e) { setv(E.contact, "--ct-pin", lerp(top, boxTop, e) + "px"); },
       function () { state = "docked"; });
   }
-  // The drop eases toward pushTarget (taken up by the next scroll down).
-  function pushTo(v) {
-    pushTarget = Math.max(0, v);
-    if (!pushRaf) pushRaf = requestAnimationFrame(pushStep);
-  }
-  function pushStep() {
-    pushRaf = 0;
-    push += (pushTarget - push) * 0.18;
-    if (Math.abs(pushTarget - push) < 0.5) push = pushTarget;
-    else pushRaf = requestAnimationFrame(pushStep);
-    render(true);
-  }
-  function clearPush() { cancelAnimationFrame(pushRaf); pushRaf = 0; push = pushTarget = 0; }
   function release() { // user took over mid-rewind: the box goes back under the timeline
     stopGlide();
     clearTimeout(graceTimer); waitingSink = false;
@@ -334,12 +316,10 @@
   }
   function goLevel(i) {
     i = clamp(i, 0, 3);
-    var to = L.stops[i], p0 = push;
+    var to = L.stops[i];
     lock = true;
     clearTimeout(quietTimer);
-    var a = glide(to, 1150, inOutCubic,
-      p0 ? function (e) { push = pushTarget = p0 * (1 - e); } : null,
-      quiet);
+    var a = glide(to, 1150, inOutCubic, null, quiet);
     a.guided = true;
   }
   function step(dir) {
@@ -355,11 +335,6 @@
     if (lock) { // a guided step is playing, or its inertia tail is still coming in
       quiet();
       if (y < S.s3 + 2 || (anim && anim.guided)) { e.preventDefault(); return; }
-    }
-    if (push > 0 && y >= S.s3 - 1 && dy > 0) { // a dropped timeline is taken up first
-      e.preventDefault();
-      pushTo(pushTarget - dy);
-      return;
     }
     if (y > S.s3 + 1) { // timeline: native scroll, but it stops at the timeline's top
       stopGlide();
@@ -386,11 +361,7 @@
     var dir = e.key === " " && e.shiftKey ? -1 : KEY_DIR[e.key];
     if (e.key === "Home") { e.preventDefault(); goLevel(0); return; }
     if (e.key === "End") { e.preventDefault(); stopGlide(); glide(S.end, glideDur(y - S.end) + 300, inOutCubic); return; }
-    if (y > S.s3 + 1 || (y >= S.s3 - 1 && dir > 0)) { // timeline: native, drop taken up first
-      if (push > 0 && dir > 0) { e.preventDefault(); pushTo(pushTarget - 120); }
-      else stopGlide();
-      return;
-    }
+    if (y > S.s3 + 1 || (y >= S.s3 - 1 && dir > 0)) { stopGlide(); return; } // timeline: native
     e.preventDefault();
     if (!lock || !(anim && anim.guided)) step(dir);
   }
@@ -399,7 +370,6 @@
     if (!on) return;
     if (anim ? Math.abs(window.scrollY - anim.set) > 3
              : state === "docked" && Math.abs(window.scrollY - L.dockY) > 3) userScrolled();
-    if (!anim && push > 0 && performance.now() - lastWheel > 300 && window.scrollY < L.S.s3 - 1) pushTo(0);
     req();
     clearTimeout(idleTimer);
     idleTimer = setTimeout(onIdle, 180);
@@ -467,7 +437,6 @@
       state = "free";
       E.contact.classList.remove("is-pinned", "is-sinking", "is-releasing");
     }
-    clearPush();
     if (!anim) window.scrollTo(0, Math.round(fromLogical(v)));
     render(true);
   }
@@ -519,7 +488,6 @@
     root.classList.remove("corridor");
     if ("scrollRestoration" in history) history.scrollRestoration = "auto";
     lastY = -1; state = "free";
-    clearPush();
     var el = docked || v > 3.9 ? E.contact : v > 2.5 ? E.bg : v > 1.5 ? E.cols : v > 0.5 ? E.projects : null;
     window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + window.scrollY - 16) : 0);
   }
