@@ -22,6 +22,7 @@
   function inOutSine(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
 
   var TL_W = 820;     // timeline layout width = its zoomed size
+  var BASE_W = 1366, BASE_H = 768, MAX_SCALE = 2.2; // virtual screen; scaled up to the window
   var M = 24;         // breathing room above / below a resting section
   var on = false, E = null, L = null, spacer = null;
   var touched = [];   // [element, property] pairs to clear on deactivate
@@ -56,7 +57,14 @@
 
   // ── layout: everything that depends on sizes, not on scroll ──
   function layout() {
-    var vw = root.clientWidth, vh = window.innerHeight;
+    // Real window -> virtual screen. All geometry below is virtual px; only
+    // scroll distances (the stops) are real px.
+    var rvw = root.clientWidth, rvh = window.innerHeight;
+    var k = clamp(Math.min(rvw / BASE_W, rvh / BASE_H), 1, MAX_SCALE);
+    var vw = rvw / k, vh = rvh / k;
+    setv(root, "--cs", String(k));
+    setv(root, "--stage-w", vw + "px");
+    setv(root, "--stage-h", vh + "px");
     var cs = getComputedStyle(root);
     var cmax = parseFloat(cs.getPropertyValue("--content-max")) || 1232;
     var gut = parseFloat(cs.getPropertyValue("--space-6")) || 52;
@@ -64,7 +72,7 @@
     var navH = E.header.offsetHeight;
     var avail = vh - navH;
     var m = E.main;
-    setv(m, "--gx", gx + "px");
+    setv(root, "--gx", gx + "px");
     setv(m, "--tl-w", TL_W + "px");
 
     function rest(sec) {
@@ -81,7 +89,7 @@
     var fitm = Math.min(1, (avail - 2 * M) / E.colMajor.offsetHeight);
     setv(E.colMajor, "--fitm", String(fitm));
     setv(E.colMajor, "--door-dx", (-Math.min(0.5 * gx, 48)) + "px");
-    var parked = measureParked(colY);
+    var parked = measureParked(colY, k);
 
     // Timeline: side by side it is scaled down into its column; zoomed it is
     // 1:1, in the free space right of the parked skills door.
@@ -118,16 +126,16 @@
     var e3 = last ? (E.timeline.offsetTop - E.bg.offsetTop + last.offsetTop + last.offsetHeight
                      - parseFloat(getComputedStyle(last).paddingBottom)) : 0;
 
-    var V = vh;
+    var V = rvh;
     var S = { a1: 0.12 * V, b1: 1.12 * V, s1: 1.3 * V, a2: 1.48 * V, b2: 2.48 * V, s2: 2.66 * V, a3: 2.84 * V, b3: 3.84 * V };
     S.s3 = S.b3;
-    S.end = S.s3 + len4;
-    L = { vw: vw, vh: vh, navH: navH, heroY: heroY, projY: projY, colY: colY, S: S, len4: len4,
+    S.end = S.s3 + len4 * k;
+    L = { k: k, vw: vw, vh: vh, len4s: len4 * k, navH: navH, heroY: heroY, projY: projY, colY: colY, S: S, len4: len4,
           ctY0: ctY0, ctH: ctH, dockLine: tlTopZ + e3 + 16, stops: [0, S.s1, S.s2, S.s3] };
-    spacer.style.height = S.end + "px";
+    spacer.style.height = (S.end + rvh - vh) + "px"; // <main> takes vh of flow
   }
   // Where the skills door ends up when parked: put it there for one read.
-  function measureParked(colY) {
+  function measureParked(colY, k) {
     var saved = [[E.cols, "--sz"], [E.cols, "--sy"], [E.colMajor, "--d"]].map(function (p) {
       return [p[0], p[1], p[0].style.getPropertyValue(p[1])];
     });
@@ -138,7 +146,7 @@
     var ced = E.colMajor.querySelector(".home-cedric .cedric") || E.colMajor.querySelector(".home-cedric") || E.colMajor;
     var c = ced.getBoundingClientRect();
     saved.forEach(function (p) { if (p[2]) p[0].style.setProperty(p[1], p[2]); else p[0].style.removeProperty(p[1]); });
-    return { right: r.right, cedBottom: c.bottom };
+    return { right: r.right / k, cedBottom: c.bottom / k };
   }
 
   // ── render: scroll -> variables ──
@@ -150,7 +158,7 @@
     lastY = y;
     var S = L.S;
     var p1 = seg(y, S.a1, S.b1), p2 = seg(y, S.a2, S.b2), p3 = seg(y, S.a3, S.b3);
-    var p4 = clamp(y - S.s3, 0, L.len4);
+    var p4 = clamp((y - S.s3) / L.k, 0, L.len4);
     setv(E.main, "--p4", String(p4));
 
     // Hero: doors swing in, fade late.
@@ -237,12 +245,12 @@
   function rewind() {
     if (state !== "free") return;
     var y = window.scrollY;
-    var top = L.ctY0 - clamp(y - L.S.s3, 0, L.len4);
+    var top = L.ctY0 - clamp((y - L.S.s3) / L.k, 0, L.len4);
     // The box freezes where it is and the timeline runs back beneath it, until
     // the 3rd entry meets the box or the timeline reaches its own top. Any gap
     // left above the box fades out the older entry showing in it.
     var p4 = clamp(L.dockLine - top, 0, L.len4);
-    L.dockY = L.S.s3 + p4;
+    L.dockY = L.S.s3 + p4 * L.k;
     var e3 = L.dockLine - 16 - p4; // 3rd entry's bottom on screen once docked
     setv(E.contact, "--ct-fade", Math.max(0, top - e3) + "px");
     state = "rewinding";
@@ -332,7 +340,7 @@
   function onWheel(e) {
     if (!on) return;
     userScrolled();
-    var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? L.vh : 1);
+    var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
     var y = window.scrollY, S = L.S;
     if (lock) { // a guided step is playing, or its inertia tail is still coming in
       quiet();
@@ -422,12 +430,12 @@
   function toLogical(y) {
     var st = L.stops;
     for (var i = 0; i < 3; i++) if (y <= st[i + 1]) return i + (y - st[i]) / (st[i + 1] - st[i]);
-    return 3 + (y - st[3]) / Math.max(1, L.len4 + 1) * 0.999;
+    return 3 + (y - st[3]) / Math.max(1, L.len4s + 1) * 0.999;
   }
   function fromLogical(v) {
     var st = L.stops;
     if (v <= 3) { var i = Math.min(2, Math.floor(v)); return st[i] + (v - i) * (st[i + 1] - st[i]); }
-    return st[3] + (v - 3) / 0.999 * (L.len4 + 1);
+    return st[3] + (v - 3) / 0.999 * (L.len4s + 1);
   }
   function relayout() {
     if (!on) return;

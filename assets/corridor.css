@@ -19,18 +19,25 @@ html.corridor .wrap{ max-width: none; padding: 0; }
 html.corridor .home-marking,
 html.corridor .site-footer{ display: none; }
 
+/* Nav and stage are laid out on a virtual screen (--stage-w x --stage-h,
+   at least 1366x768) and scaled by --cs to fill the window, so a bigger
+   window gets bigger content rather than more empty space. */
+
 /* Fixed flat nav, outside the 3D scene. */
 html.corridor .site-header{
-  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-  padding: var(--space-3) calc((100% - min(100%, var(--content-max))) / 2 + var(--space-6));
+  position: fixed; top: 0; left: 0; z-index: 60;
+  width: var(--stage-w);
+  transform: scale(var(--cs, 1)); transform-origin: 0 0;
+  padding: var(--space-3) var(--gx);
   background: var(--ground);
   box-sizing: border-box;
 }
 
-/* The stage: sticky, one viewport tall, clipped. */
+/* The stage: sticky, one screen tall, clipped. */
 html.corridor main{
   position: sticky; top: 0;
-  height: 100vh;
+  width: var(--stage-w); height: var(--stage-h);
+  transform: scale(var(--cs, 1)); transform-origin: 0 0;
   overflow: clip;
   perspective: 1600px;
   perspective-origin: 50% 50%;
@@ -145,7 +152,7 @@ html.corridor .home-contact.is-pinned::before{ opacity: 1; }
 /* Opaque apron below the box: covers the older entries once docked. */
 html.corridor .home-contact::after{
   content: ""; position: absolute; left: 0; right: 0; top: 100%;
-  height: 100vh; background: var(--ground);
+  height: var(--stage-h); background: var(--ground);
 }
 html.corridor .home-contact__major{ gap: var(--space-3); }
 html.corridor .home-contact__row{ grid-template-columns: 5fr 6fr; gap: var(--space-5); align-items: center; }
