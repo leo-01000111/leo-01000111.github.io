@@ -87,13 +87,15 @@
       return navH + (avail - h * fit) / 2;
     }
     var heroY = rest(E.hero), projY = rest(E.projects);
+    var projFit = Math.min(1, (avail - 2 * M) / E.projects.offsetHeight);
 
     // Columns: top-aligned under the nav; the skills column fits by scale.
     var colY = navH + M;
     setv(E.cols, "--fit", "1");
     var fitm = Math.min(1, (avail - 2 * M) / E.colMajor.offsetHeight);
     setv(E.colMajor, "--fitm", String(fitm));
-    setv(E.colMajor, "--door-dx", (-Math.min(0.5 * gx, 48)) + "px");
+    var doorDx = -Math.min(0.5 * gx, 48);
+    setv(E.colMajor, "--door-dx", doorDx + "px");
     var parked = measureParked(colY, k);
 
     // Timeline: side by side it is scaled down into its column; zoomed it is
@@ -132,7 +134,8 @@
                      - parseFloat(getComputedStyle(last).paddingBottom)) : 0;
 
     L = { k: k, vw: vw, vh: vh, navH: navH, heroY: heroY, projY: projY, colY: colY, len4: len4,
-          ctY0: ctY0, ctH: ctH, dockLine: tlTopZ + e3 + 16 };
+          ctY0: ctY0, ctH: ctH, dockLine: tlTopZ + e3 + 16,
+          projFit: projFit, fitm: fitm, doorDx: doorDx, tlS: tlS, tlX: tlLeft - minorLeft, tlY: tlTopZ - tlTop0 };
   }
   // Where the skills door ends up when parked: put it there for one read.
   function measureParked(colY, k) {
@@ -149,48 +152,88 @@
     return { right: r.right / k, cedBottom: c.bottom / k };
   }
 
+  // ── pose: where everything is at a given level (one source for both paths) ──
+  function pose(lvl) {
+    var p1 = clamp(lvl, 0, 1), p2 = clamp(lvl - 1, 0, 1), p3 = clamp(lvl - 2, 0, 1);
+    var d1 = seg(p1, 0, 0.8);                       // hero doors swing, fade late
+    var q1 = seg(p1, 0.3, 1), q2 = seg(p2, 0.35, 1); // projects / columns come from depth
+    var n = E.doors.length, step = 0.3 / Math.max(1, n - 1);
+    var cards = E.doors.map(function (el, i) {      // cards swing out one by one
+      var t = seg(p2, i * step, i * step + 0.6);
+      return { d: t, o: 1 - smooth(seg(t, 0.55, 1)) };
+    });
+    return { p1: p1, p2: p2, p3: p3, d1: d1, o1: 1 - smooth(seg(d1, 0.55, 1)),
+             sz1: 1 - q1, so1: smooth(seg(q1, 0, 0.5)), sz2: 1 - q2, so2: smooth(seg(q2, 0, 0.5)),
+             cards: cards, d3: p3 };               // skills door + timeline zoom
+  }
+
   // ── render: state -> variables (all easing comes from the GSAP tween) ──
   function render() {
     if (!on) return;
-    var p1 = clamp(S.lvl, 0, 1), p2 = clamp(S.lvl - 1, 0, 1), p3 = clamp(S.lvl - 2, 0, 1);
+    var P = pose(S.lvl);
     setv(E.main, "--p4", String(S.p4));
 
-    // Hero: doors swing in, fade late.
-    var d1 = seg(p1, 0, 0.8), o1 = 1 - smooth(seg(d1, 0.55, 1));
-    [E.heroMajor, E.heroMinor].forEach(function (el) { setv(el, "--d", String(d1)); setv(el, "--o", String(o1)); });
+    [E.heroMajor, E.heroMinor].forEach(function (el) { setv(el, "--d", String(P.d1)); setv(el, "--o", String(P.o1)); });
     setv(E.hero, "--sy", L.heroY + "px");
-    show(E.hero, p1 < 1);
-    E.hero.classList.toggle("is-live", p1 < 0.02);
+    show(E.hero, P.p1 < 1);
+    E.hero.classList.toggle("is-live", P.p1 < 0.02);
 
-    // Projects: from depth during p1, cards swing out one by one during p2.
-    var q1 = seg(p1, 0.3, 1);
     setv(E.projects, "--sy", L.projY + "px");
-    setv(E.projects, "--sz", String(1 - q1));
-    setv(E.projects, "--so", String(smooth(seg(q1, 0, 0.5))));
-    var n = E.doors.length, step = 0.3 / Math.max(1, n - 1);
+    setv(E.projects, "--sz", String(P.sz1));
+    setv(E.projects, "--so", String(P.so1));
     E.doors.forEach(function (el, i) {
-      var t = seg(p2, i * step, i * step + 0.6);
-      setv(el, "--d", String(t));
-      setv(el, "--o", String(1 - smooth(seg(t, 0.55, 1))));
+      setv(el, "--d", String(P.cards[i].d));
+      setv(el, "--o", String(P.cards[i].o));
     });
-    show(E.projects, p1 > 0.3 && p2 < 1);
-    E.projects.classList.toggle("is-live", p1 > 0.98 && p2 < 0.02);
+    show(E.projects, P.p1 > 0.3 && P.p2 < 1);
+    E.projects.classList.toggle("is-live", P.p1 > 0.98 && P.p2 < 0.02);
 
-    // Columns: from depth during p2; skills door + timeline zoom during p3.
-    var q2 = seg(p2, 0.35, 1);
     setv(E.cols, "--sy", L.colY + "px");
-    setv(E.cols, "--sz", String(1 - q2));
-    setv(E.cols, "--so", String(smooth(seg(q2, 0, 0.5))));
-    setv(E.colMajor, "--d", String(p3));
-    setv(E.cols, "--z3", String(p3));
-    E.colMajor.classList.toggle("is-parked", p3 > 0.02);
-    show(E.cols, p2 > 0.35);
-    E.cols.classList.toggle("is-live", p2 > 0.98);
+    setv(E.cols, "--sz", String(P.sz2));
+    setv(E.cols, "--so", String(P.so2));
+    setv(E.colMajor, "--d", String(P.d3));
+    setv(E.cols, "--z3", String(P.d3));
+    E.colMajor.classList.toggle("is-parked", P.p3 > 0.02);
+    show(E.cols, P.p2 > 0.35);
+    E.cols.classList.toggle("is-live", P.p2 > 0.98);
 
     // Contact: exists once the timeline is zoomed (or while pinned).
-    var ctOn = p3 >= 0.999 || state !== "free";
+    var ctOn = P.p3 >= 0.999 || state !== "free";
     E.contact.classList.toggle("is-on", ctOn);
     E.contact.classList.toggle("is-live", ctOn);
+  }
+
+  // ── Firefox: play each level step as compositor animations ──
+  // Firefox re-draws a 3D-transformed layer whenever the main thread changes
+  // it, so a door swung frame by frame clips and snaps on large windows.
+  // Web Animations of transform/opacity run on its compositor instead. The
+  // keyframes are sampled from pose() along the same ease as the GSAP tween,
+  // so the sequence is identical; GSAP still runs for everything else, and
+  // the CSS variables take over again when the step ends.
+  var OMTA = !!(window.CSS && CSS.supports && CSS.supports("-moz-appearance", "none"));
+  var omta = [];
+  function frameOf(P, p4) { // the same transforms as corridor.css, as strings
+    var f = [
+      [E.heroMajor, "rotateY(" + P.d1 * 88 + "deg)", P.o1],
+      [E.heroMinor, "rotateY(" + P.d1 * -88 + "deg)", P.o1],
+      [E.projects, "translate3d(0," + L.projY + "px," + P.sz1 * -1600 + "px) scale(" + L.projFit + ")", P.so1],
+      [E.cols, "translate3d(0," + L.colY + "px," + P.sz2 * -1600 + "px) scale(1)", P.so2],
+      [E.colMajor, "translateX(" + P.d3 * L.doorDx + "px) scale(" + L.fitm * (1 - P.d3 * 0.04) + ") rotateY(" + P.d3 * 50 + "deg)", 1 - P.d3 * 0.25],
+      [E.bg, "translate3d(" + L.tlX * P.d3 + "px," + (L.tlY * P.d3 - p4) + "px,0) scale(" + (L.tlS + (1 - L.tlS) * P.d3) + ")", 1]
+    ];
+    E.doors.forEach(function (el, i) { f.push([el, "rotateY(" + P.cards[i].d * 88 + "deg)", P.cards[i].o]); });
+    return f;
+  }
+  function stopOmta() { omta.forEach(function (a) { a.cancel(); }); omta = []; }
+  function playOmta(l1, q1, dur, ease) {
+    stopOmta();
+    var l0 = S.lvl, q0 = S.p4, fn = gsap.parseEase(ease), N = 30, tracks = null;
+    for (var k = 0; k <= N; k++) {
+      var e = fn(k / N), fr = frameOf(pose(l0 + (l1 - l0) * e), q0 + (q1 - q0) * e);
+      if (!tracks) tracks = fr.map(function (x) { return { el: x[0], kf: [] }; });
+      fr.forEach(function (x, j) { tracks[j].kf.push({ transform: x[1], opacity: x[2] }); });
+    }
+    omta = tracks.map(function (t) { return t.el.animate(t.kf, { duration: dur * 1000, fill: "forwards" }); });
   }
 
   // ── motion ──
@@ -203,12 +246,17 @@
     root.classList.add("corridor-moving"); // see corridor.css: layers raster once per step
     var vars = { lvl: i, duration: STEP_DUR + JUMP_DUR * Math.max(0, dist - 1), ease: STEP_EASE,
                  onUpdate: render,
-                 onComplete: function () { root.classList.remove("corridor-moving"); if (after) after(); } };
+                 onComplete: function () {
+                   root.classList.remove("corridor-moving");
+                   render(); stopOmta(); // CSS variables hold the final pose
+                   if (after) after();
+                 } };
     if (i < 3) { // leaving the timeline: it rolls back to its top on the way
       gsap.killTweensOf(S, "p4");
       p4T = 0;
       if (S.p4 > 0) vars.p4 = 0;
     }
+    if (OMTA) playOmta(i, i < 3 ? 0 : S.p4, vars.duration, STEP_EASE);
     lvlTween = gsap.to(S, vars);
   }
   function scrollTimeline(dv) { // dv in virtual px
@@ -372,6 +420,11 @@
   var TARGETS = { "#top": 0, "#projects": 1, "#skills": 2, "#background": 3 };
   function onClick(e) {
     if (!on) return;
+    var lang = e.target.closest && e.target.closest(".hp-lang a[hreflang]");
+    if (lang) { // EN <-> FR: the other page opens at the same level and timeline spot
+      try { sessionStorage.setItem("corridorPos", JSON.stringify({ lvl: cur, p4: p4T, t: Date.now() })); } catch (err) {}
+      return;
+    }
     var a = e.target.closest && e.target.closest('a[href^="#"]');
     if (!a) return;
     var h = a.getAttribute("href");
@@ -395,6 +448,7 @@
 
   function relayout() {
     if (!on) return;
+    stopOmta();
     layout();
     if (state !== "free") { // sizes moved under a pinned box: let it go back into the timeline
       if (rewindTween) { rewindTween.kill(); rewindTween = null; }
@@ -447,6 +501,10 @@
       else if (y >= top(E.projects)) target = 1;
     } else if (location.hash === "#contact") { target = 3; toEnd = true; }
     else if (location.hash in TARGETS) target = TARGETS[location.hash];
+    var keep = null;
+    try { keep = JSON.parse(sessionStorage.getItem("corridorPos")); sessionStorage.removeItem("corridorPos"); } catch (err) {}
+    if (!fromNormal && keep && Date.now() - keep.t < 30000) target = clamp(Math.round(keep.lvl), 0, 3);
+    else keep = null;
     root.classList.add("corridor");
     on = true;
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -454,7 +512,7 @@
     state = "free";
     layout();
     S.lvl = cur = target;
-    S.p4 = p4T = toEnd ? L.len4 : 0;
+    S.p4 = p4T = toEnd ? L.len4 : keep && target === 3 ? clamp(keep.p4, 0, L.len4) : 0;
     render();
     if (observer) observer.enable();
     if (window.ResizeObserver) {
@@ -476,6 +534,7 @@
     var lvl = S.lvl, docked = state !== "free", deep = S.p4 > L.len4 * 0.9;
     on = false;
     gsap.killTweensOf(S);
+    stopOmta();
     lvlTween = rewindTween = null;
     if (observer) observer.disable();
     clearTimeout(graceTimer); clearTimeout(sinkTimer); clearTimeout(hoverTimer);

@@ -82,6 +82,9 @@ html.corridor-moving .home-columns__major,
 html.corridor-moving .home-hero,
 html.corridor-moving .home-projects,
 html.corridor-moving .home-columns{ will-change: transform; }
+/* The cards' hover-lift transition would make their swing trail the step. */
+html.corridor-moving .home-projects .hp-card,
+html.corridor-moving .home-projects__all{ transition: none; }
 
 /* ── 1–2. Hero: double doors ── */
 html.corridor .home-hero__row{ perspective: 1600px; }
@@ -184,3 +187,4 @@ html.corridor .home-contact .hp-plate{ padding: var(--space-2) var(--space-3) va
 html.corridor .home-contact .hp-plate__head{ padding-bottom: var(--space-1); }
 html.corridor .home-contact .hp-plate dt,
 html.corridor .home-contact .hp-plate dd{ padding: 3px 0; line-height: 18px; }
+
