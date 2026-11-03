@@ -238,18 +238,20 @@
     if (state !== "free") return;
     var y = window.scrollY;
     var top = L.ctY0 - clamp(y - L.S.s3, 0, L.len4);
-    // The box freezes where it is and the timeline runs back beneath it. The
-    // timeline never goes past its own top: if the 3rd entry can't come down
-    // to the box, the box closes the gap itself.
-    var boxTop = clamp(Math.min(top, L.vh - L.ctH - M), L.dockLine - L.len4, L.dockLine);
-    L.dockY = L.S.s3 + (L.dockLine - boxTop);
+    // The box freezes where it is and the timeline runs back beneath it, until
+    // the 3rd entry meets the box or the timeline reaches its own top. Any gap
+    // left above the box fades out the older entry showing in it.
+    var p4 = clamp(L.dockLine - top, 0, L.len4);
+    L.dockY = L.S.s3 + p4;
+    var e3 = L.dockLine - 16 - p4; // 3rd entry's bottom on screen once docked
+    setv(E.contact, "--ct-fade", Math.max(0, top - e3) + "px");
     state = "rewinding";
     entered = E.contact.matches(":hover");
     pin(top);
     render(true);
     var dist = y - L.dockY;
     glide(L.dockY, clamp(1200 + Math.abs(dist) * 2.4, 1400, 4200), inOutSine,
-      boxTop === top ? null : function (e) { setv(E.contact, "--ct-pin", lerp(top, boxTop, e) + "px"); },
+      null,
       function () { state = "docked"; });
   }
   function release() { // user took over mid-rewind: the box goes back under the timeline

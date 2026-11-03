@@ -132,6 +132,16 @@ html.corridor .home-contact.is-on{ visibility: visible; }
 html.corridor .home-contact.is-pinned{ transform: translate3d(0, var(--ct-pin, 0px), 0); }
 html.corridor .home-contact.is-releasing{ transition: transform .45s cubic-bezier(.3,.7,.2,1); }
 html.corridor .home-contact.is-sinking{ transition: transform 1.3s cubic-bezier(.55,0,.85,.35); }
+/* Fade above the frozen box: an older entry in the gap under the 3rd
+   present one fades out toward the box's top edge. */
+html.corridor .home-contact::before{
+  content: ""; position: absolute; left: 0; right: 0; bottom: 100%;
+  height: var(--ct-fade, 0px);
+  background: linear-gradient(to bottom, transparent, var(--ground));
+  opacity: 0; transition: opacity .6s ease;
+  pointer-events: none;
+}
+html.corridor .home-contact.is-pinned::before{ opacity: 1; }
 /* Opaque apron below the box: covers the older entries once docked. */
 html.corridor .home-contact::after{
   content: ""; position: absolute; left: 0; right: 0; top: 100%;
