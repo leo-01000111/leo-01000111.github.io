@@ -1,18 +1,20 @@
 /* ══════════════════════════════════════════════════════════════════════
-   CORRIDOR MODE (home page, large desktop only) — a scroll-driven 3D layer
+   CORRIDOR MODE (home page, large desktop only) — a GSAP-driven 3D layer
    over the normal home page DOM. corridor.js adds html.corridor only when
    the gate matches; every rule here is scoped under it, so the normal site
    is untouched. To remove the feature: delete this file, corridor.js and
-   their two tags in index.html / fr/index.html.
+   their two tags in index.html / fr/index.html (and assets/vendor/gsap/).
 
-   corridor.js writes the progress variables on <main>:
-     --p1 hero -> projects, --p2 projects -> columns, --p3 skills door +
-     timeline zoom (all 0..1), --p4 timeline scroll (px). Sections get
+   corridor.js writes --p4 (timeline scroll, px) on <main>. Sections get
      --sy/--sz/--so/--fit (offset, depth, opacity, fit scale); doors get
      --d (swing 0..1) and --o (opacity), always set explicitly by the JS.
    ══════════════════════════════════════════════════════════════════════ */
 
-html.corridor{ scroll-behavior: auto; }
+/* No native scroll: GSAP drives every move. */
+html.corridor, html.corridor body{ overflow: hidden; }
+/* Until GSAP has loaded and the first layout ran. */
+html.corridor-boot main, html.corridor-boot .site-header{ opacity: 0; }
+html.corridor main, html.corridor .site-header{ transition: opacity .25s ease; }
 
 /* Page frame: full-bleed stage, no footer, no markings. */
 html.corridor .wrap{ max-width: none; padding: 0; }
@@ -36,7 +38,7 @@ html.corridor .site-header{
 /* Skills and Contact land on the same level here: keep only Contact. */
 html.corridor .hp-signarray a[href="#skills"]{ display: none; }
 
-/* The stage: sticky, one screen tall, clipped. */
+/* The stage: one screen tall, clipped. */
 html.corridor main{
   position: sticky; top: 0;
   width: var(--stage-w); height: var(--stage-h);
@@ -45,7 +47,6 @@ html.corridor main{
   perspective: 1600px;
   perspective-origin: 50% 50%;
 }
-html.corridor .corridor-spacer{ pointer-events: none; }
 
 /* Every section is a layer of the stage, in the content column. */
 html.corridor main > section{

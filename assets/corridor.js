@@ -1,8 +1,9 @@
 /* Corridor mode for the home page (large desktop only). See corridor.css.
    Loaded in <head> (not deferred) so html.corridor is set before the first
-   paint; the rest waits for DOMContentLoaded. Native scroll drives it: a tall
-   spacer under a sticky one-viewport <main>, and a rAF render that maps
-   scrollY to CSS variables. Removing this file restores the normal page. */
+   paint. When the gate matches it loads GSAP (core + Observer, vendored in
+   assets/vendor/gsap/) and takes over the page: no native scroll; GSAP
+   tweens one state object ({ lvl, p4 }) and render() maps it to CSS
+   variables. Removing this file restores the normal page. */
 (function () {
   "use strict";
   var GATE = "(min-width: 1280px) and (min-height: 720px) and (hover: hover) and (pointer: fine)";
@@ -10,28 +11,33 @@
   var mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var root = document.documentElement;
   function wanted() { return mqGate.matches && !mqMotion.matches; }
-  if (wanted()) root.classList.add("corridor");
+  if (wanted()) root.classList.add("corridor", "corridor-boot");
 
   // ── maths ──
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
   function seg(v, a, b) { return clamp((v - a) / (b - a), 0, 1); }
-  function lerp(a, b, t) { return a + (b - a) * t; }
   function smooth(t) { return t * t * (3 - 2 * t); }
-  function outCubic(t) { return 1 - Math.pow(1 - t, 3); }
-  function inOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-  function inOutSine(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
+
+  // ── tuning: all motion timings live here ──
+  var STEP_DUR = 0.95, STEP_EASE = "power2.inOut";        // one level
+  var JUMP_DUR = 0.35;                                     // + per extra level (nav links)
+  var SCROLL_DUR = 0.6, SCROLL_EASE = "power3.out";        // timeline wheel scroll
+  var REWIND_EASE = "sine.inOut";                          // contact rewind, 1.4-4.2 s by distance
+  var GESTURE_GAP = 160;  // ms of wheel silence that starts a new gesture
+  var STEP_DELTA = 20;    // px of wheel in one gesture to trigger a level step
 
   var TL_W = 820;     // timeline layout width = its zoomed size
   var BASE_W = 1536, BASE_H = 864, MAX_SCALE = 2.2; // virtual screen; scaled up to the window
   var M = 24;         // breathing room above / below a resting section
-  var on = false, E = null, L = null, spacer = null;
+  var on = false, E = null, L = null, gsap = null, observer = null;
   var touched = [];   // [element, property] pairs to clear on deactivate
-  var lastY = -1, frame = 0;
-  var anim = null;    // programmatic scroll in flight
-  var idleTimer = 0, lastWheel = 0;
+  var S = { lvl: 0, p4: 0 };  // level 0..3 (hero, projects, columns, zoomed timeline); timeline scroll (virtual px)
+  var cur = 0, p4T = 0;       // level and timeline-scroll targets
+  var lvlTween = null, rewindTween = null;
+  var g = { last: 0, prev: 0, armed: false, acc: 0 }; // wheel gesture tracking
+  var lastWheel = 0, hoverTimer = 0;
   var state = "free"; // contact box: free | rewinding | docked | sinking
   var entered = false, graceTimer = 0, sinkTimer = 0, waitingSink = false, hoverArmed = true;
-  var lock = false, quietTimer = 0, acc = 0, accTimer = 0; // guided level steps
 
   function setv(el, k, v) {
     el.style.setProperty(k, v);
@@ -55,10 +61,9 @@
     return true;
   }
 
-  // ── layout: everything that depends on sizes, not on scroll ──
+  // ── layout: everything that depends on sizes, not on progress ──
   function layout() {
-    // Real window -> virtual screen. All geometry below is virtual px; only
-    // scroll distances (the stops) are real px.
+    // Real window -> virtual screen. All geometry below is virtual px.
     var rvw = root.clientWidth, rvh = window.innerHeight;
     var k = clamp(Math.min(rvw / BASE_W, rvh / BASE_H), 1, MAX_SCALE);
     var vw = rvw / k, vh = rvh / k;
@@ -126,13 +131,8 @@
     var e3 = last ? (E.timeline.offsetTop - E.bg.offsetTop + last.offsetTop + last.offsetHeight
                      - parseFloat(getComputedStyle(last).paddingBottom)) : 0;
 
-    var V = rvh;
-    var S = { a1: 0.12 * V, b1: 1.12 * V, s1: 1.3 * V, a2: 1.48 * V, b2: 2.48 * V, s2: 2.66 * V, a3: 2.84 * V, b3: 3.84 * V };
-    S.s3 = S.b3;
-    S.end = S.s3 + len4 * k;
-    L = { k: k, vw: vw, vh: vh, len4s: len4 * k, navH: navH, heroY: heroY, projY: projY, colY: colY, S: S, len4: len4,
-          ctY0: ctY0, ctH: ctH, dockLine: tlTopZ + e3 + 16, stops: [0, S.s1, S.s2, S.s3] };
-    spacer.style.height = (S.end + rvh - vh) + "px"; // <main> takes vh of flow
+    L = { k: k, vw: vw, vh: vh, navH: navH, heroY: heroY, projY: projY, colY: colY, len4: len4,
+          ctY0: ctY0, ctH: ctH, dockLine: tlTopZ + e3 + 16 };
   }
   // Where the skills door ends up when parked: put it there for one read.
   function measureParked(colY, k) {
@@ -149,92 +149,69 @@
     return { right: r.right / k, cedBottom: c.bottom / k };
   }
 
-  // ── render: scroll -> variables ──
-  function render(force) {
-    frame = 0;
+  // ── render: state -> variables (all easing comes from the GSAP tween) ──
+  function render() {
     if (!on) return;
-    var y = window.scrollY;
-    if (!force && y === lastY) return;
-    lastY = y;
-    var S = L.S;
-    var p1 = seg(y, S.a1, S.b1), p2 = seg(y, S.a2, S.b2), p3 = seg(y, S.a3, S.b3);
-    var p4 = clamp((y - S.s3) / L.k, 0, L.len4);
-    setv(E.main, "--p4", String(p4));
+    var p1 = clamp(S.lvl, 0, 1), p2 = clamp(S.lvl - 1, 0, 1), p3 = clamp(S.lvl - 2, 0, 1);
+    setv(E.main, "--p4", String(S.p4));
 
     // Hero: doors swing in, fade late.
-    var d1 = inOutCubic(p1), o1 = 1 - smooth(seg(p1, 0.55, 1));
+    var d1 = seg(p1, 0, 0.8), o1 = 1 - smooth(seg(d1, 0.55, 1));
     [E.heroMajor, E.heroMinor].forEach(function (el) { setv(el, "--d", String(d1)); setv(el, "--o", String(o1)); });
     setv(E.hero, "--sy", L.heroY + "px");
     show(E.hero, p1 < 1);
     E.hero.classList.toggle("is-live", p1 < 0.02);
 
     // Projects: from depth during p1, cards swing out one by one during p2.
-    var q1 = seg(p1, 0.35, 1);
+    var q1 = seg(p1, 0.3, 1);
     setv(E.projects, "--sy", L.projY + "px");
-    setv(E.projects, "--sz", String(1 - outCubic(q1)));
+    setv(E.projects, "--sz", String(1 - q1));
     setv(E.projects, "--so", String(smooth(seg(q1, 0, 0.5))));
-    var n = E.doors.length, step = 0.36 / Math.max(1, n - 1);
+    var n = E.doors.length, step = 0.3 / Math.max(1, n - 1);
     E.doors.forEach(function (el, i) {
-      var t = seg(p2, i * step, i * step + 0.64);
-      setv(el, "--d", String(inOutCubic(t)));
+      var t = seg(p2, i * step, i * step + 0.6);
+      setv(el, "--d", String(t));
       setv(el, "--o", String(1 - smooth(seg(t, 0.55, 1))));
     });
-    show(E.projects, p1 > 0.35 && p2 < 1);
+    show(E.projects, p1 > 0.3 && p2 < 1);
     E.projects.classList.toggle("is-live", p1 > 0.98 && p2 < 0.02);
 
     // Columns: from depth during p2; skills door + timeline zoom during p3.
-    var q2 = seg(p2, 0.4, 1);
+    var q2 = seg(p2, 0.35, 1);
     setv(E.cols, "--sy", L.colY + "px");
-    setv(E.cols, "--sz", String(1 - outCubic(q2)));
+    setv(E.cols, "--sz", String(1 - q2));
     setv(E.cols, "--so", String(smooth(seg(q2, 0, 0.5))));
-    var d3 = inOutCubic(p3);
-    setv(E.colMajor, "--d", String(d3));
-    setv(E.cols, "--z3", String(d3));
+    setv(E.colMajor, "--d", String(p3));
+    setv(E.cols, "--z3", String(p3));
     E.colMajor.classList.toggle("is-parked", p3 > 0.02);
-    show(E.cols, p2 > 0.4);
+    show(E.cols, p2 > 0.35);
     E.cols.classList.toggle("is-live", p2 > 0.98);
 
     // Contact: exists once the timeline is zoomed (or while pinned).
     var ctOn = p3 >= 0.999 || state !== "free";
     E.contact.classList.toggle("is-on", ctOn);
     E.contact.classList.toggle("is-live", ctOn);
-
   }
-  function req() { if (!frame) frame = requestAnimationFrame(function () { render(false); }); }
 
-  // ── programmatic scroll ──
-  function glide(to, dur, ease, onStep, onDone) {
-    stopGlide();
-    var from = window.scrollY, t0 = performance.now();
-    var a = { set: from, raf: 0 };
-    anim = a;
-    function tick(now) {
-      if (anim !== a) return;
-      var t = clamp((now - t0) / dur, 0, 1), e = ease(t);
-      a.set = Math.round(lerp(from, to, e));
-      window.scrollTo(0, a.set);
-      if (onStep) onStep(e);
-      render(true);
-      if (t < 1) a.raf = requestAnimationFrame(tick);
-      else { anim = null; if (onDone) onDone(); }
+  // ── motion ──
+  function busy() { return !!(lvlTween && lvlTween.isActive()); }
+  function goLevel(i, after) {
+    i = clamp(i, 0, 3);
+    var dist = Math.abs(i - S.lvl);
+    cur = i;
+    if (lvlTween) lvlTween.kill();
+    var vars = { lvl: i, duration: STEP_DUR + JUMP_DUR * Math.max(0, dist - 1), ease: STEP_EASE,
+                 onUpdate: render, onComplete: after || null };
+    if (i < 3) { // leaving the timeline: it rolls back to its top on the way
+      gsap.killTweensOf(S, "p4");
+      p4T = 0;
+      if (S.p4 > 0) vars.p4 = 0;
     }
-    a.raf = requestAnimationFrame(tick);
-    return a;
+    lvlTween = gsap.to(S, vars);
   }
-  function stopGlide() {
-    if (anim) { cancelAnimationFrame(anim.raf); anim = null; }
-  }
-  function glideDur(dist) { return clamp(380 + Math.abs(dist) * 0.35, 450, 1400); }
-
-  // ── fallback snap: a scrollbar drag that stops between levels eases to the nearest ──
-  function onIdle() {
-    if (!on || anim || state !== "free") return;
-    var y = window.scrollY, S = L.S;
-    if (hoverArmed && E.contact.classList.contains("is-on") && E.contact.matches(":hover")) { rewind(); return; }
-    if (y >= S.s3) return; // never snap inside the timeline scroll
-    var best = 0;
-    L.stops.forEach(function (s) { if (Math.abs(s - y) < Math.abs(best - y)) best = s; });
-    if (Math.abs(best - y) > 1) glide(best, 700, inOutCubic);
+  function scrollTimeline(dv) { // dv in virtual px
+    p4T = clamp(p4T + dv, 0, L.len4);
+    gsap.to(S, { p4: p4T, duration: SCROLL_DUR, ease: SCROLL_EASE, overwrite: "auto", onUpdate: render });
   }
 
   // ── contact box: rewind, dock, sink ──
@@ -243,34 +220,34 @@
     E.contact.classList.add("is-pinned");
   }
   function rewind() {
-    if (state !== "free") return;
-    var y = window.scrollY;
-    var top = L.ctY0 - clamp((y - L.S.s3) / L.k, 0, L.len4);
+    if (state !== "free" || cur !== 3 || busy()) return;
+    gsap.killTweensOf(S, "p4");
+    var top = L.ctY0 - S.p4;
     // The box freezes where it is and the timeline runs back beneath it, until
     // the 3rd entry meets the box or the timeline reaches its own top. Any gap
     // left above the box fades out the older entry showing in it.
-    var p4 = clamp(L.dockLine - top, 0, L.len4);
-    L.dockY = L.S.s3 + p4 * L.k;
-    var e3 = L.dockLine - 16 - p4; // 3rd entry's bottom on screen once docked
+    var to = clamp(L.dockLine - top, 0, L.len4);
+    var e3 = L.dockLine - 16 - to; // 3rd entry's bottom on screen once docked
     setv(E.contact, "--ct-fade", Math.max(0, top - e3) + "px");
     state = "rewinding";
     entered = E.contact.matches(":hover");
     pin(top);
-    render(true);
-    var dist = y - L.dockY;
-    glide(L.dockY, clamp(1200 + Math.abs(dist) * 2.4, 1400, 4200), inOutSine,
-      null,
-      function () { state = "docked"; });
+    render();
+    p4T = to;
+    rewindTween = gsap.to(S, { p4: to, duration: clamp(1.2 + Math.abs(S.p4 - to) * 0.0026, 1.4, 4.2),
+                               ease: REWIND_EASE, onUpdate: render,
+                               onComplete: function () { rewindTween = null; state = "docked"; } });
   }
   function release() { // user took over mid-rewind: the box goes back under the timeline
-    stopGlide();
+    if (rewindTween) { rewindTween.kill(); rewindTween = null; }
+    p4T = S.p4;
     clearTimeout(graceTimer); waitingSink = false;
     state = "free";
     hoverArmed = false; // only a fresh hover starts it again
     E.contact.classList.add("is-releasing");
     E.contact.classList.remove("is-pinned");
     setTimeout(function () { E.contact.classList.remove("is-releasing"); }, 460);
-    render(true);
+    render();
   }
   function blockedSink() {
     var a = document.activeElement;
@@ -289,7 +266,8 @@
     }, 750);
   }
   function sink() {
-    stopGlide();
+    if (rewindTween) { rewindTween.kill(); rewindTween = null; }
+    p4T = S.p4;
     clearTimeout(graceTimer); waitingSink = false;
     state = "sinking";
     E.contact.classList.add("is-sinking");
@@ -298,96 +276,85 @@
     sinkTimer = setTimeout(function () {
       E.contact.classList.remove("is-sinking", "is-pinned");
       state = "free";
-      render(true);
+      render();
     }, 1320);
   }
-  function toContact() { // nav "Contact": glide to the end of the timeline, box in view
+  function toContact() { // nav "Contact": to the end of the timeline, box in view
+    if (state === "rewinding") release();
     if (state === "sinking") { clearTimeout(sinkTimer); E.contact.classList.remove("is-sinking", "is-pinned"); }
     state = "free";
-    glide(L.S.end, glideDur(window.scrollY - L.S.end) + 300, inOutCubic);
+    var end = function () { scrollTimeline(L.len4 - p4T); };
+    if (cur === 3 && !busy()) end(); else goLevel(3, end);
+  }
+  function checkHover() {
+    if (on && state === "free" && hoverArmed && E.contact.classList.contains("is-on") && E.contact.matches(":hover")) rewind();
   }
 
-  // ── user input ──
-  // Between levels the page is guided: one wheel gesture or key press plays
-  // the whole transition to the next level. The timeline scrolls freely.
-  function userScrolled() {
+  // ── user input: GSAP Observer for the wheel, keys by hand ──
+  function userInput() {
     lastWheel = performance.now();
     if (state === "rewinding") release();
     else if (state === "docked") sink();
   }
-  function levelIndex(y) {
-    var best = 0;
-    L.stops.forEach(function (s, i) { if (Math.abs(s - y) < Math.abs(L.stops[best] - y)) best = i; });
-    return best;
+  // Trackpads keep firing decaying wheel events (inertia) after the finger
+  // lifts. A new gesture is a pause in the events or a rise in their size.
+  function fresh(d, now) {
+    var isNew = now - g.last > GESTURE_GAP || (d > g.prev * 1.3 && d > 6);
+    g.last = now; g.prev = d;
+    return isNew;
   }
-  function quiet() { // the lock lifts once the wheel (and its inertia) has been still a moment
-    clearTimeout(quietTimer);
-    quietTimer = setTimeout(function () { lock = false; acc = 0; }, 220);
-  }
-  function goLevel(i) {
-    i = clamp(i, 0, 3);
-    var to = L.stops[i];
-    lock = true;
-    clearTimeout(quietTimer);
-    var a = glide(to, 1150, inOutCubic, null, quiet);
-    a.guided = true;
-  }
-  function step(dir) {
-    var y = window.scrollY, i = levelIndex(y), cur = L.stops[i];
-    var next = dir > 0 ? (y < cur - 2 ? i : i + 1) : (y > cur + 2 ? i : i - 1);
-    if (next >= 0 && next <= 3) goLevel(next);
-  }
-  function onWheel(e) {
+  function onWheelY(self) {
     if (!on) return;
-    userScrolled();
-    var dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
-    var y = window.scrollY, S = L.S;
-    if (lock) { // a guided step is playing, or its inertia tail is still coming in
-      quiet();
-      if (y < S.s3 + 2 || (anim && anim.guided)) { e.preventDefault(); return; }
-    }
-    if (y > S.s3 + 1) { // timeline: native scroll, but it stops at the timeline's top
-      stopGlide();
-      if (y + dy < S.s3) { e.preventDefault(); window.scrollTo(0, S.s3); lock = true; quiet(); }
+    var ev = self.event;
+    if (ev && ev.ctrlKey) return; // pinch / browser zoom
+    var dy = self.deltaY, now = performance.now();
+    if (!dy) return;
+    userInput();
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(checkHover, 260);
+    if (fresh(Math.abs(dy), now)) { g.armed = true; g.acc = 0; }
+    var dir = dy > 0 ? 1 : -1;
+
+    if (busy()) { // a step is playing: a fresh gesture the other way turns it round
+      if (g.armed && dir !== Math.sign(cur - S.lvl)) {
+        g.armed = false;
+        goLevel(dir > 0 ? Math.ceil(S.lvl) : Math.floor(S.lvl));
+      }
       return;
     }
-    if (y >= S.s3 - 1 && dy > 0) { stopGlide(); return; } // into the timeline
-    e.preventDefault();
-    if (anim && !anim.guided) stopGlide();
-    acc += dy;
-    clearTimeout(accTimer);
-    accTimer = setTimeout(function () { acc = 0; }, 250);
-    if (Math.abs(acc) < 24) return;
-    acc = 0;
-    step(dy > 0 ? 1 : -1);
+    if (cur === 3 && (dir > 0 || p4T > 0)) { // timeline: smooth free scroll, stops at its top
+      scrollTimeline(dy / L.k);
+      if (p4T === 0) g.armed = false; // inertia reaching the top doesn't step on
+      return;
+    }
+    if (!g.armed) return;
+    g.acc += dy;
+    if (Math.abs(g.acc) < STEP_DELTA) return;
+    g.armed = false;
+    if (cur + dir >= 0 && cur + dir <= 3) goLevel(cur + dir);
   }
-  var KEY_DIR = { ArrowDown: 1, PageDown: 1, " ": 1, ArrowUp: -1, PageUp: -1, Home: 0, End: 0 };
+  var KEY_DIR = { ArrowDown: 1, PageDown: 1, " ": 1, ArrowUp: -1, PageUp: -1 };
   function onKey(e) {
-    if (!on || !(e.key in KEY_DIR)) return;
+    if (!on) return;
     var t = e.target;
     if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(t.tagName))) return;
-    userScrolled();
-    var y = window.scrollY, S = L.S;
-    var dir = e.key === " " && e.shiftKey ? -1 : KEY_DIR[e.key];
-    if (e.key === "Home") { e.preventDefault(); goLevel(0); return; }
-    if (e.key === "End") { e.preventDefault(); stopGlide(); glide(S.end, glideDur(y - S.end) + 300, inOutCubic); return; }
-    if (y > S.s3 + 1 || (y >= S.s3 - 1 && dir > 0)) { stopGlide(); return; } // timeline: native
+    if (e.key === "Home") { e.preventDefault(); userInput(); goLevel(0); return; }
+    if (e.key === "End") { e.preventDefault(); userInput(); toContact(); return; }
+    if (!(e.key in KEY_DIR)) return;
     e.preventDefault();
-    if (!lock || !(anim && anim.guided)) step(dir);
-  }
-  function onDown(e) { if (on && e.clientX >= root.clientWidth) { userScrolled(); stopGlide(); } } // scrollbar drag
-  function onScroll() {
-    if (!on) return;
-    if (anim ? Math.abs(window.scrollY - anim.set) > 3
-             : state === "docked" && Math.abs(window.scrollY - L.dockY) > 3) userScrolled();
-    req();
-    clearTimeout(idleTimer);
-    idleTimer = setTimeout(onIdle, 180);
+    userInput();
+    var dir = e.key === " " && e.shiftKey ? -1 : KEY_DIR[e.key];
+    if (busy()) return;
+    if (cur === 3 && (dir > 0 || p4T > 0)) {
+      scrollTimeline(dir * (/Page| /.test(e.key) ? L.vh * 0.8 : 90));
+      return;
+    }
+    if (cur + dir >= 0 && cur + dir <= 3) goLevel(cur + dir);
   }
   function onEnter() {
     if (!on) return;
     if (state === "free") {
-      if (performance.now() - lastWheel > 250) rewind(); // else onIdle picks it up
+      if (performance.now() - lastWheel > 250) rewind(); // else checkHover picks it up
     } else if (state === "rewinding" || state === "docked") {
       entered = true;
       clearTimeout(graceTimer); waitingSink = false;
@@ -399,7 +366,7 @@
   }
   function onUnblock() { if (on && waitingSink && !blockedSink()) { waitingSink = false; scheduleSink(); } }
 
-  // Nav / in-page links glide to their snap point (capture: beats main.js).
+  // Nav / in-page links go to their level (capture: beats main.js).
   var TARGETS = { "#top": 0, "#projects": 1, "#skills": 2, "#background": 3 };
   function onClick(e) {
     if (!on) return;
@@ -409,96 +376,117 @@
     if (h !== "#contact" && !(h in TARGETS)) return;
     e.preventDefault();
     e.stopPropagation();
-    if (state === "rewinding") release();
     if (h === "#contact") { toContact(); return; }
-    if (state === "docked") sink();
-    var to = L.stops[TARGETS[h]];
-    glide(to, glideDur(window.scrollY - to) + 300, inOutCubic);
+    userInput();
+    goLevel(TARGETS[h]);
   }
   // Keyboard focus landing in a hidden layer: bring that layer up.
   function onFocus(e) {
-    if (!on || anim || state !== "free") return;
+    if (!on || busy() || state !== "free") return;
     var t = e.target, to = null;
-    if (E.hero.contains(t) && !E.hero.classList.contains("is-live")) to = 0;
-    else if (E.projects.contains(t) && !E.projects.classList.contains("is-live")) to = L.S.s1;
-    else if (E.colMajor.contains(t) && window.scrollY !== L.S.s2) to = L.S.s2;
-    else if (E.colMinor.contains(t) && window.scrollY < L.S.s3) to = L.S.s3;
-    if (to !== null) glide(to, glideDur(window.scrollY - to), inOutCubic);
+    if (E.hero.contains(t)) to = 0;
+    else if (E.projects.contains(t)) to = 1;
+    else if (E.colMajor.contains(t)) to = 2;
+    else if (E.colMinor.contains(t)) to = 3;
+    if (to !== null && to !== cur) goLevel(to);
   }
 
-  // ── position mapping across stops (resize, switching modes) ──
-  function toLogical(y) {
-    var st = L.stops;
-    for (var i = 0; i < 3; i++) if (y <= st[i + 1]) return i + (y - st[i]) / (st[i + 1] - st[i]);
-    return 3 + (y - st[3]) / Math.max(1, L.len4s + 1) * 0.999;
-  }
-  function fromLogical(v) {
-    var st = L.stops;
-    if (v <= 3) { var i = Math.min(2, Math.floor(v)); return st[i] + (v - i) * (st[i + 1] - st[i]); }
-    return st[3] + (v - 3) / 0.999 * (L.len4s + 1);
-  }
   function relayout() {
     if (!on) return;
-    var v = toLogical(window.scrollY);
     layout();
     if (state !== "free") { // sizes moved under a pinned box: let it go back into the timeline
-      stopGlide();
+      if (rewindTween) { rewindTween.kill(); rewindTween = null; }
       clearTimeout(graceTimer); clearTimeout(sinkTimer); waitingSink = false;
       state = "free";
       E.contact.classList.remove("is-pinned", "is-sinking", "is-releasing");
     }
-    if (!anim) window.scrollTo(0, Math.round(fromLogical(v)));
-    render(true);
+    gsap.killTweensOf(S, "p4");
+    S.p4 = p4T = clamp(S.p4, 0, L.len4);
+    render();
+  }
+
+  // ── GSAP, loaded only when corridor mode is actually used ──
+  var gsapCbs = null;
+  function withGsap(cb) {
+    if (gsap) { cb(); return; }
+    if (gsapCbs) { gsapCbs.push(cb); return; }
+    gsapCbs = [cb];
+    var files = ["gsap.min.js", "Observer.min.js"], n = 0, failed = false;
+    files.forEach(function (f) {
+      var s = document.createElement("script");
+      s.src = "/assets/vendor/gsap/" + f;
+      s.async = false; // keep order: core first
+      s.onload = function () {
+        if (++n < files.length || failed) return;
+        gsap = window.gsap;
+        gsap.registerPlugin(window.Observer);
+        observer = window.Observer.create({ target: window, type: "wheel", onChangeY: onWheelY });
+        var cbs = gsapCbs; gsapCbs = null;
+        cbs.forEach(function (c) { c(); });
+      };
+      s.onerror = function () { // no GSAP: stay on the normal page
+        failed = true; gsapCbs = null;
+        root.classList.remove("corridor", "corridor-boot");
+      };
+      document.head.appendChild(s);
+    });
   }
 
   var ro = null, roFrame = 0;
   function activate(fromNormal) {
     if (on || !collect()) return;
-    // where the normal page was, as a corridor position
-    var target = 0;
+    // where the normal page was, as a corridor level
+    var target = 0, toEnd = false;
     if (fromNormal) {
       var y = window.scrollY + window.innerHeight * 0.35;
       var top = function (el) { return el.getBoundingClientRect().top + window.scrollY; };
-      if (y >= top(E.contact)) target = "contact";
+      if (y >= top(E.contact)) { target = 3; toEnd = true; }
       else if (y >= top(E.cols)) target = y - top(E.cols) > E.bg.offsetHeight * 0.3 ? 3 : 2;
       else if (y >= top(E.projects)) target = 1;
-    } else if (location.hash === "#contact") target = "contact";
+    } else if (location.hash === "#contact") { target = 3; toEnd = true; }
     else if (location.hash in TARGETS) target = TARGETS[location.hash];
     root.classList.add("corridor");
     on = true;
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    spacer = document.createElement("div");
-    spacer.className = "corridor-spacer";
-    spacer.setAttribute("aria-hidden", "true");
-    E.wrap.appendChild(spacer);
+    window.scrollTo(0, 0);
     state = "free";
     layout();
-    window.scrollTo(0, target === "contact" ? L.S.end : L.stops[target]);
-    render(true);
+    S.lvl = cur = target;
+    S.p4 = p4T = toEnd ? L.len4 : 0;
+    render();
+    if (observer) observer.enable();
     if (window.ResizeObserver) {
       ro = new ResizeObserver(function () {
         if (!roFrame) roFrame = requestAnimationFrame(function () { roFrame = 0; relayout(); });
       });
       [E.header, E.hero, E.projects, E.colMajor, E.bg, E.contact].forEach(function (el) { ro.observe(el); });
     }
+    // Fonts, Cedric and the contributions grid land after the first layout,
+    // not always as a size change the ResizeObserver sees: measure again.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+    if (document.readyState !== "complete") window.addEventListener("load", relayout, { once: true });
+    setTimeout(relayout, 1200);
+    void root.offsetHeight; // laid out at opacity 0 first, so the reveal fades in
+    root.classList.remove("corridor-boot");
   }
   function deactivate() {
     if (!on) return;
-    var v = toLogical(window.scrollY), docked = state !== "free";
+    var lvl = S.lvl, docked = state !== "free", deep = S.p4 > L.len4 * 0.9;
     on = false;
-    stopGlide();
-    clearTimeout(graceTimer); clearTimeout(sinkTimer); clearTimeout(idleTimer);
+    gsap.killTweensOf(S);
+    lvlTween = rewindTween = null;
+    if (observer) observer.disable();
+    clearTimeout(graceTimer); clearTimeout(sinkTimer); clearTimeout(hoverTimer);
     if (ro) { ro.disconnect(); ro = null; }
     touched.forEach(function (p) { p[0].style.removeProperty(p[1]); p[0]._corridorProps = null; });
     touched = [];
     ["is-live", "is-parked", "is-on", "is-pinned", "is-releasing", "is-sinking"].forEach(function (c) {
       document.querySelectorAll("." + c).forEach(function (el) { el.classList.remove(c); });
     });
-    if (spacer) { spacer.remove(); spacer = null; }
-    root.classList.remove("corridor");
+    root.classList.remove("corridor", "corridor-boot");
     if ("scrollRestoration" in history) history.scrollRestoration = "auto";
-    lastY = -1; state = "free";
-    var el = docked || v > 3.9 ? E.contact : v > 2.5 ? E.bg : v > 1.5 ? E.cols : v > 0.5 ? E.projects : null;
+    state = "free";
+    var el = docked || deep ? E.contact : lvl > 2.5 ? E.bg : lvl > 1.5 ? E.cols : lvl > 0.5 ? E.projects : null;
     window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + window.scrollY - 16) : 0);
   }
 
@@ -511,11 +499,14 @@
     b.style.transition = "opacity .18s ease";
     b.style.opacity = "0";
     switching = setTimeout(function () {
-      if (wanted()) activate(true); else deactivate();
-      requestAnimationFrame(function () {
-        b.style.opacity = "";
-        setTimeout(function () { b.style.transition = ""; switching = 0; onGate(); }, 200);
-      });
+      var done = function () {
+        setTimeout(function () {
+          b.style.opacity = "";
+          setTimeout(function () { b.style.transition = ""; switching = 0; onGate(); }, 200);
+        }, 20);
+      };
+      if (wanted()) withGsap(function () { activate(true); done(); });
+      else { deactivate(); done(); }
     }, 190);
   }
   function listen(mq) {
@@ -523,14 +514,13 @@
   }
 
   function init() {
-    if (!document.querySelector(".home-hero")) { root.classList.remove("corridor"); return; }
+    if (!document.querySelector(".home-hero")) { root.classList.remove("corridor", "corridor-boot"); return; }
     listen(mqGate); listen(mqMotion);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", function () { if (on) { userScrolled(); stopGlide(); } }, { passive: true });
     window.addEventListener("keydown", onKey);
-    window.addEventListener("mousedown", onDown);
-    window.addEventListener("resize", function () { if (on && wanted()) relayout(); });
+    window.addEventListener("resize", function () {
+      if (wanted() !== on) onGate(); // backs up the media-query change events
+      else if (on) relayout();
+    });
     document.addEventListener("click", onClick, true);
     document.addEventListener("focusin", onFocus);
     document.addEventListener("selectionchange", onUnblock);
@@ -540,7 +530,8 @@
       E.contact.addEventListener("mouseleave", onLeave);
       E.contact.addEventListener("focusout", function () { setTimeout(onUnblock, 0); });
     }
-    if (wanted()) activate(false); else root.classList.remove("corridor");
+    if (wanted()) withGsap(function () { activate(false); });
+    else root.classList.remove("corridor", "corridor-boot");
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
