@@ -95,8 +95,8 @@ html.corridor .home-columns__major{
   transform-origin: 0 0;
   transform:
     translateX(calc(var(--d, 0) * var(--door-dx, -120px)))
-    scale(calc(var(--fitm, 1) * (1 - var(--d, 0) * .14)))
-    rotateY(calc(var(--d, 0) * 36deg));
+    scale(calc(var(--fitm, 1) * (1 - var(--d, 0) * .04)))
+    rotateY(calc(var(--d, 0) * 50deg));
   opacity: calc(1 - var(--d, 0) * .25);
 }
 html.corridor .home-columns__major.is-parked{ pointer-events: none; }

@@ -29,7 +29,8 @@
   var anim = null;    // programmatic scroll in flight
   var idleTimer = 0, lastWheel = 0;
   var state = "free"; // contact box: free | rewinding | docked | sinking
-  var entered = false, graceTimer = 0, sinkTimer = 0, waitingSink = false, bottomArmed = true, hoverArmed = true;
+  var entered = false, graceTimer = 0, sinkTimer = 0, waitingSink = false, hoverArmed = true;
+  var push = 0, pushRaf = 0; // extra timeline drop when the box froze below the dock line
 
   function setv(el, k, v) {
     el.style.setProperty(k, v);
@@ -79,29 +80,34 @@
     setv(E.cols, "--fit", "1");
     var fitm = Math.min(1, (avail - 2 * M) / E.colMajor.offsetHeight);
     setv(E.colMajor, "--fitm", String(fitm));
-    setv(E.colMajor, "--door-dx", (-1.15 * gx) + "px");
+    setv(E.colMajor, "--door-dx", (-Math.min(0.5 * gx, 48)) + "px");
+    var parked = measureParked(colY);
 
     // Timeline: side by side it is scaled down into its column; zoomed it is
-    // 1:1 and centred. Offsets are relative to its resting box.
+    // 1:1, in the free space right of the parked skills door.
     var colW = E.colMinor.clientWidth;
     var tlS = colW / TL_W;
     var minorLeft = gx + E.colMinor.offsetLeft;
-    var tlX = (vw - TL_W) / 2 - minorLeft;
+    var free = vw - gx - parked.right;
+    var tlLeft = parked.right + Math.max(32, (free - TL_W) / 2);
+    tlLeft = clamp(tlLeft, (vw - TL_W) / 2, vw - gx - TL_W);
     var tlTop0 = colY + E.colMinor.offsetTop;
     var tlTopZ = navH + M;
     setv(E.cols, "--tl-s", String(tlS));
-    setv(E.cols, "--tl-x", tlX + "px");
+    setv(E.cols, "--tl-x", (tlLeft - minorLeft) + "px");
     setv(E.cols, "--tl-y", (tlTopZ - tlTop0) + "px");
     var tlH = E.bg.offsetHeight;
 
-    // Contact box: under the zoomed timeline, same width.
+    // Contact box: the last item of the timeline, same width. The timeline
+    // scroll ends with its bottom level with the parked Cedric.
     var ctH = E.contact.offsetHeight;
     var ctY0 = tlTopZ + tlH + 32;
-    setv(m, "--ct-x", (vw - TL_W) / 2 + "px");
+    setv(m, "--ct-x", tlLeft + "px");
     setv(m, "--ct-y0", ctY0 + "px");
-    var len4 = Math.max(0, ctY0 + ctH + M - vh);
+    var endBottom = clamp(parked.cedBottom, navH + ctH + M, vh - M);
+    var len4 = Math.max(0, ctY0 + ctH - endBottom);
 
-    // Dock: right under the last of the leading "present" (green) entries.
+    // Dock line: right under the last of the leading "present" (green) entries.
     var entries = E.timeline.querySelectorAll(".home-tl-entry");
     var last = null;
     for (var i = 0; i < entries.length; i++) {
@@ -111,16 +117,28 @@
     // offsetParents: entry -> .home-timeline -> .home-columns__minor <- .home-background
     var e3 = last ? (E.timeline.offsetTop - E.bg.offsetTop + last.offsetTop + last.offsetHeight
                      - parseFloat(getComputedStyle(last).paddingBottom)) : 0;
-    var dockP = clamp(tlTopZ + e3 + 16 + ctH + M - vh, 0, len4);
-    var dockTop = tlTopZ + e3 + 16 - dockP;
 
     var V = vh;
     var S = { a1: 0.12 * V, b1: 1.12 * V, s1: 1.3 * V, a2: 1.48 * V, b2: 2.48 * V, s2: 2.66 * V, a3: 2.84 * V, b3: 3.84 * V };
     S.s3 = S.b3;
     S.end = S.s3 + len4;
     L = { vw: vw, vh: vh, navH: navH, heroY: heroY, projY: projY, colY: colY, S: S, len4: len4,
-          ctY0: ctY0, ctH: ctH, dockY: S.s3 + dockP, dockTop: dockTop, stops: [0, S.s1, S.s2, S.s3] };
+          ctY0: ctY0, ctH: ctH, dockLine: tlTopZ + e3 + 16, stops: [0, S.s1, S.s2, S.s3] };
     spacer.style.height = S.end + "px";
+  }
+  // Where the skills door ends up when parked: put it there for one read.
+  function measureParked(colY) {
+    var saved = [[E.cols, "--sz"], [E.cols, "--sy"], [E.colMajor, "--d"]].map(function (p) {
+      return [p[0], p[1], p[0].style.getPropertyValue(p[1])];
+    });
+    E.cols.style.setProperty("--sz", "0");
+    E.cols.style.setProperty("--sy", colY + "px");
+    E.colMajor.style.setProperty("--d", "1");
+    var r = E.colMajor.getBoundingClientRect();
+    var ced = E.colMajor.querySelector(".home-cedric .cedric") || E.colMajor.querySelector(".home-cedric") || E.colMajor;
+    var c = ced.getBoundingClientRect();
+    saved.forEach(function (p) { if (p[2]) p[0].style.setProperty(p[1], p[2]); else p[0].style.removeProperty(p[1]); });
+    return { right: r.right, cedBottom: c.bottom };
   }
 
   // ── render: scroll -> variables ──
@@ -133,7 +151,7 @@
     var S = L.S;
     var p1 = seg(y, S.a1, S.b1), p2 = seg(y, S.a2, S.b2), p3 = seg(y, S.a3, S.b3);
     var p4 = clamp(y - S.s3, 0, L.len4);
-    setv(E.main, "--p4", String(p4));
+    setv(E.main, "--p4", String(p4 - push));
 
     // Hero: doors swing in, fade late.
     var d1 = inOutCubic(p1), o1 = 1 - smooth(seg(p1, 0.55, 1));
@@ -169,11 +187,10 @@
     E.cols.classList.toggle("is-live", p2 > 0.98);
 
     // Contact: exists once the timeline is zoomed (or while pinned).
-    var ctOn = p3 >= 1 || state !== "free";
+    var ctOn = p3 >= 0.999 || state !== "free";
     E.contact.classList.toggle("is-on", ctOn);
     E.contact.classList.toggle("is-live", ctOn);
 
-    if (y < S.end - 0.3 * L.vh) bottomArmed = true;
   }
   function req() { if (!frame) frame = requestAnimationFrame(function () { render(false); }); }
 
@@ -204,7 +221,6 @@
   function onIdle() {
     if (!on || anim || state !== "free") return;
     var y = window.scrollY, S = L.S;
-    if (L.len4 > 0 && y >= S.end - 2 && bottomArmed) { rewind(); return; }
     if (hoverArmed && E.contact.classList.contains("is-on") && E.contact.matches(":hover")) { rewind(); return; }
     if (y >= S.s3) return; // never snap inside the timeline scroll
     var best = 0;
@@ -221,18 +237,38 @@
     if (state !== "free") return;
     var y = window.scrollY;
     var top = L.ctY0 - clamp(y - L.S.s3, 0, L.len4);
+    // The box freezes where it is and the timeline runs back beneath it. It
+    // only moves if it is partly off screen or the timeline can't reach it.
+    var boxTop = Math.max(Math.min(top, L.vh - L.ctH - M), L.dockLine - L.len4);
+    // Box lower than the 3rd entry can ever reach: the timeline drops past its top.
+    var drop = Math.max(0, boxTop - L.dockLine);
+    L.dockY = L.S.s3 + Math.max(0, L.dockLine - boxTop);
     state = "rewinding";
-    bottomArmed = false;
     entered = E.contact.matches(":hover");
     pin(top);
     render(true);
     var dist = y - L.dockY;
     glide(L.dockY, clamp(1200 + Math.abs(dist) * 2.4, 1400, 4200), inOutSine,
-      function (e) { setv(E.contact, "--ct-pin", lerp(top, L.dockTop, e) + "px"); },
+      function (e) {
+        push = drop * e;
+        if (boxTop !== top) setv(E.contact, "--ct-pin", lerp(top, boxTop, e) + "px");
+      },
       function () { state = "docked"; });
+  }
+  function unpush(dur) {
+    cancelAnimationFrame(pushRaf);
+    var from = push, t0 = performance.now();
+    if (!from) return;
+    (function tick(now) {
+      var t = clamp((now - t0) / dur, 0, 1);
+      push = from * (1 - inOutCubic(t));
+      render(true);
+      if (t < 1) pushRaf = requestAnimationFrame(tick);
+    })(t0);
   }
   function release() { // user took over mid-rewind: the box goes back under the timeline
     stopGlide();
+    unpush(450);
     clearTimeout(graceTimer); waitingSink = false;
     state = "free";
     hoverArmed = false; // only a fresh hover starts it again
@@ -261,6 +297,7 @@
     stopGlide();
     clearTimeout(graceTimer); waitingSink = false;
     state = "sinking";
+    unpush(1300);
     E.contact.classList.add("is-sinking");
     setv(E.contact, "--ct-pin", (L.vh + 40) + "px");
     clearTimeout(sinkTimer);
@@ -270,21 +307,10 @@
       render(true);
     }, 1320);
   }
-  function dockNow() { // nav "Contact": glide to the docked view, raise the box
-    if (state === "sinking") { clearTimeout(sinkTimer); E.contact.classList.remove("is-sinking"); }
+  function toContact() { // nav "Contact": glide to the end of the timeline, box in view
+    if (state === "sinking") { clearTimeout(sinkTimer); E.contact.classList.remove("is-sinking", "is-pinned"); }
     state = "free";
-    E.contact.classList.remove("is-pinned");
-    glide(L.dockY, glideDur(window.scrollY - L.dockY) + 300, inOutCubic, null, function () {
-      state = "docked";
-      bottomArmed = false;
-      entered = E.contact.matches(":hover");
-      pin(L.vh + 40);
-      render(true);
-      void E.contact.offsetHeight;
-      E.contact.classList.add("is-releasing");
-      setv(E.contact, "--ct-pin", L.dockTop + "px");
-      setTimeout(function () { E.contact.classList.remove("is-releasing"); }, 460);
-    });
+    glide(L.S.end, glideDur(window.scrollY - L.S.end) + 300, inOutCubic);
   }
 
   // ── user input ──
@@ -337,7 +363,7 @@
     e.preventDefault();
     e.stopPropagation();
     if (state === "rewinding") release();
-    if (h === "#contact") { dockNow(); return; }
+    if (h === "#contact") { toContact(); return; }
     if (state === "docked") sink();
     var to = L.stops[TARGETS[h]];
     glide(to, glideDur(window.scrollY - to) + 300, inOutCubic);
@@ -368,12 +394,14 @@
     if (!on) return;
     var v = toLogical(window.scrollY);
     layout();
-    if (state === "rewinding" || state === "docked") { // sizes moved under a pinned box: re-dock at once
+    if (state !== "free") { // sizes moved under a pinned box: let it go back into the timeline
       stopGlide();
-      state = "docked";
-      window.scrollTo(0, L.dockY);
-      pin(L.dockTop);
-    } else if (state === "free" && !anim) window.scrollTo(0, Math.round(fromLogical(v)));
+      clearTimeout(graceTimer); clearTimeout(sinkTimer); waitingSink = false;
+      state = "free";
+      E.contact.classList.remove("is-pinned", "is-sinking", "is-releasing");
+    }
+    cancelAnimationFrame(pushRaf); push = 0;
+    if (!anim) window.scrollTo(0, Math.round(fromLogical(v)));
     render(true);
   }
 
@@ -399,8 +427,7 @@
     E.wrap.appendChild(spacer);
     state = "free";
     layout();
-    window.scrollTo(0, target === "contact" ? L.dockY : L.stops[target]);
-    if (target === "contact") { state = "docked"; bottomArmed = false; pin(L.dockTop); }
+    window.scrollTo(0, target === "contact" ? L.S.end : L.stops[target]);
     render(true);
     if (window.ResizeObserver) {
       ro = new ResizeObserver(function () {
@@ -425,6 +452,7 @@
     root.classList.remove("corridor");
     if ("scrollRestoration" in history) history.scrollRestoration = "auto";
     lastY = -1; state = "free";
+    cancelAnimationFrame(pushRaf); push = 0;
     var el = docked || v > 3.9 ? E.contact : v > 2.5 ? E.bg : v > 1.5 ? E.cols : v > 0.5 ? E.projects : null;
     window.scrollTo(0, el ? Math.max(0, el.getBoundingClientRect().top + window.scrollY - 16) : 0);
   }
