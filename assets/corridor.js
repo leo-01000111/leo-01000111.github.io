@@ -523,11 +523,28 @@
     }
     // Fonts, Cedric and the contributions grid land after the first layout,
     // not always as a size change the ResizeObserver sees: measure again.
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
-    if (document.readyState !== "complete") window.addEventListener("load", relayout, { once: true });
-    setTimeout(relayout, 1200);
-    void root.offsetHeight; // laid out at opacity 0 first, so the reveal fades in
-    root.classList.remove("corridor-boot");
+    // The page stays hidden (corridor-boot) until they have, so the reveal
+    // fades in a finished layout instead of one that jumps while it fades.
+    var revealed = false;
+    function reveal() {
+      if (revealed) return;
+      revealed = true;
+      clearTimeout(revealCap);
+      if (!on) return; // switched off while waiting: deactivate() already cleared the class
+      relayout();
+      void root.offsetHeight; // laid out at opacity 0 first, so the reveal fades in
+      requestAnimationFrame(function () { // one painted frame of the final pose at opacity 0
+        requestAnimationFrame(function () { root.classList.remove("corridor-boot"); });
+      });
+    }
+    var revealCap = setTimeout(reveal, 1200); // never hold the page back longer than this
+    var waits = [];
+    if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+    if (document.readyState !== "complete") {
+      waits.push(new Promise(function (res) { window.addEventListener("load", res, { once: true }); }));
+    }
+    if (waits.length) Promise.all(waits).then(reveal, reveal); else reveal();
+    setTimeout(relayout, 1500);
   }
   function deactivate() {
     if (!on) return;

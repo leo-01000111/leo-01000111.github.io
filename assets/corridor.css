@@ -13,8 +13,16 @@
 /* No native scroll: GSAP drives every move. */
 html.corridor, html.corridor body{ overflow: hidden; }
 /* Until GSAP has loaded and the first layout ran. */
-html.corridor-boot main, html.corridor-boot .site-header{ opacity: 0; }
-html.corridor main, html.corridor .site-header{ transition: opacity .25s ease; }
+/* The intro fades a flat cover, not the stage: fading the opacity of a 3D
+   scene makes Firefox re-draw every layer on each frame (it glitches). */
+html.corridor-boot main, html.corridor-boot .site-header{ visibility: hidden; }
+html.corridor::after{
+  content: ""; position: fixed; inset: 0; z-index: 200;
+  background: var(--ground);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s ease, visibility 0s .3s;
+}
+html.corridor-boot::after{ opacity: 1; visibility: visible; transition: none; }
 
 /* Page frame: full-bleed stage, no footer, no markings. */
 html.corridor .wrap{ max-width: none; padding: 0; }
