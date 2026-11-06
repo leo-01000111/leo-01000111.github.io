@@ -297,8 +297,12 @@
       // N'affiche que le dernier semestre (26 semaines) pour que la grille
       // tienne dans la colonne sans défilement horizontal.
       var WEEKS = 26;
-      var futureDays = 6 - new Date().getDay();
-      var slice = contribs.slice(-(WEEKS * 7 - futureDays));
+      if (!contribs.length) throw new Error("empty");
+      // Align to the data's own last day (not the clock): the file can lag
+      // behind today, and the first cell must land on a Sunday row.
+      var lastDow = new Date(contribs[contribs.length - 1].date + "T00:00:00").getDay();
+      var futureDays = 6 - lastDow;
+      var slice = contribs.slice(-((WEEKS - 1) * 7 + lastDow + 1));
       var total = slice.reduce(function(s, d) { return s + d.count; }, 0);
       var label = document.getElementById("gh-label");
       if (label) label.textContent = total.toLocaleString() + " contributions ces 6 derniers mois";
@@ -352,7 +356,8 @@
     });
 })();
 </script>
-<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
 <script>
 (function(){var l=location;if(l.hostname==="localhost"||l.hostname==="127.0.0.1")return;
 var u="https://stats.leongorecki.eu/e",o={p:l.pathname,r:document.referrer,h:l.hostname};if(/(?:^|; )lg_me=1/.test(document.cookie))o.m=1;var b=JSON.stringify(o);
