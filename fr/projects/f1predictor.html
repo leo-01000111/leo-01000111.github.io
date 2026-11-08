@@ -238,7 +238,7 @@
         seasonOver: "Season over. Back after the first qualifying of next season.",
         wet: "Rain forecast",
         win: "Win", podium: "Podium",
-        fullGrid: "Full grid",
+        fullGrid: "Full grid", startGrid: "Grid",
         dnf: "DNF",
         season: function(y) { return "Season " + y; },
         winners: "winners called", podiumAvg: "podium drivers per race",
@@ -264,7 +264,7 @@
         seasonOver: "Saison terminée. Retour après les premières qualifications de la saison suivante.",
         wet: "Pluie annoncée",
         win: "Victoire", podium: "Podium",
-        fullGrid: "Grille complète",
+        fullGrid: "Grille complète", startGrid: "Départ",
         dnf: "Abandon",
         season: function(y) { return "Saison " + y; },
         winners: "vainqueurs trouvés", podiumAvg: "pilotes du podium par course",
@@ -346,9 +346,10 @@
       });
       h += '</ol>';
       h += '<details class="f1-grid"><summary>' + c.fullGrid + '</summary><table class="f1-grid__t"><thead><tr>' +
-        '<th scope="col">#</th><th scope="col"><span class="sr-only">Driver</span></th><th scope="col">' + c.win + '</th><th scope="col">' + c.podium + '</th></tr></thead><tbody>';
+        '<th scope="col">#</th><th scope="col"><span class="sr-only">Driver</span></th><th scope="col">' + c.startGrid + '</th><th scope="col">' + c.win + '</th><th scope="col">' + c.podium + '</th></tr></thead><tbody>';
       drivers.forEach(function(d, i) {
         h += '<tr><td>' + (i + 1) + '</td><td><span class="f1-dot" style="--team:' + teamColor(d.team) + '"></span>' + escHtml(d.driver) + '</td>' +
+          '<td class="f1-grid__start">' + (d.grid ? 'P' + d.grid : (d.grid === 0 ? 'PL' : '–')) + '</td>' +
           '<td>' + pct(d.p_win, lang) + '</td>' +
           '<td><span class="f1-meter" aria-hidden="true"><span style="width:' + ((d.p_podium || 0) * 100).toFixed(1) + '%"></span></span>' + pct(d.p_podium, lang) + '</td></tr>';
       });
