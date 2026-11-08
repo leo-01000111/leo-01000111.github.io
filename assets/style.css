@@ -989,3 +989,19 @@ figure.shot .theme-night{ display: none; }
 .gif-panel{ position: relative; }
 .gif-label{ display:inline-block; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-2); padding: 3px var(--space-2); box-shadow: inset 0 0 0 var(--stroke-hair) var(--ink-muted); color: var(--ink-muted); }
 .gif-panel video{ width:100%; display:block; box-shadow: inset 0 0 0 var(--stroke-hair) var(--rule); }
+
+/* Per-driver "why" in the full grid (F1 page) */
+.f1-why-btn{ width:24px; height:24px; padding:0; line-height:1; font-family: var(--font-mono); font-size:0.78rem; color: var(--ink-muted); background:none; border: var(--stroke-hair) solid var(--rule); cursor:pointer; }
+.f1-why-btn:hover, .f1-why-btn[aria-expanded="true"]{ color: var(--ink); border-color: var(--ink-muted); }
+.f1-why > td{ padding: var(--space-2) var(--space-2) var(--space-3); }
+.f1-why__sum{ display:flex; flex-wrap:wrap; gap: 2px var(--space-3); margin:0 0 var(--space-2); font-size:0.72rem; }
+.f1-why__up{ color: var(--lamp-go); }
+.f1-why__down{ color: var(--hold); }
+.f1-why__bars{ margin:0; padding:0; list-style:none; }
+.f1-why__bars li{ display:grid; grid-template-columns: minmax(6.5em, 9em) 1fr; align-items:center; gap: var(--space-2); padding:2px 0; font-size:0.72rem; }
+.f1-why__l{ color: var(--ink-muted); line-height:1.25; }
+.f1-why__t{ position:relative; height:8px; background: linear-gradient(to right, transparent calc(50% - 0.5px), var(--rule) calc(50% - 0.5px), var(--rule) calc(50% + 0.5px), transparent calc(50% + 0.5px)); }
+.f1-why__f{ position:absolute; top:0; bottom:0; }
+.f1-why__f--up{ background: var(--lamp-go); }
+.f1-why__f--down{ background: var(--hold); }
+.f1-why-note{ margin: var(--space-2) 0 0; font-size:0.7rem; line-height:1.5; color: var(--ink-muted); }

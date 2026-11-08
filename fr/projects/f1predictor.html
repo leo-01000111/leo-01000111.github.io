@@ -26,7 +26,7 @@
   <script src="/assets/theme.js"></script>
 <link rel="stylesheet" href="/assets/tokens.css" />
 <link rel="stylesheet" href="/assets/components.css" />
-<link rel="stylesheet" href="/assets/style.css?v=20261103" />
+<link rel="stylesheet" href="/assets/style.css?v=20261108" />
   <script defer src="/assets/main.js"></script>
   <script defer src="/assets/f1-market.js?v=20261103"></script>
 </head>
@@ -244,6 +244,9 @@
         winners: "winners called", podiumAvg: "podium drivers per race",
         legendPred: "on the predicted podium", legendHit: "winner called",
         predicted: "Predicted",
+        why: "Why", whyFor: function(d) { return "Why " + d + " is here"; },
+        boost: "Biggest boost", drag: "Biggest drag",
+        whyNote: "Tap ? next to a driver to see what pulls them up or down the predicted order, compared with the field average. Chances of retiring are not part of it.",
         looksAt: "What the model looks at",
         groups: { qualifying: "Qualifying", car: "Car & team", driver: "Driver form", championship: "Championship",
                   circuit: "Circuit history", reliability: "Reliability", weather: "Weather", sprint: "Sprint", practice: "Practice long runs" },
@@ -270,6 +273,9 @@
         winners: "vainqueurs trouvés", podiumAvg: "pilotes du podium par course",
         legendPred: "sur le podium prédit", legendHit: "vainqueur trouvé",
         predicted: "Prédit",
+        why: "Pourquoi", whyFor: function(d) { return "Pourquoi " + d + " est ici"; },
+        boost: "Plus gros atout", drag: "Plus gros frein",
+        whyNote: "Touchez ? à côté d'un pilote pour voir ce qui le fait monter ou descendre dans l'ordre prédit, par rapport à la moyenne du plateau. Le risque d'abandon n'en fait pas partie.",
         looksAt: "Ce que regarde le modèle",
         groups: { qualifying: "Qualifications", car: "Voiture et équipe", driver: "Forme du pilote", championship: "Championnat",
                   circuit: "Historique du circuit", reliability: "Fiabilité", weather: "Météo", sprint: "Sprint", practice: "Longs relais aux essais" },
@@ -331,6 +337,11 @@
     // Next race: P2 | P1 | P3 podium, full grid in a disclosure
     function podium(drivers, c, lang) {
       var top = drivers.slice(0, 3);
+      var hasWhy = drivers.some(function(d) { return d.why; });
+      var whyMax = 0;
+      drivers.forEach(function(d) {
+        whyEntries(d.why).forEach(function(x) { whyMax = Math.max(whyMax, Math.abs(x[1])); });
+      });
       var order = [1, 0, 2];
       var h = '<ol class="f1-podium">';
       order.forEach(function(i) {
@@ -346,15 +357,51 @@
       });
       h += '</ol>';
       h += '<details class="f1-grid"><summary>' + c.fullGrid + '</summary><table class="f1-grid__t"><thead><tr>' +
-        '<th scope="col">#</th><th scope="col"><span class="sr-only">Driver</span></th><th scope="col">' + c.startGrid + '</th><th scope="col">' + c.win + '</th><th scope="col">' + c.podium + '</th></tr></thead><tbody>';
+        '<th scope="col">#</th><th scope="col"><span class="sr-only">Driver</span></th><th scope="col">' + c.startGrid + '</th><th scope="col">' + c.win + '</th><th scope="col">' + c.podium + '</th>' +
+        (hasWhy ? '<th scope="col"><span class="sr-only">' + c.why + '</span></th>' : '') + '</tr></thead><tbody>';
       drivers.forEach(function(d, i) {
         h += '<tr><td>' + (i + 1) + '</td><td><span class="f1-dot" style="--team:' + teamColor(d.team) + '"></span>' + escHtml(d.driver) + '</td>' +
           '<td class="f1-grid__start">' + (d.grid ? 'P' + d.grid : (d.grid === 0 ? 'PL' : '–')) + '</td>' +
           '<td>' + pct(d.p_win, lang) + '</td>' +
-          '<td><span class="f1-meter" aria-hidden="true"><span style="width:' + ((d.p_podium || 0) * 100).toFixed(1) + '%"></span></span>' + pct(d.p_podium, lang) + '</td></tr>';
+          '<td><span class="f1-meter" aria-hidden="true"><span style="width:' + ((d.p_podium || 0) * 100).toFixed(1) + '%"></span></span>' + pct(d.p_podium, lang) + '</td>' +
+          (hasWhy ? '<td>' + (d.why ? '<button type="button" class="f1-why-btn" aria-expanded="false" aria-controls="f1-why-' + i + '" aria-label="' + escHtml(c.whyFor(d.driver)) + '" title="' + c.why + '">?</button>' : '') + '</td>' : '') +
+          '</tr>';
+        if (hasWhy && d.why) {
+          h += '<tr class="f1-why" id="f1-why-' + i + '" hidden><td colspan="6">' + whyBlock(d, whyMax, c) + '</td></tr>';
+        }
       });
-      h += '</tbody></table></details>';
+      h += '</tbody></table>';
+      if (hasWhy) h += '<p class="f1-why-note">' + c.whyNote + '</p>';
+      h += '</details>';
       return h;
+    }
+
+    // Per-driver explanation: feature-group pull on the predicted order vs the field
+    // average (log-strength, src/models/explain.py in F1-Predictor). Bars share one
+    // scale per race so drivers can be compared.
+    function whyEntries(why) {
+      return Object.keys(why || {}).map(function(k) { return [k, why[k]]; })
+        .filter(function(e) { return Math.abs(e[1]) >= 0.05; })
+        .sort(function(a, b) { return Math.abs(b[1]) - Math.abs(a[1]); });
+    }
+
+    function whyBlock(d, max, c) {
+      var e = whyEntries(d.why);
+      var up = e.filter(function(x) { return x[1] > 0; })[0];
+      var down = e.filter(function(x) { return x[1] < 0; })[0];
+      var h = '<p class="f1-why__sum"><span class="sr-only">' + escHtml(c.whyFor(d.driver)) + '. </span>';
+      if (up) h += '<span class="f1-why__up">' + c.boost + ': ' + escHtml(c.groups[up[0]] || up[0]) + '</span>';
+      if (down) h += '<span class="f1-why__down">' + c.drag + ': ' + escHtml(c.groups[down[0]] || down[0]) + '</span>';
+      h += '</p><ul class="f1-why__bars">';
+      e.slice(0, 5).forEach(function(x) {
+        var w = (Math.abs(x[1]) / (max || 1) * 50).toFixed(1);
+        var pos = x[1] > 0;
+        h += '<li><span class="f1-why__l">' + escHtml(c.groups[x[0]] || x[0]) + '</span>' +
+          '<span class="f1-why__t" aria-hidden="true"><span class="f1-why__f f1-why__f--' + (pos ? 'up' : 'down') + '" style="' +
+          (pos ? 'left:50%' : 'right:50%') + ';width:' + w + '%"></span></span>' +
+          '<span class="sr-only">' + (pos ? '+' : '−') + '</span></li>';
+      });
+      return h + '</ul>';
     }
 
     // Season record: one column per round, newest first in the DOM; the grid runs
@@ -474,6 +521,15 @@
 
       h += '<p class="f1-live__foot"><span class="live-dot"></span>GitHub Actions · ' + c.updated + ' ' + escHtml(fmtTime(data.updated_at, lang)) + '</p>';
       root.innerHTML = h;
+      root.addEventListener("click", function(ev) {
+        var b = ev.target.closest ? ev.target.closest(".f1-why-btn") : null;
+        if (!b) return;
+        var row = document.getElementById(b.getAttribute("aria-controls"));
+        if (!row) return;
+        var open = b.getAttribute("aria-expanded") === "true";
+        b.setAttribute("aria-expanded", open ? "false" : "true");
+        row.hidden = open;
+      });
     }
 
     var lang = getLang();
