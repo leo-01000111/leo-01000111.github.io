@@ -50,7 +50,7 @@
     "id": 9,
     "slug": "mostmobilemouse",
     "short": "MostMobileMouse",
-    "featuredOrder": 3,
+    "featuredOrder": 7,
     "code": "GNC",
     "meta": ["2026", "In progress"],
     "title": {
@@ -115,8 +115,9 @@
     "id": 4,
     "slug": "f1predictor",
     "short": "F1 Predictor",
-    "featuredOrder": 7,
+    "featuredOrder": 3,
     "code": "ML",
+    "meta": ["2026", "Live"],
     "title": {
       "en": "F1 Race Predictor",
       "fr": "Prédicteur de Course F1"
