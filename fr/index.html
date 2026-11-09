@@ -319,16 +319,10 @@
         empty.dataset.level = "0";
         grid.appendChild(empty);
       }
-      // Size the cells so the weeks fill the column (8 to 18 px each).
-      var outer = inner.closest(".gh-outer") || inner;
-      function fit() {
-        var weeks = Math.ceil(grid.children.length / 7);
-        var cell = Math.floor((inner.clientWidth - (weeks - 1) * GAP) / weeks);
-        outer.style.setProperty("--gh-cell", Math.max(8, Math.min(18, cell)) + "px");
-      }
-      fit();
-      var resizeTimer;
-      window.addEventListener("resize", function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(fit, 100); });
+      // Cell size is pure CSS (container-query units on .gh-outer), so it follows
+      // the column through any zoom or layout change; JS only says how many weeks.
+      var outer = inner.closest(".gh-outer");
+      if (outer) outer.style.setProperty("--gh-weeks", String(Math.ceil(grid.children.length / 7)));
       var monthsEl = document.getElementById("gh-months");
       if (monthsEl) {
         var lastMonth = -1, lastLbl = null, lastWeek = -9;

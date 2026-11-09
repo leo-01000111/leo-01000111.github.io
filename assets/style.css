@@ -345,11 +345,16 @@ h1{
 .proj-thumb.thumb-on-white img{ object-fit: contain; padding: 6px; }
 
 /* ── GitHub contribution graph (ink → signal steps) ── */
-.gh-grid-wrap{ overflow:hidden; width:100%; }
-.gh-outer{ --gh-cell:10px; display:flex; align-items:flex-start; gap:4px; }
+.gh-grid-wrap{ overflow:hidden; width:100%; container-type:inline-size; }
+.gh-outer{ --gh-weeks:26; --gh-cell:10px; display:flex; align-items:flex-start; gap:4px; }
+/* Cell = (column width - day-label column - gaps) / weeks, capped at 18px.
+   Pure CSS so it can never overflow or go stale (no JS measuring). */
+@supports (width:1cqw){
+  .gh-outer{ --gh-cell: clamp(3px, calc((100cqw - 28px - (var(--gh-weeks) - 1) * 2px) / var(--gh-weeks)), 18px); }
+}
 .gh-day-labels{
   display:grid; grid-template-rows:repeat(7,var(--gh-cell)); gap:2px; margin-top:20px;
-  flex-shrink:0; font-size:9px; font-family: var(--font-mono); color: var(--ink-muted); line-height:var(--gh-cell); text-align:right;
+  flex-shrink:0; width:24px; font-size:9px; font-family: var(--font-mono); color: var(--ink-muted); line-height:var(--gh-cell); text-align:right;
 }
 .gh-inner{ flex:1; min-width:0; overflow:hidden; }
 .gh-months{ position:relative; height:18px; margin-bottom:2px; }
