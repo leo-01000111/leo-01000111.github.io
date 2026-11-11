@@ -146,6 +146,7 @@ SEE_ALSO = {
     "mostmobilemouse": ["navfusion", "project1"],
     "navfusion": ["project1", "evans"],
     "project1": ["navfusion", "evans"],
+    "planelocate": ["navfusion", "mostmobilemouse"],
 }
 
 

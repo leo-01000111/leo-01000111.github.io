@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>PlaneLocate - Leon Górecki</title>
+  <meta name="description" content="Localiser un micro à partir des courbes Doppler des avions qui passent, comparées aux données de vol ADS-B publiques. Tout se passe dans le navigateur." />
+  <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="PlaneLocate - Leon Górecki" />
+  <meta property="og:description" content="Localiser un micro à partir des courbes Doppler des avions qui passent." />
+  <meta property="og:url" content="https://www.leongorecki.eu/fr/projects/planelocate.html" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/fr/projects/planelocate.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/planelocate.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/planelocate.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/planelocate.html" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <script src="/assets/theme.js"></script>
+  <link rel="stylesheet" href="/assets/tokens.css" />
+  <link rel="stylesheet" href="/assets/components.css" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <link rel="stylesheet" href="/assets/planelocate/planelocate.css" />
+  <script defer src="/assets/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script type="module" src="/assets/planelocate/app.js"></script>
+</head>
+<body data-project-id="PlaneLocate" data-project-slug="planelocate">
+  <a class="skip-link" href="#main">Aller au contenu principal</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/fr/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Accueil</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projets</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>PlaneLocate</span></span>
+      </nav>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Thème" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Jour</button><button type="button" data-set-theme="dark" aria-pressed="false">Nuit</button></div>
+        <div class="hp-lang" role="group" aria-label="Langue">
+          <a data-lang="en" href="/projects/planelocate.html" hreflang="en" lang="en">EN</a>
+          <a data-lang="fr" aria-current="page" href="/fr/projects/planelocate.html" hreflang="fr" lang="fr">FR</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="proj-hero">
+      <div class="hero-grid">
+        <div>
+          <p class="label">OSINT acoustique · Démo dans le navigateur</p>
+          <h1 id="proj-title">PlaneLocate — localiser un micro grâce aux avions qui passent</h1>
+          <p class="lede">Chaque avion qui passe laisse une courbe Doppler dans un enregistrement. Comparez quelques-unes de ces courbes aux données de vol ADS-B publiques et vous obtenez l’endroit où se trouvait le micro. Cette page le fait dans votre navigateur, à partir du seul son.</p>
+          <ul class="hp-tags" aria-label="Stack">
+            <li><span class="hp-tag">Web Audio</span></li>
+            <li><span class="hp-tag">DSP</span></li>
+            <li><span class="hp-tag">ADS-B</span></li>
+            <li><span class="hp-tag">Géolocalisation</span></li>
+          </ul>
+          <div class="cta" style="margin-top: 18px;">
+            <a class="hp-btn hp-btn--ghost" href="/fr/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Retour aux projets</span></a>
+            <a class="hp-btn hp-btn--ghost" href="#pl-demo"><span>Essayer</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(90 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
+          </div>
+        </div>
+        <section class="hp-plate" aria-label="Chaîne de traitement">
+          <div class="hp-plate__head"><span class="hp-plate__title">Chaîne de traitement</span><span class="hp-plate__ref">PL-01</span></div>
+          <dl>
+            <dt>Entrée</dt><dd>Micro, rééchantillonné à 4 kHz</dd>
+            <dt>Bande</dt><dd>40 – 1600 Hz</dd>
+            <dt>Résolution</dt><dd>2 Hz · 0.13 s</dd>
+            <dt>Données de vol</dt><dd>FlyItalyADSB en direct · instantané OpenSky pour la simulation</dd>
+            <dt>Votre audio</dt><dd><span class="hp-lamp hp-lamp--go"><i aria-hidden="true"></i><span>Ne quitte jamais la page</span></span></dd>
+          </dl>
+        </section>
+      </div>
+    </section>
+
+    <section id="pl-demo" class="pl-demo card" aria-labelledby="pl-demo-h" data-relay="https://planelocate-relay.netlify.app/states">
+      <h2 id="pl-demo-h">Démo</h2>
+      <div class="pl-controls">
+        <button type="button" class="hp-btn hp-btn--primary" id="pl-sim"><span>Lancer la simulation</span></button>
+        <button type="button" class="hp-btn hp-btn--secondary" id="pl-listen"><span>Écouter en direct</span></button>
+        <button type="button" class="hp-btn hp-btn--ghost" id="pl-stop" disabled><span>Arrêter</span></button>
+        <button type="button" class="hp-btn hp-btn--ghost" id="pl-hear" disabled><span>Écouter</span></button>
+        <span class="hp-lamp hp-lamp--off" id="pl-status" role="status" aria-live="polite"><i aria-hidden="true"></i><span>Prêt</span></span>
+      </div>
+      <p class="small muted pl-note">La simulation cache un auditeur près de vrais avions tirés d’un instantané ADS-B enregistré, synthétise ce que son micro entendrait, puis applique la même chaîne que le mode direct sans savoir où se trouve l’auditeur. Le mode direct demande d’être dehors, ou près d’une fenêtre ouverte, sous une trajectoire d’avions ; un passage dure environ une minute.</p>
+      <div class="pl-progress" id="pl-progress" hidden><i></i></div>
+
+      <figure class="pl-fig">
+        <canvas class="pl-spec" id="pl-spec" aria-label="Spectrogramme en direct"></canvas>
+        <figcaption class="label">Fig. 01 — Spectrogramme, 60 dernières secondes, fréquence logarithmique. Jaune : tonalités suivies. Tirets bleus : passage d’avion ajusté.</figcaption>
+      </figure>
+
+      <div class="pl-split">
+        <figure class="pl-fig" style="margin-top:0">
+          <section class="pl-map" id="pl-map" aria-label="Carte des lieux candidats"></section>
+          <figcaption class="label">Fig. 02 — Gris : tous les lieux d’où un passage aurait pu être entendu. Jaune : les avions qui concordent. Bleu : la position.<br />Données de vol en direct : FlyItalyADSB (flyitalyadsb.com), CC BY-SA 4.0. Simulation : OpenSky Network.</figcaption>
+        </figure>
+        <div class="pl-side">
+          <section class="hp-plate" aria-label="Résultat">
+            <div class="hp-plate__head"><span class="hp-plate__title">Résultat</span><span class="hp-plate__ref">PL-02</span></div>
+            <dl id="pl-result"></dl>
+          </section>
+          <h3 class="label">Passages</h3>
+          <ol class="pl-passes" id="pl-passes"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="pl-section" aria-labelledby="pl-how-h">
+      <div class="card">
+        <h2 id="pl-how-h">Comment ça marche</h2>
+        <ol class="pl-steps">
+          <li><h3>Trouver les tonalités</h3><p class="muted">Hélices et soufflantes bourdonnent à une fréquence fixe. Je calcule des FFT courtes du signal du micro, je retire le fond stable (frigo, ronflement du secteur) et je relie les pics spectraux restants en pistes.</p></li>
+          <li><h3>Ajuster la courbe Doppler</h3><p class="muted">Une source qui passe descend en hauteur selon une courbe en S connue. Ses deux extrémités donnent la vitesse, sa pente la distance minimale, son milieu l’instant. Un ajustement de Nelder–Mead de ce modèle sur chaque piste donne les trois.</p></li>
+          <li><h3>Interroger chaque avion</h3><p class="muted">N’importe quel avion volant bas sur Terre à cette vitesse aurait pu produire ce son. Chacun donne deux lieux possibles pour l’auditeur, un de chaque côté de sa trajectoire : un seul passage correspond à des centaines de lieux.</p></li>
+          <li><h3>Faire concorder les passages</h3><p class="muted">Là où les lieux issus d’au moins deux avions différents se rejoignent, j’ajuste la position de l’auditeur sur leurs vraies trajectoires, en tenant compte du temps de propagation du son. Un seul lieu explique tous les passages : c’est la position.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="pl-section grid" aria-label="Limites et confidentialité">
+      <div class="card">
+        <h2>Limites</h2>
+        <ul class="list">
+          <li>Mesuré sur 20 simulations : 13 localisées à moins de 120 m, 2 sans position, et 5 au mauvais endroit, dont 2 signalées comme incertaines.</li>
+          <li>Il faut les passages d’au moins deux avions différents. Près d’un aéroport, cela prend quelques minutes ; ailleurs, des heures.</li>
+          <li>Les micros d’ordinateur portable et les fenêtres fermées perdent les tonalités graves. Dehors avec un téléphone, cela marche bien mieux.</li>
+          <li>Seuls les avions qui émettent en ADS-B et que captent des récepteurs bénévoles peuvent être appariés. En mode direct, la page ne connaît en plus que le trafic VFR et 16 types courants (Cessna, Piper, A320, 737, Dash 8, ATR), rafraîchis toutes les 40 s : le passage de tout autre appareil ne peut pas être apparié.</li>
+          <li>La vitesse du son et le vent sont supposés, et l’auditeur est supposé au niveau de la mer ; chacun ajoute quelques dizaines de mètres d’erreur.</li>
+          <li>Quand deux lieux expliquent les passages à peu près aussi bien, la page le dit au lieu d’en choisir un.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Confidentialité</h2>
+        <p class="muted">Le signal du micro est analysé dans cet onglet et n’est jamais envoyé ni stocké. En mode direct, la page télécharge les positions actuelles des avions volant bas dans le monde entier depuis un petit relais à moi ; elle n’envoie rien vous concernant. Elle ne s’aide ni de votre adresse IP ni de la localisation du navigateur.</p>
+      </div>
+    </section>
+
+    <nav class="see-also" id="see-also" aria-label="Voir aussi">
+      <h2 class="label see-also__title">Voir aussi</h2>
+      <!-- see-also:start -->
+<div class="hp-card-list">
+<a class="hp-card" href="/fr/projects/navfusion.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>07</span></div><div class="hp-card__body"><h3 class="hp-card__title">navfusion</h3><p class="hp-card__summary">Un EKF à état d'erreur, piloté par événements, qui fusionne IMU et GNSS. Il garde une estimation de pose stable quand les mesures sont en retard, manquantes ou bruitées.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Sensor Fusion</span></li><li><span class="hp-tag">EKF</span></li><li><span class="hp-tag">Robotics</span></li><li><span class="hp-tag">GNSS</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card" href="/fr/projects/mostmobilemouse.html"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>03</span></div><div class="hp-card__body"><div class="hp-card__kicker"><span>2026</span><span>In progress</span></div><h3 class="hp-card__title">MostMobileMouse : un téléphone comme souris de bureau</h3><p class="hp-card__summary">Un téléphone posé face contre le bureau sert de souris. La caméra arrière suit le plafond, et la centrale inertielle fixe l'échelle et détecte les tapes et les levées. Projet en cours.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Sensor Fusion</span></li><li><span class="hp-tag">Computer Vision</span></li><li><span class="hp-tag">Kotlin</span></li><li><span class="hp-tag">Python</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+</div>
+<!-- see-also:end -->
+    </nav>
+  </main>
+
+  <footer class="site-footer" aria-label="Pied de page">
+    <div role="separator"><svg class="hp-marking" width="100%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="hp-mk-fr-proj-planelocate" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%" height="28" fill="url(#hp-mk-fr-proj-planelocate)"></rect></svg></div>
+    <div class="site-footer__row">
+      <p class="site-footer__copy data">&copy; <span id="year">2026</span> Leon G&oacute;recki</p>
+      <p class="site-footer__links data"><a href="mailto:leon.gorecki.fr@proton.me">E-mail</a> &middot; <a href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a> &middot; <a href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" rel="noopener noreferrer" target="_blank">LinkedIn</a> &middot; <a href="/cv-fr.pdf" rel="noopener noreferrer" target="_blank">CV</a></p>
+    </div>
+  </footer>
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){var l=location;if(l.hostname==="localhost"||l.hostname==="127.0.0.1")return;
+var u="https://stats.leongorecki.eu/e",o={p:l.pathname,r:document.referrer,h:l.hostname};if(/(?:^|; )lg_me=1/.test(document.cookie))o.m=1;var b=JSON.stringify(o);
+try{if(navigator.sendBeacon&&navigator.sendBeacon(u,new Blob([b],{type:"text/plain"})))return}catch(e){}
+try{fetch(u,{method:"POST",body:b,keepalive:true,mode:"cors",headers:{"content-type":"text/plain"}})}catch(e){}})();
+</script>
+</body>
+</html>
