@@ -194,5 +194,29 @@
       "Data Science",
       "Competition"
     ]
+  },
+  {
+    "id": 10,
+    "slug": "planelocate",
+    "short": "PlaneLocate",
+    "code": "GNC",
+    "meta": [
+      "2026",
+      "Live demo"
+    ],
+    "title": {
+      "en": "PlaneLocate: finding a microphone from passing aircraft",
+      "fr": "PlaneLocate : localiser un micro grâce aux avions qui passent"
+    },
+    "description": {
+      "en": "Locates a microphone from the Doppler curves of passing aircraft, matched against live ADS-B flight data. Runs in the browser, from sound alone.",
+      "fr": "Localise un micro à partir des courbes Doppler des avions qui passent, comparées aux données ADS-B en direct. Tout tourne dans le navigateur, à partir du seul son."
+    },
+    "tags": [
+      "DSP",
+      "Web Audio",
+      "ADS-B",
+      "JavaScript"
+    ]
   }
 ]

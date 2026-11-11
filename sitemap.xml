@@ -190,4 +190,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://www.leongorecki.eu/projects/planelocate.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/planelocate.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/planelocate.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/planelocate.html" />
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.leongorecki.eu/fr/projects/planelocate.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/planelocate.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/planelocate.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/planelocate.html" />
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

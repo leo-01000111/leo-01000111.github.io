@@ -1,0 +1,51 @@
+/* PlaneLocate demo page. Uses Holding Point tokens only. */
+
+.pl-demo { margin-top: var(--space-6); }
+.pl-controls { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+.pl-controls .hp-lamp { margin-left: var(--space-2); }
+.pl-note { margin: var(--space-3) 0 0; max-width: 68ch; }
+
+.pl-progress { height: 6px; margin-top: var(--space-3); background: var(--rule); }
+.pl-progress > i { display: block; height: 100%; width: 0; background: var(--signal); box-shadow: inset 0 0 0 1px var(--ink); transition: width var(--t-fast) var(--ease-out); }
+
+.pl-fig { margin: var(--space-4) 0 0; }
+.pl-fig figcaption { margin-top: var(--space-2); color: var(--ink-muted); }
+.pl-spec { display: block; width: 100%; height: 300px; background: #121314; box-shadow: inset 0 0 0 var(--stroke-bold) var(--ink); }
+@media (max-width: 620px) { .pl-spec { height: 220px; } }
+
+.pl-split { display: grid; grid-template-columns: var(--split-major) minmax(0, 1fr); gap: var(--space-4); margin-top: var(--space-4); align-items: start; }
+.pl-split > * { min-width: 0; }
+@media (max-width: 860px) { .pl-split { grid-template-columns: 1fr; } }
+
+.pl-map { height: 440px; border: var(--stroke-bold) solid var(--ink); background: var(--ground); }
+@media (max-width: 620px) { .pl-map { height: 320px; } }
+.pl-map .leaflet-control-attribution { font-family: var(--font-mono); font-size: 9px; }
+/* Flat, concrete-toned basemap by day; inverted asphalt by night. */
+.pl-map .leaflet-tile-pane { filter: grayscale(1) contrast(.85) brightness(1.04); }
+.pl-map.is-dark .leaflet-tile-pane { filter: grayscale(1) invert(1) contrast(.8) brightness(.85); }
+.pl-map.is-dark .leaflet-control-attribution { background: rgba(14,15,17,.8); color: var(--ink-muted); }
+.pl-map .leaflet-bar, .pl-map .leaflet-bar a { border-radius: 0; }
+
+.pl-side .hp-plate { max-width: none; }
+.pl-side h3 { margin: var(--space-5) 0 var(--space-2); }
+.pl-passes { list-style: none; margin: 0; padding: 0; font-family: var(--font-mono); font-size: 12px; line-height: 18px; font-variant-numeric: tabular-nums; }
+.pl-passes li { display: flex; flex-wrap: wrap; gap: 2px var(--space-3); padding: var(--space-2) 0; border-bottom: var(--stroke-hair) solid var(--rule); color: var(--ink-muted); }
+.pl-passes li b { color: var(--ink); min-width: 2.2em; }
+.pl-passes li.is-used b { background: var(--signal); color: var(--on-signal); padding: 0 4px; }
+.pl-passes .pl-ac { color: var(--ink); }
+
+/* Map pins: small location-sign plates. */
+.pl-pin { background: none; border: 0; }
+.pl-pin span { display: inline-block; transform: translate(8px, -50%); white-space: nowrap; padding: 3px 6px; background: var(--plate); color: var(--on-plate); box-shadow: inset 0 0 0 2px var(--on-plate); font-family: var(--font-display); font-weight: 760; font-stretch: var(--stretch-sign); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.1; }
+.pl-pin--ac span { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); font-family: var(--font-mono); font-weight: 600; font-size: 10px; letter-spacing: .06em; }
+.pl-pin--truth span { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+
+.pl-steps { counter-reset: step; list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 860px) { .pl-steps { grid-template-columns: 1fr; } }
+.pl-steps li { counter-increment: step; position: relative; padding-left: 52px; }
+.pl-steps li::before { content: counter(step, decimal-leading-zero); position: absolute; left: 0; top: 0; width: 38px; height: 38px; display: grid; place-items: center; background: var(--signal); color: var(--on-signal); font-family: var(--font-display); font-weight: 820; font-stretch: var(--stretch-sign); font-size: 18px; }
+.pl-steps h3 { margin: 0 0 var(--space-1); font-size: 18px; }
+.pl-steps p { margin: 0; }
+
+.pl-section { margin-top: var(--space-5); }
+.pl-section .card p { max-width: 68ch; }
