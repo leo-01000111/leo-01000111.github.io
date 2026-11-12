@@ -712,6 +712,16 @@ body:has(.f1-mk-dlg[open]) .cchat__launcher{ visibility: hidden; }   /* Cedric w
    to this same box below, stays in step with it. */
 .home-hero__minor{ position: relative; min-width: 0; margin-top: var(--space-7); }
 .home-hero__minor .hp-plate{ position: relative; z-index: 2; max-width: none; }
+/* Bleed + plate share this box, so the bleed's height tracks the plate only,
+   not the Movember bar below it. */
+.home-hero__plate-box{ position: relative; }
+/* Movember bar under the plate: same hairline bar as the tutoring link,
+   but its text wraps (the minor column is narrow). */
+.home-hero__movember{ position: relative; z-index: 2; margin-top: var(--space-4); background: var(--surface); }
+.home-hero__movember .home-hero__tutoring-text,
+.home-hero__movember .home-hero__tutoring-text > span{ white-space: normal; text-overflow: clip; }
+.home-hero__movember .home-hero__tutoring-pl{ line-height: 20px; }
+.home-hero__movember .hp-sign{ flex: none; }
 .home-hero__bleed{
   position: absolute;
   z-index: 1;
