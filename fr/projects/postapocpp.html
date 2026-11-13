@@ -71,9 +71,10 @@
         <section class="hp-plate" aria-label="Fiche du kit">
           <div class="hp-plate__head"><span class="hp-plate__title">Fiche du kit</span><span class="hp-plate__ref">PAC-01</span></div>
           <dl>
-            <dt>Page</dt><dd>Un fichier HTML, 1,4 Mo, sans réseau</dd>
-            <dt>Recherche</dt><dd>198 entrées : fiches, fonctions, erreurs</dd>
-            <dt>Modèles</dt><dd>8 fichiers C++17, sans avertissement avec -Wall -Wextra</dd>
+            <dt>Page</dt><dd>Un fichier HTML, 1,8 Mo, sans réseau</dd>
+            <dt>Recherche</dt><dd>365 entrées, tolère les fautes de frappe</dd>
+            <dt>Syntaxe</dt><dd>150 fonctions std, chaque exemple compile</dd>
+            <dt>Modèles</dt><dd>9 fichiers C++17, sans avertissement avec -Wall -Wextra</dd>
             <dt>Installation</dt><dd>Une commande, environ 10 s</dd>
             <dt>Examen</dt><dd><span class="hp-lamp hp-lamp--caution"><i aria-hidden="true"></i><span>Lun. 16 nov. 2026, 2 h</span></span></dd>
           </dl>
@@ -88,7 +89,7 @@
           Les anciens examens d’ARPRO suivent tous le même schéma : un casse-tête ou un jeu, un algorithme classique donné en pseudo-code, et un squelette C++ dont quelques méthodes sont marquées TODO. Le kit est construit autour de ça : une page indique quel algorithme convient à quel problème, et chacun a un modèle qui compile seul.
         </p>
         <p class="muted" style="line-height:1.7;margin:0;">
-          Tout s’ouvre depuis <code>START_HERE.html</code>. Ctrl+K, puis <code>erase</code>, <code>priority_queue</code> ou une erreur de compilation : la page saute à la bonne fiche ou à la ligne exacte d’une fonction. Il y a aussi un chronomètre de deux heures et une liste pour la routine : lire le sujet, compiler le projet intact, faire un commit après chaque méthode qui marche. La page fonctionne depuis la clé sans réseau, et aussi <a href="/Post-Apo-C-plus-plus/START_HERE.html">en ligne</a>.
+          Tout s’ouvre depuis <code>START_HERE.html</code>. Ctrl+K, puis <code>erase</code>, <code>priority_queue</code> ou une erreur de compilation, même mal orthographiés : la page saute à la bonne fiche ou à la ligne exacte d’une fonction. Il y a aussi un chronomètre de deux heures et une liste pour la routine : lire le sujet, compiler le projet intact, faire un commit après chaque méthode qui marche. La page fonctionne depuis la clé sans réseau, et aussi <a href="/Post-Apo-C-plus-plus/START_HERE.html">en ligne</a>.
         </p>
       </div>
     </section>
@@ -112,6 +113,14 @@
           <div class="data-grid__item">
             <div class="data-grid__label">Outils pour le PC d’examen</div>
             <div class="data-grid__value">Des scripts Bash : l’un installe le kit depuis la clé, un autre cherche dans toutes les notes, modèles et diapos à la fois, un troisième compile un projet CMake avec les sanitizers pour qu’un plantage indique sa ligne.</div>
+          </div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Référence des fonctions</div>
+            <div class="data-grid__value">150 fonctions std, une fiche chacune : signature, exemple minimal, en-tête, complexité et le piège qui coûte du temps (<code>pop_back</code> ne renvoie rien, <code>map[k]</code> insère). Un test compile les 150 exemples.</div>
+          </div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Débogage</div>
+            <div class="data-grid__value">Une macro <code>dbg()</code> qui affiche n’importe quelle variable ou conteneur avec son nom, et un modèle <code>CHECK</code> pour tester une méthode avant que le reste du programme en dépende.</div>
           </div>
         </div>
       </div>

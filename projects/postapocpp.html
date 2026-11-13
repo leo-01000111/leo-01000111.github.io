@@ -70,9 +70,10 @@
         <section class="hp-plate" aria-label="Kit specs">
           <div class="hp-plate__head"><span class="hp-plate__title">Kit specs</span><span class="hp-plate__ref">PAC-01</span></div>
           <dl>
-            <dt>Page</dt><dd>One HTML file, 1.4 MB, no network</dd>
-            <dt>Search</dt><dd>198 entries: cards, functions, errors</dd>
-            <dt>Snippets</dt><dd>8 C++17 files, warning-free with -Wall -Wextra</dd>
+            <dt>Page</dt><dd>One HTML file, 1.8 MB, no network</dd>
+            <dt>Search</dt><dd>365 entries, typo-tolerant</dd>
+            <dt>Syntax</dt><dd>150 std functions, every example compiles</dd>
+            <dt>Snippets</dt><dd>9 C++17 files, warning-free with -Wall -Wextra</dd>
             <dt>Exam PC setup</dt><dd>One command, about 10 s</dd>
             <dt>Exam</dt><dd><span class="hp-lamp hp-lamp--caution"><i aria-hidden="true"></i><span>Mon 16 Nov 2026, 2 h</span></span></dd>
           </dl>
@@ -87,7 +88,7 @@
           Past ARPRO exams follow one pattern: a puzzle or a game, one classic algorithm given as pseudocode, and a C++ skeleton with a few methods marked TODO. The kit is built around that. It has a page that tells you which algorithm fits which problem, and a template for each one that compiles on its own.
         </p>
         <p class="muted" style="line-height:1.7;margin:0;">
-          Everything opens from <code>START_HERE.html</code>. Press Ctrl+K and type <code>erase</code>, <code>priority_queue</code> or a compiler error, and it jumps to the card or to the exact line of a function. There is also a two-hour exam timer and a checklist for the routine: read the subject, build the untouched project, commit after each working method. The page works from the drive with no network, and it also works <a href="/Post-Apo-C-plus-plus/START_HERE.html">online</a>.
+          Everything opens from <code>START_HERE.html</code>. Press Ctrl+K and type <code>erase</code>, <code>priority_queue</code> or a compiler error, typos included, and it jumps to the syntax card, the cheat-sheet card or the exact line of a function. There is also a two-hour exam timer and a checklist for the routine: read the subject, build the untouched project, commit after each working method. The page works from the drive with no network, and it also works <a href="/Post-Apo-C-plus-plus/START_HERE.html">online</a>.
         </p>
       </div>
     </section>
@@ -111,6 +112,14 @@
           <div class="data-grid__item">
             <div class="data-grid__label">Exam PC tools</div>
             <div class="data-grid__value">Bash scripts: one sets the kit up from the drive, one greps every note, snippet and slide at once, one builds a CMake project with sanitizers so a crash points at its line.</div>
+          </div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Function reference</div>
+            <div class="data-grid__value">150 std functions, one card each: signature, a minimal example, header, complexity and the gotcha that bites (<code>pop_back</code> returns nothing, <code>map[k]</code> inserts). A test compiles all 150 examples.</div>
+          </div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Debugging</div>
+            <div class="data-grid__value">A <code>dbg()</code> macro that prints any variable or container with its name, and a <code>CHECK</code> pattern to test one method before the rest of the program depends on it.</div>
           </div>
         </div>
       </div>
