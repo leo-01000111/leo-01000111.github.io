@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="site-root" content="/" />
+  <title>Post-Apocalyptic C++ - Leon Górecki</title>
+  <meta name="description" content="An offline C++ exam kit for a USB drive: cheat-sheets, compiling algorithm templates and a solved past exam, searchable from one page." />
+  <meta name="theme-color" content="#e7e8e3" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0e0f11" media="(prefers-color-scheme: dark)" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Post-Apocalyptic C++ - Leon Górecki" />
+  <meta property="og:description" content="An offline C++ exam kit for a USB drive, searchable from one page." />
+  <meta property="og:url" content="https://www.leongorecki.eu/projects/postapocpp.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="canonical" href="https://www.leongorecki.eu/projects/postapocpp.html" />
+  <link rel="alternate" hreflang="en" href="https://www.leongorecki.eu/projects/postapocpp.html" />
+  <link rel="alternate" hreflang="fr" href="https://www.leongorecki.eu/fr/projects/postapocpp.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.leongorecki.eu/projects/postapocpp.html" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" href="/assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <script src="/assets/theme.js"></script>
+  <link rel="stylesheet" href="/assets/tokens.css" />
+  <link rel="stylesheet" href="/assets/components.css" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script defer src="/assets/main.js"></script>
+</head>
+<body data-project-id="Post-Apocalyptic C++" data-project-slug="postapocpp">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <nav class="hp-signarray" aria-label="Site">
+        <a class="hp-sign hp-sign--direction hp-sign--sm" data-ui="home" href="/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Home</span></a>
+        <a class="hp-sign hp-sign--direction hp-sign--sm" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Projects</span></a>
+        <span class="hp-sign hp-sign--location hp-sign--sm" aria-current="page"><span>Post-Apo C++</span></span>
+      </nav>
+      <div class="header-tools">
+        <div class="hp-lang" role="group" aria-label="Theme" data-theme-toggle hidden><button type="button" data-set-theme="light" aria-pressed="false">Day</button><button type="button" data-set-theme="dark" aria-pressed="false">Night</button></div>
+        <div class="hp-lang" role="group" aria-label="Language">
+          <a data-lang="en" aria-current="page" href="/projects/postapocpp.html" hreflang="en" lang="en">EN</a>
+          <a data-lang="fr" href="/fr/projects/postapocpp.html" hreflang="fr" lang="fr">FR</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="proj-hero">
+      <div class="hero-grid">
+        <div>
+          <p class="label" id="proj-kicker">C++ exam kit &middot; Centrale Nantes</p>
+          <h1 id="proj-title">Post-Apocalyptic C++ — an offline exam kit</h1>
+          <p id="proj-desc" class="lede">The ARPRO exam runs on lab PCs with no internet, but any USB drive is allowed. This is what I put on mine: cheat-sheets, algorithm templates that compile, my own practice mistakes and a solved past exam, all searchable from one page.</p>
+          <ul class="hp-tags" aria-label="Stack" id="proj-tags">
+            <li><span class="hp-tag">C++17</span></li>
+            <li><span class="hp-tag">Bash</span></li>
+            <li><span class="hp-tag">Python</span></li>
+            <li><span class="hp-tag">HTML/CSS</span></li>
+          </ul>
+          <div class="cta" style="margin-top: 18px;">
+            <a class="hp-btn hp-btn--secondary" href="/Post-Apo-C-plus-plus/START_HERE.html" target="_blank" rel="noopener"><span>Open the kit</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
+            <a class="hp-btn hp-btn--ghost" href="https://github.com/leo-01000111/Post-Apo-C-plus-plus" target="_blank" rel="noopener noreferrer"><span>View repo</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(315 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></a>
+            <a class="hp-btn hp-btn--ghost" id="proj-back" href="/projects/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(180 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg><span>Back to projects</span></a>
+          </div>
+        </div>
+        <section class="hp-plate" aria-label="Kit specs">
+          <div class="hp-plate__head"><span class="hp-plate__title">Kit specs</span><span class="hp-plate__ref">PAC-01</span></div>
+          <dl>
+            <dt>Page</dt><dd>One HTML file, 1.4 MB, no network</dd>
+            <dt>Search</dt><dd>198 entries: cards, functions, errors</dd>
+            <dt>Snippets</dt><dd>8 C++17 files, warning-free with -Wall -Wextra</dd>
+            <dt>Exam PC setup</dt><dd>One command, about 10 s</dd>
+            <dt>Exam</dt><dd><span class="hp-lamp hp-lamp--caution"><i aria-hidden="true"></i><span>Mon 16 Nov 2026, 2 h</span></span></dd>
+          </dl>
+        </section>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="card">
+        <h2>What it does</h2>
+        <p class="muted" style="line-height:1.7;margin:0 0 12px;">
+          Past ARPRO exams follow one pattern: a puzzle or a game, one classic algorithm given as pseudocode, and a C++ skeleton with a few methods marked TODO. The kit is built around that. It has a page that tells you which algorithm fits which problem, and a template for each one that compiles on its own.
+        </p>
+        <p class="muted" style="line-height:1.7;margin:0;">
+          Everything opens from <code>START_HERE.html</code>. Press Ctrl+K and type <code>erase</code>, <code>priority_queue</code> or a compiler error, and it jumps to the card or to the exact line of a function. There is also a two-hour exam timer and a checklist for the routine: read the subject, build the untouched project, commit after each working method. The page works from the drive with no network, and it also works <a href="/Post-Apo-C-plus-plus/START_HERE.html">online</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <div class="card">
+        <h2>What's inside</h2>
+        <div class="data-grid">
+          <div class="data-grid__item">
+            <div class="data-grid__label">Cheat-sheets</div>
+            <div class="data-grid__value">C++17, the STL with a complexity table, and a decoder for g++, linker and CMake errors. They are Markdown files; a Python script turns them into the page.</div>
+          </div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Algorithm templates</div>
+            <div class="data-grid__value">Backtracking, A*, BFS and DFS, minimax with alpha-beta, a genetic algorithm and memoised recursion. Each demo checks itself: 92 solutions to 8-queens, a 15-move 8-puzzle, alpha-beta cutting Nim from 489k to 58k nodes.</div>
+          </div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">My mistakes</div>
+            <div class="data-grid__value">Every slip I made while solving the sudoku exam, written as a rule: member against accessor, <code>-&gt;</code> on pointers, <code>return</code> inside a backtracking loop.</div>
+          </div>
+          <div class="data-grid__item">
+            <div class="data-grid__label">Exam PC tools</div>
+            <div class="data-grid__value">Bash scripts: one sets the kit up from the drive, one greps every note, snippet and slide at once, one builds a CMake project with sanitizers so a crash points at its line.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proj-section grid" aria-label="Design and limits">
+      <div class="card">
+        <h2>Design</h2>
+        <p class="muted" style="line-height:1.7;margin:0;">The page uses Holding Point, the design system of this website. Fonts, styles and the search index are inlined, so a single file carries everything. One topic per card and a keyboard-first search, because there is no time to scroll in an exam.</p>
+      </div>
+      <div class="card">
+        <h2>Limits</h2>
+        <ul class="list">
+          <li>Course slides and exam subjects are not published. A script fetches the public parts; the slides come from the school's Moodle.</li>
+          <li>The templates target one course's exam style. They are starting points, not solutions.</li>
+        </ul>
+      </div>
+    </section>
+
+    <nav class="see-also" id="see-also" aria-label="See also">
+      <h2 class="label see-also__title">See also</h2>
+      <!-- see-also:start -->
+<div class="hp-card-list">
+<a class="hp-card" href="/projects/lgflow.html"><div class="hp-card__index" aria-hidden="true"><em>OPS</em><span>05</span></div><div class="hp-card__body"><h3 class="hp-card__title">LG-FLOW: 2D CFD Solver</h3><p class="hp-card__summary">2D incompressible Navier-Stokes solver in C++20, using the finite volume method and SIMPLE coupling. Validated against the Ghia et al. lid-driven cavity benchmark and the analytical Poiseuille channel profile.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">C++</span></li><li><span class="hp-tag">CFD</span></li><li><span class="hp-tag">Simulation</span></li><li><span class="hp-tag">FVM</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+<a class="hp-card hp-card--hold" href="/evans/"><div class="hp-card__index" aria-hidden="true"><em>GNC</em><span>01</span></div><div class="hp-card__body"><h3 class="hp-card__title">Evans: a control-systems workbench in Python</h3><p class="hp-card__summary">A desktop workbench for classical and state-space control. It has analysis plots, a block-diagram simulator and a MATLAB-style command window. Python and PySide6, 1236 tests.</p><div class="hp-card__foot"><ul class="hp-tags" aria-label="Stack"><li><span class="hp-tag">Python</span></li><li><span class="hp-tag">PySide6</span></li><li><span class="hp-tag">Control Systems</span></li><li><span class="hp-tag">SciPy</span></li></ul><span class="hp-card__go" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="rotate(0 12 12)" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M3.5 12H18.5"></path><path d="M12 5.2L18.8 12L12 18.8"></path></g></svg></span></div></div></a>
+</div>
+<!-- see-also:end -->
+    </nav>
+  </main>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <div role="separator"><svg class="hp-marking" width="100%" height="28" aria-hidden="true" focusable="false"><defs><pattern id="hp-mk-proj-postapocpp" width="36" height="28" patternUnits="userSpaceOnUse"><rect class="edge" x="0.5" y="11.5" width="20" height="5" fill="currentColor" stroke-width="1"></rect></pattern></defs><rect x="0" y="0" width="100%" height="28" fill="url(#hp-mk-proj-postapocpp)"></rect></svg></div>
+    <div class="site-footer__row">
+      <p class="site-footer__copy data">&copy; <span id="year">2026</span> Leon G&oacute;recki</p>
+      <p class="site-footer__links data"><a href="mailto:leon.gorecki.fr@proton.me">Email</a> &middot; <a href="https://github.com/leo-01000111" rel="noopener noreferrer" target="_blank">GitHub</a> &middot; <a href="https://www.linkedin.com/in/leon-g%C3%B3recki-10a823352/" rel="noopener noreferrer" target="_blank">LinkedIn</a> &middot; <a href="/cv.pdf" rel="noopener noreferrer" target="_blank">CV</a></p>
+    </div>
+  </footer>
+<script data-goatcounter="https://leongorecki.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){var l=location;if(l.hostname==="localhost"||l.hostname==="127.0.0.1")return;
+var u="https://stats.leongorecki.eu/e",o={p:l.pathname,r:document.referrer,h:l.hostname};if(/(?:^|; )lg_me=1/.test(document.cookie))o.m=1;var b=JSON.stringify(o);
+try{if(navigator.sendBeacon&&navigator.sendBeacon(u,new Blob([b],{type:"text/plain"})))return}catch(e){}
+try{fetch(u,{method:"POST",body:b,keepalive:true,mode:"cors",headers:{"content-type":"text/plain"}})}catch(e){}})();
+</script>
+</body>
+</html>

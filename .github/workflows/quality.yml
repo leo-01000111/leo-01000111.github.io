@@ -85,7 +85,7 @@ jobs:
             -not -path './node_modules/*' -not -path './design/*' \
             -not -path './scripts/*' -not -name '_template.html' \
             | sed 's|^\./|http://localhost:8089/|' | tr '\n' ' ')
-          npx linkinator $URLS --recurse --skip '^(?!http://localhost)' --skip '/evans/'
+          npx linkinator $URLS --recurse --skip '^(?!http://localhost)' --skip '/evans/' --skip '/Post-Apo-C-plus-plus/'
 
   lighthouse:
     runs-on: ubuntu-latest
