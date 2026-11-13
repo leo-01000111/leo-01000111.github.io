@@ -29,7 +29,10 @@
     "short": "MILTOM-Bot",
     "featuredOrder": 2,
     "code": "OPS",
-    "meta": ["2026", "Miltom"],
+    "meta": [
+      "2026",
+      "Miltom"
+    ],
     "title": {
       "en": "MILTOM-Bot: public-tender monitoring with a classifier trained by the sales team",
       "fr": "MILTOM-Bot : veille des marchés publics avec un classifieur entraîné par l'équipe commerciale"
@@ -52,7 +55,10 @@
     "short": "MostMobileMouse",
     "featuredOrder": 7,
     "code": "GNC",
-    "meta": ["2026", "In progress"],
+    "meta": [
+      "2026",
+      "In progress"
+    ],
     "title": {
       "en": "MostMobileMouse: a phone as a desk mouse",
       "fr": "MostMobileMouse : un téléphone comme souris de bureau"
@@ -74,7 +80,10 @@
     "slug": "project1",
     "short": "BEng thesis",
     "code": "GNC",
-    "meta": ["2025", "Thesis"],
+    "meta": [
+      "2025",
+      "Thesis"
+    ],
     "title": {
       "en": "BEng Thesis: PPO vs Robust MPC on a Simulated Roomba",
       "fr": "Mémoire de licence : PPO vs MPC robuste sur un Roomba simulé"
@@ -117,7 +126,10 @@
     "short": "F1 Predictor",
     "featuredOrder": 3,
     "code": "ML",
-    "meta": ["2026", "Live"],
+    "meta": [
+      "2026",
+      "Live"
+    ],
     "title": {
       "en": "F1 Race Predictor",
       "fr": "Prédicteur de Course F1"
@@ -217,6 +229,30 @@
       "Web Audio",
       "ADS-B",
       "JavaScript"
+    ]
+  },
+  {
+    "id": 11,
+    "slug": "postapocpp",
+    "short": "Post-Apocalyptic C++",
+    "code": "EDU",
+    "meta": [
+      "2026",
+      "Centrale Nantes"
+    ],
+    "title": {
+      "en": "Post-Apocalyptic C++: an offline exam kit",
+      "fr": "Post-Apocalyptic C++ : un kit d'examen hors ligne"
+    },
+    "description": {
+      "en": "A C++ exam kit for a drive: cheat-sheets, compiling algorithm templates and a solved past exam, searchable from one page that works without internet.",
+      "fr": "Un kit d'examen C++ pour clé USB : antisèches, modèles d'algorithmes qui compilent et un ancien examen résolu, consultables depuis une seule page qui marche sans internet."
+    },
+    "tags": [
+      "C++",
+      "Bash",
+      "Python",
+      "HTML/CSS"
     ]
   }
 ]
