@@ -70,9 +70,10 @@ export function open(ctx = {}) {
   const params = ctx.params instanceof URLSearchParams ? ctx.params : new URLSearchParams(ctx.params || "");
   const prevFocus = document.activeElement;
   const prevOverflow = [document.documentElement.style.overflow, document.body.style.overflow];
-  const reduced = mq("(prefers-reduced-motion: reduce)"), coarse = mq("(pointer: coarse)"), narrow = innerWidth < 900;
+  // touch-only devices (no mouse or touchpad at all) get the bench; touchscreen laptops still have a fine pointer
+  const reduced = mq("(prefers-reduced-motion: reduce)"), touchOnly = mq("(pointer: coarse)") && !mq("(any-pointer: fine)"), narrow = innerWidth < 900;
   const mp = params.get("mode");
-  const bench = mp ? mp === "bench" : (coarse || narrow || reduced); // phones and calm-motion users get the bench
+  const bench = mp ? mp === "bench" : (touchOnly || narrow || reduced); // phones and calm-motion users get the bench
   const quick = !!ctx.dev || params.get("cover") === "0";
   const k = reduced ? 0.25 : 1; // calm, but never a hard cut
 

@@ -11,7 +11,7 @@ const ORDER = ["high", "medium", "low"];
 
 // First guess from device hints; the loop steps down later if frames stay slow.
 export function guessTier() {
-  const mobile = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && innerWidth < 900);
+  const mobile = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && innerWidth < 900 && !matchMedia("(any-pointer: fine)").matches);
   if (mobile) return "low";
   const cores = navigator.hardwareConcurrency || 4, mem = navigator.deviceMemory || 4;
   return cores >= 8 && mem >= 4 ? "high" : "medium";
