@@ -47,7 +47,6 @@ export default function phare(K, p, X) {
   m2.rotation.y = PI;
   beam.add(m1, m2);
   beam.position.set(p.x, 22.3, p.z);
-  m1.frustumCulled = m2.frustumCulled = false;
   X.add(beam, [m1]);
   X.onUpdate((dt, t) => { beam.rotation.y = t * PI * 2 / 48; beam.visible = U.uLights.value > 0.2; });
 }

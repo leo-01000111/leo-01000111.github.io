@@ -279,4 +279,11 @@
 @media (prefers-reduced-motion: reduce) { .ccity .ccity__till, .ccity .ccity__tboard { transition-duration: .01s; } .ccity .ccity__ticket.is-new { animation: none; } }
 
 /* work-in-progress tag beside Retour */
-.ccity .ccity__wip{ position:absolute; top:calc(var(--cc-edge) + 9px); left:calc(var(--cc-edge) + 104px); padding:3px 9px; border:1px dashed rgba(255,190,90,.7); border-radius:3px; color:#ffc46b; background:rgba(10,12,20,.55); font:500 11px/1.3 "Ccity Plex Mono", "IBM Plex Mono", ui-monospace, Consolas, monospace; letter-spacing:.08em; text-transform:uppercase; pointer-events:none; }
+/* ---- player-name popup (ui/namepopup.js): over the loading cover ---- */
+.ccity .ccity__namepop { top: auto; bottom: calc(var(--cc-edge) * 2); z-index: 5; width: min(380px, calc(100% - 2 * var(--cc-edge))); transform: translate(-50%, 6px); gap: 12px; --neon: var(--cc-warm); }
+.ccity .ccity__namepop.is-on { transform: translate(-50%, 0); }
+.ccity .ccity__namepop form { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.ccity .ccity__namepop input[type="text"] { width: 100%; margin: 0; padding: 8px 10px; background: rgba(241, 230, 220, .06); color: var(--cc-ink); border: 1px solid var(--cc-line); border-radius: 6px; font: 400 13px/1.4 var(--cc-mono); }
+.ccity .ccity__namepop input:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 2px; }
+.ccity .ccity__namepop .ccity__boardrow { justify-content: flex-end; }
+.ccity .ccity__namepop .ccity__namenote { font: 400 11.5px/1.4 var(--cc-mono); color: var(--cc-dim); }

@@ -291,7 +291,6 @@ export default function aerodrome(K0, p, X) {
   beamGeo.setIndex(bi);
   const beam = new THREE.Mesh(beamGeo, beamMat);
   beam.position.set(beacon[0], beacon[1], beacon[2]);
-  beam.frustumCulled = false;
   X.add(beam, [beam]);
   X.stats(bi.length / 3);
 

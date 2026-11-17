@@ -29,6 +29,7 @@ import { createCamera } from "./player/camera.js";
 import * as L from "./world/layout.js";
 import { createAudio } from "./audio/audio.js";
 import { createHud } from "./ui/hud.js";
+import { createNamePopup } from "./ui/namepopup.js";
 import { createLevel } from "./player/level.js";
 import { createPlaces } from "./places/registry.js";
 import { createBench } from "./mobile/bench.js";
@@ -95,6 +96,9 @@ export function open(ctx = {}) {
   css(loading, { margin: "0", color: "rgba(241,230,220,.7)", font: "400 13px/1.4 ui-monospace, Menlo, Consolas, monospace", letterSpacing: ".06em", pointerEvents: "none" });
   cover.appendChild(loading);
   root.append(canvas, hud, cover);
+  // name popup over the cover (skipped by dev.html, cover=0 or name=0); loading goes on behind it
+  let namePop = null;
+  if (!quick && params.get("name") !== "0") { try { namePop = createNamePopup(root, T.name, () => { namePop = null; if (!L2.closed) root.focus({ preventScroll: true }); }); } catch (e) { console.error(e); } }
   document.body.appendChild(root);
   document.documentElement.style.overflow = "hidden";
   document.body.style.overflow = "hidden";
@@ -118,6 +122,7 @@ export function open(ctx = {}) {
     if (L2.closed) return;
     L2.closed = true;
     removeEventListener("keydown", onEsc);
+    if (namePop) { try { namePop.dispose(); } catch (e) { /* ignore */ } }
     for (const t of L2.timers) clearTimeout(t);
     try { if (L2.engine) L2.engine.dispose(); } catch (e) { console.error(e); }
     try { if (L2.g) { L2.g.input.dispose(); L2.g.events.clear(); } } catch (e) { console.error(e); }

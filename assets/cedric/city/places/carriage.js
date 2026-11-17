@@ -36,7 +36,6 @@ export function createCarriage(g, teal) {
   const mat = createWorldMaterial(Object.assign({}, g.env.shade.uniforms, { uCut: { value: 0 } }));
   const geo = B.geometry();
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.frustumCulled = false;
   const group = new THREE.Group();
   group.name = "carriage";
   group.add(mesh);

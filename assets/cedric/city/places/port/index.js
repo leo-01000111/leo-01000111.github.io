@@ -23,9 +23,9 @@ export function createPortPlace(g) {
   const sound = createPortSound(g);
   const pose = { x: PT.berth.x, y: SEA, z: PT.berth.z, h: PT.berth.heading, pitch: 0, roll: 0 };
   const from = { x: 0, y: 0, z: 0, h: 0 }, deck = { x: 0, y: 0, z: 0 }, dst = { x: 0, y: 0, z: 0 };
-  let P = null, lastT = 0, mode = "ashore", clock = 0, push = 0, camH = 0, spaceWas = false, asking = 0, hintLeft = 0;
+  let P = null, lastT = 0, mode = "ashore", clock = 0, push = 0, camH = 0, asking = 0, hintLeft = 0;
   let panelOpen = false, panelCooldown = 0, dock = null, fadeEl = null, promptEl = null, panelEl = null, rootEl = null;
-  let origEscape = null, hooked = false, smoothThr = 0, msgKey = "", lastBump = 0;
+  let spaceHit = false, origEscape = null, hooked = false, smoothThr = 0, msgKey = "", lastBump = 0;
   const off = [];
 
   // ---- DOM: the panel, the one-line message, the fade ----
@@ -189,12 +189,15 @@ export function createPortPlace(g) {
     // the big map shows the open water while afloat
     mapExtent(ext) {
       const S = PT.sail;
-      if (mode !== "ashore") { ext.x0 = S.x0 - 12; ext.z0 = S.z0 - 12; ext.z1 = S.z1 + 12; } else { ext.x0 = -104; ext.z0 = L.world.z0 - 6; ext.z1 = L.world.z1 + 6; }
+      if (mode !== "ashore") { ext.x0 = S.x0 - 12; ext.z0 = S.z0 - 12; ext.z1 = Math.max(S.z1 + 12, L.world.z1 + 6); } else { ext.x0 = -104; ext.z0 = L.world.z0 - 6; ext.z1 = L.world.z1 + 6; }
       ext.x1 = L.world.x1 + 6;
     },
     init() {
       build();
       g.port = api;
+      const onKey = e => { if (e.code === "Space" && !e.repeat) spaceHit = true; };
+      addEventListener("keydown", onKey, true);
+      off.push(() => removeEventListener("keydown", onKey, true));
     },
     update(dt, t) {
       if (!P) { P = g.world.port; if (!P) return; P.onBell = (x, z) => sound.bell(x, z); }
@@ -206,8 +209,7 @@ export function createPortPlace(g) {
         };
       }
       panelCooldown = Math.max(0, panelCooldown - dt);
-      const space = g.input.down.has("Space"), spacePressed = space && !spaceWas;
-      spaceWas = space;
+      const spacePressed = spaceHit; spaceHit = false;
       lastT = t;
       clock += mode === "returning" ? 0 : dt;
 

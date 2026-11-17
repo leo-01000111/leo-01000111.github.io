@@ -23,7 +23,7 @@ const arc = (cx, cz, r, a0, a1, n, y0, y1) => {
 // north-east blocks, leaves the city, climbs the hills, turns at the crest and comes back down
 // the east side to a double right-hander in the south-east corner of the circuit blocks.
 const CP = [
-  [206, -80, 0.2], [206, -104, 0.2], [206, -124, 0.7],
+  [206, -80, 0.28], [206, -104, 0.28], [206, -124, 0.7],
   // climb: a left-right chicane on the hillside
   [200, -156, 2.5], [190, -188, 5.5], [194, -218, 9.5], [216, -244, 13.5], [250, -258, 18], [286, -262, 22], [322, -262, 24.5], [346, -262, 26],
   // the crest hairpin (right, 180 degrees), back west with the city and the sea in front
@@ -33,9 +33,9 @@ const CP = [
   ...arc(290, -192, 18, -90, -180, 2, 19.5, 16.5),
   [272, -165, 13], [270, -135, 9.8], [270, -105, 6.5], [270, -75, 3.4], [270, -56, 2],
   // double right-hander back into the city, onto the straight
-  ...arc(254, -40, 16, 0, 90, 2, 1.2, 0.2),
-  ...arc(222, -40, 16, 90, 180, 2, 0.2, 0.2),
-  [206, -52, 0.2], [206, -66, 0.2],
+  ...arc(254, -40, 16, 0, 90, 2, 1.2, 0.28),
+  ...arc(222, -40, 16, 90, 180, 2, 0.28, 0.28),
+  [206, -52, 0.28], [206, -66, 0.28],
 ];
 const pts = [];
 for (const p of CP) { const q = pts[pts.length - 1]; if (!q || Math.hypot(p[0] - q[0], p[1] - q[1]) > 1.5) pts.push(p); }
@@ -88,7 +88,8 @@ const wrapA = a => { while (a > Math.PI) a -= Math.PI * 2; while (a < -Math.PI) 
   for (let i = 0; i < N; i++) CURV[i] = wrapA(HD[(i + 1) % N] - HD[(i + N - 1) % N]) / (2 * ds);
   const cs = new Float32Array(N);
   for (let i = 0; i < N; i++) { let s = 0; for (let k = -5; k <= 5; k++) s += CURV[(i + k + N) % N]; cs[i] = s / 11; }
-  for (let i = 0; i < N; i++) BANK[i] = Math.max(-0.1, Math.min(0.1, cs[i] * 2.6));
+  // banking never takes the low edge of the ribbon below the ground: none in the city (y ~ 0.3), full on the hills
+  for (let i = 0; i < N; i++) { const cap = Math.min(0.1, Math.max(0, (Y[i] - 0.3) / (HW + KERB))); BANK[i] = Math.max(-cap, Math.min(cap, cs[i] * 2.6)); }
 }
 // smoothed curvature: banking, the racing line and the kerb zones read it
 export const CURV_S = new Float32Array(N);

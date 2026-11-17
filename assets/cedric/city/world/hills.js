@@ -45,7 +45,7 @@ export function raw(x, z) {
 export const PAD = { x: 366, z: -244, r: 9, y: 25.2 };
 
 const _h = C.makeHit();
-const FLAT = C.HW + C.WALL + 2.5, FALL = 20;
+const FLAT = C.HW + C.WALL + 8, FALL = 20;   // flat strip wide enough that every 7 m mesh vertex near the road is carved
 
 export function height(x, z) {
   const m = mask(x, z);
@@ -59,7 +59,9 @@ export function height(x, z) {
   let w = 1 - sstep(FLAT, FLAT + FALL, hit.d);
   w *= 1 - hit.br;
   w *= sstep(0, 22, Math.hypot(Math.max(0, x - 238), Math.max(0, -114 - z)) + 6);
-  const ty = hit.y - 0.3 - Math.abs(hit.bank) * (C.HW + 1.2);
-  const h = hill + (Math.max(ty, 0) - hill) * w;
+  const ty = hit.y - 0.32 - Math.abs(hit.bank) * (C.HW + C.KERB);
+  let h = hill + (Math.max(ty, 0) - hill) * w;
+  // never above the ribbon (or the bridge deck) near the road, whatever the hills or the bridge blend do
+  if (hit.d < C.HW + C.WALL + 1.2) { const cap = hit.y - Math.abs(hit.bank) * Math.min(Math.abs(hit.lat), C.HW + C.KERB) - 0.22; if (h > cap) h = cap; }
   return h < 0 ? 0 : h;
 }

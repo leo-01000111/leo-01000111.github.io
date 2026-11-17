@@ -86,7 +86,7 @@ export function buildCedric(design, colours = {}, length = 1.6, opts = {}) {
     if (c) items.push({ a: c[0], b: c[1], z, w: 20, col: eye });
   }
 
-  const total = items.length + ant.length * 2;
+  const total = items.length + ant.length;
   const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), opts.material || inkMaterial(), total);
   mesh.frustumCulled = false;
   const q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3(), m4 = new THREE.Matrix4();
@@ -103,7 +103,8 @@ export function buildCedric(design, colours = {}, length = 1.6, opts = {}) {
   for (const it of items) rod(it.a, it.b, it.w, it.z, it.col);
   // antennae: kept apart so they can swing from their pivot; slightly splayed outward, near the middle plane
   const ants = [], qs = new THREE.Quaternion(), yAxis = new THREE.Vector3(0, 1, 0);
-  for (const a of ant) for (const sd of [-1, 1]) {
+  // one rod per antenna part (the design has two); each sits slightly off the middle plane and splays outward
+  for (const [ai, a] of ant.entries()) { const sd = ai % 2 ? 1 : -1;
     const i = rod([a.l[0], a.l[1]], [a.l[2], a.l[3]], 9, sd * 0.35 * D, ink), px = X(a.o[0]), py = Y(a.o[1]);
     mesh.getMatrixAt(i, m4);
     const sp4 = new THREE.Matrix4().makeRotationFromQuaternion(qs.setFromAxisAngle(yAxis, sd * 0.12));

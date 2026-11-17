@@ -19,9 +19,9 @@ const GRID = [ // [back distance behind the line (m), lateral offset (m)] for Ba
   [6, -2.4], [6, 2.4], [13, -2.4], [13, 2.4],
 ];
 const FRIENDS = [
-  { name: "Basile", eye: "#86a8ff", len: 1.05, tint: [0.45, 0.62, 1.0], skill: 0.965, off: -0.6, wob: 0.8, slot: 0 },
-  { name: "Octave", eye: "#45c97a", len: 1.25, tint: [0.27, 0.8, 0.48], skill: 0.945, off: 0.7, wob: 1.0, slot: 1 },
-  { name: "Firmin", eye: "#f5c518", len: 1.15, tint: [0.96, 0.78, 0.1], skill: 0.93, off: 0.2, wob: 1.2, slot: 3 },
+  { name: "Basile", eye: "#86a8ff", len: 1.05, tint: [0.45, 0.62, 1.0], skill: 0.945, off: -0.6, wob: 0.8, slot: 0 },
+  { name: "Octave", eye: "#45c97a", len: 1.25, tint: [0.27, 0.8, 0.48], skill: 0.93, off: 0.7, wob: 1.0, slot: 1 },
+  { name: "Firmin", eye: "#f5c518", len: 1.15, tint: [0.96, 0.78, 0.1], skill: 0.915, off: 0.2, wob: 1.2, slot: 3 },
 ];
 const PLAYER_TINT = [1.0, 0.28, 0.64];
 const CORAL = "#ff6f55";
@@ -195,7 +195,8 @@ export function createRace(g) {
     if (!cam.ready) { cam.h = tgt; cam.ready = true; }
     cam.h += wrap(tgt - cam.h) * (1 - Math.exp(-dt * 3.2));
     const dist = 6.4 + sp * 0.045, hgt = 2.35 + sp * 0.014, cx = Math.cos(cam.h), cz = Math.sin(cam.h);
-    const px = k.x - cx * dist, pz = k.z - cz * dist;
+    const al = 0.42, bx = Math.cos(cam.h + al), bz = Math.sin(cam.h + al); // a little round the back: end-on, Cédric is only a stack of bars
+    const px = k.x - bx * dist, pz = k.z - bz * dist;
     r.pos.set(px, Math.max(k.y + hgt, ground(px, pz) + 1.0), pz);
     r.look.set(k.x + cx * 5.5, k.y + 1.15, k.z + cz * 5.5);
     r.rate = Math.min(5.5, r.rate + dt * 2);
@@ -221,7 +222,7 @@ export function createRace(g) {
       if (!go || t < k.react) { aiOut.thr = 0; aiOut.brk = 0; aiOut.steer = 0; aiOut.boost = false; stepKart(k, aiOut, h, ground); continue; }
       // rubber band: keep the race close but beatable
       const gap = k.prog - player.prog;
-      const rub = gap > 0 ? 1 - 0.1 * clamp(gap / 90, 0, 1) : 1 + 0.07 * clamp(-gap / 70, 0, 1);
+      const rub = gap > 0 ? 1 - 0.12 * clamp(gap / 90, 0, 1) : 1 + 0.07 * clamp(-gap / 70, 0, 1);
       aiInput(k, t, k.finished ? 0.5 : rub, aiOut);
       stepKart(k, aiOut, h, ground, k.finished ? 0.6 : 1);
     }
@@ -262,7 +263,7 @@ export function createRace(g) {
       const col = new THREE.Color();
       [PLAYER_TINT, ...FRIENDS.map(f => f.tint)].forEach((c, i) => mesh.setColorAt(i, col.setRGB(c[0], c[1], c[2])));
       mesh.instanceColor.needsUpdate = true;
-      mesh.frustumCulled = false; mesh.visible = false; mesh.name = "karts";
+      mesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(295, 40, -184), 330); mesh.visible = false; mesh.name = "karts";   // karts stay on the circuit: sphere over the whole karting region
       g.scene.add(mesh);
       for (const f of FRIENDS) {
         const b = buildCedric(window.CEDRIC_DESIGN, { ink: CORAL, eye: f.eye }, f.len);

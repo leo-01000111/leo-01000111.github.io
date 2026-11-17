@@ -32,7 +32,8 @@ export function createWake(g) {
       }`,
   });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.frustumCulled = false; mesh.renderOrder = 2; mesh.name = "port-wake";
+  mesh.frustumCulled = false;   // the wake follows the player's launch over the whole sea; its buffer is rewritten each frame and the bounding sphere is never refreshed
+  mesh.renderOrder = 2; mesh.name = "port-wake";
 
   const sx = new Float32Array(N), sz = new Float32Array(N), sh = new Float32Array(N), sa = new Float32Array(N).fill(1e3), sp = new Float32Array(N);
   let head = 0, acc = 0;

@@ -89,7 +89,7 @@ export const T = {
     rain: "Pluie chaude", fireflies: "Lucioles",
   },
   hud: {
-    back: "← Retour", backLabel: "Retour à la page", wip: "Chantier en cours", wipLabel: "Ville en construction : certains lieux ne sont pas finis",
+    back: "← Retour", backLabel: "Retour à la page",
     soundOff: "Couper le son", soundOn: "Remettre le son", settings: "Réglages",
     minimap: "Mini-carte", mapOpen: "Ouvrir le plan",
     // [key, action]
@@ -98,6 +98,10 @@ export const T = {
   },
   map: { title: "Plan de la ville", here: "vous êtes ici", north: "N", sun: "coucher", close: "M ou Échap pour fermer", closeBtn: "Fermer le plan" },
   panel: { close: "Fermer", hint: "Espace ou Échap pour fermer" },
+  name: {
+    title: "Comment t'appelles-tu ?", label: "Ton prénom", go: "C'est parti", skip: "Passer",
+    note: "Ton prénom est envoyé à Léon, rien d'autre.", subject: "Cédric's city : nouveau joueur",
+  },
   board: {
     title: "Panneau d'affichage", listLabel: "Mots épinglés", anonymous: "Anonyme",
     empty: "Le panneau est vide pour le moment. Le premier mot sera peut-être le vôtre.",
@@ -117,7 +121,7 @@ export const T = {
   kart: {
     tag: "Circuit", title: "Karting", menuLine: "Deux façons de rouler. La piste grimpe jusqu'à la colline.",
     race: "Course", raceSub: "3 tours contre 3 karts", free: "Tour libre", freeSub: "Un tour, sans adversaires",
-    later: "Plus tard", menuHint: "1 ou 2 pour choisir · Échap pour fermer",
+    later: "Plus tard", escKey: "Échap", menuHint: "↑ ↓ pour choisir · Espace ou Entrée pour valider", panelHint: "↑ ↓ pour choisir · Espace ou Entrée pour valider",
     record: "Record", none: "—", lap: "Tour", sur: "sur", current: "Tour en cours", bestLabel: "Meilleur",
     speedUnit: "km/h", boost: "Turbo", go: "Partez !", mapLabel: "Plan du circuit",
     keys: [["W", "accélérer"], ["S", "freiner"], ["A D", "tourner"], ["Maj", "turbo"], ["Échap", "quitter"]],

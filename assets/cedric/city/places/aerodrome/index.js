@@ -289,11 +289,11 @@ export function createFlight(g) {
       g.flight = api;
       const onKey = e => {
         if (e.code !== "Space" || e.repeat || mode !== "fly" || paused) return;
-        if (e.target && e.target.closest && e.target.closest("button")) return;
+        if (e.target && e.target.closest && e.target.closest(".ccity button")) return;
         if (inZone()) beginLanding(); else hud.note(T.notYet);
       };
-      addEventListener("keydown", onKey);
-      offKey = () => removeEventListener("keydown", onKey);
+      addEventListener("keydown", onKey, true);   // capture: input.js stops Space from bubbling
+      offKey = () => removeEventListener("keydown", onKey, true);
     },
     update(dt, t) {
       now = t;

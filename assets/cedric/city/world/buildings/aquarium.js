@@ -6,7 +6,7 @@ import { C, tint } from "../kit/parts.js";
 export default function aquarium(K, p, X) {
   K.at(p.x, p.z, "w", X.rnd);
   const hw = p.d / 2, hd = p.w / 2, r = X.rnd, fence = [0.3, 0.3, 0.33];
-  K.box(-hw, hw, 0.15, 0.17, -hd, hd, [0.22, 0.2, 0.19], K_PLAIN, false);
+  K.box(-hw, hw, 0.15, 0.24, -hd, hd, [0.22, 0.2, 0.19], K_PLAIN, false);
   // fence: posts, two rails, a gate gap on the front
   const post = (x, z) => K.box(x - 0.07, x + 0.07, 0.15, 2.1, z - 0.07, z + 0.07, fence, K_PLAIN);
   for (let z = -hd; z <= hd + 0.01; z += 2.6) { post(-hw, z); post(hw, z); }
@@ -30,7 +30,7 @@ export default function aquarium(K, p, X) {
   }
   K.box(-hw + 1.4, hw - 1.4, 3.2, 3.6, fz0 - 0.6, fz1 + 0.6, C.light, K_RAW, true);
   // site cabin and pipe sections
-  K.box(-hw + 0.8, -hw + 3.2, 0.17, 2.7, -hd + 3, -hd + 9, tint(C.rust, 0.9), K_PLAIN);
+  K.box(-hw + 0.8, -hw + 3.2, 0.2, 2.7, -hd + 3, -hd + 9, tint(C.rust, 0.9), K_PLAIN);
   for (let z = -hd + 3.3; z < -hd + 9; z += 0.4) K.box(-hw + 3.2, -hw + 3.26, 0.3, 2.6, z, z + 0.15, tint(C.rust, 0.75), K_PLAIN);
   K.box(-hw + 3.26, -hw + 3.3, 1.2, 2.0, -hd + 5.5, -hd + 6.6, C.warmLight, K_LAMP, true);
   K.rect(-hw + 0.8, -hw + 3.3, -hd + 3, -hd + 9, 2.7);

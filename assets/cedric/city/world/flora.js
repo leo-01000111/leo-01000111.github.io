@@ -77,6 +77,7 @@ export function createFlora(g) {
   const meshes = [], groups = [];
   let season = null;
   const coll = g.world.collide;
+  const cullables = [];   // instanced meshes culled by hand each frame
   const M = {}, R = {};  // M: model name -> instances [{x,y,z,s,a,r}], R: meshes the season toggles
   const want = (name, x, y, z, s, a, r = 1, sy) => { (M[name] = M[name] || []).push({ x, y, z, s, a, r, sy }); };
 
@@ -85,8 +86,78 @@ export function createFlora(g) {
     if (s === season) return;
     season = s;
     if (R.planeCrown) R.planeCrown.visible = s !== "winter";
-    if (R.tuft) R.tuft.count = Math.floor(R.tuft.userData.n * (s === "winter" ? 0 : 1));   // grass stays under the snow
-    if (R.flower) R.flower.count = Math.floor(R.flower.userData.n * (s === "spring" ? 1 : s === "summer" ? 0.6 : s === "autumn" ? 0.12 : 0));
+    // the season keeps the first lim instances; the per-frame culling below compacts the visible ones out of them
+    if (R.tuft) R.tuft.userData.lim = Math.floor(R.tuft.userData.n * (s === "winter" ? 0 : 1));   // grass stays under the snow
+    if (R.flower) R.flower.userData.lim = Math.floor(R.flower.userData.n * (s === "spring" ? 1 : s === "summer" ? 0.6 : s === "autumn" ? 0.12 : 0));
+  }
+
+  // ---- per-frame CPU culling of the instances (the meshes span the whole town, so three.js never culls them) ----
+  // Each instance keeps its full matrix/colour in a side array plus a world bounding sphere. Every frame the camera
+  // moved, the instances whose sphere is outside the view frustum (or past the fog-out distance) are skipped and the
+  // visible ones are packed to the front of the GPU buffers, in their original order; mesh.count says how many.
+  function prepCull(mesh, geo) {
+    mesh.frustumCulled = false;   // culled here, instance by instance
+    geo.computeBoundingSphere();
+    const bs = geo.boundingSphere, c = bs.center, n = mesh.userData.n;
+    const fullM = new Float32Array(mesh.instanceMatrix.array), fullC = new Float32Array(mesh.instanceColor.array);
+    const ctr = new Float32Array(n * 3), rad = new Float32Array(n), ids = new Uint32Array(n);
+    for (let i = 0; i < n; i++) {
+      const m = i * 16;
+      ctr[i * 3] = fullM[m] * c.x + fullM[m + 4] * c.y + fullM[m + 8] * c.z + fullM[m + 12];
+      ctr[i * 3 + 1] = fullM[m + 1] * c.x + fullM[m + 5] * c.y + fullM[m + 9] * c.z + fullM[m + 13];
+      ctr[i * 3 + 2] = fullM[m + 2] * c.x + fullM[m + 6] * c.y + fullM[m + 10] * c.z + fullM[m + 14];
+      const sx = Math.hypot(fullM[m], fullM[m + 1], fullM[m + 2]), sy = Math.hypot(fullM[m + 4], fullM[m + 5], fullM[m + 6]), sz = Math.hypot(fullM[m + 8], fullM[m + 9], fullM[m + 10]);
+      rad[i] = bs.radius * Math.max(sx, sy, sz) + 0.6;   // + the shader's wind sway (<= 0.03 per metre of height) and a margin
+      ids[i] = i;
+    }
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage); mesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
+    mesh.userData.cull = { fullM, fullC, ctr, rad, ids, n, shown: n };
+    cullables.push(mesh);
+  }
+  const cPm = new THREE.Matrix4(), cMi = new THREE.Matrix4(), cFr = new THREE.Frustum(), cKey = new Float64Array(36);
+  let cDirty = true;
+  function cull() {
+    const cam = g.camera;
+    cam.updateMatrixWorld();
+    const e = cam.matrixWorld.elements, p = cam.projectionMatrix.elements;
+    let same = !cDirty;
+    for (let i = 0; i < 16 && same; i++) if (cKey[i] !== e[i] || cKey[16 + i] !== p[i]) same = false;
+    const den = g.env.shade.uniforms.uFogDen.value, ft = R.tuft ? R.tuft.userData.lim : 0, ff = R.flower ? R.flower.userData.lim : 0;
+    const vis = R.planeCrown ? (R.planeCrown.visible ? 1 : 0) : 0;
+    if (same && cKey[32] === den && cKey[33] === ft && cKey[34] === ff && cKey[35] === vis) return;
+    for (let i = 0; i < 16; i++) { cKey[i] = e[i]; cKey[16 + i] = p[i]; }
+    cKey[32] = den; cKey[33] = ft; cKey[34] = ff; cKey[35] = vis; cDirty = false;
+    cMi.copy(cam.matrixWorld).invert();
+    cFr.setFromProjectionMatrix(cPm.multiplyMatrices(cam.projectionMatrix, cMi));
+    const pl = cFr.planes, cx = e[12], cy = e[13], cz = e[14];
+    // fully fogged (exp(-12) of the colour left) = invisible; never past the far plane. Generous on purpose.
+    const dmax = Math.min(cam.far + 50, den > 1e-6 ? 12 / den : Infinity);
+    for (const mesh of cullables) {
+      const d = mesh.userData.cull;
+      if (!mesh.visible) continue;
+      const lim = Math.min(d.n, mesh.userData.lim);
+      const am = mesh.instanceMatrix.array, ac = mesh.instanceColor.array, { fullM, fullC, ctr, rad, ids } = d;
+      let k = 0, lo = d.n, hi = -1;
+      for (let i = 0; i < lim; i++) {
+        const x = ctr[i * 3], y = ctr[i * 3 + 1], z = ctr[i * 3 + 2], r = rad[i];
+        let ok = true;
+        for (let j = 0; j < 6; j++) { const n = pl[j].normal; if (n.x * x + n.y * y + n.z * z + pl[j].constant < -r) { ok = false; break; } }
+        if (ok) { const dx = x - cx, dy = y - cy, dz = z - cz, rr = dmax + r; if (dx * dx + dy * dy + dz * dz > rr * rr) ok = false; }
+        if (!ok) continue;
+        if (ids[k] !== i) {
+          ids[k] = i;
+          am.set(fullM.subarray(i * 16, i * 16 + 16), k * 16);
+          ac[k * 3] = fullC[i * 3]; ac[k * 3 + 1] = fullC[i * 3 + 1]; ac[k * 3 + 2] = fullC[i * 3 + 2];
+          if (k < lo) lo = k; if (k > hi) hi = k;
+        }
+        k++;
+      }
+      if (hi >= 0) {
+        mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceMatrix.addUpdateRange(lo * 16, (hi - lo + 1) * 16); mesh.instanceMatrix.needsUpdate = true;
+        mesh.instanceColor.clearUpdateRanges(); mesh.instanceColor.addUpdateRange(lo * 3, (hi - lo + 1) * 3); mesh.instanceColor.needsUpdate = true;
+      }
+      mesh.count = k; d.shown = k;
+    }
   }
 
   return {
@@ -96,9 +167,20 @@ export function createFlora(g) {
       const anchors = W.anchors || [];
       const doors = L.places.map(p => p.door);
       const nearDoor = (x, z, d) => doors.some(o => Math.hypot(o[0] - x, o[1] - z) < d);
+      // road surfaces (street rectangles minus pedestrian gaps, the seafront apron, the tram lane, the aerodrome road), with a margin
+      const ROADS = [{ x0: L.promenade.x1, x1: L.streets[0].at - L.streets[0].w / 2, z0: -112, z1: 112 }, { x0: L.promenade.x1, x1: 104, z0: L.aerodrome.road.z0, z1: L.aerodrome.road.z1 }];
+      for (const s of L.streets) {
+        const spans = [[s.from, s.to]];
+        for (const gp of s.gaps || []) for (let i = spans.length - 1; i >= 0; i--) { const [a, b] = spans[i]; if (gp[1] > a && gp[0] < b) { spans.splice(i, 1); if (gp[0] > a) spans.push([a, gp[0]]); if (gp[1] < b) spans.push([gp[1], b]); } }
+        for (const [a, b] of spans) ROADS.push(s.axis === "z" ? { x0: s.at - s.w / 2, x1: s.at + s.w / 2, z0: a, z1: b } : { x0: a, x1: b, z0: s.at - s.w / 2, z1: s.at + s.w / 2 });
+      }
+      { const t = L.lanes.tram, hw = t.width / 2; ROADS.push({ x0: t.path[0][0] - hw, x1: t.path[0][0] + hw, z0: t.path[0][1], z1: t.path[1][1] }); }
+      const onRoad = (x, z, m = 0.6) => ROADS.some(r => x > r.x0 - m && x < r.x1 + m && z > r.z0 - m && z < r.z1 + m);
+      g.world.treeRoads = ROADS; let removed = 0;
       const tree = (x, y, z, s, sp, solid) => {
         sp = sp || SPECIES[Math.floor(rnd() * 4)];
         const a = rnd() * Math.PI * 2;
+        if (y < 0.3 && onRoad(x, z)) { removed++; return; }
         if (sp === "plane") { want("planeTrunk", x, y, z, s, a); want("planeCrown", x, y, z, s, a, 0.3 + rnd() * 0.7); }
         else want(sp, x, y, z, s * (0.9 + rnd() * 0.2), a);
         if (solid) coll.addCircle(x, z, 0.35 * s + 0.1, 3);
@@ -181,6 +263,8 @@ export function createFlora(g) {
         mesh.computeBoundingSphere();
         mesh.name = "flora-" + name;
         mesh.userData.n = list.length;
+        mesh.userData.lim = list.length;
+        prepCull(mesh, geo);
         g.scene.add(mesh); meshes.push(mesh);
         tris += geo.attributes.position.count / 3 * list.length;
         if (name === "planeCrown") R.planeCrown = mesh;
@@ -189,14 +273,16 @@ export function createFlora(g) {
       }
       g.stats.tris += tris;
       g.stats.floraTris = tris;
+      g.stats.treesRemovedFromRoads = removed;
       g.stats.trees = (M.pine || []).length + (M.planeTrunk || []).length + (M.cypress || []).length + (M.palm || []).length;
       applySeason();
     },
     update() { applySeason(); },
+    late() { cull(); },
     dispose() {
       for (const m of meshes) { g.scene.remove(m); m.geometry.dispose(); m.dispose(); }
       for (const gr of groups) { g.scene.remove(gr); gr.traverse(o => { if (o.geometry) o.geometry.dispose(); }); }
-      meshes.length = 0; groups.length = 0;
+      meshes.length = 0; groups.length = 0; cullables.length = 0;
     },
   };
 }

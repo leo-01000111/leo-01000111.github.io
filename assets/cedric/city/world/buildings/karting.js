@@ -13,7 +13,7 @@ export default function karting(K, p, X) {
   {
     const pit = T.pit, pcx = (pit.x0 + pit.x1) / 2, pcz = (pit.z0 + pit.z1) / 2;
     K.at(pcx, pcz, "e", X.rnd);
-    const hw = (pit.z1 - pit.z0) / 2, hd = (pit.x1 - pit.x0) / 2, y0 = 0.15, F = 3.5, H = 7.2;
+    const hw = (pit.z1 - pit.z0) / 2, hd = (pit.x1 - pit.x0) / 2, y0 = 0.06, F = 3.5, H = 7.2;
     // plinth and garage floor
     K.box(-hw - 0.4, hw + 0.4, y0, y0 + 0.12, -hd - 2.4, hd + 0.4, C.dark, K_RAW, false);
     // ground floor: six garage bays between concrete piers, dark glass set back 1.4 m
@@ -67,7 +67,7 @@ export default function karting(K, p, X) {
   {
     const st = T.stand, scx = (st.x0 + st.x1) / 2, scz = (st.z0 + st.z1) / 2;
     K.at(scx, scz, "w", X.rnd);
-    const hw = (st.z1 - st.z0) / 2, hd = (st.x1 - st.x0) / 2, y0 = 0.15, rows = 7, rh = 0.62, rd = 1.0, zf = -hd + 0.6;
+    const hw = (st.z1 - st.z0) / 2, hd = (st.x1 - st.x0) / 2, y0 = 0.06, rows = 7, rh = 0.62, rd = 1.0, zf = -hd + 0.6;
     const seatC = [cyan, [0.1, 0.15, 0.22], mag, [0.1, 0.15, 0.22]];
     for (let r = 0; r < rows; r++) {
       const z = zf + r * rd, y = y0 + (r + 1) * rh;
@@ -97,7 +97,7 @@ export default function karting(K, p, X) {
   K.at(0, 0, 0, X.rnd);
   {
     const px = 187.5, pz = -57.5;
-    K.box(px - 0.7, px + 0.7, 0.15, 15, pz - 0.45, pz + 0.45, C.conc, K_RAW);
+    K.box(px - 0.7, px + 0.7, 0.06, 15, pz - 0.45, pz + 0.45, C.conc, K_RAW);
     K.box(px - 1.2, px + 1.2, 11, 13.6, pz - 0.6, pz + 0.6, C.black, K_RAW, true);
     K.box(px - 1.25, px + 1.25, 12.0, 12.25, pz - 0.65, pz + 0.65, cyan, K_NEON, true);
     K.box(px - 1.25, px + 1.25, 12.9, 13.0, pz - 0.65, pz + 0.65, tint(cyan, 0.7), K_NEON, true);
@@ -105,8 +105,8 @@ export default function karting(K, p, X) {
     K.box(px - 0.15, px + 0.15, 17.5, 17.75, pz - 0.15, pz + 0.15, [1, 0.25, 0.2], K_NEON);
     K.rect(px - 0.8, px + 0.8, pz - 0.5, pz + 0.5, 15);
   }
-  K.tree(192.5, 0.16, -56.5, 0.8, "plane"); K.tree(184.4, 0.16, -53.8, 0.7, "cypress");
-  for (const x of [186, 196, 206, 216, 225]) K.tree(x, 0.16, -10 + (x % 3), 0.75, x % 2 ? "plane" : "cypress");
-  for (const x of [186, 226]) K.tree(x, 0.16, -88 + (x > 200 ? 2 : 0), 0.8, "cypress");
+  K.tree(192.5, 0.07, -56.5, 0.8, "plane"); K.tree(184.4, 0.07, -53.8, 0.7, "cypress");
+  for (const x of [186, 196, 206, 216, 225]) K.tree(x, 0.07, -10 + (x % 3), 0.75, x % 2 ? "plane" : "cypress");
+  for (const x of [186, 226]) K.tree(x, 0.07, -88 + (x > 200 ? 2 : 0), 0.8, "cypress");
   void K_LAMP; void planter;
 }

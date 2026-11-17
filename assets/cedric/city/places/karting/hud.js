@@ -45,7 +45,7 @@ const CSS = `
 .ccity .ck-panel .ck-new { color: #8fe6ff; font: 600 12px/1 var(--cc-mono); letter-spacing: .1em; text-transform: uppercase; }
 .ccity .ck-panel .ck-hintline { font: 400 11px/1.3 var(--cc-mono); letter-spacing: .03em; color: var(--cc-dim); }
 .ccity .ck-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-.ccity .ck-btn { appearance: none; -webkit-appearance: none; cursor: pointer; text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 12px 15px; background: rgba(241,230,220,.04); color: var(--cc-ink); border: 1px solid var(--cc-line); border-radius: 8px; font: 600 14px/1.2 var(--cc-sans); transition: border-color .2s ease, background-color .2s ease; }
+.ccity .ck-btn { position: relative; appearance: none; -webkit-appearance: none; cursor: pointer; text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 12px 15px; background: rgba(241,230,220,.04); color: var(--cc-ink); border: 1px solid var(--cc-line); border-radius: 8px; font: 600 14px/1.2 var(--cc-sans); transition: border-color .2s ease, background-color .2s ease; }
 .ccity .ck-btn small { font: 400 11px/1.3 var(--cc-mono); color: var(--cc-dim); letter-spacing: .02em; }
 .ccity .ck-btn:hover, .ccity .ck-btn:focus-visible { border-color: var(--neon); background: color-mix(in srgb, var(--neon) 9%, transparent); outline: none; }
 .ccity .ck-btn.is-quiet { font-weight: 400; color: var(--cc-dim); }
@@ -84,8 +84,8 @@ export function createKartHud(g) {
   bottom.append(speed, boost, keys);
   const map = el("canvas", "ck-map"); map.setAttribute("role", "img"); map.setAttribute("aria-label", T.mapLabel);
   const panel = el("div", "ck-panel"); panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "false"); panel.hidden = true;
-  root.append(left, times, lights, goText, bottom, map, panel);
-  host.appendChild(root);
+  root.append(left, times, lights, goText, bottom, map);
+  host.append(root, panel); // the panel is not inside the faded race HUD: the menu must be visible before a race
 
   // ---- circuit map: the outline is drawn once, the dots every few frames ---------------------------------------------------
   const outline = C.outline(6), B = C.bounds, bg = document.createElement("canvas");
@@ -110,7 +110,7 @@ export function createKartHud(g) {
     bctx.strokeStyle = "#ffffff"; bctx.lineWidth = 2 * dpr; bctx.beginPath(); bctx.moveTo(sx - 5 * dpr, sy); bctx.lineTo(sx + 5 * dpr, sy); bctx.stroke();
   }
 
-  let onPanelKeys = null, panelOpenFlag = false;
+  let onPanelKeys = null, panelOpenFlag = false, pendingFocus = false;
   const state = { posN: "", posOf: "", lap: "", cur: "", best: "", speed: "", boost: -1, boostActive: null };
 
   function setPanel(neon, children, focusFirst = true) {
@@ -119,10 +119,11 @@ export function createKartHud(g) {
     panel.hidden = false; panelOpenFlag = true;
     panel.classList.remove("is-on");
     requestAnimationFrame(() => { if (panelOpenFlag) panel.classList.add("is-on"); });
-    if (focusFirst) { const b = panel.querySelector("button"); if (b) b.focus({ preventScroll: true }); }
+    pendingFocus = focusFirst; // focus the first button once Space / Enter are released, so the key that opened the panel cannot press it
   }
-  function btn(label, sub, cls, fn) {
+  function btn(label, sub, cls, fn, key) {
     const b = el("button", "ck-btn " + (cls || ""), label); b.type = "button";
+    if (key) { const kb = el("kbd", "", key); kb.style.cssText = "position:absolute;right:12px;top:12px;font:600 10px/1 var(--cc-mono);padding:3px 6px;border:1px solid var(--cc-line);border-radius:3px;color:var(--cc-dim)"; b.appendChild(kb); }
     if (sub) b.appendChild(el("small", "", sub));
     b.addEventListener("click", fn);
     return b;
@@ -141,18 +142,17 @@ export function createKartHud(g) {
     showMenu(bestSec, onStart, onClose) {
       const h = el("h2", "", T.title), tag = el("div", "ck-tag", T.title), line = el("p", "", T.menuLine);
       const rec = el("div", "ck-row"); rec.append(el("span", "", T.record), el("b", "", bestSec > 0 ? fmt(bestSec) : T.none));
-      const b1 = btn(T.race, T.raceSub, "", () => onStart("race")), b2 = btn(T.free, T.freeSub, "", () => onStart("free")), b3 = btn(T.later, "", "is-quiet", () => onClose());
+      const b1 = btn(T.race, T.raceSub, "", () => onStart("race"), "1"), b2 = btn(T.free, T.freeSub, "", () => onStart("free"), "2"), b3 = btn(T.later, "", "is-quiet", () => onClose(), T.escKey);
       const hint = el("div", "ck-hintline", T.menuHint);
       tag.textContent = T.tag; h.textContent = T.title;
       setPanel("#3fe6ff", [tag, h, line, rec, el("div", "ck-btns"), hint]);
       panel.querySelector(".ck-btns").append(b1, b2, b3);
-      b1.focus({ preventScroll: true });
       onPanelKeys = { "Digit1": () => onStart("race"), "Digit2": () => onStart("free") };
     },
     showQuit(onYes, onNo) {
       const tag = el("div", "ck-tag", T.tag), h = el("h2", "", T.quitTitle), p = el("p", "", T.quitText), bs = el("div", "ck-btns");
       bs.append(btn(T.quitNo, "", "", () => { api.hidePanel(); onNo(); }), btn(T.quitYes, "", "is-quiet", () => { api.hidePanel(); onYes(); }));
-      setPanel("#ffb070", [tag, h, p, bs]);
+      setPanel("#ffb070", [tag, h, p, bs, el("div", "ck-hintline", T.panelHint)]);
       onPanelKeys = {};
     },
     showFinish(d, onReplay, onBack) {
@@ -168,7 +168,7 @@ export function createKartHud(g) {
       else if (d.stored > 0) kids.push(row(T.record, fmt(d.stored)));
       if (d.mode === "race") kids.push(el("div", "ck-hintline", T.standing + " : " + d.standing.map((n, i) => (i + 1) + ". " + n).join("   ")));
       const bs = el("div", "ck-btns"); bs.append(btn(T.replay, "", "", () => { api.hidePanel(); onReplay(); }), btn(T.back, "", "", () => { api.hidePanel(); onBack(); }));
-      kids.push(bs);
+      kids.push(bs, el("div", "ck-hintline", T.panelHint));
       setPanel("#8fe6ff", kids);
       onPanelKeys = {};
     },
@@ -221,6 +221,7 @@ export function createKartHud(g) {
     keys() {
       if (!panelOpenFlag) return;
       const inp = g.input;
+      if (pendingFocus && !inp.down.has("Space") && !inp.down.has("Enter")) { pendingFocus = false; const b = panel.querySelector("button"); if (b) b.focus({ preventScroll: true }); }
       if (onPanelKeys) for (const k in onPanelKeys) if (inp.consume(k)) { onPanelKeys[k](); return; }
       const dn = inp.consume("ArrowDown") || inp.consume("KeyS"), up = inp.consume("ArrowUp") || inp.consume("KeyW");
       if (dn || up) {
@@ -232,7 +233,7 @@ export function createKartHud(g) {
     resize() { mw = 0; layoutMap(); },
     dispose() {
       if (rootEl) rootEl.classList.remove("is-kart");
-      root.remove(); style.remove();
+      root.remove(); panel.remove(); style.remove();
     },
   };
   api.offResize = g.events.on("resize", () => api.resize());

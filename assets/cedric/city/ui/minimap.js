@@ -61,7 +61,7 @@ export function drawChart(c, o) {
   // land tint, so the sea hatch reads against something
   c.beginPath();
   zs.forEach((z, i) => { const px = X(L.shoreX(z)), py = Z(z); if (i) c.lineTo(px, py); else c.moveTo(px, py); });
-  c.lineTo(X(L.world.x1), Z(zB)); c.lineTo(X(L.world.x1), Z(zA)); c.closePath();
+  const xE = Math.max(L.world.x1, L.track.bounds.x1 + 14); c.lineTo(X(xE), Z(zB)); c.lineTo(X(xE), Z(zA)); c.closePath();
   c.fillStyle = rgba(INK, 0.045); c.fill();
 
   // sea: parallel strokes at one angle
@@ -184,8 +184,9 @@ export function createMinimap(g, hud) {
     size = px; cv.width = px; cv.height = px; R = px / 2;
     s = R / VIEW_M;
     // static chart covers the whole city plus the view radius around it
-    X0 = L.port.sail.x0 - VIEW_M; Z0 = Math.min(L.world.z0, L.port.sail.z0) - VIEW_M - 8; // --- port --- the chart reaches the sailing limits
-    const W = Math.ceil((L.world.x1 + VIEW_M - X0) * s), H = Math.ceil((Math.max(L.world.z1, L.port.sail.z1) + VIEW_M + 8 - Z0) * s); // --- port ---
+    X0 = L.port.sail.x0 - VIEW_M; Z0 = Math.min(L.world.z0, L.port.sail.z0, L.track.bounds.z0 - 14) - VIEW_M - 8; // the chart also reaches the whole circuit
+    // --- port --- the chart reaches the sailing limits
+    const W = Math.ceil((Math.max(L.world.x1, L.track.bounds.x1 + 14) + VIEW_M - X0) * s), H = Math.ceil((Math.max(L.world.z1, L.port.sail.z1) + VIEW_M + 8 - Z0) * s); // --- port ---
     if (!off) off = document.createElement("canvas");
     off.width = W; off.height = H; offC = off.getContext("2d");
     drawChart(offC, { s, x0: X0, z0: Z0, W, H, u: dpr, T });
@@ -357,6 +358,7 @@ export function createBigMap(g, hud, onToggle) {
       if (open) return;
       open = true; root.hidden = false;
       if (g.port) { g.port.mapExtent(ext); lastKey = ""; } // --- port --- the map follows the boat out to sea
+      ext.x1 = Math.max(ext.x1, L.track.bounds.x1 + 14); ext.z0 = Math.min(ext.z0, L.track.bounds.z0 - 14); // --- karting --- keep the whole circuit in view
       build(); marks();
       requestAnimationFrame(() => { if (open) root.classList.add("is-on"); });
       closeBtn.focus({ preventScroll: true });

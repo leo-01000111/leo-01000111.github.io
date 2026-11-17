@@ -55,7 +55,7 @@ export function createTrain(g) {
   const group = new THREE.Group();
   group.name = "train";
   const body = new THREE.Mesh(B.geometry(), mat);
-  body.frustumCulled = false;
+  body.geometry.computeBoundingSphere();
   // door leaves
   const LB = new Buf(1e3), LK = createKit(LB, dummy);
   LK.at(0, 0, 0);
@@ -63,7 +63,7 @@ export function createTrain(g) {
   LK.box(-0.3, 0.3, 1.5, 2.3, 0.04, 0.045, [0.9, 0.62, 0.35], K_LAMP, true);
   LK.box(-0.3, 0.3, 1.5, 2.3, -0.045, -0.04, [0.9, 0.62, 0.35], K_LAMP, true);
   const leaves = new THREE.InstancedMesh(LB.geometry(), mat, DOORS.length * 4);
-  leaves.frustumCulled = false;
+  leaves.boundingSphere = body.geometry.boundingSphere.clone(); leaves.boundingSphere.radius += 2;   // the leaves slide along the doors, inside the body
   group.add(body, leaves);
   group.visible = false;
   g.scene.add(group);

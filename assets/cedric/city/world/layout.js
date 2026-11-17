@@ -284,10 +284,11 @@ export const port = {
   friend: { x: -70.3, z: -3.4, heading: PI }, // a friend waves from the pier end
 };
 walkable.push(
-  { x0: -34, x1: 14, z0: -179.6, z1: -108 },
-  { x0: -73.6, x1: -34, z0: -179.8, z1: -176.2 }, // the breakwater's straight leg
+  { x0: -34, x1: 14, z0: -179.6, z1: -108 }, // --- port --- the quay
+  { x0: -19, x1: 14, z0: -112, z1: -103 }, // joins the quay to the city walkable area (that one starts at z -107; without this a 1 m gap walled the port off)
+  { x0: -73.6, x1: -30, z0: -179.8, z1: -176.2 }, // the breakwater's straight leg (reaches into the quay so the shrunk rects overlap)
   { x0: -42, x1: -37.5, z0: -173, z1: -136 }, // pontoon spine
-  { x0: -37.6, x1: -33.9, z0: -147.5, z1: -144.5 }, // gangway
+  { x0: -40, x1: -32, z0: -147.5, z1: -144.5 }, // gangway (overlaps quay and spine, see above)
 );
 world.z0 = Math.min(world.z0, -196); // charts and the big map include the harbour
 plots.push({ id: "port", x: port.cabin.x, z: port.cabin.z, w: port.cabin.w, d: port.cabin.d, rot: 0, kind: "leisure", building: "port", h: 8, variant: 0 });

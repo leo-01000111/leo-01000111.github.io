@@ -88,14 +88,12 @@ export function createHud(g) {
         kb.textContent = k; it.append(kb, document.createTextNode(" " + v)); hint.appendChild(it);
       }
 
-      // work-in-progress tag next to Retour
-      const wip = document.createElement("span"); wip.className = "ccity__wip"; wip.textContent = T.hud.wip; wip.title = T.hud.wipLabel;
       if (g.mode === "bench") { // phone / reduced motion: Retour and nothing else (bench.js adds "son")
-        hud.append(back, wip);
+        hud.append(back);
         g.ui = { escape: () => false };
         return;
       }
-      hud.append(back, wip, tools, hint);
+      hud.append(back, tools, hint);
       prompt = createPrompt(g, hud);
       soon = createSoonPanel(g, hud, () => { overlayChanged(); if (!soon.isOpen) refocus(); });
       bigmap = createBigMap(g, hud, on => { if (on) closeOthers(bigmap); overlayChanged(); if (!on) refocus(); });

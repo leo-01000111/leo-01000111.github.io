@@ -18,9 +18,9 @@ export default function basile(K, p, X) {
   const ex0 = -1.35, ex1 = 1.35;             // elevator shaft across x, from -hd to f0
 
   // ground floor: glazed lobby / café, deep recess under the first floor
-  K.box(-hw, hw, 0, 0.15, f0, b1, C.dark, K_RAW, false);
+  K.box(-hw, hw, 0, 0.22, f0, b1, C.dark, K_RAW, false);   // slab top 7 cm above the 0.15 sidewalk (was coplanar)
   K.box(-hw + 0.9, hw - 0.9, 0.15, 3.2, f0 + 1.2, b1 - 0.5, C.glass, K_GLASS, false);
-  for (const x of [-hw + 0.35, -hw / 2, hw / 2, hw - 0.35]) K.box(x - 0.35, x + 0.35, 0.15, 3.2, f0, f0 + 0.7, warm, K_RAW);
+  for (const x of [-hw + 0.35, -hw / 2, hw / 2, hw - 0.35]) K.box(x - 0.35, x + 0.35, 0.22, 3.2, f0, f0 + 0.7, warm, K_RAW);
   for (let x = -hw + 1.6; x < hw - 1; x += 2.2) if (Math.abs(x) > 2) K.box(x - 0.2, x + 0.2, 3.12, 3.2, f0 + 0.3, f0 + 0.6, C.warmLight, K_LAMP, true);
   // four storeys, glazing on every side; deep balconies with planters on the sea side
   const top = bands(K, -hw, hw, f0, b1, 3.2, 16.0, { sides: "lrfb", piers: 2.6, c: warm, cap: 0.4 });

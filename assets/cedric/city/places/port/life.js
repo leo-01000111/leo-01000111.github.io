@@ -38,7 +38,7 @@ export function createLife(g, X) {
   const tint = (m, i, r, gg, b) => m.setColorAt(i, new THREE.Color(r, gg, b));
   tint(launches, 0, 1, 1, 1); tint(launches, 1, 0.7, 0.95, 1.08); tint(launches, 2, 1.1, 0.86, 0.68);
   tint(dinghies, 0, 1, 1, 1); tint(dinghies, 1, 1.05, 1.0, 0.85); tint(dinghies, 2, 0.9, 1.0, 1.05);
-  launches.frustumCulled = dinghies.frustumCulled = false;
+  launches.frustumCulled = false;   // the player sails launch 0 anywhere on the sea: no fixed bounds
   const p = PT.pontoon, fx = p.spine[0] - 5.2, F = p.fingers;
   // [mesh, index, x, z, heading, roll gain]
   const moored = [
@@ -48,6 +48,12 @@ export function createLife(g, X) {
   const anchored = { x: -74, z: -134, h: 0.6 };
   for (const m of moored) addCircle(m[2], m[3], m[0] === launches ? 1.5 : 1.0);
   addCircle(anchored.x, anchored.z, 1.2);
+  { // dinghies only ever sit at their moorings (bobbing and swinging): one sphere over those spots lets three.js cull them
+    const pts = moored.filter(m => m[0] === dinghies).map(m => [m[2], m[3]]).concat([[anchored.x, anchored.z]]);
+    const cx = pts.reduce((a, q) => a + q[0], 0) / pts.length, cz = pts.reduce((a, q) => a + q[1], 0) / pts.length;
+    dg.computeBoundingSphere();
+    dinghies.boundingSphere = new THREE.Sphere(new THREE.Vector3(cx, SEA, cz), Math.max(...pts.map(q => Math.hypot(q[0] - cx, q[1] - cz))) + dg.boundingSphere.radius * 1.5 + 6);
+  }
 
   // the launch Cédric sails: instance 0, poses shared with sailing.js
   const player = { idx: 0, active: false, pose: { x: PT.berth.x, y: SEA, z: PT.berth.z, h: PT.berth.heading, pitch: 0, roll: 0 } };
@@ -58,11 +64,16 @@ export function createLife(g, X) {
   for (let i = 0; i < 8; i++) { const z = 24 + i * 11; buoys.push({ x: L.shoreX(z) - 38, z, col: [1, 0.8, 0.22], lamp: [1, 0.72, 0.3], ph: i * 0.9 }); }
   buoys.push({ x: -108, z: -134, col: [1, 0.22, 0.18], lamp: [1, 0.15, 0.1], ph: 0.5 }, { x: -86, z: -110, col: [0.22, 0.85, 0.35], lamp: [0.2, 1, 0.35], ph: 2.2 });
   const buoyMesh = new THREE.InstancedMesh(buoyGeoM, mat, buoys.length);
-  buoyMesh.name = "port-buoys"; buoyMesh.frustumCulled = false;
+  buoyMesh.name = "port-buoys";
+  { // buoys are moored: their sphere covers every mooring plus the bobbing
+    const cx = buoys.reduce((a, b) => a + b.x, 0) / buoys.length, cz = buoys.reduce((a, b) => a + b.z, 0) / buoys.length;
+    buoyGeoM.computeBoundingSphere();
+    buoyMesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(cx, SEA, cz), Math.max(...buoys.map(b => Math.hypot(b.x - cx, b.z - cz))) + buoyGeoM.boundingSphere.radius * 1.5 + 6);
+  }
   buoys.forEach((b, i) => { tint(buoyMesh, i, b.col[0], b.col[1], b.col[2]); addCircle(b.x, b.z, 0.6); });
   const bellGeoM = track(bellGeo());
   const bellMesh = new THREE.Mesh(bellGeoM, mat);
-  bellMesh.name = "port-bell"; bellMesh.frustumCulled = false;
+  bellMesh.name = "port-bell";   // a plain mesh moored in place: the geometry bounds follow its matrix
   const bell = { x: PT.bell[0], z: PT.bell[1], roll: 0, last: -9, lamp: [1, 0.85, 0.55] };
 
   // ---- gulls ----
@@ -79,7 +90,7 @@ export function createLife(g, X) {
         vec3 c=vC*(uAmb*1.15+uAmbUp*.5+uSunCol*(.25+.45*d)); gl_FragColor=vec4(fog(c,vW),1.); }`,
   });
   const gulls = new THREE.InstancedMesh(gg, gullMat, NG);
-  gulls.name = "port-gulls"; gulls.frustumCulled = false;
+  gulls.name = "port-gulls";
   const gph = new Float32Array(NG);
   const orbit = [];
   for (let i = 0; i < NG; i++) {
@@ -87,6 +98,11 @@ export function createLife(g, X) {
     orbit.push({ cx: i < 4 ? -52 + g.rng() * 18 : -20 + g.rng() * 16, cz: i < 4 ? -150 + g.rng() * 14 : -138 + g.rng() * 14, r: 14 + g.rng() * 22, w: (0.09 + g.rng() * 0.07) * (i % 2 ? 1 : -1), a: g.rng() * 6.28, y: 10 + g.rng() * 9, py: g.rng() * 6.28 });
   }
   gg.setAttribute("aPh", new THREE.InstancedBufferAttribute(gph, 1));
+  { // gulls circle fixed centres (radius + height range known): one sphere over all the orbits; the wing flap in the shader is +-0.3
+    const cx = orbit.reduce((a, o) => a + o.cx, 0) / NG, cz = orbit.reduce((a, o) => a + o.cz, 0) / NG, cy = 15;
+    gg.computeBoundingSphere();
+    gulls.boundingSphere = new THREE.Sphere(new THREE.Vector3(cx, cy, cz), Math.max(...orbit.map(o => Math.hypot(Math.hypot(o.cx - cx, o.cz - cz) + o.r, Math.max(Math.abs(o.y - 1.6 - cy), Math.abs(o.y + 1.6 - cy))))) + gg.boundingSphere.radius + 2);
+  }
 
   // ---- friend on the pier end ----
   const fr = PT.friend, friend = buildCedric(window.CEDRIC_DESIGN, { ink: "#ff6f55", eye: "#f5c518" }, 1.15);

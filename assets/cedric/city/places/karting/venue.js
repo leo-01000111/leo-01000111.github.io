@@ -36,7 +36,7 @@ export function createVenue(g) {
 
   // ---- ground -----------------------------------------------------------------------------------------
   function buildGround() {
-    const B = new Buf(1e6), R = Hills.REGION, S = 6, rnd = seeded(4242);
+    const B = new Buf(1e6), R = Hills.REGION, S = 7, rnd = seeded(4242);
     const nx = Math.ceil((R.x1 - R.x0) / S) + 1, nz = Math.ceil((R.z1 - R.z0) / S) + 1;
     const H = new Float32Array(nx * nz);
     for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) H[j * nx + i] = Hills.height(R.x0 + i * S, R.z0 + j * S);
@@ -63,7 +63,7 @@ export function createVenue(g) {
       if (Math.abs(a - c) < Math.abs(bb - d)) { tri(A, Bp, Cp); tri(A, Cp, D); } else { tri(A, Bp, D); tri(Bp, Cp, D); }
     }
     const geo = B.geometry(); geos.push(geo);
-    const m = new THREE.Mesh(geo, mat); m.name = "karting-ground"; m.frustumCulled = false;
+    const m = new THREE.Mesh(geo, mat); m.name = "karting-ground"; geo.computeBoundingSphere();
     g.scene.add(m); meshes.push(m); tris += B.tris;
     return H;
   }
@@ -81,7 +81,7 @@ export function createVenue(g) {
       const ac = tint(ASPH, 0.96 + 0.08 * ((i >> 2) % 3) / 2);
       quadUp(B, lat(i, -HW), lat(i, HW), lat(j, HW), lat(j, -HW), ac);
       // edge lines
-      for (const s of [-1, 1]) quadUp(B, lat(i, s * (HW - 0.55), 0.012), lat(i, s * (HW - 0.3), 0.012), lat(j, s * (HW - 0.3), 0.012), lat(j, s * (HW - 0.55), 0.012), tint(WHITE, 0.85));
+      for (const s of [-1, 1]) quadUp(B, lat(i, s * (HW - 0.55), 0.012), lat(i, s * (HW - 0.3), 0.012), lat(j, s * (HW - 0.3), 0.012), lat(j, s * (HW - 0.55), 0.012), tint(WHITE, 0.55), K_NEON); // faintly lit lines: they glow at night
       // kerbs and the shoulder wall down to the ground
       for (const s of [-1, 1]) {
         const kc = corner ? (((i >> 1) & 1) ? RED : WHITE) : tint(WHITE, 0.55);
@@ -141,7 +141,7 @@ export function createVenue(g) {
     }
     // thin out the tyre walls: one stack every ~3 m
     const stacks = [];
-    { let last = -1e9; for (const t of nStacks) { const p = t[0]; if (stacks.length && Math.hypot(p[0] - last.x, p[1] - last.z) < 2.9) continue; stacks.push(t); last = { x: p[0], z: p[1] }; } }
+    { let last = -1e9; for (const t of nStacks) { const p = t[0]; if (stacks.length && Math.hypot(p[0] - last.x, p[1] - last.z) < 3.6) continue; stacks.push(t); last = { x: p[0], z: p[1] }; } }
 
     // lamps outside the barrier, every ~42 m, alternating sides; denser on the start straight
     {
@@ -158,7 +158,7 @@ export function createVenue(g) {
         const hx = px - rx * side * 2.3, hz = pz - rz * side * 2.3;     // arm leans over the track
         K.tube([px, y0 + 6.3, pz], [hx, y0 + 6.6, hz], 0.06, 4, STEEL, K_PLAIN);
         K.box(hx - 0.32, hx + 0.32, y0 + 6.5, y0 + 6.62, hz - 0.2, hz + 0.2, [1, 0.9, 0.7], K_LAMP, true);
-        W.glows.push({ x: hx, y: y0 + 6.45, z: hz, col: [0.7, 0.92, 1.0], size: 2.8 });
+        W.glows.push({ x: hx, y: y0 + 6.45, z: hz, col: [0.7, 0.92, 1.0], size: 4.6 });
         lampAt.push([hx, y0 + 6.45, hz]);
       }
     }
@@ -225,7 +225,7 @@ export function createVenue(g) {
     }
 
     const geo = B.geometry(); geos.push(geo);
-    const m = new THREE.Mesh(geo, mat); m.name = "karting-track"; m.frustumCulled = false;
+    const m = new THREE.Mesh(geo, mat); m.name = "karting-track"; geo.computeBoundingSphere();
     g.scene.add(m); meshes.push(m); tris += B.tris;
     return { stacks };
   }
@@ -248,7 +248,7 @@ export function createVenue(g) {
       mesh.setColorAt(i, k === 0 ? col.setRGB(1, 0.18, 0.2) : k === 1 ? col.setRGB(1, 1, 1) : col.setRGB(0.3, 0.9, 1));
     });
     mesh.instanceMatrix.needsUpdate = true; if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-    mesh.frustumCulled = false; mesh.name = "karting-tyres";
+    mesh.computeBoundingSphere(); mesh.name = "karting-tyres";
     g.scene.add(mesh); meshes.push(mesh); tris += geo.attributes.position.count / 3 * list.length;
   }
 
@@ -280,12 +280,12 @@ export function createVenue(g) {
     });
     mesh.count = spots.length;
     mesh.instanceMatrix.needsUpdate = true; if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-    mesh.frustumCulled = false; mesh.name = "karting-rocks";
+    mesh.computeBoundingSphere(); mesh.name = "karting-rocks";
     g.scene.add(mesh); meshes.push(mesh); tris += geo.attributes.position.count / 3 * spots.length;
 
     // trees: flora anchors on gentle ground away from the circuit (pines and cypresses)
     let trees = 0;
-    for (let n = 0; n < 6000 && trees < 150; n++) {
+    for (let n = 0; n < 6000 && trees < 80; n++) {
       const x = R.x0 + 4 + rnd() * (R.x1 - R.x0 - 8), z = R.z0 + 4 + rnd() * (R.z1 - R.z0 - 8);
       if (Hills.mask(x, z) < 0.5) continue;
       const hit = C.project(x, z, -1, tmpHit);
@@ -296,7 +296,7 @@ export function createVenue(g) {
       if (sl > 0.75 || h < 1.2) continue;
       // denser lower on the slopes and near the road, thin on the bare ridge
       if (rnd() > Math.max(0.15, 1 - h / 38) * (hit && hit.d < 40 ? 1 : 0.55)) continue;
-      W.anchors.push({ t: "tree", x, y: h - 0.05, z, s: 0.9 + rnd() * 1.1, sp: rnd() < 0.62 ? "pine" : "cypress" });
+      W.anchors.push({ t: "tree", x, y: h - 0.05, z, s: 0.9 + rnd() * 1.1, sp: rnd() < 0.3 ? "pine" : "cypress" });
       trees++;
     }
     g.stats.kartTrees = trees;
