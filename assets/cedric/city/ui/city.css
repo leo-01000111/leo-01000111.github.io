@@ -1,0 +1,282 @@
+/* City HUD. Everything is scoped under .ccity. Thin lines, small mono type, nothing shouting. */
+@font-face { font-family: "Ccity Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("../../../fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Ccity Plex Mono"; font-style: normal; font-weight: 600; font-display: swap; src: url("../../../fonts/ibm-plex-mono-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Ccity Plex Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("../../../fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Ccity Plex Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("../../../fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+
+.ccity {
+  --cc-ink: #f1e6dc;
+  --cc-dim: rgba(241, 230, 220, .66);
+  --cc-line: rgba(241, 230, 220, .3);
+  --cc-line-hi: rgba(241, 230, 220, .65);
+  --cc-bg: rgba(11, 13, 22, .8);
+  --cc-panel: rgba(11, 13, 22, .9);
+  --cc-accent: #9db8ff;
+  --cc-warm: #ffb070;
+  --cc-mono: "Ccity Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --cc-sans: "Ccity Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --cc-map: clamp(148px, 24vmin, 224px);
+  --cc-edge: 18px;
+  color: var(--cc-ink);
+  font-family: var(--cc-sans);
+}
+.ccity *, .ccity *::before, .ccity *::after { box-sizing: border-box; }
+.ccity [hidden] { display: none !important; }
+.ccity .ccity__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---- buttons ---- */
+.ccity .ccity__btn {
+  appearance: none; -webkit-appearance: none; margin: 0; cursor: pointer; pointer-events: auto;
+  background: var(--cc-bg); color: var(--cc-ink); border: 1px solid var(--cc-line); border-radius: 999px;
+  font: 500 12px/1 var(--cc-mono); letter-spacing: .03em; padding: 10px 15px;
+  transition: border-color .25s ease, background-color .25s ease, color .25s ease;
+}
+.ccity .ccity__btn:hover { border-color: var(--cc-line-hi); }
+.ccity .ccity__btn:focus-visible, .ccity .ccity__minimap:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 3px; }
+.ccity .ccity__back { position: absolute; left: var(--cc-edge); top: var(--cc-edge); }
+.ccity .ccity__tools { position: absolute; right: var(--cc-edge); top: var(--cc-edge); display: flex; gap: 8px; pointer-events: none; }
+.ccity .ccity__icon { width: 38px; height: 38px; padding: 0; display: grid; place-items: center; }
+.ccity .ccity__icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.ccity .ccity__ic-off { display: none; }
+.ccity .is-muted .ccity__ic-on { display: none; }
+.ccity .is-muted .ccity__ic-off { display: block; }
+.ccity .is-muted { color: var(--cc-dim); }
+
+/* ---- controls hint ---- */
+.ccity .ccity__hint {
+  position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 20px; max-width: calc(100% - 2 * (var(--cc-map) + var(--cc-edge)) - 24px);
+  font: 400 11px/1.4 var(--cc-mono); letter-spacing: .04em; color: var(--cc-dim); text-shadow: 0 0 8px rgba(0, 0, 0, .7), 0 0 2px rgba(0, 0, 0, .6);
+  transition: opacity 1.8s ease; white-space: nowrap;
+}
+.ccity .ccity__hint.is-gone { opacity: 0; }
+.ccity .ccity__hint kbd {
+  font: 600 10px/1 var(--cc-mono); color: var(--cc-ink); padding: 3px 6px; margin-right: 2px;
+  border: 1px solid var(--cc-line); border-radius: 3px; background: rgba(11, 13, 22, .38);
+}
+
+/* ---- door prompt ---- */
+.ccity .ccity__prompt {
+  --neon: #ffb070;
+  position: absolute; left: 50%; bottom: 82px; transform: translate(-50%, 8px); opacity: 0; pointer-events: none;
+  padding: 11px 20px; background: var(--cc-bg); border: 1px solid color-mix(in srgb, var(--neon) 55%, transparent); border-radius: 999px;
+  font: 600 13px/1 var(--cc-mono); letter-spacing: .03em; white-space: nowrap;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--neon) 22%, transparent);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.3, .7, .2, 1);
+}
+.ccity .ccity__prompt.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---- minimap ---- */
+.ccity .ccity__minimap {
+  position: absolute; right: var(--cc-edge); bottom: var(--cc-edge); width: var(--cc-map); height: var(--cc-map);
+  pointer-events: auto; cursor: pointer; border-radius: 50%; filter: drop-shadow(0 3px 12px rgba(0, 0, 0, .5));
+}
+.ccity .ccity__minimap canvas { width: 100%; height: 100%; display: block; }
+
+/* ---- big map ---- */
+.ccity .ccity__map {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: auto;
+  background: rgba(7, 9, 16, .8); opacity: 0; transition: opacity .25s ease;
+}
+.ccity .ccity__map.is-on { opacity: 1; }
+.ccity .ccity__mapfig { position: relative; border: 1px solid var(--cc-line); background: rgba(11, 13, 22, .94); }
+.ccity .ccity__mapfig canvas { position: absolute; left: 0; top: 0; display: block; }
+.ccity .ccity__maptitle { position: absolute; left: 14px; top: 12px; font: 600 11px/1 var(--cc-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cc-dim); }
+.ccity .ccity__mapfoot { position: absolute; left: 14px; bottom: 12px; font: 400 11px/1 var(--cc-mono); letter-spacing: .04em; color: var(--cc-dim); }
+.ccity .ccity__mapclose { position: absolute; right: 8px; top: 8px; width: 30px; height: 30px; padding: 0; display: grid; place-items: center; font-size: 17px; }
+
+/* ---- panels: settings + "Bientôt" ---- */
+.ccity .ccity__settings, .ccity .ccity__soon {
+  position: absolute; pointer-events: auto; background: var(--cc-panel); border: 1px solid var(--cc-line); border-radius: 10px;
+  opacity: 0; transform: translateY(-6px); transition: opacity .25s ease, transform .25s ease;
+}
+.ccity .ccity__settings.is-on, .ccity .ccity__soon.is-on { opacity: 1; transform: none; }
+.ccity .ccity__settings {
+  right: var(--cc-edge); top: calc(var(--cc-edge) + 48px); width: min(310px, calc(100% - 2 * var(--cc-edge)));
+  padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px; font: 400 13px/1.4 var(--cc-sans);
+  max-height: calc(100% - 2 * var(--cc-edge) - 48px); overflow: auto;
+}
+.ccity .ccity__settings h2, .ccity .ccity__soon h2 { margin: 0; font: 600 11px/1 var(--cc-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cc-dim); }
+.ccity .ccity__field { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.ccity .ccity__field label, .ccity .ccity__field legend { font: 500 11px/1 var(--cc-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--cc-ink); padding: 0; }
+.ccity .ccity__ends { display: flex; justify-content: space-between; font: 400 11px/1 var(--cc-mono); color: var(--cc-dim); }
+.ccity .ccity__settings input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 20px; margin: 0; background: transparent; cursor: pointer;
+}
+.ccity .ccity__settings input[type="range"]::-webkit-slider-runnable-track { height: 1px; background: var(--cc-line-hi); }
+.ccity .ccity__settings input[type="range"]::-moz-range-track { height: 1px; background: var(--cc-line-hi); }
+.ccity .ccity__settings input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--cc-ink); border: 0; }
+.ccity .ccity__settings input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--cc-ink); border: 0; }
+.ccity .ccity__settings input:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 3px; border-radius: 4px; }
+.ccity .ccity__seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ccity .ccity__seg label { position: relative; display: block; font: 500 11px/1.2 var(--cc-mono); letter-spacing: .02em; text-transform: none; }
+.ccity .ccity__seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.ccity .ccity__seg span { display: block; text-align: center; padding: 8px 6px; border: 1px solid var(--cc-line); border-radius: 6px; color: var(--cc-dim); transition: border-color .2s ease, color .2s ease, background-color .2s ease; }
+.ccity .ccity__seg input:checked + span { border-color: var(--cc-warm); color: var(--cc-ink); background: rgba(255, 176, 112, .1); }
+.ccity .ccity__seg input:focus-visible + span { outline: 2px solid var(--cc-accent); outline-offset: 2px; }
+.ccity .ccity__check label { display: flex; align-items: center; gap: 10px; cursor: pointer; text-transform: none; font: 400 13px/1.2 var(--cc-sans); letter-spacing: 0; }
+.ccity .ccity__check input { width: 16px; height: 16px; margin: 0; accent-color: var(--cc-warm); }
+.ccity .ccity__check input:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 3px; }
+.ccity .ccity__setclose { align-self: flex-end; padding: 8px 14px; }
+
+.ccity .ccity__soon {
+  --neon: #ffb070;
+  left: 50%; top: 50%; width: min(360px, calc(100% - 36px)); margin-left: calc(min(360px, 100% - 36px) / -2); margin-top: -90px;
+  padding: 22px 24px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 2px solid var(--neon);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--neon) 16%, transparent);
+}
+.ccity .ccity__soon h2 { font: 600 17px/1.2 var(--cc-sans); letter-spacing: 0; text-transform: none; color: var(--cc-ink); }
+.ccity .ccity__soon p { margin: 0; font: 400 14px/1.45 var(--cc-sans); color: var(--cc-ink); }
+.ccity .ccity__tag { font: 600 10px/1 var(--cc-mono) !important; letter-spacing: .16em; text-transform: uppercase; color: var(--neon) !important; }
+.ccity .ccity__soon .ccity__hintline { font: 400 11px/1.3 var(--cc-mono); letter-spacing: .03em; color: var(--cc-dim); }
+.ccity .ccity__soonclose { align-self: flex-end; padding: 8px 14px; }
+
+@media (max-width: 640px) {
+  .ccity { --cc-edge: 12px; }
+  .ccity .ccity__hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ccity .ccity__hint, .ccity .ccity__prompt, .ccity .ccity__map, .ccity .ccity__settings, .ccity .ccity__soon { transition-duration: .01s; }
+}
+
+/* ---- friends' speech bubble: placed by npcs.js, one at a time ---- */
+.ccity .ccity__bubble {
+  --eye: #f1e6dc;
+  position: absolute; left: 0; top: 0; max-width: 210px; margin-top: -12px; padding: 8px 12px 9px; pointer-events: none;
+  background: var(--cc-panel); border: 1px solid color-mix(in srgb, var(--eye) 50%, transparent); border-radius: 12px;
+  font: 400 13px/1.35 var(--cc-sans); color: var(--cc-ink); opacity: 0; transition: opacity .8s ease; will-change: transform;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--eye) 14%, transparent);
+}
+.ccity .ccity__bubble.is-on { opacity: 1; }
+.ccity .ccity__bubble::after {
+  content: ""; position: absolute; left: 50%; top: 100%; width: 8px; height: 8px; margin: -4px 0 0 -4px; transform: rotate(45deg);
+  background: var(--cc-panel); border: solid color-mix(in srgb, var(--eye) 50%, transparent); border-width: 0 1px 1px 0;
+}
+.ccity .ccity__bname { display: block; margin-bottom: 4px; font: 600 10px/1 var(--cc-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--eye); }
+
+/* ---- bench mode: one small sound button ---- */
+.ccity .ccity__son { position: absolute; right: var(--cc-edge); top: var(--cc-edge); padding: 10px 16px; }
+.ccity .ccity__son.is-on { border-color: var(--cc-warm); color: var(--cc-warm); }
+
+/* ---- notice board (places/board.js): paper notes pinned on dark, pen-and-hatch ---- */
+.ccity .ccity__board {
+  --neon: #ffb070; --paper: #ece3cf; --pen: #2a2620;
+  position: absolute; left: 50%; top: 50%; width: min(640px, calc(100% - 2 * var(--cc-edge))); max-height: calc(100% - 2 * var(--cc-edge));
+  transform: translate(-50%, calc(-50% - 6px)); opacity: 0; pointer-events: auto; outline: none;
+  display: flex; flex-direction: column; gap: 14px; padding: 20px 22px 18px;
+  background: var(--cc-panel); border: 1px solid var(--cc-line); border-top: 2px solid var(--neon); border-radius: 10px;
+  box-shadow: 0 0 30px color-mix(in srgb, var(--neon) 16%, transparent);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.ccity .ccity__board.is-on { opacity: 1; transform: translate(-50%, -50%); }
+.ccity .ccity__boardhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.ccity .ccity__board h2 { margin: 4px 0 0; font: 600 17px/1.2 var(--cc-sans); color: var(--cc-ink); }
+.ccity .ccity__board p { margin: 0; }
+.ccity .ccity__board .ccity__tag { font: 600 10px/1 var(--cc-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--neon); }
+.ccity .ccity__notes {
+  list-style: none; margin: 0; padding: 12px 6px 14px; overflow: auto; flex: 1 1 auto; min-height: 120px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px 14px; align-content: start;
+  border-top: 1px solid var(--cc-line); border-bottom: 1px solid var(--cc-line);
+}
+.ccity .ccity__notes:focus-visible, .ccity .ccity__board input:focus-visible, .ccity .ccity__board textarea:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 2px; }
+.ccity .ccity__note {
+  position: relative; padding: 18px 14px 12px; color: var(--pen); background: var(--paper); transform: rotate(var(--tilt, 0deg));
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .45); font: 400 12.5px/1.5 var(--cc-mono); overflow-wrap: anywhere;
+  background-image: repeating-linear-gradient(135deg, rgba(42, 38, 32, .07) 0 1px, transparent 1px 6px);
+  background-size: 100% 22px; background-repeat: no-repeat; background-position: bottom;
+}
+.ccity .ccity__note::before { content: ""; position: absolute; left: 50%; top: 6px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: #b8433a; box-shadow: 0 1px 2px rgba(0, 0, 0, .5); }
+.ccity .ccity__notetext { white-space: pre-wrap; }
+.ccity .ccity__board .ccity__notemeta { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; font: 400 10.5px/1.3 var(--cc-mono); letter-spacing: .03em; color: rgba(42, 38, 32, .72); }
+.ccity .ccity__notename { font-weight: 600; }
+.ccity .ccity__boardempty { font: 400 13px/1.5 var(--cc-sans); color: var(--cc-dim); padding: 4px 6px; }
+.ccity .ccity__boardform { margin: 0; }
+.ccity .ccity__boardfields { margin: 0; padding: 0; border: 0; min-width: 0; display: flex; flex-direction: column; gap: 10px; position: relative; }
+.ccity .ccity__boardfields:disabled { opacity: .5; }
+.ccity .ccity__boardfields label { display: flex; flex-direction: column; gap: 6px; font: 500 11px/1 var(--cc-mono); letter-spacing: .06em; text-transform: uppercase; }
+.ccity .ccity__board input[type="text"], .ccity .ccity__board textarea {
+  width: 100%; margin: 0; padding: 8px 10px; resize: vertical; background: rgba(241, 230, 220, .06); color: var(--cc-ink);
+  border: 1px solid var(--cc-line); border-radius: 6px; font: 400 13px/1.4 var(--cc-mono); letter-spacing: 0; text-transform: none;
+}
+.ccity .ccity__hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.ccity .ccity__boardrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ccity .ccity__count { font: 400 11px/1 var(--cc-mono); color: var(--cc-dim); }
+.ccity .ccity__boardsend[disabled] { opacity: .6; cursor: default; }
+.ccity .ccity__board .ccity__boardstatus { min-height: 1.4em; margin-top: 8px !important; font: 400 12px/1.4 var(--cc-mono); color: var(--cc-dim); }
+.ccity .ccity__boardstatus[data-kind="ok"] { color: #9fe0a8; }
+.ccity .ccity__boardstatus[data-kind="error"] { color: #ffb0a0; }
+@media (max-height: 560px) {
+  .ccity .ccity__board { overflow: auto; }
+  .ccity .ccity__notes { overflow: visible; flex: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ccity .ccity__board { transition-duration: .01s; } }
+
+/* ---- station (places/station.js): hints, ticket card, departures board, till ---- */
+.ccity .ccity__stprompt[data-hint="1"] { bottom: 74px; font-weight: 400; font-size: 12.5px; color: var(--cc-dim); background: rgba(11, 13, 22, .62); border-color: var(--cc-line); box-shadow: none; }
+.ccity .ccity__ticket {
+  position: absolute; left: var(--cc-edge); top: calc(var(--cc-edge) + 52px); display: flex; max-width: min(300px, calc(100% - 2 * var(--cc-edge)));
+  color: #2a2620; background: #ece3cf; border-radius: 4px 10px 10px 4px; transform: rotate(-1.4deg); pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .5); font: 400 12px/1.4 var(--cc-mono);
+}
+.ccity .ccity__ticket.is-new { animation: cc-ticket .7s cubic-bezier(.2, .8, .2, 1); }
+@keyframes cc-ticket { from { opacity: 0; transform: translateY(-10px) rotate(-3.5deg); } to { opacity: 1; transform: rotate(-1.4deg); } }
+.ccity .ccity__tkstub { flex: 0 0 20px; border-right: 2px dashed rgba(42, 38, 32, .45); border-radius: 4px 0 0 4px; background: repeating-linear-gradient(135deg, rgba(42, 38, 32, .3) 0 1px, transparent 1px 5px); }
+.ccity .ccity__tkbody {
+  padding: 9px 14px 10px 12px; min-width: 0; background-image: repeating-linear-gradient(135deg, rgba(42, 38, 32, .07) 0 1px, transparent 1px 6px);
+  background-size: 100% 18px; background-repeat: no-repeat; background-position: bottom;
+}
+.ccity .ccity__ticket p { margin: 0; }
+.ccity .ccity__tktag { font: 600 9.5px/1 var(--cc-mono); letter-spacing: .16em; text-transform: uppercase; color: #b8433a; }
+.ccity .ccity__tkdest { margin: 6px 0 7px !important; font: 600 15px/1.2 var(--cc-sans); overflow-wrap: anywhere; }
+.ccity .ccity__tkrow { display: flex; gap: 16px; font: 400 11.5px/1.2 var(--cc-mono); }
+.ccity .ccity__tkrow b { font-weight: 600; font-size: 13px; }
+
+.ccity .ccity__tboard {
+  position: absolute; left: 50%; top: var(--cc-edge); width: min(560px, calc(100% - 320px)); transform: translate(-50%, -8px); pointer-events: none;
+  opacity: 0; visibility: hidden; transition: opacity .4s ease, transform .4s ease, visibility 0s linear .4s;
+  padding: 11px 16px 12px; background: rgba(8, 10, 17, .9); border: 1px solid var(--cc-line); border-top: 2px solid #35e0c8; border-radius: 8px;
+  box-shadow: 0 0 26px rgba(53, 224, 200, .14); font: 400 12.5px/1.3 var(--cc-mono);
+}
+.ccity .ccity__tboard.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.ccity .ccity__tbhead { margin: 0 0 8px; display: flex; justify-content: space-between; gap: 12px; font: 600 12px/1 var(--cc-mono); letter-spacing: .16em; text-transform: uppercase; color: #ffb03f; }
+.ccity .ccity__tbsub { font-weight: 400; letter-spacing: .04em; text-transform: none; color: var(--cc-dim); }
+.ccity .ccity__tbrows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; border-top: 1px solid rgba(53, 224, 200, .4); padding-top: 6px; }
+.ccity .ccity__tbrow { display: grid; grid-template-columns: 52px 1fr 34px 108px; gap: 8px; padding: 3px 6px; border-left: 3px solid transparent; }
+.ccity .ccity__tbtime { color: #ffb03f; font-weight: 600; }
+.ccity .ccity__tbdest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ccity .ccity__tbvoie { color: #35e0c8; font-weight: 600; text-align: center; }
+.ccity .ccity__tbnote { color: var(--cc-dim); font-size: 11.5px; }
+.ccity .ccity__tbnote.is-late { color: #ff9a7a; }
+.ccity .ccity__tbrow.is-mine { background: rgba(255, 176, 63, .15); border-left-color: #ffb03f; }
+.ccity .ccity__tbrow.is-mine .ccity__tbnote { color: #ffd9a0; }
+@media (max-width: 860px) { .ccity .ccity__tboard { top: 64px; width: calc(100% - 2 * var(--cc-edge)); } }
+
+.ccity .ccity__till {
+  --neon: #35e0c8;
+  position: absolute; left: 50%; top: 50%; width: min(520px, calc(100% - 2 * var(--cc-edge))); max-height: calc(100% - 2 * var(--cc-edge));
+  transform: translate(-50%, calc(-50% - 6px)); opacity: 0; pointer-events: auto; outline: none; overflow: auto;
+  display: flex; flex-direction: column; gap: 12px; padding: 20px 22px 16px;
+  background: var(--cc-panel); border: 1px solid var(--cc-line); border-top: 2px solid var(--neon); border-radius: 10px;
+  box-shadow: 0 0 30px color-mix(in srgb, var(--neon) 16%, transparent); transition: opacity .25s ease, transform .25s ease;
+}
+.ccity .ccity__till.is-on { opacity: 1; transform: translate(-50%, -50%); }
+.ccity .ccity__till p, .ccity .ccity__till h2 { margin: 0; }
+.ccity .ccity__tillhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.ccity .ccity__till h2 { margin-top: 4px; font: 600 17px/1.2 var(--cc-sans); color: var(--cc-ink); }
+.ccity .ccity__till .ccity__tag { font: 600 10px/1 var(--cc-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--neon); }
+.ccity .ccity__tillintro { font: 400 13.5px/1.45 var(--cc-sans); color: var(--cc-ink); }
+.ccity .ccity__till .ccity__hintline { font: 400 11px/1.3 var(--cc-mono); letter-spacing: .02em; color: var(--cc-dim); }
+.ccity .ccity__dests { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ccity .ccity__dest {
+  appearance: none; -webkit-appearance: none; position: relative; width: 100%; margin: 0; padding: 10px 14px; display: grid; gap: 3px; text-align: left; cursor: pointer;
+  border: 1px solid var(--cc-line); border-radius: 8px; background: rgba(241, 230, 220, .04); color: var(--cc-ink); font: inherit; transition: border-color .2s ease, background-color .2s ease;
+}
+.ccity .ccity__dest.is-sel, .ccity .ccity__dest:focus-visible { border-color: var(--neon); background: color-mix(in srgb, var(--neon) 9%, transparent); outline: none; }
+.ccity .ccity__dest.is-here { opacity: .55; cursor: default; border-style: dashed; }
+.ccity .ccity__destname { font: 600 14.5px/1.2 var(--cc-sans); }
+.ccity .ccity__destblurb { font: 400 12.5px/1.4 var(--cc-sans); color: var(--cc-dim); }
+.ccity .ccity__desthere { position: absolute; right: 12px; top: 11px; font: 600 10px/1 var(--cc-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--cc-dim); }
+@media (prefers-reduced-motion: reduce) { .ccity .ccity__till, .ccity .ccity__tboard { transition-duration: .01s; } .ccity .ccity__ticket.is-new { animation: none; } }
+
+/* work-in-progress tag beside Retour */
+.ccity .ccity__wip{ position:absolute; top:calc(var(--cc-edge) + 9px); left:calc(var(--cc-edge) + 104px); padding:3px 9px; border:1px dashed rgba(255,190,90,.7); border-radius:3px; color:#ffc46b; background:rgba(10,12,20,.55); font:500 11px/1.3 "Ccity Plex Mono", "IBM Plex Mono", ui-monospace, Consolas, monospace; letter-spacing:.08em; text-transform:uppercase; pointer-events:none; }
