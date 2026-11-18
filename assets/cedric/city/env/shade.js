@@ -184,7 +184,7 @@ export function createShade(g) {
       U.uStars.value = p.stars * w.starMul;
       U.uSnow.value = w.snow; U.uWet.value = w.wet;
       U.uFol.value.set(w.foliage[0], w.foliage[1], w.foliage[2]);
-      U.uCut.value = g.level && g.level.id === "roof" ? 0 : 1;   // the roof's furniture is thin: the camera boom keeps real walls out of the way
+      U.uCut.value = g.level && (g.level.id === "roof" || g.level.id === "serre") ? 0 : 1; // --- serre ---   // the roof's furniture is thin: the camera boom keeps real walls out of the way
       U.uCam.value.copy(g.camera.position);
       U.uPl.value.set(st.pos.x, st.pos.y + 0.2, st.pos.z);
     },

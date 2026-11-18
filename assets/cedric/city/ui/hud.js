@@ -119,6 +119,7 @@ export function createHud(g) {
       g.ui = {
         escape() {
           if (g.kart && g.kart.escape()) return true; // --- karting --- menu, race and finish panel come first
+          if (g.serre && g.serre.escape()) return true; // --- serre --- the bed menu
           if (g.places && g.places.board && g.places.board.close()) return true;
           if (g.places && g.places.station && g.places.station.escape()) return true;
           if (bigmap.isOpen) { bigmap.close(); return true; }

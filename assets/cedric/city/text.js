@@ -19,6 +19,12 @@ export const T = {
     aerodrome: { name: "Aérodrome", prompt: "Espace — décoller", sign: "AÉRODROME", flavour: "Un planeur attend en bout de piste." },
     // --- end aerodrome ---
     port: { name: "Le Port", prompt: "Espace — monter à bord", sign: "PORT", flavour: "Une petite vedette électrique attend au ponton." }, // --- port ---
+    // --- serre ---
+    serre: { name: "La Serre", prompt: "Espace — entrer dans la serre", sign: "LA SERRE", flavour: "Une serre chaude, pleine de plantes tranquilles." },
+    "serre-out": { prompt: "Espace — sortir" },
+    "serre-bed-free": { prompt: "Espace — planter" }, "serre-bed-grow": { prompt: "Espace — jardiner" },
+    "serre-bed-dry": { prompt: "Espace — arroser" }, "serre-bed-ready": { prompt: "Espace — récolter" },
+    // --- end serre ---
     gare: { name: "Gare de Cédric-sur-Mer", prompt: "", sign: "GARE" },
   },
   // La gare: guichet, tableau des départs, quais. Les destinations sont décrites dans places/destinations.js.
@@ -131,6 +137,22 @@ export const T = {
     replay: "Rejouer", back: "Retour en ville",
   },
   // --- end karting ---
+  // --- serre ---
+  serre: {
+    tag: "La Serre", bed: "Parcelle {n}", free: "Parcelle libre", freeLine: "Choisissez une graine.",
+    harvests: "Récoltes", minutes: "environ {n} min", back: "Retour",
+    menuHint: "↑ ↓ pour choisir · Espace pour valider · Échap pour fermer",
+    species: {
+      basilic: { name: "Basilic" }, fraisier: { name: "Fraisier" }, lavande: { name: "Lavande" },
+      cactus: { name: "Cactus" }, tomate: { name: "Tomate" }, tournesol: { name: "Tournesol" },
+    },
+    stage: ["Pousse", "Jeune plant", "Plante", "Mûre"],
+    fine: "Elle pousse bien.", thirsty: "Elle a soif. Elle pousse moins vite.", resting: "Elle se repose en attendant l'eau.", ready: "Prête à récolter.",
+    water: "Arroser", waterSub: "Elle pousse plus vite après l'eau", alreadyWet: "Déjà arrosée.",
+    clear: "Arracher", clearSub: "Vider la parcelle", harvest: "Récolter",
+    planted: "{sp} : planté.", watered: "Parcelle {n} arrosée.", harvested: "Récolte : {sp}.", cleared: "Parcelle {n} vidée.",
+  },
+  // --- end serre ---
   dev: { fps: "images/s", phase: "phase", weather: "météo", quality: "qualité", near: "lieu proche", pos: "position" },
   // --- port ---
   port: {

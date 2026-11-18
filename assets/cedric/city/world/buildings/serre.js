@@ -32,6 +32,7 @@ export default function serre(K, p, X) {
   // gable door
   K.box(-1.6, 1.6, 0.7, 3.4, gz0 - 0.3, gz0, C.steel, K_PLAIN, false);
   K.box(-1.3, 1.3, 0.7, 3.1, gz0 - 0.34, gz0 - 0.3, tintG, K_LAMP, false);
+  K.sign("serre", 0, 4.1, gz0 - 0.42, 0, -1, 5); // --- serre ---
 
   // concrete table frame: columns, deep beams, open roof grid over the vault
   const zs = []; for (let i = 0; i <= 6; i++) zs.push(-hd + 1 + (2 * hd - 2) * i / 6);

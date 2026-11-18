@@ -214,6 +214,7 @@ export const places = [
 // The station is a place on the map (label, neon) but not an entrance: its prompts are the till, the board and boarding.
 export const gare = place("gare", "n", "#35e0c8", { door: [169, 55.2], facing: -PI / 2, radius: 0, noEnter: true });
 places.push(gare);
+places.push(place("serre", "s", "#9bff8a")); // --- serre --- the glasshouse door, on the street side
 export const aquarium = Object.assign({ plot: "aquarium", side: "w" }, door(plotById("aquarium"), "w"));
 
 // ---- vistas ------------------------------------------------------------------------------------------

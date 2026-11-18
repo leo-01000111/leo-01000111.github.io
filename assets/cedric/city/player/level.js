@@ -7,18 +7,20 @@ import * as L from "../world/layout.js";
 
 export function createLevel(g) {
   let roof = null, down = null, rideY = 0;
+  let inner = null; // --- serre --- the greenhouse interior: { y, bounds, obstacles, near(pos) }, set by places/serre
   const lv = {
     id: "ground",
     // elevator ride sets this every frame
     set rideFloor(y) { rideY = y; },
     floorY(x, z) {
+      if (lv.id === "serre") return inner.y; // --- serre ---
       return lv.id === "roof" ? roof.y : lv.id === "ride" ? rideY : g.world.groundY(x, z);
     },
     // push the circle (pos.x, pos.z) out of this level's obstacles and keep it inside
     resolve(pos, r) {
       if (lv.id === "ground") { g.world.collide.resolveCircle(pos, r); return; }
       if (lv.id === "ride") return;
-      const o = roof.obstacles, b = roof.bounds;
+      const o = lv.id === "serre" ? inner.obstacles : roof.obstacles, b = lv.id === "serre" ? inner.bounds : roof.bounds; // --- serre ---
       for (let pass = 0; pass < 3; pass++) {
         for (let i = 0; i < o.length; i++) {
           const w = o[i];
@@ -39,6 +41,7 @@ export function createLevel(g) {
     // camera boom: on the roof the building under it must not count
     // On the roof only the solid machine head on top of the elevator shaft is in the way (a box: the shaft below it is glass and thin steel); neighbours and furniture are not.
     segmentHit(a, b) {
+      if (lv.id === "serre") return -1; // --- serre --- the camera is directed inside
       if (lv.id !== "roof") return g.world.collide.segmentHit(a, b, lv.id !== "ground");
       const s = roof.shaft;
       if (!s) return -1;
@@ -66,10 +69,13 @@ export function createLevel(g) {
         }
         return near;
       }
+      if (lv.id === "serre") return inner.near(pos); // --- serre ---
       if (lv.id === "roof" && down && Math.hypot(pos.x - down.door[0], pos.z - down.door[1]) < down.radius) return down;
       return null;
     },
+    setInner(o) { inner = o; }, // --- serre ---
     setLevel(id) {
+      if (id === "serre") { if (!inner) return false; lv.id = id; return true; } // --- serre ---
       if (!roof) {
         const p = g.world.places && g.world.places.basile;
         if (!p || !p.roof) { if (id === "roof") return false; lv.id = id; return true; }
