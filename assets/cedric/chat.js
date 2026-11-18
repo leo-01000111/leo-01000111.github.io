@@ -499,11 +499,12 @@
         if (slug !== m[1]) return;
         // Only the big section cards: there's a gap above them to peek over.
         let cards = [...document.querySelectorAll(".card")].filter(c => c.offsetWidth >= 300 && !c.parentElement.closest(".card"));
-        if (!cards.length) cards = [...document.querySelectorAll(".hp-card")];
+        if (!cards.length) cards = [...document.querySelectorAll(".hp-card")].slice(0, 1);   // link cards stack tight: only the first has room above it
         if (!cards.length) return;
         const card = cards[hash(day + "/card") % cards.length];
         const side = hash(day + "/corner") % 2 ? "right" : "left";
         if (getComputedStyle(card).position === "static") card.style.position = "relative";
+        card.style.overflow = "visible";   // he sits above the card: .hp-card clips its overflow (its index clips its own numeral)
         const box = h("button", "cpeek cpeek--" + side);
         box.type = "button";
         box.setAttribute("aria-label", UI.peek);
@@ -513,7 +514,7 @@
         const c = Cedric.mount({ design, target: mirror, fixed: false, interactive: false, draw: false });
         c.root.classList.add("cedric--blue");
         peek = { box, cedric: c, side };
-        box.addEventListener("click", swim);
+        box.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); swim(); });   // .hp-card is a link: don't follow it
       }).catch(e => console.warn("Cedric: hide-and-seek skipped", e));
     }
 

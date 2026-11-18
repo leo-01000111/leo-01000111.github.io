@@ -1,9 +1,10 @@
 // Player-name popup, shown over the loading cover. It never blocks loading: the game boots behind it
-// and starts whatever the player does. A non-empty name is sent once per page load through the
-// its own Formspree form; skipping or Esc sends nothing. All text goes in with textContent.
+// and starts whatever the player does. A non-empty name is sent once per browser (localStorage flag)
+// through its own Formspree form; skipping or Esc sends nothing. All text goes in with textContent.
 const FORM_URL = "https://formspree.io/f/xrpqqlyd"; // its own Formspree form (not the notice board's)
-const NAME_MAX = 40, NAME_KEY = "cedric:city:name", MESSAGE = "a new player has logged in";
-let sent = false; // at most one send per page load
+const NAME_MAX = 40, NAME_KEY = "cedric:city:name", SENT_KEY = "cedric:city:named", MESSAGE = "a new player has logged in";
+let sent = false; // in-memory guard, for browsers where localStorage is blocked
+function sentBefore() { try { return localStorage.getItem(SENT_KEY) === "1"; } catch (e) { return false; } }
 
 const clean = (v, max) => String(v == null ? "" : v).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "").slice(0, max).replace(/\s+/g, " ").trim();
 function el(tag, cls, text) {
@@ -16,14 +17,14 @@ function remembered() { try { return clean(localStorage.getItem(NAME_KEY), NAME_
 function remember(name) { try { localStorage.setItem(NAME_KEY, name); } catch (e) { /* ignore */ } }
 
 function send(name, subject) {
-  if (sent || !name) return;
+  if (sent || !name || sentBefore()) return; // once per browser: the flag is set only after Formspree accepts it
   sent = true;
   try {
     fetch(FORM_URL, {
       method: "POST",
       headers: { Accept: "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({ name, message: MESSAGE, _subject: subject, _gotcha: "" }),
-    }).catch(() => { /* fire and forget */ });
+    }).then(r => { if (r.ok) { try { localStorage.setItem(SENT_KEY, "1"); } catch (e) { /* ignore */ } } }).catch(() => { /* fire and forget */ });
   } catch (e) { /* ignore */ }
 }
 
