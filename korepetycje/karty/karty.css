@@ -305,34 +305,82 @@
 
 /* ── Print ── */
 @media print{
-  @page{ size:A4; margin:14mm 12mm; }
+  /* Declaring margin boxes replaces the browser's own date/title/URL header and footer. */
+  @page{
+    size:A4;
+    margin:12mm 12mm 14mm;
+    @top-left{ content:""; }
+    @top-center{ content:""; }
+    @top-right{ content:""; }
+    @bottom-left{
+      content:"leongorecki.eu/korepetycje · Karta pracy";
+      font-family:"IBM Plex Mono",monospace; font-size:7.5pt; color:#888;
+    }
+    @bottom-center{ content:""; }
+    @bottom-right{
+      content:counter(page) " / " counter(pages);
+      font-family:"IBM Plex Mono",monospace; font-size:7.5pt; color:#888;
+    }
+  }
   html, body{ background:#fff; }
-  body{ font-size:10.5pt; }
+  body{ font-size:10pt; line-height:1.45; }
   .k-header, .ks-bar, .ks-help, .kp-tools, .kp-msg, .kp-reveal, .ka-preview, .ks-foot{ display:none !important; }
   .ks-main{ padding:0; max-width:none; }
+  .ks-head{ margin-bottom:12px; }
+  .ks-kicker{ margin-bottom:4px; }
+  .ks-title{ font-size:20pt; margin-bottom:2px; }
   .ks-namerow{
     display:grid;
     grid-template-columns:3fr 1fr 1fr;
     gap:14px;
-    margin:0 0 14px;
+    margin:0 0 12px;
     font-family:var(--font-mono);
-    font-size:7.5pt;
+    font-size:7pt;
     letter-spacing:0.1em;
     text-transform:uppercase;
     color:#555;
   }
-  .ks-namerow span{ border-bottom:1px solid #222; padding-bottom:14px; }
-  .kt{ break-inside:avoid; background:#fff; border-color:#ccc; padding:10px 12px; }
-  .kt-num{ background:#fff; color:#000; border:1.5px solid #000; }
-  .kp{ background:#fff !important; border:none !important; padding:4px 6px; }
+  .ks-namerow span{ border-bottom:1px solid #222; padding-bottom:12px; }
+  .ks-intro{ margin-bottom:10px; }
+
+  /* tasks may run across pages; single parts stay whole */
+  .kt{
+    display:block; position:relative; break-inside:auto;
+    background:#fff; border-color:#ccc; padding:8px 10px 8px 48px; margin-bottom:8px;
+  }
+  .kt-label, .kt-prompt{ break-after:avoid; break-inside:avoid; }
+  p{ orphans:3; widows:3; }
+  .kt-num{
+    position:absolute; left:10px; top:8px;
+    width:28px; height:28px; border-radius:6px; background:#fff; color:#000; border:1.5px solid #000;
+  }
+  .kt-prompt{ margin-bottom:6px; }
+  .kt-parts{ gap:4px 18px; }
+  .kp{ break-inside:avoid; background:#fff !important; border:none !important; padding:3px 4px; }
+  .kp-text{ overflow:visible; }
+  .kp-answers{ margin-top:4px; gap:4px 16px; }
+
   .ka-input{
+    width:6em !important;
+    padding:2px 4px;
     border:none !important; border-bottom:1px solid #777 !important; border-radius:0;
     background:transparent !important; box-shadow:none;
   }
+  .ka-input::placeholder{ color:transparent; }
   .ka-field::after{ content:none !important; }
-  .ka-choice, .ka-chip, .ka-self-btn{ background:#fff !important; color:#000 !important; }
+
+  /* options print as a tick list */
+  .ka-choices{ gap:2px 14px; }
+  .ka-choice{
+    border:none !important; padding:0; background:none !important; color:#000 !important;
+    font-size:9pt; font-weight:400 !important;
+  }
+  .ka-choice::before{ content:"☐ "; }
+  .ka-chip{ background:#fff !important; color:#000 !important; }
   .ka-self{ display:none; }
-  .ka-seq{ border:1px solid #999; }
+  .ka-t-self{ display:block; width:100%; height:64px; background:repeating-linear-gradient(transparent 0 31px, #bbb 31px 32px); }
+  .ka-seq{ border:none; border-bottom:1px solid #777; border-radius:0; background:none; min-height:26px; }
   .ka-seq:empty::before{ content:""; }
+  .ka-lt{ display:none; }
   body.print-key .ks-key{ display:block; break-before:page; }
 }

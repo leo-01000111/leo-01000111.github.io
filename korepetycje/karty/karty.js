@@ -302,6 +302,14 @@ function save(){
   try{ localStorage.setItem(STORE, JSON.stringify(saved)); }catch(e){}
 }
 
+/* Full-size fractions in questions; systems with fractions get extra row space so rows don't touch. */
+function bigFractions(q){
+  if(q.indexOf('\\frac') < 0) return q;
+  q = q.replace(/\\frac(?=[{\s\d])/g, '\\dfrac');
+  return q.replace(/\\begin\{cases\}([\s\S]*?)\\end\{cases\}/g, function(m, body){
+    return '\\begin{cases}' + body.replace(/\\\\(?!\[)/g, '\\\\[10pt]') + '\\end{cases}';
+  });
+}
 function plural(n, one, few, many){
   var t = n % 10, h = n % 100;
   return n + ' ' + (n === 1 ? one : (t >= 2 && t <= 4 && (h < 12 || h > 14)) ? few : many);
@@ -567,7 +575,7 @@ function render(){
       var single = t.parts.length === 1;
       var qrow = el('div', 'kp-q');
       if(!single) qrow.appendChild(el('span', 'kp-letter', LETTERS[pi] + ')'));
-      if(pt.q) qrow.appendChild(el('div', 'kp-text', pt.q.replace(/\\frac(?=[{\s\d])/g, '\\dfrac')));
+      if(pt.q) qrow.appendChild(el('div', 'kp-text', bigFractions(pt.q)));
       pe.appendChild(qrow);
       var ansRow = el('div', 'kp-answers');
       var rec = {id:pid, el:pe, answers:[], status:''};
