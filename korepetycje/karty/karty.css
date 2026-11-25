@@ -100,17 +100,17 @@
 
 /* ── Task card ── */
 .kt{
-  display:grid;
-  grid-template-columns:40px 1fr;
-  gap:14px;
   background:var(--bg-panel);
   border:1px solid var(--line-faint);
   border-radius:var(--radius);
-  padding:16px 18px 14px 14px;
+  padding:16px 18px 14px 68px;
   margin:0 0 12px;
   scroll-margin-top:120px;
 }
+.kt-lead{ position:relative; }
+.kt-parts + .kt-parts{ margin-top:10px; }
 .kt-num{
+  position:absolute; left:-54px; top:0;
   width:36px; height:36px;
   display:flex; align-items:center; justify-content:center;
   border-radius:8px;
@@ -146,9 +146,11 @@
   gap:10px 18px;
 }
 @media (max-width:640px){
-  .kt{ grid-template-columns:1fr; gap:8px; padding:14px; }
+  .kt{ padding:14px; }
+  .kt-num{ position:static; margin-bottom:8px; }
   .kp-answers, .kp-tools, .kp-msg, .kp-reveal{ margin-left:0; padding-left:0; }
   .ks-bar{ top:52px; }
+  .kt{ scroll-margin-top:190px; }
 }
 
 /* ── Part ── */
@@ -344,19 +346,18 @@
   .ks-intro{ margin-bottom:10px; }
 
   /* tasks may run across pages; single parts stay whole */
-  .kt{
-    display:block; position:relative; break-inside:auto;
-    background:#fff; border-color:#ccc; padding:8px 10px 8px 48px; margin-bottom:8px;
-  }
-  .kt-label, .kt-prompt{ break-after:avoid; break-inside:avoid; }
+  /* no boxes in print: a rule above each task, and the lead block never splits */
+  .kt{ background:none; border:none; border-radius:0; padding:0 0 4px 40px; margin:0; }
+  .kt-lead{ break-inside:avoid; page-break-inside:avoid; padding-top:10px; }
+  .kt-lead::before{ content:""; position:absolute; left:-40px; right:0; top:0; border-top:1px solid #ccc; }
   p{ orphans:3; widows:3; }
   .kt-num{
-    position:absolute; left:10px; top:8px;
+    left:-40px; top:10px;
     width:28px; height:28px; border-radius:6px; background:#fff; color:#000; border:1.5px solid #000;
   }
   .kt-prompt{ margin-bottom:6px; }
   .kt-parts{ gap:4px 18px; }
-  .kp{ break-inside:avoid; background:#fff !important; border:none !important; padding:3px 4px; }
+  .kp{ break-inside:avoid; page-break-inside:avoid; background:#fff !important; border:none !important; padding:3px 4px; }
   .kp-text{ overflow:visible; }
   .kp-answers{ margin-top:4px; gap:4px 16px; }
 

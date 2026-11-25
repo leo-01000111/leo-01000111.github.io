@@ -559,13 +559,21 @@ function render(){
   sheet.tasks.forEach(function(t, ti){
     var card = el('section', 'kt' + (t.star ? ' kt-star' : ''));
     card.id = 'z' + (ti + 1);
+    /* The lead block (number, label, instruction, first row of parts) never splits across pages. */
+    var lead = el('div', 'kt-lead');
     var num = el('div', 'kt-num', String(ti + 1));
-    var body = el('div', 'kt-body');
+    lead.appendChild(num);
+    var body = lead;
     if(t.label || t.star) body.appendChild(el('p', 'kt-label', esc(t.label || '') + (t.star ? ' <span class="kt-starbadge">zadanie z gwiazdką</span>' : '')));
     if(t.prompt) body.appendChild(el('p', 'kt-prompt', t.prompt));
-    var grid = el('div', 'kt-parts');
-    grid.style.setProperty('--cols', t.cols || 1);
-    grid.setAttribute('data-cols', t.cols || 1);
+    var cols0 = t.cols || 1;
+    var makeGrid = function(){
+      var g = el('div', 'kt-parts');
+      g.style.setProperty('--cols', cols0);
+      g.setAttribute('data-cols', cols0);
+      return g;
+    };
+    var gridLead = makeGrid(), gridRest = makeGrid();
     var keyItem = el('li', 'ks-key-item');
     var keyParts = [];
 
@@ -617,12 +625,13 @@ function render(){
       });
       rec.msg = msg; rec.revealBtn = rb;
       parts.push(rec);
-      grid.appendChild(pe);
+      (pi < cols0 ? gridLead : gridRest).appendChild(pe);
       keyParts.push((single ? '' : '<b>' + LETTERS[pi] + ')</b> ') + (keyHtml || (pt.solution ? '<span class="ks-key-sol">' + pt.solution + '</span>' : '')));
     });
 
-    body.appendChild(grid);
-    card.appendChild(num); card.appendChild(body);
+    lead.appendChild(gridLead);
+    card.appendChild(lead);
+    if(gridRest.children.length) card.appendChild(gridRest);
     app.appendChild(card);
     keyItem.innerHTML = keyParts.join('<span class="ks-key-gap"></span>');
     keyList.appendChild(keyItem);
@@ -666,15 +675,18 @@ function render(){
    then, if one column is still too narrow (phones), shrink that formula. */
 function overflows(node){ return node.scrollWidth > node.clientWidth + 1; }
 function fitAll(){
-  var grids = app.querySelectorAll('.kt-parts');
-  Array.prototype.forEach.call(grids, function(g){
-    var texts = g.querySelectorAll('.kp-text');
+  /* per task: the lead grid and the rest grid always share one column count */
+  Array.prototype.forEach.call(app.querySelectorAll('.kt'), function(task){
+    var grids = Array.prototype.slice.call(task.querySelectorAll('.kt-parts'));
+    if(!grids.length) return;
+    var texts = task.querySelectorAll('.kp-text');
     Array.prototype.forEach.call(texts, function(tx){ tx.style.fontSize = ''; });
-    var cols = +g.getAttribute('data-cols') || 1;
+    var cols = +grids[0].getAttribute('data-cols') || 1;
     if(window.matchMedia('(max-width:640px)').matches) cols = 1;
-    g.style.setProperty('--cols', cols);
+    var set = function(c){ grids.forEach(function(g){ g.style.setProperty('--cols', c); }); };
+    set(cols);
     var any = function(){ return Array.prototype.some.call(texts, overflows); };
-    while(cols > 1 && any()){ cols--; g.style.setProperty('--cols', cols); }
+    while(cols > 1 && any()){ cols--; set(cols); }
     Array.prototype.forEach.call(texts, function(tx){
       var size = 100;
       while(overflows(tx) && size > 60){ size -= 5; tx.style.fontSize = size + '%'; }
