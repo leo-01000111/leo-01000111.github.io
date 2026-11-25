@@ -877,6 +877,50 @@
 <!-- MATERIALS:END -->
   </section>
 
+  <!-- Worksheets -->
+  <section class="k-section" id="karty-pracy">
+    <h2 class="k-section-title">
+      <span data-pl>Karty pracy</span>
+      <span data-en>Worksheets</span>
+    </h2>
+    <p class="karty-intro">
+      <span data-pl>Zadania do rozwiązania w przeglądarce. Odpowiedzi sprawdzają się od razu, a każdą kartę można wydrukować.</span>
+      <span data-en>Exercises to solve in the browser, with instant answer checking. Every sheet can also be printed.</span>
+    </p>
+    <!-- KARTY:START -->
+<div class="karty-tabs" role="tablist">
+  <button class="karty-tab" role="tab" id="ktab-e8" aria-controls="kpanel-e8" aria-selected="true"><span data-pl>Matematyka · Egzamin ósmoklasisty</span><span data-en>Maths · Grade 8 exam</span></button>
+  <button class="karty-tab" role="tab" id="ktab-matura" aria-controls="kpanel-matura" aria-selected="false"><span data-pl>Matematyka · Matura</span><span data-en>Maths · Matura</span></button>
+  <button class="karty-tab" role="tab" id="ktab-fizyka" aria-controls="kpanel-fizyka" aria-selected="false"><span data-pl>Fizyka</span><span data-en>Physics</span></button>
+</div>
+<div class="karty-panel" id="kpanel-e8" role="tabpanel" aria-labelledby="ktab-e8">
+  <ul class="karty-list">
+    <li><a class="karta" href="/korepetycje/karty/e8-uklady-rownan/" data-url="https://www.leongorecki.eu/korepetycje/karty/e8-uklady-rownan/">
+      <span class="karta-title">Układy równań</span>
+      <span class="karta-desc">Dwadzieścia zadań z układów równań rozwiązywanych metodą podstawiania, od rozgrzewki po zadania z gwiazdką.</span>
+      <span class="karta-meta">20 zadań · 64 podpunkty</span>
+    </a></li>
+    <li><a class="karta" href="/korepetycje/karty/e8-potegi/" data-url="https://www.leongorecki.eu/korepetycje/karty/e8-potegi/">
+      <span class="karta-title">Działania na potęgach</span>
+      <span class="karta-desc">Dwadzieścia zadań o potęgach: prawa działań, wykładniki ujemne, notacja wykładnicza, porównywanie i dowodzenie.</span>
+      <span class="karta-meta">20 zadań · 79 podpunktów</span>
+    </a></li>
+  </ul>
+</div>
+<div class="karty-panel" id="kpanel-matura" role="tabpanel" aria-labelledby="ktab-matura" hidden>
+  <p class="karty-empty"><span data-pl>Wkrótce.</span><span data-en>Coming soon.</span></p>
+</div>
+<div class="karty-panel" id="kpanel-fizyka" role="tabpanel" aria-labelledby="ktab-fizyka" hidden>
+  <p class="karty-empty"><span data-pl>Wkrótce.</span><span data-en>Coming soon.</span></p>
+</div>
+<!-- KARTY:END -->
+    <div class="karty-menu" id="kartyMenu" role="menu" hidden>
+      <button type="button" role="menuitem" data-act="copy"><span data-pl>Kopiuj link do karty</span><span data-en>Copy link to sheet</span></button>
+      <button type="button" role="menuitem" data-act="open"><span data-pl>Otwórz w nowej karcie</span><span data-en>Open in new tab</span></button>
+    </div>
+    <div class="karty-toast" id="kartyToast" role="status" aria-live="polite" hidden></div>
+  </section>
+
   <!-- Contact -->
   <section class="k-section k-contact-section">
     <h2 class="k-section-title">
@@ -1035,6 +1079,7 @@
   <div class="tb-cell"><span class="tb-key">Copyright</span><span class="tb-val">© 2026 Górecki</span></div>
 </footer>
 
+<script defer src="/korepetycje/karty/menu.js"></script>
 <script>
 /* Language toggle */
 (function(){

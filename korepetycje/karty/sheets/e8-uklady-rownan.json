@@ -1,0 +1,1250 @@
+{
+ "id": "e8-uklady-rownan",
+ "track": "e8",
+ "order": 1,
+ "kicker": "Matematyka · Klasa 8",
+ "title": "Układy równań",
+ "subtitle": "Metoda podstawiania · zadania trudniejsze",
+ "description": "Dwadzieścia zadań z układów równań rozwiązywanych metodą podstawiania, od rozgrzewki po zadania z gwiazdką.",
+ "date": "2026-11-18",
+ "intro": "Wszystkie układy rozwiąż metodą podstawiania i sprawdź otrzymane liczby, podstawiając je do każdego z równań.",
+ "tasks": [
+  {
+   "label": "Na rozgrzewkę",
+   "prompt": "Rozwiąż układ równań metodą podstawiania.",
+   "cols": 2,
+   "parts": [
+    {
+     "q": "$\\begin{cases} x+3y=11 \\\\ 4x-5y=-7 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 2x-y=9 \\\\ 5x+3y=6 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "-3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} -x+4y=-13 \\\\ 3x+2y=11 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "5"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "-2"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 7x+y=20 \\\\ 2x-5y=11 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Nawiasy",
+   "prompt": "Rozwiąż układ równań metodą podstawiania. Najpierw uporządkuj każde równanie.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} 3(x-2)-2(y+1)=-3 \\\\ 2x+3(y-1)=9 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 4(2x-y)-3(x+2)=2 \\\\ 5(x-y)+2y=11 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 2(x+y)-3(x-y)=21 \\\\ x+2(y-3)=1 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "-1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "4"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Ułamki i liczby dziesiętne",
+   "prompt": "Rozwiąż układ równań metodą podstawiania.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} \\frac{x}{2}+\\frac{y}{3}=4 \\\\ \\frac{x}{4}+\\frac{y}{3}=3 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "6"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} \\frac{x+1}{3}-\\frac{y-2}{2}=\\frac{1}{2} \\\\ \\frac{x}{2}-\\frac{y+1}{4}=0 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 0{,}5x+1{,}2y=4{,}1 \\\\ 1{,}5x-0{,}4y=0{,}3 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Niewygodne współczynniki",
+   "prompt": "Rozwiąż układ równań metodą podstawiania. Uważaj na ułamki, które pojawią się po drodze.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} 2x+3y=1 \\\\ 3x-2y=8 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "-1"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 5x-2y=4 \\\\ 3x+4y=18 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 4x+3y=-1 \\\\ 3x-5y=21 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "-3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Układy specjalne i pułapki",
+   "prompt": "Rozwiąż układ równań metodą podstawiania. Jeśli układ jest sprzeczny lub nieoznaczony, napisz to i uzasadnij.",
+   "cols": 2,
+   "parts": [
+    {
+     "q": "$\\begin{cases} 2x-6y=4 \\\\ x-3y=2 \\end{cases}$",
+     "answers": [
+      {
+       "type": "choice",
+       "options": [
+        "jedno rozwiązanie",
+        "brak rozwiązań (sprzeczny)",
+        "nieskończenie wiele rozwiązań (nieoznaczony)"
+       ],
+       "key": 2
+      }
+     ],
+     "solution": "Drugie równanie pomnożone przez 2 daje $2x-6y=4$, czyli pierwsze równanie. Równania są równoważne, więc rozwiązań jest nieskończenie wiele, np. $x=3y+2$."
+    },
+    {
+     "q": "$\\begin{cases} 3x+y=5 \\\\ 6x+2y=7 \\end{cases}$",
+     "answers": [
+      {
+       "type": "choice",
+       "options": [
+        "jedno rozwiązanie",
+        "brak rozwiązań (sprzeczny)",
+        "nieskończenie wiele rozwiązań (nieoznaczony)"
+       ],
+       "key": 1
+      }
+     ],
+     "solution": "Z pierwszego równania $y=5-3x$. Podstawiamy: $6x+10-6x=7$, czyli $10=7$. To nieprawda, więc układ jest sprzeczny."
+    },
+    {
+     "q": "$\\begin{cases} 5x-10y=15 \\\\ -x+2y=-4 \\end{cases}$",
+     "answers": [
+      {
+       "type": "choice",
+       "options": [
+        "jedno rozwiązanie",
+        "brak rozwiązań (sprzeczny)",
+        "nieskończenie wiele rozwiązań (nieoznaczony)"
+       ],
+       "key": 1
+      }
+     ],
+     "solution": "Z drugiego równania $x=2y+4$. Podstawiamy: $10y+20-10y=15$, czyli $20=15$. To nieprawda, więc układ jest sprzeczny."
+    },
+    {
+     "q": "$\\begin{cases} 2x-4y=6 \\\\ 3x+y=2 \\end{cases}$",
+     "answers": [
+      {
+       "type": "choice",
+       "options": [
+        "jedno rozwiązanie",
+        "brak rozwiązań (sprzeczny)",
+        "nieskończenie wiele rozwiązań (nieoznaczony)"
+       ],
+       "key": 0
+      },
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "-1"
+      }
+     ],
+     "solution": "Z drugiego równania $y=2-3x$. Podstawiamy: $2x-8+12x=6$, czyli $x=1$, stąd $y=-1$. Jedno rozwiązanie."
+    }
+   ]
+  },
+  {
+   "label": "Trzy równania, trzy niewiadome (1)",
+   "prompt": "Rozwiąż układ trzech równań metodą podstawiania.",
+   "cols": 2,
+   "parts": [
+    {
+     "q": "$\\begin{cases} x+y+z=6 \\\\ y=2x \\\\ z=x+2 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} x-y=2 \\\\ y+z=7 \\\\ 2x+z=13 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "5"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 3x+2y=14 \\\\ y-z=1 \\\\ x+z=5 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 2x+y-z=1 \\\\ x-y+z=2 \\\\ y+2z=8 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Trzy równania, trzy niewiadome (2)",
+   "prompt": "Rozwiąż układ trzech równań metodą podstawiania.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} x+y=5 \\\\ y+z=8 \\\\ x+z=7 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "5"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 2x-y+3z=9 \\\\ x+y-z=0 \\\\ 3x-2y+z=2 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "3"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} x+2y+3z=14 \\\\ 2x-y+z=8 \\\\ x-y-z=-1 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Wiek i cyfry",
+   "prompt": "Ułóż układ równań i rozwiąż go metodą podstawiania.",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "Suma wieku ojca i syna wynosi 50 lat. Za 5 lat ojciec będzie trzy razy starszy od syna. Ile lat ma ojciec, a ile syn?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "ojciec:",
+       "key": "40",
+       "unit": "lat"
+      },
+      {
+       "type": "num",
+       "label": "syn:",
+       "key": "10",
+       "unit": "lat"
+      }
+     ],
+     "solution": "$\\begin{cases} o+s=50 \\\\ o+5=3(s+5) \\end{cases}$ Stąd $o=3s+10$, więc $4s+10=50$, $s=10$, $o=40$."
+    },
+    {
+     "q": "Pięć lat temu ojciec był trzy razy starszy od córki, a za 7 lat będzie dwa razy starszy od niej. Ile lat ma ojciec, a ile córka?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "ojciec:",
+       "key": "41",
+       "unit": "lat"
+      },
+      {
+       "type": "num",
+       "label": "córka:",
+       "key": "17",
+       "unit": "lat"
+      }
+     ],
+     "solution": "$\\begin{cases} o-5=3(c-5) \\\\ o+7=2(c+7) \\end{cases}$ Stąd $o=3c-10$, więc $3c-3=2c+14$, $c=17$, $o=41$."
+    },
+    {
+     "q": "Suma cyfr pewnej liczby dwucyfrowej jest równa 11. Jeśli zamienimy cyfry miejscami, otrzymamy liczbę o 27 większą od danej. Znajdź tę liczbę.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "liczba:",
+       "key": "47"
+      }
+     ],
+     "solution": "Cyfra dziesiątek $a$, jedności $b$: $\\begin{cases} a+b=11 \\\\ 10b+a=10a+b+27 \\end{cases}$ Drugie równanie to $b-a=3$, więc $a=4$, $b=7$. Liczba to 47."
+    }
+   ]
+  },
+  {
+   "label": "Ceny i bilety",
+   "prompt": "Ułóż układ równań i rozwiąż go metodą podstawiania.",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "Trzy zeszyty i dwa długopisy kosztują 19 zł, a dwa zeszyty i pięć długopisów kosztuje 20 zł. Ile kosztuje zeszyt, a ile długopis?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "zeszyt:",
+       "key": "5",
+       "unit": "zł"
+      },
+      {
+       "type": "num",
+       "label": "długopis:",
+       "key": "2",
+       "unit": "zł"
+      }
+     ],
+     "solution": "$\\begin{cases} 3z+2d=19 \\\\ 2z+5d=20 \\end{cases}$ Wynik: $z=5$, $d=2$."
+    },
+    {
+     "q": "Na koncert sprzedano 120 biletów: normalnych po 25 zł i ulgowych po 15 zł. Utarg wyniósł 2300 zł. Ile sprzedano biletów każdego rodzaju?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "normalnych:",
+       "key": "50",
+       "unit": "szt."
+      },
+      {
+       "type": "num",
+       "label": "ulgowych:",
+       "key": "70",
+       "unit": "szt."
+      }
+     ],
+     "solution": "$\\begin{cases} n+u=120 \\\\ 25n+15u=2300 \\end{cases}$ Stąd $u=120-n$, więc $10n+1800=2300$, $n=50$, $u=70$."
+    },
+    {
+     "q": "Za 4 bułki i 3 drożdżówki zapłacono 14,50 zł, a za 2 bułki i 5 drożdżówek 16 zł. Ile kosztuje bułka, a ile drożdżówka?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "bułka:",
+       "key": "1.75",
+       "unit": "zł"
+      },
+      {
+       "type": "num",
+       "label": "drożdżówka:",
+       "key": "2.5",
+       "unit": "zł"
+      }
+     ],
+     "solution": "$\\begin{cases} 4b+3d=14{,}5 \\\\ 2b+5d=16 \\end{cases}$ Wynik: $b=1{,}75$, $d=2{,}5$."
+    }
+   ]
+  },
+  {
+   "label": "Ruch",
+   "prompt": "Ułóż układ równań i rozwiąż go metodą podstawiania.",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "Łódź przepływa 24 km z prądem rzeki w 2 godziny, a tę samą trasę pod prąd w 3 godziny. Oblicz prędkość łodzi na wodzie stojącej i prędkość nurtu rzeki.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "łódź:",
+       "key": "10",
+       "unit": "km/h"
+      },
+      {
+       "type": "num",
+       "label": "nurt rzeki:",
+       "key": "2",
+       "unit": "km/h"
+      }
+     ],
+     "solution": "$\\begin{cases} 2(v+w)=24 \\\\ 3(v-w)=24 \\end{cases}$ Czyli $v+w=12$, $v-w=8$. Stąd $v=10$, $w=2$."
+    },
+    {
+     "q": "Dwa pociągi wyjechały jednocześnie z miast oddalonych o 360 km i jadą ku sobie. Spotkały się po 2 godzinach. Jeden pociąg jedzie o 30 km/h szybciej od drugiego. Oblicz prędkość każdego pociągu.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "szybszy pociąg:",
+       "key": "105",
+       "unit": "km/h"
+      },
+      {
+       "type": "num",
+       "label": "wolniejszy pociąg:",
+       "key": "75",
+       "unit": "km/h"
+      }
+     ],
+     "solution": "$\\begin{cases} 2(v_1+v_2)=360 \\\\ v_1=v_2+30 \\end{cases}$ Stąd $2v_2+30=180$, $v_2=75$, $v_1=105$."
+    },
+    {
+     "q": "Turysta przebył trasę długości 20 km w ciągu 3 godzin: część pieszo z prędkością 4 km/h, a resztę rowerem z prędkością 12 km/h. Jaką odległość przebył pieszo, a jaką rowerem?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "pieszo:",
+       "key": "8",
+       "unit": "km"
+      },
+      {
+       "type": "num",
+       "label": "rowerem:",
+       "key": "12",
+       "unit": "km"
+      }
+     ],
+     "solution": "$\\begin{cases} x+y=20 \\\\ \\frac{x}{4}+\\frac{y}{12}=3 \\end{cases}$ Drugie równanie razy 12: $3x+y=36$. Stąd $2x=16$, $x=8$, $y=12$."
+    },
+    {
+     "q": "Samochód wyjechał z miasta A z prędkością 60 km/h. Godzinę później z tego samego miejsca w tym samym kierunku wyjechał motocyklista z prędkością 90 km/h. Po jakim czasie od wyjazdu samochodu i w jakiej odległości od A motocyklista dogoni samochód?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "czas od wyjazdu samochodu:",
+       "key": "3",
+       "unit": "h"
+      },
+      {
+       "type": "num",
+       "label": "odległość od A:",
+       "key": "180",
+       "unit": "km"
+      }
+     ],
+     "solution": "$\\begin{cases} s=60t \\\\ s=90(t-1) \\end{cases}$ Stąd $60t=90t-90$, $t=3$, $s=180$."
+    }
+   ]
+  },
+  {
+   "label": "Geometria",
+   "prompt": "Ułóż układ równań i rozwiąż go metodą podstawiania.",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "Obwód prostokąta wynosi 38 cm. Gdy krótszy bok zwiększymy o 2 cm, a dłuższy zmniejszymy o 5 cm, pole prostokąta się nie zmieni. Oblicz długości boków prostokąta.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "krótszy bok:",
+       "key": "4",
+       "unit": "cm"
+      },
+      {
+       "type": "num",
+       "label": "dłuższy bok:",
+       "key": "15",
+       "unit": "cm"
+      }
+     ],
+     "solution": "$\\begin{cases} a+b=19 \\\\ (a+2)(b-5)=ab \\end{cases}$ Drugie równanie to $2b-5a=10$. Z $b=19-a$: $38-7a=10$, $a=4$, $b=15$."
+    },
+    {
+     "q": "Obwód trójkąta równoramiennego wynosi 32 cm, a ramię jest o 4 cm dłuższe od podstawy. Oblicz długości boków tego trójkąta.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "podstawa:",
+       "key": "8",
+       "unit": "cm"
+      },
+      {
+       "type": "num",
+       "label": "ramię:",
+       "key": "12",
+       "unit": "cm"
+      }
+     ],
+     "solution": "$\\begin{cases} a+2b=32 \\\\ b=a+4 \\end{cases}$ Stąd $3a+8=32$, $a=8$, $b=12$."
+    },
+    {
+     "q": "W trójkącie jeden kąt jest dwa razy większy od drugiego, a trzeci jest o 20° większy od drugiego. Oblicz miary kątów tego trójkąta.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "pierwszy kąt:",
+       "key": "80",
+       "unit": "°"
+      },
+      {
+       "type": "num",
+       "label": "drugi kąt:",
+       "key": "40",
+       "unit": "°"
+      },
+      {
+       "type": "num",
+       "label": "trzeci kąt:",
+       "key": "60",
+       "unit": "°"
+      }
+     ],
+     "solution": "$\\begin{cases} \\alpha=2\\beta \\\\ \\gamma=\\beta+20 \\\\ \\alpha+\\beta+\\gamma=180 \\end{cases}$ Stąd $4\\beta+20=180$, $\\beta=40$, $\\alpha=80$, $\\gamma=60$."
+    }
+   ]
+  },
+  {
+   "label": "Parametry",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "Para liczb $(3,-1)$ spełnia układ $\\begin{cases} ax+2y=7 \\\\ 3x-by=10 \\end{cases}$. Oblicz $a$ i $b$.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$a =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$b =$",
+       "key": "1"
+      }
+     ],
+     "solution": "Podstawiamy $x=3$, $y=-1$: $3a-2=7$, więc $a=3$; $9+b=10$, więc $b=1$."
+    },
+    {
+     "q": "Dla jakiej wartości parametru $m$ rozwiązanie układu $\\begin{cases} x+y=2m \\\\ x-y=4 \\end{cases}$ spełnia warunek $x=2y$?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$m =$",
+       "key": "6"
+      }
+     ],
+     "solution": "Dodajemy równania: $x=m+2$, odejmujemy: $y=m-2$. Warunek $x=2y$: $m+2=2m-4$, $m=6$ (wtedy $x=8$, $y=4$)."
+    },
+    {
+     "q": "Dla jakich wartości parametru $m$ układ $\\begin{cases} 2x-3y=4 \\\\ 4x-6y=m \\end{cases}$ ma nieskończenie wiele rozwiązań, a dla jakich jest sprzeczny?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "nieskończenie wiele rozwiązań dla $m =$",
+       "key": "8"
+      }
+     ],
+     "solution": "Pierwsze równanie razy 2 daje $4x-6y=8$. Dla $m=8$ równania są takie same: nieskończenie wiele rozwiązań. Dla $m\\neq 8$ układ jest sprzeczny."
+    }
+   ]
+  },
+  {
+   "label": "Układy trudniejsze",
+   "prompt": "Rozwiąż układ równań metodą podstawiania.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} \\frac{2x-y}{3}+\\frac{x+y}{2}=5 \\\\ \\frac{x+y}{3}-\\frac{x-y}{2}=1 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 0{,}2(x+y)-0{,}3(x-y)=0{,}7 \\\\ 0{,}5x-0{,}25y=1 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} 3(x+2)-y=2(x+y)+2 \\\\ x-2(y-1)=1 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "5"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Trzy niewiadome w treści zadania",
+   "prompt": "Ułóż układ trzech równań i rozwiąż go metodą podstawiania.",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "Trzy siostry mają razem 36 zł. Ania ma o 4 zł więcej niż Basia, a Celina ma dwa razy więcej niż Basia. Ile złotych ma każda z sióstr?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "Ania:",
+       "key": "12",
+       "unit": "zł"
+      },
+      {
+       "type": "num",
+       "label": "Basia:",
+       "key": "8",
+       "unit": "zł"
+      },
+      {
+       "type": "num",
+       "label": "Celina:",
+       "key": "16",
+       "unit": "zł"
+      }
+     ],
+     "solution": "$\\begin{cases} A+B+C=36 \\\\ A=B+4 \\\\ C=2B \\end{cases}$ Stąd $4B+4=36$, $B=8$, $A=12$, $C=16$."
+    },
+    {
+     "q": "Suma trzech liczb wynosi 30. Druga liczba jest o 3 większa od podwojonej pierwszej, a trzecia jest równa sumie dwóch pierwszych. Znajdź te liczby.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "pierwsza liczba:",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "druga liczba:",
+       "key": "11"
+      },
+      {
+       "type": "num",
+       "label": "trzecia liczba:",
+       "key": "15"
+      }
+     ],
+     "solution": "$\\begin{cases} a+b+c=30 \\\\ b=2a+3 \\\\ c=a+b \\end{cases}$ Stąd $c=3a+3$, więc $6a+6=30$, $a=4$, $b=11$, $c=15$."
+    },
+    {
+     "q": "Kawa, herbata i ciastko kosztują razem 20 zł. Kawa jest o 3 zł droższa od herbaty, a dwa ciastka kosztują tyle, co kawa i 6 zł. Podaj cenę każdego z produktów.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "kawa:",
+       "key": "8",
+       "unit": "zł"
+      },
+      {
+       "type": "num",
+       "label": "herbata:",
+       "key": "5",
+       "unit": "zł"
+      },
+      {
+       "type": "num",
+       "label": "ciastko:",
+       "key": "7",
+       "unit": "zł"
+      }
+     ],
+     "solution": "$\\begin{cases} k+h+c=20 \\\\ k=h+3 \\\\ 2c=k+6 \\end{cases}$ Stąd $k=8$, $h=5$, $c=7$."
+    }
+   ]
+  },
+  {
+   "label": "Proporcje",
+   "prompt": "Rozwiąż układ równań metodą podstawiania. Zacznij od zapisania proporcji w postaci równania liniowego.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} x:y=3:4 \\\\ x+y=28 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "12"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "16"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} (x+1):(y-2)=2:3 \\\\ x+y=6 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "5"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} \\frac{x+y}{x-y}=3 \\\\ 2x-3y=3 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "6"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Niewiadoma już wyznaczona",
+   "prompt": "Rozwiąż układ równań metodą podstawiania.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} y=\\frac{2x-1}{3} \\\\ 5x-4y=6 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "1"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} x=3-2(y-1) \\\\ 4x+3y=10 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "1"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} x=\\frac{3y+1}{2} \\\\ 2x+3y=7 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Trzy równania z ułamkami",
+   "prompt": "Rozwiąż układ trzech równań metodą podstawiania.",
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} \\frac{x}{2}+\\frac{y}{3}+\\frac{z}{6}=3 \\\\ x+y+z=11 \\\\ y-z=-3 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "6"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} \\frac{x}{2}-\\frac{y}{3}+\\frac{z}{4}=2 \\\\ x+y-z=2 \\\\ 2x-z=0 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "6"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "8"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} x+y+z=9 \\\\ y=2x \\\\ z=\\frac{x+y}{2} \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "4"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "label": "Monety, pojazdy, reszta z dzielenia",
+   "prompt": "Ułóż układ równań i rozwiąż go metodą podstawiania.",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "W skarbonce jest 30 monet: dwuzłotówek i pięciozłotówek. Razem mają wartość 114 zł. Ile jest monet każdego rodzaju?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "dwuzłotówki:",
+       "key": "12",
+       "unit": "szt."
+      },
+      {
+       "type": "num",
+       "label": "pięciozłotówki:",
+       "key": "18",
+       "unit": "szt."
+      }
+     ],
+     "solution": "$\\begin{cases} d+p=30 \\\\ 2d+5p=114 \\end{cases}$ Stąd $3p+60=114$, $p=18$, $d=12$."
+    },
+    {
+     "q": "Na wycieczkę pojechało 64 osoby w busach 8-osobowych i autokarach 20-osobowych. Pojazdów było razem 5, a wszystkie miejsca były zajęte. Ile było busów, a ile autokarów?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "busy:",
+       "key": "3",
+       "unit": "szt."
+      },
+      {
+       "type": "num",
+       "label": "autokary:",
+       "key": "2",
+       "unit": "szt."
+      }
+     ],
+     "solution": "$\\begin{cases} b+a=5 \\\\ 8b+20a=64 \\end{cases}$ Stąd $12a+40=64$, $a=2$, $b=3$."
+    },
+    {
+     "q": "Suma dwóch liczb naturalnych wynosi 47. Po podzieleniu większej z nich przez mniejszą otrzymujemy iloraz 4 i resztę 2. Znajdź te liczby.",
+     "answers": [
+      {
+       "type": "num",
+       "label": "większa liczba:",
+       "key": "38"
+      },
+      {
+       "type": "num",
+       "label": "mniejsza liczba:",
+       "key": "9"
+      }
+     ],
+     "solution": "$\\begin{cases} a+b=47 \\\\ a=4b+2 \\end{cases}$ Stąd $5b+2=47$, $b=9$, $a=38$."
+    }
+   ]
+  },
+  {
+   "label": "Mieszaniny",
+   "prompt": "Ułóż układ równań i rozwiąż go metodą podstawiania.",
+   "cols": 1,
+   "parts": [
+    {
+     "q": "Zmieszano roztwór 20-procentowy z roztworem 50-procentowym i otrzymano 6 kg roztworu 30-procentowego. Ile kilogramów każdego roztworu użyto?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "roztwór 20%:",
+       "key": "4",
+       "unit": "kg"
+      },
+      {
+       "type": "num",
+       "label": "roztwór 50%:",
+       "key": "2",
+       "unit": "kg"
+      }
+     ],
+     "solution": "$\\begin{cases} x+y=6 \\\\ 0{,}2x+0{,}5y=0{,}3\\cdot 6 \\end{cases}$ Drugie równanie razy 10: $2x+5y=18$. Stąd $3y=6$, $y=2$, $x=4$."
+    },
+    {
+     "q": "Zmieszano stop zawierający 40% miedzi ze stopem zawierającym 70% miedzi i otrzymano 15 kg stopu o zawartości 60% miedzi. Ile kilogramów każdego stopu użyto?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "stop 40%:",
+       "key": "5",
+       "unit": "kg"
+      },
+      {
+       "type": "num",
+       "label": "stop 70%:",
+       "key": "10",
+       "unit": "kg"
+      }
+     ],
+     "solution": "$\\begin{cases} x+y=15 \\\\ 0{,}4x+0{,}7y=0{,}6\\cdot 15 \\end{cases}$ Drugie równanie razy 10: $4x+7y=90$. Stąd $3y=30$, $y=10$, $x=5$."
+    },
+    {
+     "q": "Ile litrów mleka 2-procentowego i ile litrów mleka 4,5-procentowego należy zmieszać, aby otrzymać 10 litrów mleka 3,5-procentowego?",
+     "answers": [
+      {
+       "type": "num",
+       "label": "mleko 2%:",
+       "key": "4",
+       "unit": "l"
+      },
+      {
+       "type": "num",
+       "label": "mleko 4,5%:",
+       "key": "6",
+       "unit": "l"
+      }
+     ],
+     "solution": "$\\begin{cases} x+y=10 \\\\ 0{,}02x+0{,}045y=0{,}035\\cdot 10 \\end{cases}$ Drugie równanie razy 1000: $20x+45y=350$. Stąd $25y=150$, $y=6$, $x=4$."
+    }
+   ]
+  },
+  {
+   "label": "Wyższy poziom",
+   "prompt": "Rozwiąż układ równań metodą podstawiania. W podpunkcie a) pomoże podstawienie pomocnicze, np. $u=1/x$.",
+   "star": true,
+   "cols": 3,
+   "parts": [
+    {
+     "q": "$\\begin{cases} \\frac{1}{x}+\\frac{1}{y}=\\frac{5}{6} \\\\ \\frac{1}{x}-\\frac{1}{y}=\\frac{1}{6} \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "2"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "3"
+      }
+     ],
+     "solution": "Podstawienie $u=\\frac1x$, $v=\\frac1y$: $u+v=\\frac56$, $u-v=\\frac16$. Stąd $u=\\frac12$, $v=\\frac13$, czyli $x=2$, $y=3$."
+    },
+    {
+     "q": "$\\begin{cases} 5x+3y=21 \\\\ 3x+5y=19 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "3"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "2"
+      }
+     ]
+    },
+    {
+     "q": "$\\begin{cases} \\frac{x+y}{2}=7 \\\\ \\frac{y+z}{2}=10 \\\\ \\frac{x+z}{2}=9 \\end{cases}$",
+     "answers": [
+      {
+       "type": "num",
+       "label": "$x =$",
+       "key": "6"
+      },
+      {
+       "type": "num",
+       "label": "$y =$",
+       "key": "8"
+      },
+      {
+       "type": "num",
+       "label": "$z =$",
+       "key": "12"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
