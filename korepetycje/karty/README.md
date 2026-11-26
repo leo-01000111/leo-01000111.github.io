@@ -76,6 +76,8 @@ Optional on any answer:
 - `display`: how the key is shown in the reveal and printed key (default: built from `key`)
 - `placeholder`: hint inside an empty field
 - `tol`: absolute tolerance for `num` (default: exact)
+- `rtol`: relative tolerance for `num`, e.g. `0.02` = ±2% of the key. Use it for
+  physics results that depend on rounding (g = 9,81 vs 10, rounded steps).
 - `tests`: `[{"in": "0,00047", "expect": "form"}]`, extra inputs tested by `check_karty.js`
 
 ## Rules for authors

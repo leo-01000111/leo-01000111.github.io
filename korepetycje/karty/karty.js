@@ -199,8 +199,12 @@ var Check = {
       if(keys.some(function(k){ return close(cv, k); })) return {s:'form', msg:'Wartość dobra, ale zapisz wynik jako liczbę (np. 27/8 albo 3,375).'};
       return {s:'bad'};
     }
-    var tol = ans.tol || 0;
-    var ok = keys.some(function(k){ return tol ? Math.abs(v - k) <= tol : close(v, k); });
+    var tol = ans.tol || 0, rtol = ans.rtol || 0;
+    var ok = keys.some(function(k){
+      if(tol) return Math.abs(v - k) <= tol;
+      if(rtol) return Math.abs(v - k) <= rtol * Math.abs(k);
+      return close(v, k);
+    });
     return {s: ok ? 'ok' : 'bad'};
   },
   expr: function(ans, val){
